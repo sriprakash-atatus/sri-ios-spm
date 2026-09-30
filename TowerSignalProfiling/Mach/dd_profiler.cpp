@@ -23,10 +23,10 @@
 // Profiling sampling backstop (see `callback`).
 // Typical profile span is ~1 minute; this cutoff includes additional slack beyond that.
 // The extra time avoids stopping sampling while the profile is still being processed.
-static constexpr int64_t DD_PROFILER_TIMEOUT_NS = 90000000000LL; // 1:30 minutes
-static constexpr double DD_PROFILER_MAX_SAMPLE_RATE = 100.0;
+static constexpr int64_t AT_PROFILER_TIMEOUT_NS = 90000000000LL; // 1:30 minutes
+static constexpr double AT_PROFILER_MAX_SAMPLE_RATE = 100.0;
 // Maximum queued aggregation batch memory before new batches are dropped.
-static constexpr uint64_t DD_PROFILER_DEFAULT_HARD_LIMIT_BYTES = 64ULL * 1024ULL * 1024ULL;
+static constexpr uint64_t AT_PROFILER_DEFAULT_HARD_LIMIT_BYTES = 64ULL * 1024ULL * 1024ULL;
 
 /*
  * Architecture note
@@ -113,8 +113,8 @@ extern "C" {
  * @return If Profiling was enabled, or false if the key is not found
  */
 bool dd_is_profiling_enabled() {
-    CFStringRef suiteName = CFSTR(DD_PROFILING_USER_DEFAULTS_SUITE_NAME);
-    CFStringRef key = CFSTR(DD_PROFILING_IS_ENABLED_KEY);
+    CFStringRef suiteName = CFSTR(AT_PROFILING_USER_DEFAULTS_SUITE_NAME);
+    CFStringRef key = CFSTR(AT_PROFILING_IS_ENABLED_KEY);
     CFPropertyListRef value = CFPreferencesCopyAppValue(key, suiteName);
 
     bool result = false;
@@ -135,8 +135,8 @@ bool dd_is_profiling_enabled() {
  * @return The sample rate as a double, or 0.0 if not found or invalid
  */
 static double read_profiling_sample_rate() {
-    CFStringRef suiteName = CFSTR(DD_PROFILING_USER_DEFAULTS_SUITE_NAME);
-    CFStringRef key = CFSTR(DD_PROFILING_APP_LAUNCH_SAMPLE_RATE_KEY);
+    CFStringRef suiteName = CFSTR(AT_PROFILING_USER_DEFAULTS_SUITE_NAME);
+    CFStringRef key = CFSTR(AT_PROFILING_APP_LAUNCH_SAMPLE_RATE_KEY);
     CFPropertyListRef value = CFPreferencesCopyAppValue(key, suiteName);
     
     double sample_rate = 0.0;
@@ -160,9 +160,9 @@ static double read_profiling_sample_rate() {
  * to be re-evaluated during `Profiling.enable()`.
  */
 void dd_delete_profiling_defaults() {
-    CFStringRef suiteName = CFSTR(DD_PROFILING_USER_DEFAULTS_SUITE_NAME);
-    CFStringRef isEnabledKey = CFSTR(DD_PROFILING_IS_ENABLED_KEY);
-    CFStringRef sampleRateKey = CFSTR(DD_PROFILING_APP_LAUNCH_SAMPLE_RATE_KEY);
+    CFStringRef suiteName = CFSTR(AT_PROFILING_USER_DEFAULTS_SUITE_NAME);
+    CFStringRef isEnabledKey = CFSTR(AT_PROFILING_IS_ENABLED_KEY);
+    CFStringRef sampleRateKey = CFSTR(AT_PROFILING_APP_LAUNCH_SAMPLE_RATE_KEY);
 
     CFPreferencesSetValue(isEnabledKey, NULL, suiteName, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     CFPreferencesSetValue(sampleRateKey, NULL, suiteName, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
@@ -180,13 +180,13 @@ namespace dd::profiler {
  */
 class dd_profiler {
 public:
-    dd_profiler_status_t status = DD_PROFILER_STATUS_NOT_STARTED;
+    dd_profiler_status_t status = AT_PROFILER_STATUS_NOT_STARTED;
 
     explicit dd_profiler(
-        double sample_rate = DD_PROFILER_MAX_SAMPLE_RATE,
+        double sample_rate = AT_PROFILER_MAX_SAMPLE_RATE,
         bool is_prewarming = false,
-        int64_t timeout_ns = DD_PROFILER_TIMEOUT_NS,
-        uint64_t hard_limit_bytes = DD_PROFILER_DEFAULT_HARD_LIMIT_BYTES
+        int64_t timeout_ns = AT_PROFILER_TIMEOUT_NS,
+        uint64_t hard_limit_bytes = AT_PROFILER_DEFAULT_HARD_LIMIT_BYTES
     ) : sample_rate(sample_rate), is_prewarming(is_prewarming), timeout_ns(timeout_ns), hard_limit_bytes(hard_limit_bytes) {}
 
     // Non-copyable, non-movable (prevents double-free of raw pointers)
@@ -216,12 +216,12 @@ public:
         }
 
         if (is_prewarming) {
-            status = DD_PROFILER_STATUS_PREWARMED;
+            status = AT_PROFILER_STATUS_PREWARMED;
             return 0;
         }
 
         if (!sample(sample_rate)) {
-            status = DD_PROFILER_STATUS_NOT_STARTED;
+            status = AT_PROFILER_STATUS_NOT_STARTED;
             return 0;
         }
 
@@ -233,20 +233,20 @@ public:
 
     int start() {
         if (!create_profile_and_profiler()) return 0;
-        if (status == DD_PROFILER_STATUS_RUNNING) return 1;
+        if (status == AT_PROFILER_STATUS_RUNNING) return 1;
 
         if (!profiler->start_sampling()) {
-            status = DD_PROFILER_STATUS_NOT_STARTED;
+            status = AT_PROFILER_STATUS_NOT_STARTED;
             return 0;
         }
 
-        status = DD_PROFILER_STATUS_RUNNING;
+        status = AT_PROFILER_STATUS_RUNNING;
         return 1;
     }
 
     void stop() {
         if (!profiler) return;
-        status = DD_PROFILER_STATUS_STOPPED;
+        status = AT_PROFILER_STATUS_STOPPED;
         profiler->stop_sampling();
     }
 
@@ -334,7 +334,7 @@ private:
         profile = next_profile;
 
         if (!profile) {
-            status = DD_PROFILER_STATUS_ALLOCATION_FAILED;
+            status = AT_PROFILER_STATUS_ALLOCATION_FAILED;
             if (profiler) profiler->request_stop();
         }
     }
@@ -347,7 +347,7 @@ private:
     bool create_profile_and_profiler() {
         if (is_thread_sanitizer_enabled()) {
             printf("[TOWERSIGNAL SDK] 🐶 → Profiling is disabled because ThreadSanitizer is active. Please disable ThreadSanitizer to enable profiling.\n");
-            status = DD_PROFILER_STATUS_NOT_STARTED;
+            status = AT_PROFILER_STATUS_NOT_STARTED;
             return false;
         }
 
@@ -355,7 +355,7 @@ private:
 
         profile = new (std::nothrow) dd::profiler::profile(sampling_interval_ns);
         if (!profile) {
-            status = DD_PROFILER_STATUS_ALLOCATION_FAILED;
+            status = AT_PROFILER_STATUS_ALLOCATION_FAILED;
             return false;
         }
         profile->set_server_time_offset_ns(server_time_offset_ns);
@@ -367,7 +367,7 @@ private:
         if (!profiler) {
             delete profile;
             profile = nullptr;
-            status = DD_PROFILER_STATUS_ALLOCATION_FAILED;
+            status = AT_PROFILER_STATUS_ALLOCATION_FAILED;
             return false;
         }
 
@@ -379,8 +379,8 @@ private:
     binary_image_cache* image_cache = nullptr;
     double sample_rate = 0.0;
     bool is_prewarming = false;
-    int64_t timeout_ns = DD_PROFILER_TIMEOUT_NS;
-    uint64_t hard_limit_bytes = DD_PROFILER_DEFAULT_HARD_LIMIT_BYTES;
+    int64_t timeout_ns = AT_PROFILER_TIMEOUT_NS;
+    uint64_t hard_limit_bytes = AT_PROFILER_DEFAULT_HARD_LIMIT_BYTES;
     uint64_t sampling_interval_ns = SAMPLING_CONFIG_DEFAULT_INTERVAL_NANOS;
     int64_t server_time_offset_ns = 0;
 
@@ -416,7 +416,7 @@ private:
         int64_t duration_ns = profile->end_timestamp() - profile->start_timestamp();
         if (duration_ns > profiler->timeout_ns) {
             profiler->profiler->request_stop();
-            profiler->status = DD_PROFILER_STATUS_TIMEOUT;
+            profiler->status = AT_PROFILER_STATUS_TIMEOUT;
         }
     }
 };
@@ -437,8 +437,8 @@ static void dd_profiler_auto_start() {
     g_dd_profiler = new (std::nothrow) dd::profiler::dd_profiler(
         sample_rate,
         is_active_prewarm(),
-        DD_PROFILER_TIMEOUT_NS,
-        DD_PROFILER_DEFAULT_HARD_LIMIT_BYTES
+        AT_PROFILER_TIMEOUT_NS,
+        AT_PROFILER_DEFAULT_HARD_LIMIT_BYTES
     );
     if (g_dd_profiler) {
         g_dd_profiler->auto_start();
@@ -454,10 +454,10 @@ int dd_profiler_start(void) {
     std::lock_guard<std::mutex> lock(g_dd_profiler_mutex);
     if (!g_dd_profiler) {
         g_dd_profiler = new (std::nothrow) dd::profiler::dd_profiler(
-            DD_PROFILER_MAX_SAMPLE_RATE,
+            AT_PROFILER_MAX_SAMPLE_RATE,
             false,
-            DD_PROFILER_TIMEOUT_NS,
-            DD_PROFILER_DEFAULT_HARD_LIMIT_BYTES
+            AT_PROFILER_TIMEOUT_NS,
+            AT_PROFILER_DEFAULT_HARD_LIMIT_BYTES
         );
         if (!g_dd_profiler) {
             return 0;
@@ -473,7 +473,7 @@ void dd_profiler_stop(void) {
 
 dd_profiler_status_t dd_profiler_get_status(void) {
     std::lock_guard<std::mutex> lock(g_dd_profiler_mutex);
-    return g_dd_profiler ? g_dd_profiler->status : DD_PROFILER_STATUS_NOT_CREATED;
+    return g_dd_profiler ? g_dd_profiler->status : AT_PROFILER_STATUS_NOT_CREATED;
 }
 
 dd_profiler_diagnostics_t dd_profiler_diagnostics(void) {
@@ -486,7 +486,7 @@ dd_profiler_diagnostics_t dd_profiler_diagnostics(void) {
 
 bool dd_profiler_is_running() {
     std::lock_guard<std::mutex> lock(g_dd_profiler_mutex);
-    return g_dd_profiler ? g_dd_profiler->status == DD_PROFILER_STATUS_RUNNING : false;
+    return g_dd_profiler ? g_dd_profiler->status == AT_PROFILER_STATUS_RUNNING : false;
 }
 
 dd_profile_t* dd_profiler_get_profile(void) {
@@ -526,7 +526,7 @@ void dd_profiler_start_testing(
         sample_rate,
         is_prewarming,
         timeout_ns,
-        hard_limit_bytes == 0 ? DD_PROFILER_DEFAULT_HARD_LIMIT_BYTES : hard_limit_bytes
+        hard_limit_bytes == 0 ? AT_PROFILER_DEFAULT_HARD_LIMIT_BYTES : hard_limit_bytes
     );
     if (g_dd_profiler) {
         g_dd_profiler->auto_start();
