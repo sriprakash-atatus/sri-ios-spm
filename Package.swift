@@ -1,7 +1,7 @@
+// swift-tools-version: 6.0
+
 // ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
 // `AT`; rebranded the `dd` name to `Atatus` in comments and docs.
-
-// swift-tools-version: 6.0
 
 import PackageDescription
 import Foundation
