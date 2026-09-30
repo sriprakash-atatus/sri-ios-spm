@@ -87,18 +87,18 @@ excluded:
 
 included:
   - ../../TestUtilities
-  - ../../AtatusInternal/Tests
-  - ../../AtatusCore/Tests
-  - ../../AtatusLogs/Tests
-  - ../../AtatusTrace/Tests
-  - ../../AtatusRUM/Tests
-  - ../../AtatusSessionReplay/Tests
-  - ../../AtatusSessionReplay/SRSnapshotTests
-  - ../../AtatusCrashReporting/Tests
-  - ../../AtatusWebViewTracking/Tests
-  - ../../AtatusFlags/Tests
-  - ../../AtatusProfiling/Tests
-  - ../../Atatus/IntegrationUnitTests
+  - ../../TowerSignalInternal/Tests
+  - ../../TowerSignalCore/Tests
+  - ../../TowerSignalLogs/Tests
+  - ../../TowerSignalTrace/Tests
+  - ../../TowerSignalRUM/Tests
+  - ../../TowerSignalSessionReplay/Tests
+  - ../../TowerSignalSessionReplay/SRSnapshotTests
+  - ../../TowerSignalCrashReporting/Tests
+  - ../../TowerSignalWebViewTracking/Tests
+  - ../../TowerSignalFlags/Tests
+  - ../../TowerSignalProfiling/Tests
+  - ../../TowerSignal/IntegrationUnitTests
   - ../../E2ETests
   - ../../BenchmarkTests/Runner
   - ../../BenchmarkTests/Benchmarks/Sources

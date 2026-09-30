@@ -18,8 +18,8 @@
 		61C363F124374D6100C4D4E6 /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363F024374D6100C4D4E6 /* AppTests.swift */; };
 		61C363FC24374D6100C4D4E6 /* AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363FB24374D6100C4D4E6 /* AppUITests.swift */; };
 		9E73374026B0123500917C24 /* AtatusCrashReporting in Frameworks */ = {isa = PBXBuildFile; productRef = 9E73373F26B0123500917C24 /* AtatusCrashReporting */; };
-		A71398B22BD12B6D0050A54E /* AtatusSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71398B12BD12B6D0050A54E /* AtatusSetup.swift */; };
-		A71398B32BD12B6D0050A54E /* AtatusSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71398B12BD12B6D0050A54E /* AtatusSetup.swift */; };
+		A71398B22BD12B6D0050A54E /* TowerSignalSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71398B12BD12B6D0050A54E /* TowerSignalSetup.swift */; };
+		A71398B32BD12B6D0050A54E /* TowerSignalSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71398B12BD12B6D0050A54E /* TowerSignalSetup.swift */; };
 		D22919312B76589B00C38A18 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D22919302B76589B00C38A18 /* PrivacyInfo.xcprivacy */; };
 		D22919322B76589B00C38A18 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D22919302B76589B00C38A18 /* PrivacyInfo.xcprivacy */; };
 		D229FF662E3BBB42009CCD62 /* AtatusProfiling in Frameworks */ = {isa = PBXBuildFile; productRef = D229FF652E3BBB42009CCD62 /* AtatusProfiling */; };
@@ -109,9 +109,9 @@
 		61C363F724374D6100C4D4E6 /* App iOS UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "App iOS UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C363FB24374D6100C4D4E6 /* AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUITests.swift; sourceTree = "<group>"; };
 		61C363FD24374D6100C4D4E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		61CE5FD52461D3C2005EA621 /* Atatus.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Atatus.xcconfig; sourceTree = "<group>"; };
-		61CE5FD62461D3C2005EA621 /* Atatus.local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Atatus.local.xcconfig; sourceTree = "<group>"; };
-		A71398B12BD12B6D0050A54E /* AtatusSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtatusSetup.swift; sourceTree = "<group>"; };
+		61CE5FD52461D3C2005EA621 /* TowerSignal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TowerSignal.xcconfig; sourceTree = "<group>"; };
+		61CE5FD62461D3C2005EA621 /* TowerSignal.local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TowerSignal.local.xcconfig; sourceTree = "<group>"; };
+		A71398B12BD12B6D0050A54E /* TowerSignalSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TowerSignalSetup.swift; sourceTree = "<group>"; };
 		D22919302B76589B00C38A18 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		D23BF5FE27CCCC3300BB4CCD /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D23BF60A27CCCCF800BB4CCD /* App tvOS UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "App tvOS UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,8 +241,8 @@
 		61CE5FD42461D3C2005EA621 /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				61CE5FD52461D3C2005EA621 /* Atatus.xcconfig */,
-				61CE5FD62461D3C2005EA621 /* Atatus.local.xcconfig */,
+				61CE5FD52461D3C2005EA621 /* TowerSignal.xcconfig */,
+				61CE5FD62461D3C2005EA621 /* TowerSignal.local.xcconfig */,
 			);
 			name = xcconfigs;
 			path = ../../xcconfigs;
@@ -258,7 +258,7 @@
 		A787CA7D2BD277190053CEBE /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				A71398B12BD12B6D0050A54E /* AtatusSetup.swift */,
+				A71398B12BD12B6D0050A54E /* TowerSignalSetup.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -547,7 +547,7 @@
 			files = (
 				61C363DE24374D5F00C4D4E6 /* ViewController.swift in Sources */,
 				61C363DA24374D5F00C4D4E6 /* AppDelegate.swift in Sources */,
-				A71398B22BD12B6D0050A54E /* AtatusSetup.swift in Sources */,
+				A71398B22BD12B6D0050A54E /* TowerSignalSetup.swift in Sources */,
 				09FA792D2F6C4C33001BCA9C /* StrictConcurrencyChecks.swift in Sources */,
 				61C363DC24374D5F00C4D4E6 /* SceneDelegate.swift in Sources */,
 			);
@@ -575,7 +575,7 @@
 			files = (
 				D23BF5F327CCCC3300BB4CCD /* ViewController.swift in Sources */,
 				D23BF5F427CCCC3300BB4CCD /* AppDelegate.swift in Sources */,
-				A71398B32BD12B6D0050A54E /* AtatusSetup.swift in Sources */,
+				A71398B32BD12B6D0050A54E /* TowerSignalSetup.swift in Sources */,
 				09FA792C2F6C4C33001BCA9C /* StrictConcurrencyChecks.swift in Sources */,
 				D23BF5F527CCCC3300BB4CCD /* SceneDelegate.swift in Sources */,
 			);
@@ -625,7 +625,7 @@
 /* Begin XCBuildConfiguration section */
 		61C363FE24374D6100C4D4E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 61CE5FD52461D3C2005EA621 /* Atatus.xcconfig */;
+			baseConfigurationReference = 61CE5FD52461D3C2005EA621 /* TowerSignal.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -688,7 +688,7 @@
 		};
 		61C363FF24374D6100C4D4E6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 61CE5FD52461D3C2005EA621 /* Atatus.xcconfig */;
+			baseConfigurationReference = 61CE5FD52461D3C2005EA621 /* TowerSignal.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

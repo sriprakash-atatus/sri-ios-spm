@@ -13,7 +13,7 @@ The SDK must **never throw exceptions** to customer code:
 
 - **NOP implementations**: `NOPMonitor`, `NOPAtatusCore` silently accept all API calls when the SDK is not initialized or a feature is disabled.
 - **Validation at boundaries**: Invalid input is logged via `AT.logger` and ignored.
-- **Objective-C exception safety**: Code that can trigger an Objective-C exception outside Swift's error model (e.g. Session Replay's view-tree snapshotting in `LayerRecorder`, `ImageSnapshotter`) wraps the call with `ObjcException.rethrow`, converting it into a catchable Swift `ObjcException` (`AtatusInternal/Sources/Utils/ATError.swift`).
+- **Objective-C exception safety**: Code that can trigger an Objective-C exception outside Swift's error model (e.g. Session Replay's view-tree snapshotting in `LayerRecorder`, `ImageSnapshotter`) wraps the call with `ObjcException.rethrow`, converting it into a catchable Swift `ObjcException` (`TowerSignalInternal/Sources/Utils/ATError.swift`).
 
 ## Internal Telemetry Error Reporting
 
@@ -23,7 +23,7 @@ The SDK reports its own internal errors (encoding failures, storage corruption, 
 
 ### The safe path
 
-- `Telemetry.error(_ error: Error, ...)` is the only entry point for reporting an `Error` to telemetry. It routes every error through `TelemetrySanitizedError(sanitizing: error)` (`AtatusInternal/Sources/Telemetry/TelemetrySanitizableError.swift`) before anything reaches the wire.
+- `Telemetry.error(_ error: Error, ...)` is the only entry point for reporting an `Error` to telemetry. It routes every error through `TelemetrySanitizedError(sanitizing: error)` (`TowerSignalInternal/Sources/Telemetry/TelemetrySanitizableError.swift`) before anything reaches the wire.
 - **Default behavior is anonymous**: an error that doesn't opt in is reduced to just its type name (`"\(type(of: error))"`).
 - A handful of well-known Foundation/Swift types already get a safe, dedicated summary: `EncodingError`/`DecodingError` (the failing case and how deeply nested the offending value was — never `context.debugDescription` or `codingPath`'s literal key names), `NSError` (`domain`/`code` only, never `userInfo`).
 - Every reported error carries a `#fileID:#line` call-site reference in `stack`, so messages stay traceable back to the reporting code even in the fully-anonymized default case.

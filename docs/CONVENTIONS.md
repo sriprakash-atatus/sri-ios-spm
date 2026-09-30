@@ -37,7 +37,7 @@ let app = UIApplication.shared
 let app = UIApplication.dd.managedShared
 ```
 
-`UIApplication.dd.managedShared` (defined in `AtatusInternal/Sources/Utils/UIKitExtensions.swift`) uses KVC (`value(forKeyPath:)`) to bypass the compiler restriction. It returns `UIApplication?` — `nil` in app extension context, the shared instance in a full app.
+`UIApplication.dd.managedShared` (defined in `TowerSignalInternal/Sources/Utils/UIKitExtensions.swift`) uses KVC (`value(forKeyPath:)`) to bypass the compiler restriction. It returns `UIApplication?` — `nil` in app extension context, the shared instance in a full app.
 
 This restriction applies only to `UIApplication.shared`. `UIDevice.current` is safe in extensions and has no lint rule.
 
@@ -68,7 +68,7 @@ Do not disable lint rules except where the rule is incorrect and a Jira ticket e
 
 ## Generated Models — DO NOT EDIT
 
-Files in `AtatusInternal/Sources/Models/` are auto-generated from the [rum-events-format](https://github.com/dd/rum-events-format) schema. Never hand-edit. Regenerate with `make rum-models-generate GIT_REF=master`, verify with `make rum-models-verify`.
+Files in `TowerSignalInternal/Sources/Models/` are auto-generated from the [rum-events-format](https://github.com/dd/rum-events-format) schema. Never hand-edit. Regenerate with `make rum-models-generate GIT_REF=master`, verify with `make rum-models-verify`.
 
 ## File Headers
 

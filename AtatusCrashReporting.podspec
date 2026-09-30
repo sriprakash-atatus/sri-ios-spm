@@ -16,12 +16,12 @@ Pod::Spec.new do |s|
 
   s.source = { :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :tag => s.version.to_s }
 
-  s.source_files = "AtatusCrashReporting/Sources/**/*.swift"
+  s.source_files = "TowerSignalCrashReporting/Sources/**/*.swift"
   s.dependency 'AtatusInternal', s.version.to_s
   s.dependency 'KSCrash/Recording', '2.5.1'
   s.dependency 'KSCrash/Filters', '2.5.1'
 
   s.resource_bundle = {
-    "AtatusCrashReporting" => "AtatusCrashReporting/Resources/PrivacyInfo.xcprivacy"
+    "AtatusCrashReporting" => "TowerSignalCrashReporting/Resources/PrivacyInfo.xcprivacy"
   }
 end

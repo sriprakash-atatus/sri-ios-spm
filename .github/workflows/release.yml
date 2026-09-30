@@ -1,0 +1,104 @@
+# Release for the Atatus iOS Agent as a source-based Swift Package.
+#
+# Consumers install the SDK straight from this repository's Git tags, so a release is just a tag:
+# `validate` checks that the tagged source resolves, builds and passes its tests, and only then
+# `publish` creates the GitHub Release for that existing tag. No binaries are built or uploaded,
+# no tags are created and no source files are edited, so the workflow is safe to rerun.
+
+name: Release
+
+on:
+  push:
+    tags:
+      # Filter-pattern equivalent of X.Y.Z: matches 1.0.0, rejects v1.0.0, 1.0 and release-1.0.0.
+      - '[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing X.Y.Z tag to validate and release"
+        required: true
+        type: string
+      xcode_version:
+        description: "Xcode version to select, e.g. 16.4. Empty keeps the runner default."
+        required: false
+        type: string
+
+# Read-only by default; only the publish job is granted contents: write.
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  validate:
+    name: Validate Swift Package
+    runs-on: macos-latest
+    timeout-minutes: 120
+    steps:
+      # Runs before checkout so a mistyped workflow_dispatch tag fails in seconds.
+      - name: Print release version and validate tag format
+        run: |
+          set -euo pipefail
+          echo "Release version: $RELEASE_TAG"
+          echo "Repository:      $GITHUB_REPOSITORY"
+          echo "Triggered by:    $GITHUB_EVENT_NAME"
+          if [[ ! "$RELEASE_TAG" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "::error::Tag '$RELEASE_TAG' is not a semantic version such as 1.0.0"
+            exit 1
+          fi
+
+      - name: Checkout tagged source
+        uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
+          fetch-depth: 0
+
+      - name: Select Xcode
+        env:
+          REQUESTED_XCODE: ${{ inputs.xcode_version }}
+        run: |
+          set -euo pipefail
+          if [ -n "${REQUESTED_XCODE:-}" ]; then
+            xcode_app="/Applications/Xcode_${REQUESTED_XCODE}.app"
+            if [ ! -d "$xcode_app" ]; then
+              echo "::error::Xcode $REQUESTED_XCODE is not installed on this runner."
+              ls -d /Applications/Xcode*.app
+              exit 1
+            fi
+            sudo xcode-select -s "$xcode_app/Contents/Developer"
+          fi
+          xcodebuild -version
+          swift --version
+
+      # Validates the tag, then runs swift package resolve, dump-package, build and test.
+      - name: Validate, build and test release
+        run: ./scripts/release.sh "$RELEASE_TAG"
+
+  publish:
+    name: Publish GitHub Release
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      # --verify-tag makes gh refuse to create a tag, so a release only ever attaches to a pushed one.
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          echo "Release version: $RELEASE_TAG"
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "Release $RELEASE_TAG already exists; leaving it untouched."
+            exit 0
+          fi
+          gh release create "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --title "$RELEASE_TAG" \
+            --generate-notes

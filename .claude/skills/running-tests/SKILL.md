@@ -74,7 +74,7 @@ RunSomeTests(
 **If the test is NOT in the active scheme**, use `xcodebuild -only-testing`:
 ```bash
 xcodebuild test \
-  -workspace Atatus.xcworkspace \
+  -workspace TowerSignal.xcworkspace \
   -scheme "<Module> <Platform>" \
   -destination 'platform=<Platform> Simulator,name=<Device>' \
   -only-testing:<TargetName>/<TestClass>/<testMethod>
@@ -83,7 +83,7 @@ xcodebuild test \
 To find which module owns a test:
 ```
 XcodeGrep(tabIdentifier: <tabIdentifier>, pattern: "func <testName>", outputMode: "filesWithMatches")
-# path reveals the module: AtatusInternal/Tests/... → scheme "AtatusInternal iOS"
+# path reveals the module: TowerSignalInternal/Tests/... → scheme "AtatusInternal iOS"
 ```
 
 ## Decision Guide

@@ -19,12 +19,12 @@ They are NOT a replacement for customer-facing documentation.
 Each feature module contains a `*_FEATURE.md` file at its root:
 
 ```
-AtatusRUM/RUM_FEATURE.md
-AtatusSessionReplay/SESSION_REPLAY_FEATURE.md
-AtatusTrace/TRACE_FEATURE.md
-AtatusProfiling/PROFILING_FEATURE.md
-AtatusLogs/LOGS_FEATURE.md
-AtatusWebViewTracking/WEBVIEW_FEATURE.md  # (future)
+TowerSignalRUM/RUM_FEATURE.md
+TowerSignalSessionReplay/SESSION_REPLAY_FEATURE.md
+TowerSignalTrace/TRACE_FEATURE.md
+TowerSignalProfiling/PROFILING_FEATURE.md
+TowerSignalLogs/LOGS_FEATURE.md
+TowerSignalWebViewTracking/WEBVIEW_FEATURE.md  # (future)
 ```
 
 ## Frontmatter

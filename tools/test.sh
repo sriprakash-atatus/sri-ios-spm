@@ -25,7 +25,7 @@ define_arg "device" "" "Specifies the simulator device for running tests, e.g. '
 check_for_help "$@"
 parse_args "$@"
 
-WORKSPACE="Atatus.xcworkspace"
+WORKSPACE="TowerSignal.xcworkspace"
 DESTINATION="platform=$platform,name=$device,OS=$os"
 SCHEME=$scheme
 

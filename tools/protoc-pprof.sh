@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # Usage:
-# $ ./tools/protoc-pprof.sh --proto-path AtatusProfiling/Protos/profile.proto --output-dir AtatusProfiling/Mach
+# $ ./tools/protoc-pprof.sh --proto-path TowerSignalProfiling/Protos/profile.proto --output-dir TowerSignalProfiling/Mach
 
 set -e
 source ./tools/utils/echo-color.sh

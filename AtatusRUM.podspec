@@ -16,11 +16,11 @@ Pod::Spec.new do |s|
 
   s.source = { :git => "https://github.com/Atatus/atatus-sdk-ios.git", :tag => s.version.to_s }
 
-  s.source_files = ["AtatusRUM/Sources/**/*.swift",
-                    "AtatusRUM/Private/**/*.{h,m}"]
+  s.source_files = ["TowerSignalRUM/Sources/**/*.swift",
+                    "TowerSignalRUM/Private/**/*.{h,m}"]
 
   s.resource_bundle = {
-    "AtatusRUM" => "AtatusRUM/Resources/PrivacyInfo.xcprivacy"
+    "AtatusRUM" => "TowerSignalRUM/Resources/PrivacyInfo.xcprivacy"
   }
 
   s.dependency 'AtatusInternal', s.version.to_s

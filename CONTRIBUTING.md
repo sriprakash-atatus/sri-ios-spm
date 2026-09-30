@@ -42,7 +42,7 @@ $ make
 
 ### Repo structure
 
-#### `Atatus.xcworkspace`
+#### `TowerSignal.xcworkspace`
 
 The workspace for SDK development and integration (tests, benchmarks, example app).
 

@@ -19,7 +19,7 @@ All `*_FEATURE.md` files in the repo. Each doc's frontmatter is the source of tr
 - `verified_against_commit` — the commit the doc was last verified against
 - `tracked_files` — the public API source files whose changes should trigger a doc update
 
-To add a new feature doc to the system, create a `*_FEATURE.md` file following the spec in [`docs/LLM_FEATURE_DOCS_GUIDELINES.md`](../../../docs/LLM_FEATURE_DOCS_GUIDELINES.md) and modeling it on existing docs (e.g. `AtatusRUM/RUM_FEATURE.md`, `AtatusSessionReplay/SESSION_REPLAY_FEATURE.md`). Then run this skill — it will discover the new doc, audit `tracked_files` coverage, and register it in the required places. No script changes needed.
+To add a new feature doc to the system, create a `*_FEATURE.md` file following the spec in [`docs/LLM_FEATURE_DOCS_GUIDELINES.md`](../../../docs/LLM_FEATURE_DOCS_GUIDELINES.md) and modeling it on existing docs (e.g. `TowerSignalRUM/RUM_FEATURE.md`, `TowerSignalSessionReplay/SESSION_REPLAY_FEATURE.md`). Then run this skill — it will discover the new doc, audit `tracked_files` coverage, and register it in the required places. No script changes needed.
 
 ## Steps
 
@@ -76,7 +76,7 @@ To add a new feature doc to the system, create a `*_FEATURE.md` file following t
    - `last_updated` → today's date (YYYY-MM-AT)
 
 8. **Update the registries** — when adding, renaming, or removing a `*_FEATURE.md` file, also update every place that hand-lists feature docs. `tools/feature-docs-verify.sh` enforces these and will fail CI otherwise:
-   - **`.github/workflows/changelog-to-confluence.yaml`** — both the `paths:` filter and the `cp` block. Use the relative path **without a leading slash** (`AtatusRUM/RUM_FEATURE.md`, not `/AtatusRUM/RUM_FEATURE.md`) — leading slashes silently never match in GitHub Actions `paths:` filters. The publish filename is kebab-case derived from the module + doc (`AtatusRUM/RUM_FEATURE.md` → `atatus-sdk-ios-rum-feature.md`).
+   - **`.github/workflows/changelog-to-confluence.yaml`** — both the `paths:` filter and the `cp` block. Use the relative path **without a leading slash** (`TowerSignalRUM/RUM_FEATURE.md`, not `/TowerSignalRUM/RUM_FEATURE.md`) — leading slashes silently never match in GitHub Actions `paths:` filters. The publish filename is kebab-case derived from the module + doc (`TowerSignalRUM/RUM_FEATURE.md` → `atatus-sdk-ios-rum-feature.md`).
    - **`AGENTS.md`** — add the doc to the file tree under "Feature-specific docs" and to the routing table ("Where to Look First").
    - **`docs/LLM_FEATURE_DOCS_GUIDELINES.md`** — add the doc to the file inventory list.
 

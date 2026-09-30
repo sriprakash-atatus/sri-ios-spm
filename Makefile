@@ -313,7 +313,7 @@ benchmark-tests-open:
 
 xcodeproj-session-replay:
 		@echo "⚙️  Generating 'AtatusSessionReplay.xcodeproj'..."
-		@cd AtatusSessionReplay/ && swift package generate-xcodeproj
+		@cd TowerSignalSessionReplay/ && swift package generate-xcodeproj
 		@echo "OK 👌"
 
 templates:
@@ -353,7 +353,7 @@ sr-models-verify:
 # Generate profiling protobuf-c files from pprof proto
 protoc-pprof:
 	@$(ECHO_TITLE) "protoc-pprof"
-	./tools/protoc-pprof.sh --proto-path AtatusProfiling/Protos/profile.proto --output-dir AtatusProfiling/Mach
+	./tools/protoc-pprof.sh --proto-path TowerSignalProfiling/Protos/profile.proto --output-dir TowerSignalProfiling/Mach
 
 # Pushes current SR snapshots to snapshots repo
 sr-snapshots-push:
@@ -517,7 +517,7 @@ set-ci-secret:
 
 bump:
 	@read -p "Enter version number: " version;  \
-	echo "// GENERATED FILE: Do not edit directly\n\ninternal let __sdkVersion = \"$$version\"" > AtatusCore/Sources/Versioning.swift; \
+	echo "// GENERATED FILE: Do not edit directly\n\ninternal let __sdkVersion = \"$$version\"" > TowerSignalCore/Sources/Versioning.swift; \
 	./tools/podspec_bump_version.sh $$version; \
 	git add . ; \
 	git commit -m "Bumped version to $$version"; \

@@ -91,7 +91,7 @@
                      BlueprintIdentifier = "61441C2924616F1D003D8BB8"
                      BuildableName = "AtatusIntegrationTests.xctest"
                      BlueprintName = "AtatusIntegrationTests"
-                     ReferencedContainer = "container:Atatus.xcodeproj">
+                     ReferencedContainer = "container:TowerSignal.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
             </ActionContent>
@@ -165,7 +165,7 @@
             BlueprintIdentifier = "61133B81242393DE00786299"
             BuildableName = "Atatus.framework"
             BlueprintName = "Atatus iOS"
-            ReferencedContainer = "container:Atatus.xcodeproj">
+            ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
       <TestPlans>
@@ -183,7 +183,7 @@
             reference = "container:xctestplans/NetworkInstrumentation.xctestplan">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:xctestplans/AtatusAgentValidation.xctestplan">
+            reference = "container:xctestplans/TowerSignalAgentValidation.xctestplan">
          </TestPlanReference>
       </TestPlans>
    </TestAction>

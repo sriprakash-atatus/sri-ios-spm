@@ -158,17 +158,17 @@ excluded:
   - ../../**/*/.build
 
 included:
-  - ../../AtatusInternal/Sources
-  - ../../AtatusCore/Sources
-  - ../../AtatusLogs/Sources
-  - ../../AtatusTrace/Sources
-  - ../../AtatusRUM/Sources
-  - ../../AtatusSessionReplay/Sources
-  - ../../AtatusCrashReporting/Sources
-  - ../../AtatusWebViewTracking/Sources
-  - ../../AtatusFlags/Sources
-  - ../../AtatusProfiling/Sources
-  - ../../Atatus/E2E
+  - ../../TowerSignalInternal/Sources
+  - ../../TowerSignalCore/Sources
+  - ../../TowerSignalLogs/Sources
+  - ../../TowerSignalTrace/Sources
+  - ../../TowerSignalRUM/Sources
+  - ../../TowerSignalSessionReplay/Sources
+  - ../../TowerSignalCrashReporting/Sources
+  - ../../TowerSignalWebViewTracking/Sources
+  - ../../TowerSignalFlags/Sources
+  - ../../TowerSignalProfiling/Sources
+  - ../../TowerSignal/E2E
   - ../../tools/http-server-mock/Sources
   - ../../tools/api-surface/Sources
   - ../../tools/api-surface/Fixtures/Sources

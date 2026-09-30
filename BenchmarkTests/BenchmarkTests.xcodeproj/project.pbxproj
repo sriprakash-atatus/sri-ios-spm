@@ -119,7 +119,7 @@
 		D24BFD472C6B916B00AB9604 /* SyntheticScenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24BFD462C6B916B00AB9604 /* SyntheticScenario.swift */; };
 		D24E15F32C776956005AE4E8 /* BenchmarkProfiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24E15F22C776956005AE4E8 /* BenchmarkProfiler.swift */; };
 		D26806112D9D84130004C54A /* BenchmarkVitals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26806102D9D84130004C54A /* BenchmarkVitals.swift */; };
-		D26DD6E72D0C774000D96148 /* AtatusMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26DD6E62D0C774000D96148 /* AtatusMonitor.swift */; };
+		D26DD6E72D0C774000D96148 /* TowerSignalMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26DD6E62D0C774000D96148 /* TowerSignalMonitor.swift */; };
 		D27606A12C514F37002D2A14 /* SessionReplayScenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27606982C514F37002D2A14 /* SessionReplayScenario.swift */; };
 		D27606A32C514F37002D2A14 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = D276069B2C514F37002D2A14 /* Scenario.swift */; };
 		D27606A42C514F37002D2A14 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D276069D2C514F37002D2A14 /* AppConfiguration.swift */; };
@@ -381,7 +381,7 @@
 		D24BFD462C6B916B00AB9604 /* SyntheticScenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntheticScenario.swift; sourceTree = "<group>"; };
 		D24E15F22C776956005AE4E8 /* BenchmarkProfiler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkProfiler.swift; sourceTree = "<group>"; };
 		D26806102D9D84130004C54A /* BenchmarkVitals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenchmarkVitals.swift; sourceTree = "<group>"; };
-		D26DD6E62D0C774000D96148 /* AtatusMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtatusMonitor.swift; sourceTree = "<group>"; };
+		D26DD6E62D0C774000D96148 /* TowerSignalMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TowerSignalMonitor.swift; sourceTree = "<group>"; };
 		D27606982C514F37002D2A14 /* SessionReplayScenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionReplayScenario.swift; sourceTree = "<group>"; };
 		D276069B2C514F37002D2A14 /* Scenario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		D276069D2C514F37002D2A14 /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -879,7 +879,7 @@
 				D294E94D2D088257009582F3 /* ContentView+SectionsBuilding.swift */,
 				D294E94F2D088257009582F3 /* MenuSection.swift */,
 				D294EA342D08850F009582F3 /* ModuleBundle.swift */,
-				D26DD6E62D0C774000D96148 /* AtatusMonitor.swift */,
+				D26DD6E62D0C774000D96148 /* TowerSignalMonitor.swift */,
 				D28130D32D0C6A2300A3824C /* AnyViewModifier.swift */,
 				D294E9512D088257009582F3 /* Preview Content */,
 				D294E9C82D088257009582F3 /* Views */,
@@ -1491,7 +1491,7 @@
 				D294EA032D088257009582F3 /* GeometriesView.swift in Sources */,
 				D294EA352D08850F009582F3 /* ModuleBundle.swift in Sources */,
 				D294EA042D088257009582F3 /* ModelData.swift in Sources */,
-				D26DD6E72D0C774000D96148 /* AtatusMonitor.swift in Sources */,
+				D26DD6E72D0C774000D96148 /* TowerSignalMonitor.swift in Sources */,
 				D294EA052D088257009582F3 /* TextModifiersView.swift in Sources */,
 				D294EA062D088257009582F3 /* ButtonBorderModifier.swift in Sources */,
 				D294EA072D088257009582F3 /* AnimationsView.swift in Sources */,

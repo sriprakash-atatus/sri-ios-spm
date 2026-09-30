@@ -14,7 +14,7 @@ import UIKit
 ///     home → search → results → product → home → category → product (wishlisted) → home
 ///          → wishlist → cart → address → payment → order confirmation
 ///
-/// Instantiated from `AtatusEcommerceScenario.storyboard`, which holds nothing but this navigation
+/// Instantiated from `TowerSignalEcommerceScenario.storyboard`, which holds nothing but this navigation
 /// controller — every screen is built in code, so the funnel reads top to bottom here rather than
 /// across a storyboard's segues.
 final class ECStoreNavigationController: UINavigationController {

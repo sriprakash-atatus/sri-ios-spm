@@ -12,7 +12,7 @@ import XCTest
 
 /*
  Set of general extensions over standard types for writing more readable tests.
- Extensions using Atatus domain objects should be put in `AtatusExtensions.swift`.
+ Extensions using Atatus domain objects should be put in `TowerSignalExtensions.swift`.
 */
 
 extension Optional {

@@ -21,7 +21,7 @@ Use Xcode MCP tools instead — they update the filesystem AND the `.pbxproj` in
 
 ## Target Membership
 
-Target membership is **implicit** — Xcode MCP infers the target from the navigator path where the file is placed. A file added under `AtatusLogs/` is automatically assigned to the `AtatusLogs` target. No explicit target specification is needed.
+Target membership is **implicit** — Xcode MCP infers the target from the navigator path where the file is placed. A file added under `TowerSignalLogs/` is automatically assigned to the `AtatusLogs` target. No explicit target specification is needed.
 
 ## Quick Reference
 
@@ -49,7 +49,7 @@ Target membership is **implicit** — Xcode MCP infers the target from the navig
 # ✅ Add a new source file
 XcodeWrite(
   tabIdentifier: <tab>,
-  filePath: "AtatusLogs/Sources/LogBatcher.swift",
+  filePath: "TowerSignalLogs/Sources/LogBatcher.swift",
   content: "..."
 )
 # → Creates file on disk AND registers it in pbxproj + target membership
@@ -57,13 +57,13 @@ XcodeWrite(
 # ✅ Move a file
 XcodeMV(
   tabIdentifier: <tab>,
-  sourcePath: "AtatusLogs/Sources/LogBatcher.swift",
-  destinationPath: "AtatusLogs/Sources/Batching/LogBatcher.swift"
+  sourcePath: "TowerSignalLogs/Sources/LogBatcher.swift",
+  destinationPath: "TowerSignalLogs/Sources/Batching/LogBatcher.swift"
 )
 # → Moves file on disk AND updates pbxproj reference
 
 # ❌ Wrong — file created on disk but invisible to Xcode
-Write(file_path: ".../AtatusLogs/Sources/LogBatcher.swift", content: "...")
+Write(file_path: ".../TowerSignalLogs/Sources/LogBatcher.swift", content: "...")
 ```
 
 ## Getting the tabIdentifier
@@ -77,12 +77,12 @@ XcodeListWindows()  # → returns tabIdentifier for open workspace
 Xcode MCP uses **project navigator paths**, not filesystem paths. Use `XcodeLS` to discover them:
 
 ```python
-XcodeLS(tabIdentifier: <tab>, path: "AtatusLogs")
+XcodeLS(tabIdentifier: <tab>, path: "TowerSignalLogs")
 # → ["ConsoleLogger.swift", "Feature/LogsFeature.swift", ...]
 # Note: paths are relative to the Xcode group, not the filesystem root
 ```
 
-To create `AtatusLogs/Sources/Foo.swift` on disk, use the navigator path `AtatusLogs/Foo.swift`.
+To create `TowerSignalLogs/Sources/Foo.swift` on disk, use the navigator path `TowerSignalLogs/Foo.swift`.
 
 ## After File Operations
 

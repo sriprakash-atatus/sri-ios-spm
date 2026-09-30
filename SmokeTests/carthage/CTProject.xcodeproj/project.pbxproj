@@ -138,8 +138,8 @@
 		3C0F8E212B768A05004948CD /* OpenTelemetryApi.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OpenTelemetryApi.xcframework; path = Carthage/Build/OpenTelemetryApi.xcframework; sourceTree = "<group>"; };
 		3CB135E429F6B8F90000234F /* AtatusWebViewTracking.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AtatusWebViewTracking.xcframework; path = Carthage/Build/AtatusWebViewTracking.xcframework; sourceTree = "<group>"; };
 		5B828D5B2E7972B10088E11D /* AtatusFlags.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AtatusFlags.xcframework; path = Carthage/Build/AtatusFlags.xcframework; sourceTree = "<group>"; };
-		615519322461CDB4002A85CF /* Atatus.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Atatus.xcconfig; sourceTree = "<group>"; };
-		615519332461CDB4002A85CF /* Atatus.local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Atatus.local.xcconfig; sourceTree = "<group>"; };
+		615519322461CDB4002A85CF /* TowerSignal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TowerSignal.xcconfig; sourceTree = "<group>"; };
+		615519332461CDB4002A85CF /* TowerSignal.local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TowerSignal.local.xcconfig; sourceTree = "<group>"; };
 		615D9E6A2604B5B1006DC6D1 /* AtatusCrashReporting.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AtatusCrashReporting.xcframework; path = Carthage/Build/AtatusCrashReporting.xcframework; sourceTree = "<group>"; };
 		617803D12A6FF2EA005FE258 /* AtatusSessionReplay.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AtatusSessionReplay.xcframework; path = Carthage/Build/AtatusSessionReplay.xcframework; sourceTree = "<group>"; };
 		61C36415243752A500C4D4E6 /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,8 +232,8 @@
 		615519312461CDB4002A85CF /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				615519322461CDB4002A85CF /* Atatus.xcconfig */,
-				615519332461CDB4002A85CF /* Atatus.local.xcconfig */,
+				615519322461CDB4002A85CF /* TowerSignal.xcconfig */,
+				615519332461CDB4002A85CF /* TowerSignal.local.xcconfig */,
 			);
 			name = xcconfigs;
 			path = ../../xcconfigs;
@@ -646,7 +646,7 @@
 /* Begin XCBuildConfiguration section */
 		61C3643D243752A600C4D4E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 615519322461CDB4002A85CF /* Atatus.xcconfig */;
+			baseConfigurationReference = 615519322461CDB4002A85CF /* TowerSignal.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -710,7 +710,7 @@
 		};
 		61C3643E243752A600C4D4E6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 615519322461CDB4002A85CF /* Atatus.xcconfig */;
+			baseConfigurationReference = 615519322461CDB4002A85CF /* TowerSignal.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

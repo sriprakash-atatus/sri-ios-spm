@@ -44,7 +44,7 @@ archive() {
     echo_subtitle2 "➔ Archive scheme: '$scheme' for destination: '$destination'"
 
     xcodebuild archive \
-        -workspace "Atatus.xcworkspace" \
+        -workspace "TowerSignal.xcworkspace" \
         -scheme $scheme \
         -destination $destination \
         -archivePath $archive_path \

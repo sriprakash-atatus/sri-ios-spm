@@ -36,11 +36,11 @@ docs/
 └── session_replay_performance.md   ← Session Replay performance benchmarks
 
 Feature-specific docs (in each module directory):
-├── AtatusRUM/RUM_FEATURE.md
-├── AtatusSessionReplay/SESSION_REPLAY_FEATURE.md
-├── AtatusTrace/TRACE_FEATURE.md
-├── AtatusProfiling/PROFILING_FEATURE.md
-└── AtatusLogs/LOGS_FEATURE.md
+├── TowerSignalRUM/RUM_FEATURE.md
+├── TowerSignalSessionReplay/SESSION_REPLAY_FEATURE.md
+├── TowerSignalTrace/TRACE_FEATURE.md
+├── TowerSignalProfiling/PROFILING_FEATURE.md
+└── TowerSignalLogs/LOGS_FEATURE.md
 ```
 
 ## Where to Look First
@@ -54,11 +54,11 @@ Feature-specific docs (in each module directory):
 | Touch swizzling code | `docs/SWIZZLING.md` |
 | Report an error to internal telemetry | `docs/ERROR_HANDLING.md` |
 | Modify a fragile area | `docs/KNOWN_CONCERNS.md` |
-| Work on RUM specifically | `AtatusRUM/RUM_FEATURE.md` |
-| Work on Session Replay specifically | `AtatusSessionReplay/SESSION_REPLAY_FEATURE.md` |
-| Work on Trace (APM) specifically | `AtatusTrace/TRACE_FEATURE.md` |
-| Work on Profiling specifically | `AtatusProfiling/PROFILING_FEATURE.md` |
-| Work on Logs specifically | `AtatusLogs/LOGS_FEATURE.md` |
+| Work on RUM specifically | `TowerSignalRUM/RUM_FEATURE.md` |
+| Work on Session Replay specifically | `TowerSignalSessionReplay/SESSION_REPLAY_FEATURE.md` |
+| Work on Trace (APM) specifically | `TowerSignalTrace/TRACE_FEATURE.md` |
+| Work on Profiling specifically | `TowerSignalProfiling/PROFILING_FEATURE.md` |
+| Work on Logs specifically | `TowerSignalLogs/LOGS_FEATURE.md` |
 | Update a `*_FEATURE.md` file | `docs/LLM_FEATURE_DOCS_GUIDELINES.md` |
 
 ## Critical Rules (always apply)
@@ -66,7 +66,7 @@ Feature-specific docs (in each module directory):
 - **Never crash customer apps.** Use NOP implementations when the SDK is not initialized.
 - **Feature modules must not import each other.** Only `AtatusCore` orchestrates.
 - **Always search for usages across the entire codebase** before considering a change complete — update call sites in `AtatusCore`, `AtatusInternal`, encoders, ObjC bridges, and `.pbxproj`.
-- **Do NOT modify generated files** (RUM and Session Replay models in `AtatusInternal/Sources/Models/`).
+- **Do NOT modify generated files** (RUM and Session Replay models in `TowerSignalInternal/Sources/Models/`).
 - **Do NOT add new dependencies** without explicit approval.
 - **Do NOT change networking formats or endpoints.**
 - **Do NOT introduce new public API** without RFC review.

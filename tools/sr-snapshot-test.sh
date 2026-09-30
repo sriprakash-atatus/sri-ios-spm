@@ -37,16 +37,16 @@ REPO_ROOT=$(realpath .)
 
 SNAPSHOTS_CLI_PATH="$REPO_ROOT/tools/sr-snapshots"
 SNAPSHOTS_REPO_PATH="$REPO_ROOT/../dd-mobile-session-replay-snapshots"
-TEST_WORKSPACE="$REPO_ROOT/AtatusSessionReplay/SRSnapshotTests/SRSnapshotTests.xcworkspace"
+TEST_WORKSPACE="$REPO_ROOT/TowerSignalSessionReplay/SRSnapshotTests/SRSnapshotTests.xcworkspace"
 
 case "$suite" in
     "view-tree")
-        SNAPSHOTS_DIR="$REPO_ROOT/AtatusSessionReplay/SRSnapshotTests/SRSnapshotTests/_snapshots_"
+        SNAPSHOTS_DIR="$REPO_ROOT/TowerSignalSessionReplay/SRSnapshotTests/SRSnapshotTests/_snapshots_"
         TEST_SCHEME="SRSnapshotTests"
         TEST_ARTIFACTS_SUBPATH="sr-snapshot-tests"
         ;;
     "layer-tree")
-        SNAPSHOTS_DIR="$REPO_ROOT/AtatusSessionReplay/SRSnapshotTests/SRLayerSnapshotTests/_snapshots_"
+        SNAPSHOTS_DIR="$REPO_ROOT/TowerSignalSessionReplay/SRSnapshotTests/SRLayerSnapshotTests/_snapshots_"
         TEST_SCHEME="SRLayerSnapshotTests"
         TEST_ARTIFACTS_SUBPATH="sr-layer-snapshot-tests"
         ;;

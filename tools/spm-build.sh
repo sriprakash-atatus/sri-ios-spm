@@ -19,8 +19,8 @@ define_arg "scheme" "" "Identifies the scheme to build" "string" "true"
 check_for_help "$@"
 parse_args "$@"
 
-WORKSPACE="Atatus.xcworkspace"
-WORKSPACE_RENAMED="Atatus.xcworkspace.old"
+WORKSPACE="TowerSignal.xcworkspace"
+WORKSPACE_RENAMED="TowerSignal.xcworkspace.old"
 
 rename_workspace() {
     if [ ! -d "$WORKSPACE" ]; then

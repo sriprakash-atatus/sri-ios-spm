@@ -140,7 +140,7 @@
 		EC0000000000000000000010 /* ECCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC000000000000000000000F /* ECCartViewController.swift */; };
 		EC0000000000000000000012 /* ECCheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0000000000000000000011 /* ECCheckoutViewController.swift */; };
 		EC0000000000000000000014 /* ECOrderConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0000000000000000000013 /* ECOrderConfirmationViewController.swift */; };
-		EC0000000000000000000016 /* AtatusEcommerceScenario.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0000000000000000000015 /* AtatusEcommerceScenario.storyboard */; };
+		EC0000000000000000000016 /* TowerSignalEcommerceScenario.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC0000000000000000000015 /* TowerSignalEcommerceScenario.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -195,7 +195,7 @@
 		611EA14725810E2600BC0E56 /* TSPictureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSPictureViewController.swift; sourceTree = "<group>"; };
 		611EA14D25810E3700BC0E56 /* TSConsentSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSConsentSettingViewController.swift; sourceTree = "<group>"; };
 		611EA16525825FB300BC0E56 /* TrackingConsentScenarioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingConsentScenarioTests.swift; sourceTree = "<group>"; };
-		612C136D2A9CF1380086B5D1 /* SRFixtures */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SRFixtures; path = ../AtatusSessionReplay/SRSnapshotTests/SRFixtures; sourceTree = "<group>"; };
+		612C136D2A9CF1380086B5D1 /* SRFixtures */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SRFixtures; path = ../TowerSignalSessionReplay/SRSnapshotTests/SRFixtures; sourceTree = "<group>"; };
 		612C136F2A9CF9140086B5D1 /* SRScenarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRScenarios.swift; sourceTree = "<group>"; };
 		612C13722A9DFE1C0086B5D1 /* SRMultipleViewsRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRMultipleViewsRecordingViewController.swift; sourceTree = "<group>"; };
 		612C13742A9DFEF70086B5D1 /* SRMultipleViewsRecordingScenario.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SRMultipleViewsRecordingScenario.storyboard; sourceTree = "<group>"; };
@@ -322,7 +322,7 @@
 		EC000000000000000000000F /* ECCartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECCartViewController.swift; sourceTree = "<group>"; };
 		EC0000000000000000000011 /* ECCheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECCheckoutViewController.swift; sourceTree = "<group>"; };
 		EC0000000000000000000013 /* ECOrderConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECOrderConfirmationViewController.swift; sourceTree = "<group>"; };
-		EC0000000000000000000015 /* AtatusEcommerceScenario.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AtatusEcommerceScenario.storyboard; sourceTree = "<group>"; };
+		EC0000000000000000000015 /* TowerSignalEcommerceScenario.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TowerSignalEcommerceScenario.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -920,7 +920,7 @@
 		EC0000000000000000000002 /* Store */ = {
 			isa = PBXGroup;
 			children = (
-				EC0000000000000000000015 /* AtatusEcommerceScenario.storyboard */,
+				EC0000000000000000000015 /* TowerSignalEcommerceScenario.storyboard */,
 				EC0000000000000000000005 /* ECStore.swift */,
 				EC0000000000000000000007 /* ECStoreAPI.swift */,
 				EC0000000000000000000009 /* ECStoreNavigationController.swift */,
@@ -1026,7 +1026,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC0000000000000000000016 /* AtatusEcommerceScenario.storyboard in Resources */,
+				EC0000000000000000000016 /* TowerSignalEcommerceScenario.storyboard in Resources */,
 				61337032250F82AE00236D58 /* LoggingManualInstrumentationScenario.storyboard in Resources */,
 				612D8F6925AEE68F000E2E09 /* RUMScrubbingScenario.storyboard in Resources */,
 				964537F02DCBB7EF00C51BF4 /* RUMSwiftUIAutoInstrumentationSingleRootViewScenario.storyboard in Resources */,

@@ -5,7 +5,7 @@ if [ ! -f "Package.swift" ]; then
     exit 1
 fi
 
-SOURCE_TEMPLATES_LOCATION="./tools/xcode-templates/Atatus/"
+SOURCE_TEMPLATES_LOCATION="./tools/xcode-templates/TowerSignal/"
 TARGET_TEMPLATES_LOCATION="$HOME/Library/Developer/Xcode/Templates/File Templates/Atatus"
 
 rm -r "$TARGET_TEMPLATES_LOCATION" 2> /dev/null

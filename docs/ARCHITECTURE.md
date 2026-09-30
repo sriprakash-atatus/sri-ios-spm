@@ -101,25 +101,25 @@ DataUploadWorker (periodic) → DataReader → RequestBuilder → HTTPClient →
 | **Command** | User action or system event triggering state changes. Struct with timestamp, attributes. | `RUMStartViewCommand`, `RUMAddUserActionCommand` |
 | **Storage & Upload** | Persist events and batch-transmit to backend. | `FeatureStorage`, `FileWriter`, `DataUploadWorker` |
 | **Context Provider** | Publishes system/app state changes. Implements `ContextValuePublisher`. | `UserInfoPublisher`, `NetworkConnectionInfoPublisher` |
-| **Message Bus** | Inter-feature pub/sub communication. Protocol (`FeatureMessageReceiver`) in `AtatusInternal/Sources/MessageBus/`; concrete `MessageBus` in `AtatusCore`. | `MessageBus`, `FeatureMessageReceiver` |
+| **Message Bus** | Inter-feature pub/sub communication. Protocol (`FeatureMessageReceiver`) in `TowerSignalInternal/Sources/MessageBus/`; concrete `MessageBus` in `AtatusCore`. | `MessageBus`, `FeatureMessageReceiver` |
 
 ## Key Protocols
 
 | Protocol | Purpose | Location |
 |----------|---------|----------|
-| `AtatusCoreProtocol` | Central injectable core interface | `AtatusInternal/Sources/AtatusCoreProtocol.swift` |
-| `AtatusFeature` | Base protocol for feature modules | `AtatusInternal/Sources/AtatusFeature.swift` |
-| `AtatusRemoteFeature` | Extension adding `requestBuilder` for features that upload data | `AtatusInternal/Sources/AtatusFeature.swift` |
-| `FeatureScope` | Provides features with event writing, context, and storage | `AtatusInternal/Sources/AtatusCoreProtocol.swift` |
-| `FeatureMessageReceiver` | Receives inter-feature messages via the bus | `AtatusInternal/Sources/MessageBus/` |
-| `ContextValuePublisher` | Publishes context value changes | `AtatusCore/Sources/Core/Context/ContextValuePublisher.swift` |
-| `DataEncryption` | Optional encryption for on-disk data | `AtatusCore/Sources/Core/Storage/DataEncryption.swift` |
+| `AtatusCoreProtocol` | Central injectable core interface | `TowerSignalInternal/Sources/TowerSignalCoreProtocol.swift` |
+| `AtatusFeature` | Base protocol for feature modules | `TowerSignalInternal/Sources/TowerSignalFeature.swift` |
+| `AtatusRemoteFeature` | Extension adding `requestBuilder` for features that upload data | `TowerSignalInternal/Sources/TowerSignalFeature.swift` |
+| `FeatureScope` | Provides features with event writing, context, and storage | `TowerSignalInternal/Sources/TowerSignalCoreProtocol.swift` |
+| `FeatureMessageReceiver` | Receives inter-feature messages via the bus | `TowerSignalInternal/Sources/MessageBus/` |
+| `ContextValuePublisher` | Publishes context value changes | `TowerSignalCore/Sources/Core/Context/ContextValuePublisher.swift` |
+| `DataEncryption` | Optional encryption for on-disk data | `TowerSignalCore/Sources/Core/Storage/DataEncryption.swift` |
 
 ## Message Bus
 
 ### Message Types
 
-Inter-feature communication uses `FeatureMessage` (defined in `AtatusInternal/Sources/MessageBus/FeatureMessage.swift`):
+Inter-feature communication uses `FeatureMessage` (defined in `TowerSignalInternal/Sources/MessageBus/FeatureMessage.swift`):
 
 | Case | When to use |
 |------|------------|
@@ -137,7 +137,7 @@ Use this when a feature needs to track another feature's evolving state (e.g., c
 2. Any context change triggers `AtatusCore` to broadcast `.context(atatusContext)` to every registered feature.
 3. Receivers extract what they need: `context.additionalContext(ofType: RUMCoreContext.self)`.
 
-**Canonical example** — Session Replay's `RUMContextReceiver` (`AtatusSessionReplay/Sources/Feature/RUMContextReceiver.swift`):
+**Canonical example** — Session Replay's `RUMContextReceiver` (`TowerSignalSessionReplay/Sources/Feature/RUMContextReceiver.swift`):
 
 ```swift
 func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
@@ -167,7 +167,7 @@ Note: `MessageBus.send()` does NOT short-circuit across features — every regis
 
 ### `RUMCoreContext`
 
-Defined in `AtatusInternal/Sources/Models/RUM/RUMCoreContext.swift`. Key fields: `applicationID`, `sessionID`, `viewID`, `userActionID`, `viewServerTimeOffset`, `sessionSampler`. Conforms to `AdditionalContext` (key: `"rum"`) and `Equatable`.
+Defined in `TowerSignalInternal/Sources/Models/RUM/RUMCoreContext.swift`. Key fields: `applicationID`, `sessionID`, `viewID`, `userActionID`, `viewServerTimeOffset`, `sessionSampler`. Conforms to `AdditionalContext` (key: `"rum"`) and `Equatable`.
 
 Set by `Monitor.swift` after each command via `featureScope.set(context:)`. Consumed by any receiver that calls `context.additionalContext(ofType: RUMCoreContext.self)`.
 
@@ -180,7 +180,7 @@ See `docs/ERROR_HANDLING.md` for customer-facing error safety and internal telem
 - **`@ReadWriteLock`**: Property wrapper for concurrent read, exclusive write access. Use for shared mutable state.
 - **Serial queues**: Scope processing uses serial dispatch queues (`FeatureScope` is serial).
 - **No `DispatchQueue.main.sync`**: Forbidden — prevents deadlocks.
-- **NSLock exception**: `NSLock` is used in method swizzling code (`AtatusInternal/Sources/Swizzling/`, `AtatusInternal/Sources/NetworkInstrumentation/`) where low-level synchronization is required — do not refactor those.
+- **NSLock exception**: `NSLock` is used in method swizzling code (`TowerSignalInternal/Sources/Swizzling/`, `TowerSignalInternal/Sources/NetworkInstrumentation/`) where low-level synchronization is required — do not refactor those.
 - **No thread spawning**: SDK uses system background queues (`qos: .utility`), never creates threads.
 
 ## HTTP Upload Details
@@ -191,8 +191,8 @@ See `docs/ERROR_HANDLING.md` for customer-facing error safety and internal telem
 - **Compression**: Gzip (`Content-Encoding: gzip`)
 - **Endpoint**: the single `.atatus` site → `mo-rx.atatus.com`, overridable via `ATATUS_SERVER_URL`
 - **Intake paths**: RUM `/v1/ios/rum`, Logs `/v1/ios/logs`, Traces `/v1/ios/spans`; Session Replay `/api/v2/replay`, Profiling `/api/v2/profile`, Flags `/api/v2/exposures`
-- **Header builder**: `AtatusInternal/Sources/Upload/URLRequestBuilder.swift`
-- **Site definitions**: `AtatusInternal/Sources/Context/AtatusSite.swift`
+- **Header builder**: `TowerSignalInternal/Sources/Upload/URLRequestBuilder.swift`
+- **Site definitions**: `TowerSignalInternal/Sources/Context/TowerSignalSite.swift`
 
 ## Dependencies
 

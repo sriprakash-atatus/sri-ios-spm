@@ -27,7 +27,7 @@ echo_info "cd '$SCRIPT_DIR'" && cd "$SCRIPT_DIR"
 DEPENDENT_REPO_CLONE_DIR="repos"
 
 SDK_PACKAGE_PATH=$(realpath "../..")
-SDK_VERSION_FILE_PATH=$(realpath "../../AtatusCore/Sources/Versioning.swift")
+SDK_VERSION_FILE_PATH=$(realpath "../../TowerSignalCore/Sources/Versioning.swift")
 DOGFOODED_BRANCH="$(current_git_branch)"
 DOGFOODED_COMMIT="$(current_git_commit)"
 DOGFOODED_COMMIT_SHORT="$(current_git_commit_short)"

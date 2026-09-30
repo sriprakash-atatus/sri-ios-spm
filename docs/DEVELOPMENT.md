@@ -6,32 +6,32 @@
 1. Create `AtatusNotifications/` with `Sources/` and `Tests/` subdirectories
 2. Entry point: `Notifications.swift`, config: `NotificationsConfiguration.swift`
 3. Feature plugin: `Feature/NotificationsFeature.swift` (implements `AtatusRemoteFeature`)
-4. Update `Atatus.xcworkspace` and any relevant `.pbxproj` files
+4. Update `TowerSignal.xcworkspace` and any relevant `.pbxproj` files
 
 ### New RUM Instrumentation
-1. Create files in `AtatusRUM/Sources/Instrumentation/<InstrumentationName>/`
+1. Create files in `TowerSignalRUM/Sources/Instrumentation/<InstrumentationName>/`
 2. Follow existing patterns (e.g., `Resources/`, `Actions/`, `AppHangs/`, `Views/`)
 3. Register in `RUMInstrumentation.swift`
-4. Add tests in `AtatusRUM/Tests/RUMTests/Instrumentation/`
+4. Add tests in `TowerSignalRUM/Tests/RUMTests/Instrumentation/`
 
 ### New RUM Command
-1. Add struct to `AtatusRUM/Sources/RUMMonitor/RUMCommand.swift` (implements `RUMCommand` protocol)
+1. Add struct to `TowerSignalRUM/Sources/RUMMonitor/RUMCommand.swift` (implements `RUMCommand` protocol)
 2. Include timestamp, attributes, and any decision hints (e.g., `canStartBackgroundView`)
 3. Add public API method to `RUMMonitorProtocol.swift` and implement in `Monitor.swift`
 4. Add processing logic in the appropriate scope
-5. Add tests in `AtatusRUM/Tests/RUMTests/Scopes/`
+5. Add tests in `TowerSignalRUM/Tests/RUMTests/Scopes/`
 6. Update API surface: `make api-surface`
 
 ### New Context Provider
-1. Add the property to `AtatusContext` in `AtatusInternal/Sources/Context/`
-2. Create `AtatusCore/Sources/Core/Context/<ProviderName>Publisher.swift` implementing `ContextValuePublisher`
+1. Add the property to `AtatusContext` in `TowerSignalInternal/Sources/Context/`
+2. Create `TowerSignalCore/Sources/Core/Context/<ProviderName>Publisher.swift` implementing `ContextValuePublisher`
 3. Subscribe to relevant system notifications
 4. Register the publisher in `AtatusContextProvider` initialization
-5. Add tests in `AtatusCore/Tests/`
+5. Add tests in `TowerSignalCore/Tests/`
 
 ### Shared Internal Types (used by multiple features)
-1. Add to `AtatusInternal/Sources/` in the appropriate subdirectory
-2. Add tests in `AtatusInternal/Tests/`
+1. Add to `TowerSignalInternal/Sources/` in the appropriate subdirectory
+2. Add tests in `TowerSignalInternal/Tests/`
 3. Changes here affect ALL modules — proceed with extreme caution
 
 ## RFC Process for Major Changes

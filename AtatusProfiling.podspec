@@ -15,19 +15,19 @@ Pod::Spec.new do |s|
 
   s.source = { :git => "https://github.com/Atatus/atatus-sdk-ios.git", :tag => s.version.to_s }
   
-  s.source_files = ["AtatusProfiling/Sources/**/*.swift",
-                    "AtatusProfiling/Mach/**/*.{h,c,cpp}"]
+  s.source_files = ["TowerSignalProfiling/Sources/**/*.swift",
+                    "TowerSignalProfiling/Mach/**/*.{h,c,cpp}"]
   
-  s.private_header_files = ["AtatusProfiling/Mach/**/*.h"]
+  s.private_header_files = ["TowerSignalProfiling/Mach/**/*.h"]
 
-  s.preserve_paths = "AtatusProfiling/Mach/include/module.modulemap"
+  s.preserve_paths = "TowerSignalProfiling/Mach/include/module.modulemap"
 
   s.dependency 'AtatusInternal', s.version.to_s
 
   # Configure C++ compilation
   s.pod_target_xcconfig = {
     'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17',
-    'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/AtatusProfiling/Mach/include'
+    'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/TowerSignalProfiling/Mach/include'
   }
 
 end

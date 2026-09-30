@@ -67,7 +67,7 @@ let package = Package(
                 .target(name: "AtatusInternal"),
                 .target(name: "AtatusPrivate"),
             ],
-            path: "AtatusCore",
+            path: "TowerSignalCore",
             sources: ["Sources"],
             resources: [
                 .copy("Resources/PrivacyInfo.xcprivacy")
@@ -76,12 +76,12 @@ let package = Package(
         ),
         .target(
             name: "AtatusPrivate",
-            path: "AtatusCore/Private"
+            path: "TowerSignalCore/Private"
         ),
 
         .target(
             name: "AtatusInternal",
-            path: "AtatusInternal/Sources",
+            path: "TowerSignalInternal/Sources",
             swiftSettings: internalSwiftSettings
         ),
         .testTarget(
@@ -90,7 +90,7 @@ let package = Package(
                 .target(name: "AtatusInternal"),
                 .target(name: "TestUtilities"),
             ],
-            path: "AtatusInternal/Tests"
+            path: "TowerSignalInternal/Tests"
         ),
 
         .target(
@@ -98,7 +98,7 @@ let package = Package(
             dependencies: [
                 .target(name: "AtatusInternal"),
             ],
-            path: "AtatusLogs/Sources"
+            path: "TowerSignalLogs/Sources"
         ),
         .testTarget(
             name: "AtatusLogsTests",
@@ -106,7 +106,7 @@ let package = Package(
                 .target(name: "AtatusLogs"),
                 .target(name: "TestUtilities"),
             ],
-            path: "AtatusLogs/Tests"
+            path: "TowerSignalLogs/Tests"
         ),
 
         .target(
@@ -115,7 +115,7 @@ let package = Package(
                 .target(name: "AtatusInternal"),
                 .product(name: "OpenTelemetryApi", package: "opentelemetry-swift-core")
             ],
-            path: "AtatusTrace/Sources",
+            path: "TowerSignalTrace/Sources",
             swiftSettings: [
                 .swiftLanguageMode(.v6)
             ]
@@ -126,7 +126,7 @@ let package = Package(
                 .target(name: "AtatusTrace"),
                 .target(name: "TestUtilities"),
             ],
-            path: "AtatusTrace/Tests",
+            path: "TowerSignalTrace/Tests",
             swiftSettings: [
                 .swiftLanguageMode(.v6)
             ]
@@ -138,7 +138,7 @@ let package = Package(
                 .target(name: "AtatusInternal"),
                 .target(name: "AtatusRUMPrivate"),
             ],
-            path: "AtatusRUM",
+            path: "TowerSignalRUM",
             sources: ["Sources"],
             resources: [
                 .copy("Resources/PrivacyInfo.xcprivacy")
@@ -147,7 +147,7 @@ let package = Package(
         ),
         .target(
             name: "AtatusRUMPrivate",
-            path: "AtatusRUM/Private"
+            path: "TowerSignalRUM/Private"
         ),
         .testTarget(
             name: "AtatusRUMTests",
@@ -155,7 +155,7 @@ let package = Package(
                 .target(name: "AtatusRUM"),
                 .target(name: "TestUtilities"),
             ],
-            path: "AtatusRUM/Tests"
+            path: "TowerSignalRUM/Tests"
         ),
 
         .target(
@@ -165,7 +165,7 @@ let package = Package(
                 .product(name: "Recording", package: "KSCrash"),
                 .product(name: "Filters", package: "KSCrash")
             ],
-            path: "AtatusCrashReporting",
+            path: "TowerSignalCrashReporting",
             sources: ["Sources"],
             resources: [
                 .copy("Resources/PrivacyInfo.xcprivacy")
@@ -177,7 +177,7 @@ let package = Package(
                 .target(name: "AtatusCrashReporting"),
                 .target(name: "TestUtilities"),
             ],
-            path: "AtatusCrashReporting/Tests"
+            path: "TowerSignalCrashReporting/Tests"
         ),
 
         .target(
@@ -185,7 +185,7 @@ let package = Package(
             dependencies: [
                 .target(name: "AtatusInternal"),
             ],
-            path: "AtatusWebViewTracking/Sources"
+            path: "TowerSignalWebViewTracking/Sources"
         ),
         .testTarget(
             name: "AtatusWebViewTrackingTests",
@@ -193,13 +193,13 @@ let package = Package(
                 .target(name: "AtatusWebViewTracking"),
                 .target(name: "TestUtilities"),
             ],
-            path: "AtatusWebViewTracking/Tests"
+            path: "TowerSignalWebViewTracking/Tests"
         ),
 
         .target(
             name: "AtatusSessionReplay",
             dependencies: ["AtatusInternal"],
-            path: "AtatusSessionReplay/Sources"
+            path: "TowerSignalSessionReplay/Sources"
         ),
         .testTarget(
             name: "AtatusSessionReplayTests",
@@ -207,7 +207,7 @@ let package = Package(
                 .target(name: "AtatusSessionReplay"),
                 .target(name: "TestUtilities"),
             ],
-            path: "AtatusSessionReplay/Tests",
+            path: "TowerSignalSessionReplay/Tests",
             resources: [
                 .process("Resources/Assets.xcassets")
             ]
@@ -219,7 +219,7 @@ let package = Package(
                 .target(name: "AtatusInternal"),
                 .target(name: "AtatusMachProfiler")
             ],
-            path: "AtatusProfiling",
+            path: "TowerSignalProfiling",
             sources: ["Sources"],
             resources: [
                 .copy("Resources/PrivacyInfo.xcprivacy")
@@ -228,7 +228,7 @@ let package = Package(
         ),
         .target(
             name: "AtatusMachProfiler",
-            path: "AtatusProfiling/Mach"
+            path: "TowerSignalProfiling/Mach"
         ),
         .testTarget(
             name: "AtatusProfilingTests",
@@ -237,7 +237,7 @@ let package = Package(
                 .target(name: "AtatusProfiling"),
                 .target(name: "TestUtilities"),
             ],
-            path: "AtatusProfiling/Tests",
+            path: "TowerSignalProfiling/Tests",
             swiftSettings: [.interoperabilityMode(.Cxx)] + internalSwiftSettings
         ),
 
@@ -246,7 +246,7 @@ let package = Package(
             dependencies: [
                 .target(name: "AtatusInternal"),
             ],
-            path: "AtatusFlags/Sources"
+            path: "TowerSignalFlags/Sources"
         ),
         .testTarget(
             name: "AtatusFlagsTests",
@@ -254,7 +254,7 @@ let package = Package(
                 .target(name: "AtatusFlags"),
                 .target(name: "TestUtilities"),
             ],
-            path: "AtatusFlags/Tests"
+            path: "TowerSignalFlags/Tests"
         ),
 
         .target(

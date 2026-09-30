@@ -231,7 +231,7 @@ internal struct Environment {
         guard let licenseKey = Bundle.main.infoDictionary?[InfoPlistKey.licenseKey] as? String, !licenseKey.isEmpty else {
             fatalError("""
             ✋⛔️ Cannot read `\(InfoPlistKey.licenseKey)` from `Info.plist` dictionary.
-            Please update `Atatus.xcconfig` in the repository root with your own
+            Please update `TowerSignal.xcconfig` in the repository root with your own
             client token obtained on atatus.com.
             You might need to run `Product > Clean Build Folder` before retrying.
             """)
@@ -243,7 +243,7 @@ internal struct Environment {
         guard let rumApplicationID = Bundle.main.infoDictionary![InfoPlistKey.rumApplicationID] as? String, !rumApplicationID.isEmpty else {
             fatalError("""
             ✋⛔️ Cannot read `\(InfoPlistKey.rumApplicationID)` from `Info.plist` dictionary.
-            Please update `Atatus.xcconfig` in the repository root with your own
+            Please update `TowerSignal.xcconfig` in the repository root with your own
             RUM application id obtained on atatus.com.
             You might need to run `Product > Clean Build Folder` before retrying.
             """)

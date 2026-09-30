@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
 
   s.source = { :git => "https://github.com/Atatus/atatus-sdk-ios.git", :tag => s.version.to_s }
 
-  s.source_files = ["AtatusInternal/Sources/**/*.swift"]
+  s.source_files = ["TowerSignalInternal/Sources/**/*.swift"]
 
 end

@@ -10,4 +10,4 @@
 
 ## Feature Flags
 
-/AtatusFlags/ @dd/rum-mobile @dd/rum-mobile-ios @dd/feature-flagging-and-experimentation-sdk
+/TowerSignalFlags/ @dd/rum-mobile @dd/rum-mobile-ios @dd/feature-flagging-and-experimentation-sdk

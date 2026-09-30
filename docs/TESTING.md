@@ -21,11 +21,11 @@
 
 | Type | Purpose | Location |
 |------|---------|----------|
-| `AtatusCoreProxy` | In-memory SDK instance that intercepts all events for assertions | `TestUtilities/Sources/Proxies/AtatusCoreProxy.swift` |
+| `AtatusCoreProxy` | In-memory SDK instance that intercepts all events for assertions | `TestUtilities/Sources/Proxies/TowerSignalCoreProxy.swift` |
 | `ServerMock` | HTTP mock server for network tests | `TestUtilities/Sources/Proxies/ServerMock.swift` |
-| `HTTPClientMock` | Mock HTTP client | `TestUtilities/Sources/Mocks/AtatusCore/` |
-| `PassthroughCoreMock` | Lightweight core mock that passes events through | `TestUtilities/Sources/Mocks/AtatusInternal/` |
-| `FeatureScopeMock` | Mock feature scope for isolated testing | `TestUtilities/Sources/Mocks/AtatusInternal/` |
+| `HTTPClientMock` | Mock HTTP client | `TestUtilities/Sources/Mocks/TowerSignalCore/` |
+| `PassthroughCoreMock` | Lightweight core mock that passes events through | `TestUtilities/Sources/Mocks/TowerSignalInternal/` |
+| `FeatureScopeMock` | Mock feature scope for isolated testing | `TestUtilities/Sources/Mocks/TowerSignalInternal/` |
 | `RUMSessionMatcher` | Groups RUM events by session, validates consistency | `TestUtilities/Sources/Matchers/` |
 
 ## AtatusCoreProxy Usage Pattern

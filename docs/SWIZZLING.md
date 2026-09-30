@@ -14,7 +14,7 @@ The SDK installs into thousands of apps alongside frameworks like RxSwift, RxCoc
 
 ## How the SDK swizzles
 
-All swizzles use `MethodSwizzler<Signature, Override>` in `AtatusInternal/Sources/Swizzling/MethodSwizzler.swift`. This class:
+All swizzles use `MethodSwizzler<Signature, Override>` in `TowerSignalInternal/Sources/Swizzling/MethodSwizzler.swift`. This class:
 
 - Captures the IMP that is current at install time as `previousImplementation`
 - Sets a new IMP that calls the override closure, which receives `previousImplementation`
