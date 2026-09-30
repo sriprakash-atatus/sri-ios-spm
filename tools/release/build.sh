@@ -30,7 +30,18 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # Clone a fresh version of the repo to the artifacts path to ensure that release tools
 # operate on a clean version of the repo, unaltered by any configuration changes.
 clone_repo () {
-    echo_subtitle "Clone repo for '$tag' into '$ARTIFACTS_PATH'"
+    echo_subtitle "Preparing repository source in '$REPO_CLONE_PATH'"
+    if [ -d "$REPO_CLONE_PATH" ]; then
+        echo_info "Repository source already exists at '$REPO_CLONE_PATH'"
+        return
+    fi
+    if [ -f "Package.swift" ]; then
+        echo_info "Copying local workspace source to '$REPO_CLONE_PATH'"
+        mkdir -p "$REPO_CLONE_PATH"
+        git archive HEAD | (cd "$REPO_CLONE_PATH" && tar -x)
+        return
+    fi
+    git clone --depth 1 --branch $tag --single-branch https://github.com/${GITHUB_REPOSITORY:-towersignal/towersignal-sdk-ios}.git $REPO_CLONE_PATH || \
     git clone --depth 1 --branch $tag --single-branch git@github.com:towersignal/towersignal-sdk-ios.git $REPO_CLONE_PATH
 }
 

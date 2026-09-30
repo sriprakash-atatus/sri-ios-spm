@@ -1,104 +1,238 @@
-# Release for the TowerSignal iOS Agent as a source-based Swift Package.
-#
-# Consumers install the SDK straight from this repository's Git tags, so a release is just a tag:
-# `validate` checks that the tagged source resolves, builds and passes its tests, and only then
-# `publish` creates the GitHub Release for that existing tag. No binaries are built or uploaded,
-# no tags are created and no source files are edited, so the workflow is safe to rerun.
+# Single GitHub Actions release pipeline for the TowerSignal iOS SDK (SPM + CocoaPods)
 
 name: Release
 
 on:
   push:
     tags:
-      # Filter-pattern equivalent of X.Y.Z: matches 1.0.0, rejects v1.0.0, 1.0 and release-1.0.0.
-      - '[0-9]+.[0-9]+.[0-9]+'
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: "Existing X.Y.Z tag to validate and release"
-        required: true
-        type: string
-      xcode_version:
-        description: "Xcode version to select, e.g. 16.4. Empty keeps the runner default."
-        required: false
-        type: string
+      - 'v*'
 
-# Read-only by default; only the publish job is granted contents: write.
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
-  group: release-${{ inputs.tag || github.ref_name }}
+  group: release-${{ github.ref_name }}
   cancel-in-progress: false
 
-env:
-  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
-
 jobs:
-  validate:
-    name: Validate Swift Package
+  release:
+    name: Release SDK (SPM & CocoaPods)
     runs-on: macos-latest
-    timeout-minutes: 120
     steps:
-      # Runs before checkout so a mistyped workflow_dispatch tag fails in seconds.
-      - name: Print release version and validate tag format
-        run: |
-          set -euo pipefail
-          echo "Release version: $RELEASE_TAG"
-          echo "Repository:      $GITHUB_REPOSITORY"
-          echo "Triggered by:    $GITHUB_EVENT_NAME"
-          if [[ ! "$RELEASE_TAG" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
-            echo "::error::Tag '$RELEASE_TAG' is not a semantic version such as 1.0.0"
-            exit 1
-          fi
-
       - name: Checkout tagged source
         uses: actions/checkout@v4
         with:
-          ref: refs/tags/${{ env.RELEASE_TAG }}
           fetch-depth: 0
 
-      - name: Select Xcode
-        env:
-          REQUESTED_XCODE: ${{ inputs.xcode_version }}
+      - name: Extract version & validate version consistency
         run: |
           set -euo pipefail
-          if [ -n "${REQUESTED_XCODE:-}" ]; then
-            xcode_app="/Applications/Xcode_${REQUESTED_XCODE}.app"
-            if [ ! -d "$xcode_app" ]; then
-              echo "::error::Xcode $REQUESTED_XCODE is not installed on this runner."
-              ls -d /Applications/Xcode*.app
+
+          TAG_NAME="${GITHUB_REF_NAME}"
+          echo "Git Tag: ${TAG_NAME}"
+
+          # Reject prerelease tags (e.g. v1.0.0-rc1, v1.0.0-beta)
+          if [[ "$TAG_NAME" =~ - ]]; then
+            echo "::error::Prerelease tags (e.g. $TAG_NAME) are not supported for production release."
+            exit 1
+          fi
+
+          # Extract semver number (strip leading 'v')
+          if [[ "$TAG_NAME" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            VERSION="${BASH_REMATCH[1]}"
+          elif [[ "$TAG_NAME" =~ ^([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            VERSION="${BASH_REMATCH[1]}"
+          else
+            echo "::error::Tag '$TAG_NAME' does not follow semantic versioning (vX.Y.Z)."
+            exit 1
+          fi
+
+          echo "Release Version: ${VERSION}"
+
+          # 1. Verify TowerSignalCore/Sources/Versioning.swift __sdkVersion
+          SDK_VERSION="$(grep '__sdkVersion' TowerSignalCore/Sources/Versioning.swift | awk -F '"' '{print $2}')"
+          echo "Versioning.swift __sdkVersion: ${SDK_VERSION}"
+          if [[ "$SDK_VERSION" != "$VERSION" ]]; then
+            echo "::error::__sdkVersion ($SDK_VERSION) in Versioning.swift does not match release tag version ($VERSION)"
+            exit 1
+          fi
+
+          # 2. Verify all .podspec versions
+          PODSPECS=(
+            "TowerSignalInternal.podspec"
+            "TowerSignalCore.podspec"
+            "TowerSignalLogs.podspec"
+            "TowerSignalTrace.podspec"
+            "TowerSignalRUM.podspec"
+            "TowerSignalSessionReplay.podspec"
+            "TowerSignalCrashReporting.podspec"
+            "TowerSignalWebViewTracking.podspec"
+            "TowerSignalFlags.podspec"
+            "TowerSignalProfiling.podspec"
+          )
+
+          for spec in "${PODSPECS[@]}"; do
+            if [ ! -f "$spec" ]; then
+              echo "::error::Podspec file '$spec' does not exist."
               exit 1
             fi
-            sudo xcode-select -s "$xcode_app/Contents/Developer"
+            SPEC_VER="$(grep -E '^[[:space:]]*s\.version[[:space:]]*=' "$spec" | awk -F '"' '{print $2}')"
+            echo "$spec s.version: $SPEC_VER"
+            if [[ "$SPEC_VER" != "$VERSION" ]]; then
+              echo "::error::$spec version ($SPEC_VER) does not match release tag version ($VERSION)"
+              exit 1
+            fi
+          done
+
+          echo "RELEASE_VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install required tools
+        run: |
+          set -euo pipefail
+          if ! command -v xcbeautify &> /dev/null; then
+            brew install xcbeautify || true
           fi
           xcodebuild -version
           swift --version
+          pod --version
 
-      # Validates the tag, then runs swift package resolve, dump-package, build and test.
-      - name: Validate, build and test release
-        run: ./scripts/release.sh "$RELEASE_TAG"
-
-  publish:
-    name: Publish GitHub Release
-    needs: validate
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      # --verify-tag makes gh refuse to create a tag, so a release only ever attaches to a pushed one.
-      - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Build + Test
         run: |
           set -euo pipefail
-          echo "Release version: $RELEASE_TAG"
-          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
-            echo "Release $RELEASE_TAG already exists; leaving it untouched."
-            exit 0
+          ./scripts/validate_spm.sh
+          ./scripts/build.sh
+          ./scripts/test.sh
+
+      - name: Build XCFrameworks
+        run: |
+          set -euo pipefail
+          ./tools/release/build.sh --tag "${TAG_NAME}" --artifacts-path "artifacts"
+
+      - name: Create ZIP + SHA256
+        run: |
+          set -euo pipefail
+          cd artifacts
+          shasum -a 256 TowerSignal.xcframework.zip > TowerSignal.xcframework.zip.sha256
+          shasum -a 256 TowerSignal-with-arm64e.xcframework.zip > TowerSignal-with-arm64e.xcframework.zip.sha256
+          ls -lh
+
+      - name: Validate Package.swift
+        run: |
+          set -euo pipefail
+          swift package resolve
+          swift package dump-package > /dev/null
+          echo "Package.swift is valid."
+
+      - name: Validate .podspec
+        run: |
+          set -euo pipefail
+          PODSPECS=(
+            "TowerSignalInternal.podspec"
+            "TowerSignalCore.podspec"
+            "TowerSignalLogs.podspec"
+            "TowerSignalTrace.podspec"
+            "TowerSignalRUM.podspec"
+            "TowerSignalSessionReplay.podspec"
+            "TowerSignalCrashReporting.podspec"
+            "TowerSignalWebViewTracking.podspec"
+            "TowerSignalFlags.podspec"
+            "TowerSignalProfiling.podspec"
+          )
+          for spec in "${PODSPECS[@]}"; do
+            echo "▸ pod spec lint $spec --allow-warnings"
+            pod spec lint "$spec" --allow-warnings --quick || pod lib lint "$spec" --allow-warnings
+          done
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          echo "Creating or verifying GitHub Release for tag: ${TAG_NAME}"
+          if gh release view "${TAG_NAME}" --repo "${GITHUB_REPOSITORY}" > /dev/null 2>&1; then
+            echo "Release ${TAG_NAME} already exists; leaving it untouched."
+          else
+            gh release create "${TAG_NAME}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --title "${TAG_NAME}" \
+              --verify-tag \
+              --generate-notes
           fi
-          gh release create "$RELEASE_TAG" \
-            --repo "$GITHUB_REPOSITORY" \
-            --verify-tag \
-            --title "$RELEASE_TAG" \
-            --generate-notes
+
+      - name: Upload SPM XCFramework assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          echo "Uploading XCFramework assets and SHA256 checksums to ${TAG_NAME} release..."
+          cd artifacts
+          gh release upload "${TAG_NAME}" \
+            TowerSignal.xcframework.zip \
+            TowerSignal.xcframework.zip.sha256 \
+            TowerSignal-with-arm64e.xcframework.zip \
+            TowerSignal-with-arm64e.xcframework.zip.sha256 \
+            --repo "${GITHUB_REPOSITORY}" \
+            --clobber
+          echo "Assets uploaded successfully."
+
+      - name: Publish CocoaPods podspec
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${COCOAPODS_TRUNK_TOKEN:-}" ]; then
+            echo "::error::COCOAPODS_TRUNK_TOKEN secret is missing or empty. Please set COCOAPODS_TRUNK_TOKEN in GitHub Repository Secrets."
+            exit 1
+          fi
+
+          PODSPECS=(
+            "TowerSignalInternal.podspec"
+            "TowerSignalCore.podspec"
+            "TowerSignalLogs.podspec"
+            "TowerSignalTrace.podspec"
+            "TowerSignalRUM.podspec"
+            "TowerSignalSessionReplay.podspec"
+            "TowerSignalCrashReporting.podspec"
+            "TowerSignalWebViewTracking.podspec"
+            "TowerSignalFlags.podspec"
+            "TowerSignalProfiling.podspec"
+          )
+
+          echo "Publishing podspecs to CocoaPods Trunk..."
+
+          for spec in "${PODSPECS[@]}"; do
+            echo "▸ Publishing $spec..."
+            MAX_RETRIES=5
+            RETRY_COUNT=0
+            SUCCESS=0
+
+            while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+              OUTPUT=$(pod trunk push "$spec" --allow-warnings 2>&1) && SUCCESS=1 && break || true
+
+              if echo "$OUTPUT" | grep -q -i "Unable to accept duplicate entry"; then
+                echo "▸ $spec version ${RELEASE_VERSION} already exists in CocoaPods Trunk. Skipping."
+                SUCCESS=1
+                break
+              fi
+
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                echo "▸ Retrying $spec push (attempt $RETRY_COUNT/$MAX_RETRIES)..."
+                echo "$OUTPUT"
+                sleep 20
+              else
+                echo "::error::Failed to push $spec to CocoaPods Trunk after $MAX_RETRIES attempts."
+                echo "$OUTPUT"
+                exit 1
+              fi
+            done
+          done
+
+          echo "All podspecs published to CocoaPods Trunk successfully."
