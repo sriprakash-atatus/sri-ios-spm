@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Discovery screens of the store in `AtatusEcommerceScenario` — the home feed, search with
+// ATCHG: Discovery screens of the store in `TowerSignalEcommerceScenario` — the home feed, search with
 // autocomplete, and the product listing both of them lead to.
 
 import UIKit

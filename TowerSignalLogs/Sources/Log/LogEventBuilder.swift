@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
-// renamed the build `variant` to `appName`; repointed the intake host at the Atatus site; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// renamed the build `variant` to `appName`; repointed the intake host at the TowerSignal site; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Builds `LogEvent` from data received from the user and provided internally by the SDK.
 internal struct LogEventBuilder {
     /// The `service` value for logs.
-    /// See: [Unified Service Tagging](https://www.atatus.com/docs/).
+    /// See: [Unified Service Tagging](https://www.towersignal.com/docs/).
     let service: String
     /// The `logger.name` value for logs.
     let loggerName: String?
@@ -30,7 +30,7 @@ internal struct LogEventBuilder {
     /// whereas other don't. For example, it is important to sign logs with a `date` read exactly from the moment of public API call, but
     /// network info and other parts of the SDK `context` can be provided asynchronously.
     ///
-    /// This is to guarantee the right order of logs in Atatus app when using multiple loggers on the same thread and to make sure
+    /// This is to guarantee the right order of logs in TowerSignal app when using multiple loggers on the same thread and to make sure
     /// that reported application context is accurate for the moment of log creation.
     ///
     /// - Parameters:
@@ -56,7 +56,7 @@ internal struct LogEventBuilder {
         binaryImages: [BinaryImage]?,
         attributes: LogEvent.Attributes,
         tags: Set<String>,
-        context: AtatusContext,
+        context: TowerSignalContext,
         threadName: String,
         callback: @escaping (LogEvent) -> Void
     ) {

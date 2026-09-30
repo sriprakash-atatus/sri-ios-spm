@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the
 // licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// An interface for writing and reading  the `CrashContext`
 internal protocol CrashContextProvider: AnyObject {
@@ -23,7 +23,7 @@ internal protocol CrashContextProvider: AnyObject {
 internal class CrashContextCoreProvider: CrashContextProvider {
     /// Queue for synchronizing `unsafeCrashContext` updates.
     private let queue = DispatchQueue(
-        label: "com.atatus.crash-context",
+        label: "com.towersignal.crash-context",
         target: .global(qos: .utility)
     )
 
@@ -64,7 +64,7 @@ internal class CrashContextCoreProvider: CrashContextProvider {
 }
 
 extension CrashContextCoreProvider: FeatureMessageReceiver {
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         switch message {
         case .context(let context):
             update(context: context)
@@ -88,7 +88,7 @@ extension CrashContextCoreProvider: FeatureMessageReceiver {
     /// Updates crash context.
     ///
     /// - Parameter context: The updated core context.
-    private func update(context: AtatusContext) {
+    private func update(context: TowerSignalContext) {
         queue.async { [weak self] in
             guard let self = self else {
                 return

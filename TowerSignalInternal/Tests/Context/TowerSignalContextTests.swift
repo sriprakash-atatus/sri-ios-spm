@@ -1,29 +1,29 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
 // renamed the build `variant` to `appName`; renamed the `ddsource` / `ddtags` query parameters to
-// `atatus_source` / `atatustags`; rebranded the licence header.
+// `towersignal_source` / `towersignaltags`; rebranded the licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 import XCTest
 
-final class AtatusContextTests: XCTestCase {
-    // MARK: - Test atatusTags
+final class TowerSignalContextTests: XCTestCase {
+    // MARK: - Test towersignalTags
 
-    func testAtatusDDTags() throws {
+    func testTowerSignalDDTags() throws {
         // Given
         let service: String = .mockRandom()
         let env: String = .mockRandom()
         let version: String = .mockRandom()
         let sdkVersion: String = .mockRandom()
         let appName: String = .mockRandom()
-        let atatusContext: AtatusContext = .mockWith(
+        let towersignalContext: TowerSignalContext = .mockWith(
             service: service,
             env: env,
             version: version,
@@ -32,7 +32,7 @@ final class AtatusContextTests: XCTestCase {
         )
 
         // Then
-        let atTagsArray = atatusContext.atTags.split(separator: ",")
+        let atTagsArray = towersignalContext.atTags.split(separator: ",")
 
         let atTags = atTagsArray.reduce(into: [:]) {
             let item = $1.split(separator: ":")
@@ -46,14 +46,14 @@ final class AtatusContextTests: XCTestCase {
         XCTAssertEqual(atTags["appName"] as! String, appName)
     }
 
-    func testAtatusSanitizedDDTags() throws {
+    func testTowerSignalSanitizedDDTags() throws {
         // Given
         let service = "service:with:colons"
         let env = "prod,dev"
         let version = "1,2,3"
         let sdkVersion = "3,2,1"
         let appName = "appName,with,commas:"
-        let atatusContext: AtatusContext = .mockWith(
+        let towersignalContext: TowerSignalContext = .mockWith(
             service: service,
             env: env,
             version: version,
@@ -62,7 +62,7 @@ final class AtatusContextTests: XCTestCase {
         )
 
         // Then
-        let atTagsArray = atatusContext.atTags.split(separator: ",")
+        let atTagsArray = towersignalContext.atTags.split(separator: ",")
 
         let atTags = atTagsArray.reduce(into: [:]) {
             let item = $1.split(separator: ":")
@@ -76,13 +76,13 @@ final class AtatusContextTests: XCTestCase {
         XCTAssertEqual(atTags["appName"] as! String, "variantwithcommas")
     }
 
-    func testAtatusDDTagsWithoutVariant() throws {
+    func testTowerSignalDDTagsWithoutVariant() throws {
         // Given
         let service: String = .mockRandom()
         let env: String = .mockRandom()
         let version: String = .mockRandom()
         let sdkVersion: String = .mockRandom()
-        let atatusContext: AtatusContext = .mockWith(
+        let towersignalContext: TowerSignalContext = .mockWith(
             service: service,
             env: env,
             version: version,
@@ -91,7 +91,7 @@ final class AtatusContextTests: XCTestCase {
         )
 
         // Then
-        let atTagsArray = atatusContext.atTags.split(separator: ",")
+        let atTagsArray = towersignalContext.atTags.split(separator: ",")
 
         let atTags = atTagsArray.reduce(into: [:]) {
             let item = $1.split(separator: ":")
@@ -109,7 +109,7 @@ final class AtatusContextTests: XCTestCase {
 
     func testDDTagsUpdatesWhenVersionChanges() throws {
         // Given
-        var context: AtatusContext = .mockWith(version: "1.0.0")
+        var context: TowerSignalContext = .mockWith(version: "1.0.0")
         let originalDDTags = context.atTags
         XCTAssertTrue(originalDDTags.contains("version:1.0.0"))
 
@@ -124,7 +124,7 @@ final class AtatusContextTests: XCTestCase {
 
     func testDDTagsSanitizesVersionOnUpdate() throws {
         // Given
-        var context: AtatusContext = .mockWith(version: "1.0.0")
+        var context: TowerSignalContext = .mockWith(version: "1.0.0")
 
         // When
         context.version = "2,0:0"

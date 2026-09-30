@@ -1,4 +1,4 @@
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`.
 
 // swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
@@ -6,12 +6,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "AtatusBenchmarks",
+    name: "TowerSignalBenchmarks",
     platforms: [.iOS(.v13), .tvOS(.v13)],
     products: [
         .library(
-            name: "AtatusBenchmarks",
-            targets: ["AtatusBenchmarks"]
+            name: "TowerSignalBenchmarks",
+            targets: ["TowerSignalBenchmarks"]
         )
     ],
     dependencies: [
@@ -19,7 +19,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "AtatusBenchmarks",
+            name: "TowerSignalBenchmarks",
             dependencies: [
                 .product(name: "OpenTelemetryApi", package: "opentelemetry-swift-core"),
                 .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core"),

@@ -1,9 +1,9 @@
 ---
-name: atatus-sdk-ios:git-branch
-description: Use when creating a new branch in atatus-sdk-ios for a JIRA ticket or feature. Use when choosing a branch name or base branch for development work.
+name: towersignal-sdk-ios:git-branch
+description: Use when creating a new branch in towersignal-sdk-ios for a JIRA ticket or feature. Use when choosing a branch name or base branch for development work.
 ---
 
-# Branching in atatus-sdk-ios
+# Branching in towersignal-sdk-ios
 
 ## Convention
 

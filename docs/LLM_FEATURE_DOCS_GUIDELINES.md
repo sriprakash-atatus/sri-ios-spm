@@ -1,6 +1,6 @@
 # `*_FEATURE.md` Specification
 
-This document provides guidelines for LLMs updating feature documentation files (`*_FEATURE.md`) in the Atatus iOS SDK repository.
+This document provides guidelines for LLMs updating feature documentation files (`*_FEATURE.md`) in the TowerSignal iOS SDK repository.
 
 > For the *workflow* around these docs (verification, publishing, the update skill), see the *Feature Docs System* page in Confluence. The canonical update procedure lives in [`.claude/skills/update-feature-docs/SKILL.md`](../.claude/skills/update-feature-docs/SKILL.md).
 

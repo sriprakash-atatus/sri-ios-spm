@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `clientToken` to `licenseKey`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `clientToken` to `licenseKey`; rebranded the licence header.
 
 #if OTEL_API
 #error("Benchmarks depends on opentelemetry-swift. Please open the project with 'make benchmark-tests-open'.")

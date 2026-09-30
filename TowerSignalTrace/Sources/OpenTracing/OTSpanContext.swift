@@ -1,6 +1,6 @@
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`.
 
-import AtatusInternal
+import TowerSignalInternal
 
 /// Span context captures any implementation-dependent state such as trace ID and span ID, as well as the
 /// baggage items

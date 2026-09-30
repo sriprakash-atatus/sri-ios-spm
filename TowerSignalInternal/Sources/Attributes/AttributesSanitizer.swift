@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
@@ -43,7 +43,7 @@ public struct AttributesSanitizer {
             if sanitizedName != key {
                 AT.logger.warn(
                     """
-                    \(featureName) attribute '\(key)' was modified to '\(sanitizedName)' to match Atatus constraints.
+                    \(featureName) attribute '\(key)' was modified to '\(sanitizedName)' to match TowerSignal constraints.
                     """
                 )
                 return (sanitizedName, value)

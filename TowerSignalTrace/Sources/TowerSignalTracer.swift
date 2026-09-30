@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 import OpenTelemetryApi
 
-internal final class AtatusTracer: OTTracer, OpenTelemetryApi.Tracer {
+internal final class TowerSignalTracer: OTTracer, OpenTelemetryApi.Tracer {
     /// Trace feature scope.
     let featureScope: FeatureScope
 
@@ -41,7 +41,7 @@ internal final class AtatusTracer: OTTracer, OpenTelemetryApi.Tracer {
     // MARK: - Initialization
 
     convenience init(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         samplingProvider: TracerSamplerProvider,
         tags: [String: OTTagValue],
         traceIDGenerator: TraceIDGenerator,
@@ -152,7 +152,7 @@ internal final class AtatusTracer: OTTracer, OpenTelemetryApi.Tracer {
             combinedTags.merge(userTags) { $1 }
         }
 
-        // Initialize `LazySpanWriteContext` here in `startSpan()` so it captures the `AtatusContext` valid
+        // Initialize `LazySpanWriteContext` here in `startSpan()` so it captures the `TowerSignalContext` valid
         // for this moment of time. Added in RUM-699 to ensure spans are correctly linked with RUM information
         // available on the caller thread.
         let writer = LazySpanWriteContext(featureScope: featureScope)

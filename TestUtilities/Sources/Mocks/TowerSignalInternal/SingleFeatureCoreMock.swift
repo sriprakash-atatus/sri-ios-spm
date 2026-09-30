@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Single-Feature core mock is a `PassthroughCoreMock` with the ability to register
 /// a single Feature instance.
@@ -29,7 +29,7 @@ import AtatusInternal
 ///     try core.register(feature: feature)
 ///     core.get(feature: MyCustomFeature.self) // returns feature instance
 ///
-public final class SingleFeatureCoreMock<Feature>: PassthroughCoreMock, @unchecked Sendable where Feature: AtatusFeature {
+public final class SingleFeatureCoreMock<Feature>: PassthroughCoreMock, @unchecked Sendable where Feature: TowerSignalFeature {
     /// The single Feature.
     private var feature: Feature?
 
@@ -41,7 +41,7 @@ public final class SingleFeatureCoreMock<Feature>: PassthroughCoreMock, @uncheck
     ///   - expectation: The test exepection to fullfill when `eventWriteContext`
     ///                  is invoked.
     public required init(
-        context: AtatusContext = .mockAny(),
+        context: TowerSignalContext = .mockAny(),
         dataStore: DataStore = NOPDataStore(),
         feature: Feature? = nil,
         messageReceiver: FeatureMessageReceiver = NOPFeatureMessageReceiver()
@@ -62,7 +62,7 @@ public final class SingleFeatureCoreMock<Feature>: PassthroughCoreMock, @uncheck
     ///   - expectation: The test exepection to fullfill when `eventWriteContext`
     ///                  is invoked.
     public required init(
-        context: AtatusContext = .mockAny(),
+        context: TowerSignalContext = .mockAny(),
         dataStore: DataStore = NOPDataStore(),
         messageReceiver: FeatureMessageReceiver = NOPFeatureMessageReceiver()
     ) {
@@ -75,7 +75,7 @@ public final class SingleFeatureCoreMock<Feature>: PassthroughCoreMock, @uncheck
         )
     }
 
-    override public func register<T>(feature: T) throws where T: AtatusFeature {
+    override public func register<T>(feature: T) throws where T: TowerSignalFeature {
         self.feature = feature as? Feature
     }
 
@@ -83,7 +83,7 @@ public final class SingleFeatureCoreMock<Feature>: PassthroughCoreMock, @uncheck
         feature as? T
     }
 
-    override public func scope<T>(for featureType: T.Type) -> FeatureScope where T: AtatusFeature {
+    override public func scope<T>(for featureType: T.Type) -> FeatureScope where T: TowerSignalFeature {
         guard T.name == Feature.name else {
             return NOPFeatureScope()
         }

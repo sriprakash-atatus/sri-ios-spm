@@ -1,24 +1,24 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed
-// `clientToken` to `licenseKey`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed
+// `clientToken` to `licenseKey`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
-import AtatusInternal
-import AtatusCore
+import TowerSignalInternal
+import TowerSignalCore
 
 /// Test info reads configuration from `Info.plist`.
 ///
 /// The expected format is as follow:
 ///
 ///     <dict>
-///         <key>AtatusConfiguration</key>
+///         <key>TowerSignalConfiguration</key>
 ///         <dict>
 ///             <key>LicenseKey</key>
 ///             <string>$(CLIENT_TOKEN)</string>
@@ -33,17 +33,17 @@ import AtatusCore
 struct TestInfo {
     let licenseKey: String
     let applicationID: String
-    let site: AtatusSite
+    let site: TowerSignalSite
     let env: String
 }
 
 extension TestInfo {
     init(bundle: Bundle = .main) throws {
         guard
-            let obj = bundle.object(forInfoDictionaryKey: "AtatusConfiguration") as? [String: String],
+            let obj = bundle.object(forInfoDictionaryKey: "TowerSignalConfiguration") as? [String: String],
             let licenseKey = obj["LicenseKey"],
             let applicationID = obj["ApplicationID"],
-            let site = obj["Site"].flatMap(AtatusSite.init(rawValue:)),
+            let site = obj["Site"].flatMap(TowerSignalSite.init(rawValue:)),
             let env = obj["Environment"]
         else {
             throw ProgrammerError(description: "Missing required Info.plist keys")
@@ -58,13 +58,13 @@ extension TestInfo {
         .init(
             licenseKey: "",
             applicationID: "",
-            site: .atatus,
+            site: .towersignal,
             env: "e2e"
         )
     }
 }
 
-extension Atatus.Configuration {
+extension TowerSignal.Configuration {
     static func e2e(info: TestInfo) -> Self {
         .init(
             licenseKey: info.licenseKey,

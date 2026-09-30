@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed `dd*`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed `dd*`
 // members to `at*`; renamed the build `variant` to `appName`; renamed the `_dd` attribute prefix to
-// `_atatus`; renamed `dd.trace_id` / `dd.span_id` to `atatus.trace_id` / `atatus.span_id`; renamed the
-// `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// `_towersignal`; renamed `dd.trace_id` / `dd.span_id` to `towersignal.trace_id` / `towersignal.span_id`; renamed the
+// `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// `Encodable` representation of log. It gets sanitized before encoding.
 /// All mutable properties are subject of sanitization.
@@ -30,7 +30,7 @@ public struct LogEvent: Encodable {
     /// Custom attributes associated with a the log event.
     public struct Attributes {
         /// List of log attribute keys used to establish the link between the Log event and the RUM session that it was collected within.
-        /// Those keys are recognised by Atatus app and used to render the link in web UI.
+        /// Those keys are recognised by TowerSignal app and used to render the link in web UI.
         internal enum RUM {
             /// Key referencing the RUM applicaiton ID.
             static let applicationID = "application_id"
@@ -43,12 +43,12 @@ public struct LogEvent: Encodable {
         }
 
         /// List of log attribute keys used to establish the link between the Log event and the Tracing span that it was collected within.
-        /// Those keys are recognised by Atatus app and used to render the link in web UI.
+        /// Those keys are recognised by TowerSignal app and used to render the link in web UI.
         internal enum Trace {
             /// Key referencing the trace ID.
-            static let traceID = "atatus.trace_id"
+            static let traceID = "towersignal.trace_id"
             /// Key referencing the span ID.
-            static let spanID = "atatus.span_id"
+            static let spanID = "towersignal.span_id"
         }
 
         /// User attribute keys propagated from the native SDK to webview events.
@@ -111,7 +111,7 @@ public struct LogEvent: Encodable {
         public var binaryImages: [BinaryImage]?
     }
 
-    /// Atatus specific attributes.
+    /// TowerSignal specific attributes.
     public struct Dd: Codable {
         /// Device information
         public struct Device: Codable {
@@ -148,7 +148,7 @@ public struct LogEvent: Encodable {
     public let buildId: String?
     /// The appName of the current build (used in some cross platform frameworks)
     public let appName: String?
-    /// Atatus specific attributes
+    /// TowerSignal specific attributes
     public let dd: Dd
     /// Device information
     public let device: Device
@@ -164,7 +164,7 @@ public struct LogEvent: Encodable {
     public let mobileCarrierInfo: CarrierInfo?
     /// The attributes associated with this log.
     public var attributes: LogEvent.Attributes
-    /// Atatus tags to send with logs, in addition to ``tags``.
+    /// TowerSignal tags to send with logs, in addition to ``tags``.
     public let atTags: String
     /// Tags associated with this log.
     public var tags: [String]?
@@ -184,7 +184,7 @@ internal struct LogEventEncoder {
         case message
         case serviceName = "service"
         case environment = "env"
-        case tags = "atatusTags"
+        case tags = "towersignalTags"
 
         // MARK: - Error
 
@@ -203,7 +203,7 @@ internal struct LogEventEncoder {
 
         // MARK: - Dd info
 
-        case dd = "_atatus"
+        case dd = "_towersignal"
 
         // MARK: - Device info
         case device

@@ -1,10 +1,10 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed the `__dd_private_*` ObjC symbols to `__atatus_private_*`;
+// ATCHG: TowerSignal SDK migration - renamed the `__dd_private_*` ObjC symbols to `__towersignal_private_*`;
 // rebranded the licence header.
 
 #import <pthread.h>
@@ -23,11 +23,11 @@
 
 /// Constants for special task policy results
 /// Returned when the kernel query fails (kernel_result != KERN_SUCCESS).
-const NSInteger __atatus_private_TASK_POLICY_KERN_FAILURE   = -999;
+const NSInteger __towersignal_private_TASK_POLICY_KERN_FAILURE   = -999;
 /// Returned when the policy falls back to the system default (get_default == TRUE).
-const NSInteger __atatus_private_TASK_POLICY_DEFAULTED      = -99;
+const NSInteger __towersignal_private_TASK_POLICY_DEFAULTED      = -99;
 /// Returned when task policy queries are unsupported on this platform (e.g., tvOS).
-const NSInteger __atatus_private_TASK_POLICY_UNAVAILABLE    = -9;
+const NSInteger __towersignal_private_TASK_POLICY_UNAVAILABLE    = -9;
 
 /// Retrieves the process start timestamp relative to the 1 January 2001 reference date.
 ///
@@ -36,7 +36,7 @@ const NSInteger __atatus_private_TASK_POLICY_UNAVAILABLE    = -9;
 /// @return 0 on success; non-zero errno value on failure.
 int processStartTimeIntervalSinceReferenceDate(NSTimeInterval *timeInterval);
 
-@implementation __atatus_private_AppLaunchHandler {
+@implementation __towersignal_private_AppLaunchHandler {
     NSTimeInterval _processLaunchDate;
     NSTimeInterval _runtimeLoadDate;
     NSTimeInterval _runtimePreMainDate;
@@ -45,7 +45,7 @@ int processStartTimeIntervalSinceReferenceDate(NSTimeInterval *timeInterval);
     NSMutableArray<UIApplicationNotificationCallback> *_applicationNotificationCallbacks;
 }
 
-static __atatus_private_AppLaunchHandler *_shared;
+static __towersignal_private_AppLaunchHandler *_shared;
 
 + (void)load {
     NSTimeInterval runtimeLoadDate = CFAbsoluteTimeGetCurrent();
@@ -54,7 +54,7 @@ static __atatus_private_AppLaunchHandler *_shared;
     [_shared observeNotificationCenter:NSNotificationCenter.defaultCenter];
 }
 
-+ (__atatus_private_AppLaunchHandler *)shared {
++ (__towersignal_private_AppLaunchHandler *)shared {
     return _shared;
 }
 
@@ -145,10 +145,10 @@ static void recordPreMainDate(void) {
 }
 
 /// Retrieves the current process’s task policy role (`task_role_t`).
-/// Returns the raw `policy.role` on success, or one of the special `__atatus_private_TASK_POLICY_*` constants.
+/// Returns the raw `policy.role` on success, or one of the special `__towersignal_private_TASK_POLICY_*` constants.
 - (NSInteger)taskPolicyRole {
 #if TARGET_OS_TV || TARGET_OS_WATCH
-    return __atatus_private_TASK_POLICY_UNAVAILABLE;
+    return __towersignal_private_TASK_POLICY_UNAVAILABLE;
 #else
     task_category_policy_data_t policy;
     mach_msg_type_number_t count = TASK_CATEGORY_POLICY_COUNT;
@@ -159,10 +159,10 @@ static void recordPreMainDate(void) {
                                                   &count,
                                                   &get_default);
     if (kernel_result != KERN_SUCCESS) {
-        return __atatus_private_TASK_POLICY_KERN_FAILURE;
+        return __towersignal_private_TASK_POLICY_KERN_FAILURE;
     }
     if (get_default) {
-        return __atatus_private_TASK_POLICY_DEFAULTED;
+        return __towersignal_private_TASK_POLICY_DEFAULTED;
     }
     return policy.role;
 #endif

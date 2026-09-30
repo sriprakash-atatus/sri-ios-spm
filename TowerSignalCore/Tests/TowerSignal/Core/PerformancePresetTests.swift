@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusCore
+import TowerSignalInternal
+@testable import TowerSignalCore
 
 class PerformancePresetTests: XCTestCase {
     func testIOSAppPresets() {
@@ -109,8 +109,8 @@ class PerformancePresetTests: XCTestCase {
 
     func testPresetsConsistency() {
         let allPossiblePresets: [PerformancePreset] = zip(
-            zip(Atatus.Configuration.BatchSize.allCases, Atatus.Configuration.UploadFrequency.allCases),
-            zip(BundleType.allCases, Atatus.Configuration.BatchProcessingLevel.allCases)
+            zip(TowerSignal.Configuration.BatchSize.allCases, TowerSignal.Configuration.UploadFrequency.allCases),
+            zip(BundleType.allCases, TowerSignal.Configuration.BatchProcessingLevel.allCases)
         )
             .map { PerformancePreset(batchSize: $0.0, uploadFrequency: $0.1, bundleType: $1.0, batchProcessingLevel: $1.1) }
 

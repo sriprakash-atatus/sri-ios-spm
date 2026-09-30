@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
-/// A Atatus Feature that can interact with the core through the message-bus.
-public protocol AtatusFeature {
+/// A TowerSignal Feature that can interact with the core through the message-bus.
+public protocol TowerSignalFeature {
     /// The feature name.
     static var name: String { get }
 
@@ -21,15 +21,15 @@ public protocol AtatusFeature {
     var messageReceiver: FeatureMessageReceiver { get }
 }
 
-/// A Atatus Feature with remote data store.
-public protocol AtatusRemoteFeature: AtatusFeature {
+/// A TowerSignal Feature with remote data store.
+public protocol TowerSignalRemoteFeature: TowerSignalFeature {
     /// The URL request builder for uploading data.
     ///
     /// The `FeatureRequestBuilder` defines an interface for building a single `URLRequest`
     /// for a list of data events and the current core context.
     ///
-    /// A Feature should use this interface for creating requests that needs be sent to its Atatus Intake.
-    /// The request will be transported by `AtatusCore`.
+    /// A Feature should use this interface for creating requests that needs be sent to its TowerSignal Intake.
+    /// The request will be transported by `TowerSignalCore`.
     var requestBuilder: FeatureRequestBuilder { get }
 
     /// (Optional) `PerformancePresetOverride` allows overriding certain performance presets if needed.

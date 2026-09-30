@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
-/// Profiling context information that can be attached to Atatus core context.
+/// Profiling context information that can be attached to TowerSignal core context.
 ///
 /// This context provides visibility into the current state of profiling operations,
 /// particularly for constructor-based application launch profiling. It allows
@@ -30,7 +30,7 @@ import Foundation
 ///
 /// ## Integration with Other Features
 ///
-/// This context can be queried by other Atatus features to understand
+/// This context can be queried by other TowerSignal features to understand
 /// profiling state and adjust their behavior accordingly. For example,
 /// RUM might include profiling status in error reports or performance metrics.
 public struct ProfilingContext: AdditionalContext {

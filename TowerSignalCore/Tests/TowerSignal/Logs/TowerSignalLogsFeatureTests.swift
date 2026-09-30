@@ -1,28 +1,28 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddLogs` -> `AtatusLogs`; renamed `dd*` types to `Atatus*`; renamed the `DD`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddLogs` -> `TowerSignalLogs`; renamed `dd*` types to `TowerSignal*`; renamed the `DD`
 // symbol prefix to `AT`; renamed `clientToken` to `licenseKey`; renamed the `ddsource` / `ddtags` query
-// parameters to `atatus_source` / `atatustags`; renamed the `DD-*` intake headers to their Atatus
+// parameters to `towersignal_source` / `towersignaltags`; renamed the `DD-*` intake headers to their TowerSignal
 // equivalents; rebranded the licence header.
 
 import XCTest
 import TestUtilities
 @_spi(Internal)
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusLogs
-@testable import AtatusCore
+@testable import TowerSignalLogs
+@testable import TowerSignalCore
 
-class AtatusLogsFeatureTests: XCTestCase {
+class TowerSignalLogsFeatureTests: XCTestCase {
     override func setUp() {
         super.setUp()
         temporaryCoreDirectory.create()
-        // ATCHG: Log uploads are gated on the Atatus logs heartbeat, which defaults to disabled.
+        // ATCHG: Log uploads are gated on the TowerSignal logs heartbeat, which defaults to disabled.
         // Enable it so these tests exercise the request builder.
         LogsHeartbeatScheduler.setLogsAllowed(true)
     }
@@ -50,7 +50,7 @@ class AtatusLogsFeatureTests: XCTestCase {
         let randomBackgroundTasksEnabled: Bool = .mockRandom()
         let httpClient = HTTPClientMock(responseCode: 200)
 
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -99,7 +99,7 @@ class AtatusLogsFeatureTests: XCTestCase {
         // app_name, so assert on the source parameter rather than the whole query string.
         XCTAssertEqual(
             URLComponents(url: requestURL, resolvingAgainstBaseURL: false)?
-                .queryItems?.first { $0.name == "atatus_source" }?.value,
+                .queryItems?.first { $0.name == "towersignal_source" }?.value,
             randomSource
         )
         XCTAssertEqual(
@@ -111,9 +111,9 @@ class AtatusLogsFeatureTests: XCTestCase {
         XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"], "application/json")
         XCTAssertEqual(request.allHTTPHeaderFields?["Content-Encoding"], "deflate")
         XCTAssertEqual(request.allHTTPHeaderFields?["api-key"], randomClientToken)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN"], randomOrigin)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN-VERSION"], randomSDKVersion)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN"], randomOrigin)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN-VERSION"], randomSDKVersion)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
     }
 
     // MARK: - HTTP Payload
@@ -121,7 +121,7 @@ class AtatusLogsFeatureTests: XCTestCase {
     func testItUsesExpectedPayloadFormatForUploads() throws {
         let httpClient = HTTPClientMock(responseCode: 200)
 
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,

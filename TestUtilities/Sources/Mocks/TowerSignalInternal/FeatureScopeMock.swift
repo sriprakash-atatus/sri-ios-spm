@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 public final class FeatureScopeMock: FeatureScope, @unchecked Sendable {
     private struct DeferredEventWriteContext {
         let bypassConsent: Bool
-        let block: (AtatusContext, Writer) -> Void
+        let block: (TowerSignalContext, Writer) -> Void
     }
 
     private struct EventWriterMock: Writer {
@@ -27,7 +27,7 @@ public final class FeatureScopeMock: FeatureScope, @unchecked Sendable {
     }
 
     @ReadWriteLock
-    public var contextMock: AtatusContext
+    public var contextMock: TowerSignalContext
     @ReadWriteLock
     private var events: [(event: Encodable, metadata: Encodable?, bypassConsent: Bool)] = []
     @ReadWriteLock
@@ -38,7 +38,7 @@ public final class FeatureScopeMock: FeatureScope, @unchecked Sendable {
     public let dataStore: DataStore
 
     public init(
-        context: AtatusContext = .mockAny(),
+        context: TowerSignalContext = .mockAny(),
         dataStore: DataStore = DataStoreMock(),
         deferEventWriteContext: Bool = false
     ) {
@@ -47,7 +47,7 @@ public final class FeatureScopeMock: FeatureScope, @unchecked Sendable {
         self.shouldDeferEventWriteContext = deferEventWriteContext
     }
 
-    public func eventWriteContext(bypassConsent: Bool, _ block: @escaping (AtatusContext, Writer) -> Void) {
+    public func eventWriteContext(bypassConsent: Bool, _ block: @escaping (TowerSignalContext, Writer) -> Void) {
         guard shouldDeferEventWriteContext else {
             block(contextMock, EventWriterMock(scope: self, bypassConsent: bypassConsent))
             return
@@ -65,7 +65,7 @@ public final class FeatureScopeMock: FeatureScope, @unchecked Sendable {
         }
     }
 
-    public func context(_ block: @escaping (AtatusContext) -> Void) {
+    public func context(_ block: @escaping (TowerSignalContext) -> Void) {
         block(contextMock)
     }
 

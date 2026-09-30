@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 #if os(iOS)
 
 import SwiftUI
-import AtatusInternal
+import TowerSignalInternal
 
 /// A SwiftUI view that applies Session Replay privacy overrides to its content.
 ///
@@ -47,7 +47,7 @@ public struct SessionReplayPrivacyView<Content: View>: View {
     private let imagePrivacy: ImagePrivacyLevel?
     private let touchPrivacy: TouchPrivacyLevel?
     private let hide: Bool?
-    private let core: AtatusCoreProtocol
+    private let core: TowerSignalCoreProtocol
     private let content: () -> Content
 
     /// Creates a new `SessionReplayPrivacyView` with specified privacy settings.
@@ -58,7 +58,7 @@ public struct SessionReplayPrivacyView<Content: View>: View {
     ///   - imagePrivacy: The privacy level for images. The default value is `nil` (no override).
     ///   - touchPrivacy: The privacy level for touch interactions. The default value is `nil` (no override).
     ///   - hide: A Boolean value indicating whether the content should be hidden from Session Replay. The default value is `nil` (no override).
-    ///   - core: The Atatus core instance to use for feature detection.
+    ///   - core: The TowerSignal core instance to use for feature detection.
     ///   - content: A closure returning the SwiftUI content to which the privacy overrides will be applied.
     public init(
         isActive: Bool = true,
@@ -66,7 +66,7 @@ public struct SessionReplayPrivacyView<Content: View>: View {
         imagePrivacy: ImagePrivacyLevel? = nil,
         touchPrivacy: TouchPrivacyLevel? = nil,
         hide: Bool? = nil,
-        core: AtatusCoreProtocol = CoreRegistry.default,
+        core: TowerSignalCoreProtocol = CoreRegistry.default,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.isActive = isActive

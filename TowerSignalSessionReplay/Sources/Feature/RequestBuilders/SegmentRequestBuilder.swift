@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `dd*` members to `at*`; renamed `clientToken` to `licenseKey`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `dd*` members to `at*`; renamed `clientToken` to `licenseKey`;
 // rebranded the licence header.
 
 #if os(iOS)
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal struct SegmentRequestBuilder: FeatureRequestBuilder {
     private static let newlineByte = "\n".data(using: .utf8)! // swiftlint:disable:this force_unwrapping
@@ -34,7 +34,7 @@ internal struct SegmentRequestBuilder: FeatureRequestBuilder {
 
     func request(
         for events: [Event],
-        with context: AtatusContext,
+        with context: TowerSignalContext,
         execution: ExecutionContext
     ) throws -> URLRequest {
         guard !events.isEmpty else {
@@ -55,14 +55,14 @@ internal struct SegmentRequestBuilder: FeatureRequestBuilder {
         return try createRequest(segments: segments, context: context, execution: execution)
     }
 
-    private func createRequest(segments: [SegmentJSON], context: AtatusContext, execution: ExecutionContext) throws -> URLRequest {
+    private func createRequest(segments: [SegmentJSON], context: TowerSignalContext, execution: ExecutionContext) throws -> URLRequest {
         var multipart = multipartBuilder
 
         let builder = URLRequestBuilder(
             url: url(with: context),
-            // ATCHG: Added the Atatus identification query items, matching AtatusRUM's and
-            // AtatusLogs' `RequestBuilder`.
-            queryItems: atatusIdentificationQueryItems(with: context) + execution.retryQueryItems,
+            // ATCHG: Added the TowerSignal identification query items, matching TowerSignalRUM's and
+            // TowerSignalLogs' `RequestBuilder`.
+            queryItems: towersignalIdentificationQueryItems(with: context) + execution.retryQueryItems,
             // ATCHG: End
             headers: [
                 .contentTypeHeader(contentType: .multipartFormData(boundary: multipart.boundary)),
@@ -112,24 +112,24 @@ internal struct SegmentRequestBuilder: FeatureRequestBuilder {
         return builder.uploadRequest(with: multipart.build(), compress: false)
     }
 
-    private func url(with context: AtatusContext) -> URL {
-        // ATCHG: Atatus Session Replay intake path, matching `v1/ios/rum` in AtatusRUM. Built from
+    private func url(with context: TowerSignalContext) -> URL {
+        // ATCHG: TowerSignal Session Replay intake path, matching `v1/ios/rum` in TowerSignalRUM. Built from
         // `intakeEndpoint` so a custom `serverUrl` is honoured, as on Android.
-        customUploadURL ?? context.intakeEndpoint.appendingPathComponent(atatusSessionReplayIntakePath)
+        customUploadURL ?? context.intakeEndpoint.appendingPathComponent(towersignalSessionReplayIntakePath)
         // ATCHG: End
     }
 }
 
-// ATCHG: Session Replay uploads carry the same identification query items that AtatusRUM's and
-// AtatusLogs' `RequestBuilder`s add (Android: `RumRequestFactory.buildUrl` /
+// ATCHG: Session Replay uploads carry the same identification query items that TowerSignalRUM's and
+// TowerSignalLogs' `RequestBuilder`s add (Android: `RumRequestFactory.buildUrl` /
 // `LogsRequestFactory.buildUrl`), so RUM, Logs and Session Replay all reach the intake with the
 // same URL parameters. Shared with `ResourceRequestBuilder`; declared here rather than in its own
 // file because `TowerSignal.xcodeproj` references Session Replay sources individually.
-internal func atatusIdentificationQueryItems(
-    with context: AtatusContext
+internal func towersignalIdentificationQueryItems(
+    with context: TowerSignalContext
 ) -> [URLRequestBuilder.QueryItem] {
     return [
-        .atatusSource(source: context.source),
+        .towersignalSource(source: context.source),
         .licenseKey(licenseKey: context.licenseKey),
         .agentName(agentName: AgentInfo.agentName),
         .agentVersion(agentVersion: AgentInfo.agentVersion),
@@ -137,12 +137,12 @@ internal func atatusIdentificationQueryItems(
     ]
 }
 
-/// Atatus Session Replay intake path, matching `v1/android/rum` in AtatusRUM and
-/// `v1/android/logs` in AtatusLogs.
+/// TowerSignal Session Replay intake path, matching `v1/android/rum` in TowerSignalRUM and
+/// `v1/android/logs` in TowerSignalLogs.
 ///
 /// On `v1/android/*` for the same reason as those: the intake serves only the Android paths and
 /// answers 401 on `v1/ios/replay`. Revert alongside them once the backend serves the iOS paths.
-internal let atatusSessionReplayIntakePath = "v1/android/replay"
+internal let towersignalSessionReplayIntakePath = "v1/android/replay"
 // ATCHG: End
 
 #endif

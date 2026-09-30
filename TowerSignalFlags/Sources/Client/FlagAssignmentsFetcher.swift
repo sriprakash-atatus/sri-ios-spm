@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal protocol FlagAssignmentsFetching {
     func flagAssignments(
@@ -125,10 +125,10 @@ internal final class FlagAssignmentsFetcher: FlagAssignmentsFetching {
         }
     }
 
-    // ATCHG: `flagsEndpoint()` is now optional — the Atatus site has no flags CDN host, so the
+    // ATCHG: `flagsEndpoint()` is now optional — the TowerSignal site has no flags CDN host, so the
     // precomputed-assignments request is not built at all (Android returns `null` from
     // `getFlagsEndpoint` and `PrecomputedAssignmentsRequestFactory.create` bails out).
-    private func url(with context: AtatusContext) -> URL? {
+    private func url(with context: TowerSignalContext) -> URL? {
         if let customEndpoint {
             return customEndpoint
         }
@@ -137,12 +137,12 @@ internal final class FlagAssignmentsFetcher: FlagAssignmentsFetching {
     // ATCHG: End
 }
 
-extension AtatusSite {
-    // ATCHG: Replaced the per-region dd flags CDN host mapping with the Atatus site, which
-    // has no flags CDN (Android maps `AtatusSite.ATATUS -> null` in `AtatusSiteExtensions.kt`).
+extension TowerSignalSite {
+    // ATCHG: Replaced the per-region dd flags CDN host mapping with the TowerSignal site, which
+    // has no flags CDN (Android maps `TowerSignalSite.TOWERSIGNAL -> null` in `TowerSignalSiteExtensions.kt`).
     internal func flagsEndpoint(subdomain: String = "preview") -> URL? {
         switch self {
-        case .atatus: return nil
+        case .towersignal: return nil
         }
     }
     // ATCHG: End

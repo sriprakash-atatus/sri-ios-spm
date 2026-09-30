@@ -1,25 +1,25 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `DD` symbol prefix to `AT`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `DD` symbol prefix to `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the
 // licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Reduces `ATSpan` tags and log attributes by extracting values that require separate handling.
 ///
 /// The responsibility of `SpanTagsReducer` is to capture Open Tracing [tags](https://github.com/opentracing/specification/blob/master/semantic_conventions.md#span-tags-table)
 /// and [log fields](https://github.com/opentracing/specification/blob/master/semantic_conventions.md#log-fields-table) given by the user and
-/// transform them into the format used by Atatus. This happens in two ways, by:
+/// transform them into the format used by TowerSignal. This happens in two ways, by:
 /// - extracting information from `spanTags` and `logFields` to `extracted*` variables,
 /// - reducing the initial `spanTags` collection to `reducedSpanTags` by removing extracted information.
 ///
-/// In result, the `reducedSpanTags` will contain only the tags that do NOT require special handling by Atatus and can be send as generic `span.meta.*` JSON values.
+/// In result, the `reducedSpanTags` will contain only the tags that do NOT require special handling by TowerSignal and can be send as generic `span.meta.*` JSON values.
 /// Values extracted from `spanTags` and `logFields` will be passed to the `SpanEvent` encoding process in a type-safe manner.
 internal struct SpanTagsReducer {
     /// Tags for generic `span.meta.*` encoding in `Span` JSON.

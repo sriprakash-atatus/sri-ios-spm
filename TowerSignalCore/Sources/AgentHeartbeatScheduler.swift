@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-// ATCHG: New file, porting `AgentHeartbeatScheduler` and `Atatus.setAgentEnabled` from the
-// Atatus Android agent (`atatus-sdk-android-core/src/main/kotlin/com/atatus/android/AgentInfo.kt`
-// and `Atatus.kt`).
+// ATCHG: New file, porting `AgentHeartbeatScheduler` and `TowerSignal.setAgentEnabled` from the
+// TowerSignal Android agent (`towersignal-sdk-android-core/src/main/kotlin/com/towersignal/android/AgentInfo.kt`
+// and `TowerSignal.kt`).
 //
 // The scheduler polls the agent heartbeat and enables or disables data collection according to
-// the backend's answer. It lives in `AtatusCore` because it drives tracking consent.
+// the backend's answer. It lives in `TowerSignalCore` because it drives tracking consent.
 
 /// Polls the agent heartbeat and switches data collection on or off accordingly.
 public final class AgentHeartbeatScheduler {
-    /// The shared scheduler started by `Atatus.initialize`.
+    /// The shared scheduler started by `TowerSignal.initialize`.
     public static let shared = AgentHeartbeatScheduler()
 
     /// The polling interval, matching the 30 minutes used on Android.
@@ -25,7 +25,7 @@ public final class AgentHeartbeatScheduler {
     @ReadWriteLock
     private var isRunning = false
 
-    private let queue = DispatchQueue(label: "com.atatus.agent-heartbeat", qos: .utility)
+    private let queue = DispatchQueue(label: "com.towersignal.agent-heartbeat", qos: .utility)
     private var timer: DispatchSourceTimer?
 
     internal init() { }
@@ -56,7 +56,7 @@ public final class AgentHeartbeatScheduler {
         timer.setEventHandler {
             AgentHeartbeat.check(path: AgentHeartbeat.agentHeartbeatPath, configuration: configuration) { allowed in
                 AT.logger.debug("Agent heartbeat allowed = \(allowed)")
-                Atatus.setAgentEnabled(allowed, instanceName: instanceName)
+                TowerSignal.setAgentEnabled(allowed, instanceName: instanceName)
             }
         }
         self.timer = timer
@@ -74,12 +74,12 @@ public final class AgentHeartbeatScheduler {
     }
 }
 
-extension Atatus {
+extension TowerSignal {
     /// Enables or disables data collection for the given SDK instance.
     ///
     /// Collection is suspended through tracking consent rather than by stopping the SDK, so the
     /// instance stays alive and can be resumed by a later heartbeat. This mirrors
-    /// `Atatus.setAgentEnabled` on Android.
+    /// `TowerSignal.setAgentEnabled` on Android.
     ///
     /// - Parameters:
     ///   - enabled: Whether the agent should collect and upload data.
@@ -88,16 +88,16 @@ extension Atatus {
         _ enabled: Bool,
         instanceName: String = CoreRegistry.defaultInstanceName
     ) {
-        guard Atatus.isInitialized(instanceName: instanceName) else {
+        guard TowerSignal.isInitialized(instanceName: instanceName) else {
             return
         }
         let core = CoreRegistry.instance(named: instanceName)
         if enabled {
             AT.logger.debug("Agent ENABLED")
-            Atatus.set(trackingConsent: .granted, in: core)
+            TowerSignal.set(trackingConsent: .granted, in: core)
         } else {
             AT.logger.debug("Agent DISABLED")
-            Atatus.set(trackingConsent: .notGranted, in: core)
+            TowerSignal.set(trackingConsent: .notGranted, in: core)
         }
     }
 }

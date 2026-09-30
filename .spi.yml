@@ -3,12 +3,12 @@ builder:
   configs:
     - platform: ios
       documentation_targets:
-        - AtatusCore
-        - AtatusLogs
-        - AtatusTrace
-        - AtatusRUM
-        - AtatusSessionReplay
-        - AtatusCrashReporting
-        - AtatusWebViewTracking
-        - AtatusFlags
-        - AtatusProfiling
+        - TowerSignalCore
+        - TowerSignalLogs
+        - TowerSignalTrace
+        - TowerSignalRUM
+        - TowerSignalSessionReplay
+        - TowerSignalCrashReporting
+        - TowerSignalWebViewTracking
+        - TowerSignalFlags
+        - TowerSignalProfiling

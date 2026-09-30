@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
 
-/// An error that knows how to sanitize itself for telemetry sent to Atatus's own org.
+/// An error that knows how to sanitize itself for telemetry sent to TowerSignal's own org.
 ///
 /// By default, errors reported to telemetry go through strict sanitization that discards most
 /// contextual information to avoid leaking sensitive data. This protocol is an opt-in mechanism:
@@ -24,7 +24,7 @@ public protocol TelemetrySanitizableError {
     func sanitize() -> TelemetrySanitizedError
 }
 
-/// A sanitized, telemetry-safe description of an error - safe to forward to Atatus's internal telemetry.
+/// A sanitized, telemetry-safe description of an error - safe to forward to TowerSignal's internal telemetry.
 public struct TelemetrySanitizedError {
     public var kind: String
     public let message: String

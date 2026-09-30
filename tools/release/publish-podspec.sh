@@ -23,7 +23,7 @@ define_arg "artifacts-path" "" "The path to build artifacts." "string" "true"
 check_for_help "$@"
 parse_args "$@"
 
-REPO_PATH="$artifacts_path/atatus-sdk-ios"
+REPO_PATH="$artifacts_path/towersignal-sdk-ios"
 PODSPEC_PATH="$REPO_PATH/$podspec_name"
 
 authenticate() {
@@ -95,11 +95,11 @@ check_pod_command_status() {
     #
     # Example:
     # ```
-    #  -> AtatusInternal (2.11.1)
-    #     - ERROR | [iOS] unknown: Encountered an unknown error (CocoaPods could not find compatible versions for pod "AtatusRUM":
+    #  -> TowerSignalInternal (2.11.1)
+    #     - ERROR | [iOS] unknown: Encountered an unknown error (CocoaPods could not find compatible versions for pod "TowerSignalRUM":
     #   In Podfile:
-    #     AtatusInternal (from `/private/var/.../atatus-sdk-ios/AtatusInternal.podspec`) was resolved to 2.11.1, which depends on
-    #       AtatusRUM (= 2.11.1)
+    #     TowerSignalInternal (from `/private/var/.../towersignal-sdk-ios/TowerSignalInternal.podspec`) was resolved to 2.11.1, which depends on
+    #       TowerSignalRUM (= 2.11.1)
     # ```
     # Ref.: https://github.com/CocoaPods/Molinillo/blob/1d62d7d5f448e79418716dc779a4909509ccda2a/lib/molinillo/errors.rb#L106
     POD_DEPENDENCY_ERROR="CocoaPods could not find compatible versions for pod"
@@ -107,10 +107,10 @@ check_pod_command_status() {
     # Example:
     # ```
     # Validating podspec
-    #  -> AtatusInternal
-    #  -> AtatusInternal (2.11.1)
+    #  -> TowerSignalInternal
+    #  -> TowerSignalInternal (2.11.1)
     #    - NOTE  | ...
-    # [!] Unable to accept duplicate entry for: AtatusInternal (2.11.1)
+    # [!] Unable to accept duplicate entry for: TowerSignalInternal (2.11.1)
     # ```
     # Ref.: https://github.com/CocoaPods/trunk.cocoapods.org/blob/b6c897b53dd7a33e5fb2715e08a72d47901fe85f/app/controllers/api/pods_controller.rb#L174
     POD_DUPLICATE_ERROR="Unable to accept duplicate entry for: ${podspec_name%.*}"

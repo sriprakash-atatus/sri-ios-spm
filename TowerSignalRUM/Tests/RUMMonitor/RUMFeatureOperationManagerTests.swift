@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed
-// the `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed
+// the `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; rebranded the licence
 // header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 @testable import TestUtilities
 
 class RUMFeatureOperationManagerTests: XCTestCase {
@@ -19,14 +19,14 @@ class RUMFeatureOperationManagerTests: XCTestCase {
     private var mockParent: RUMContextProviderMock! // swiftlint:disable:this implicitly_unwrapped_optional
     private var mockDependencies: RUMScopeDependencies! // swiftlint:disable:this implicitly_unwrapped_optional
     private var mockWriter: FileWriterMock! // swiftlint:disable:this implicitly_unwrapped_optional
-    private var mockContext: AtatusContext! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var mockContext: TowerSignalContext! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
         mockParent = RUMContextProviderMock()
         mockDependencies = RUMScopeDependencies.mockAny()
         mockWriter = FileWriterMock()
-        mockContext = AtatusContext.mockAny()
+        mockContext = TowerSignalContext.mockAny()
 
         manager = RUMFeatureOperationManager(
             parent: mockParent,
@@ -78,7 +78,7 @@ class RUMFeatureOperationManagerTests: XCTestCase {
         XCTAssertNotNil(event.connectivity)
         XCTAssertNil(event.container)
         XCTAssertNotNil(event.context)
-        XCTAssertNotNil(event.atatusTags)
+        XCTAssertNotNil(event.towersignalTags)
         XCTAssertNotNil(event.device)
         XCTAssertNil(event.display)
         XCTAssertNotNil(event.os)

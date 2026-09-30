@@ -1,9 +1,9 @@
-# Error Handling in atatus-sdk-ios
+# Error Handling in towersignal-sdk-ios
 
 This document covers two distinct concerns that both fall under "error handling" but must not be conflated:
 
 1. **Customer-Facing Error Safety** — the SDK must never crash or throw into a customer's app.
-2. **Internal Telemetry Error Reporting** — when the SDK reports its own internal errors to Atatus for debugging, it must never leak customer data in the process.
+2. **Internal Telemetry Error Reporting** — when the SDK reports its own internal errors to TowerSignal for debugging, it must never leak customer data in the process.
 
 ---
 
@@ -11,13 +11,13 @@ This document covers two distinct concerns that both fall under "error handling"
 
 The SDK must **never throw exceptions** to customer code:
 
-- **NOP implementations**: `NOPMonitor`, `NOPAtatusCore` silently accept all API calls when the SDK is not initialized or a feature is disabled.
+- **NOP implementations**: `NOPMonitor`, `NOPTowerSignalCore` silently accept all API calls when the SDK is not initialized or a feature is disabled.
 - **Validation at boundaries**: Invalid input is logged via `AT.logger` and ignored.
 - **Objective-C exception safety**: Code that can trigger an Objective-C exception outside Swift's error model (e.g. Session Replay's view-tree snapshotting in `LayerRecorder`, `ImageSnapshotter`) wraps the call with `ObjcException.rethrow`, converting it into a catchable Swift `ObjcException` (`TowerSignalInternal/Sources/Utils/ATError.swift`).
 
 ## Internal Telemetry Error Reporting
 
-The SDK reports its own internal errors (encoding failures, storage corruption, unexpected state) to Atatus's internal SDK telemetry via `Telemetry.error(...)`, so engineers can debug issues in production without customer involvement. This channel is **not** customer-facing, but it is still Atatus-internal infrastructure that can — if handled carelessly — end up carrying whatever data the failing operation happened to touch (HTTP headers, encoded attribute values, decoded payloads, etc.).
+The SDK reports its own internal errors (encoding failures, storage corruption, unexpected state) to TowerSignal's internal SDK telemetry via `Telemetry.error(...)`, so engineers can debug issues in production without customer involvement. This channel is **not** customer-facing, but it is still TowerSignal-internal infrastructure that can — if handled carelessly — end up carrying whatever data the failing operation happened to touch (HTTP headers, encoded attribute values, decoded payloads, etc.).
 
 **Never build a telemetry error message from an error's raw, default description.** Swift's default string interpolation of an `Error` (`"\(error)"`) is unsafe for some error types — `EncodingError.invalidValue`, for example, embeds the *entire offending value* in its description. An encoding failure on an attribute dictionary can therefore forward its raw contents (session tokens, PII, etc.) straight into telemetry.
 

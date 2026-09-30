@@ -1,24 +1,24 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`;
 // rebranded the licence header.
 
 import XCTest
 import TestUtilities
-@testable import AtatusInternal
-@testable import AtatusCore
+@testable import TowerSignalInternal
+@testable import TowerSignalCore
 
 /// Observes unit tests execution and performs integrity checks after each test to ensure that the global state is unaltered.
 @objc
-internal class AtatusTestsObserver: NSObject, XCTestObservation {
+internal class TowerSignalTestsObserver: NSObject, XCTestObservation {
     @objc
     static func startObserving() {
-        let observer = AtatusTestsObserver()
+        let observer = TowerSignalTestsObserver()
         XCTestObservationCenter.shared.addTestObserver(observer)
     }
 
@@ -28,12 +28,12 @@ internal class AtatusTestsObserver: NSObject, XCTestObservation {
     private let checks: [TestIntegrityCheck] = [
         .init(
             assert: { CoreRegistry.instances.isEmpty },
-            problem: "No instance of `AtatusCore` must be left initialized after test completion.",
+            problem: "No instance of `TowerSignalCore` must be left initialized after test completion.",
             solution: """
-            Make sure deinitialization APIs are called before the end of test that registers `AtatusCore`.
+            Make sure deinitialization APIs are called before the end of test that registers `TowerSignalCore`.
             If registering directly to `CoreRegistry`, make sure the test cleans it up properly.
 
-            `AtatusTestsObserver` found following instances still being registered: \(CoreRegistry.instances.map({ "'\($0.key)'" }))
+            `TowerSignalTestsObserver` found following instances still being registered: \(CoreRegistry.instances.map({ "'\($0.key)'" }))
             """
         ),
         .init(
@@ -42,7 +42,7 @@ internal class AtatusTestsObserver: NSObject, XCTestObservation {
             solution: """
             Make sure all applied swizzling are reset by the end of test with `unswizzle()`.
 
-            `AtatusTestsObserver` found \(Swizzling.methods.count) leaked swizzlings:
+            `TowerSignalTestsObserver` found \(Swizzling.methods.count) leaked swizzlings:
             \(Swizzling.description)
             """
         ),
@@ -109,13 +109,13 @@ internal class AtatusTestsObserver: NSObject, XCTestObservation {
             """
         ),
         .init(
-            assert: { AtatusCoreProxy.referenceCount == 0 },
-            problem: "Leaking reference to `AtatusCoreProtocol`",
+            assert: { TowerSignalCoreProxy.referenceCount == 0 },
+            problem: "Leaking reference to `TowerSignalCoreProtocol`",
             solution: """
-            There should be no remaining reference to `AtatusCoreProtocol` upon each test completion
-            but some instances of `AtatusCoreProxy` are still alive.
+            There should be no remaining reference to `TowerSignalCoreProtocol` upon each test completion
+            but some instances of `TowerSignalCoreProxy` are still alive.
 
-            Make sure the instance of `AtatusCoreProxy` is properly managed in test:
+            Make sure the instance of `TowerSignalCoreProxy` is properly managed in test:
             - it must be allocated on each test start (e.g. in `setUp()` or directly in test)
             - it must be flushed and deinitialized before test ends with `.flushAndTearDown()`
             - it must be deallocated before test ends (e.g. in `tearDown()`)
@@ -125,9 +125,9 @@ internal class AtatusTestsObserver: NSObject, XCTestObservation {
         ),
         .init(
             assert: { PassthroughCoreMock.referenceCount == 0 },
-            problem: "Leaking reference to `AtatusCoreProtocol`",
+            problem: "Leaking reference to `TowerSignalCoreProtocol`",
             solution: """
-            There should be no remaining reference to `AtatusCoreProtocol` upon each test completion
+            There should be no remaining reference to `TowerSignalCoreProtocol` upon each test completion
             but some instances of `PassthroughCoreMock` are still alive.
 
             Make sure the instance of `PassthroughCoreMock` is properly managed in test:
@@ -150,9 +150,9 @@ internal class AtatusTestsObserver: NSObject, XCTestObservation {
 
         if !failedChecks.isEmpty {
             var message = """
-            🐶✋ `AtatusTests` integrity check failure.
+            🐶✋ `TowerSignalTests` integrity check failure.
 
-            `AtatusTestsObserver` found that `\(testCase.name)` breaks \(failedChecks.count) integrity rule(s) which
+            `TowerSignalTestsObserver` found that `\(testCase.name)` breaks \(failedChecks.count) integrity rule(s) which
             must be fulfilled before and after each unit test. Find potential root cause analysis below and try running
             surrounding tests in isolation to pinpoint the issue:
             """

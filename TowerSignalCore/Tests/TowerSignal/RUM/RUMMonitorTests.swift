@@ -1,31 +1,31 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`,
-// `ddCrashReporting` -> `AtatusCrashReporting`, `ddInternal` -> `AtatusInternal`, `ddRUM` ->
-// `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed the
-// `_dd` attribute prefix to `_atatus`; rebranded the `dd` name to `Atatus` in comments and docs;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`,
+// `ddCrashReporting` -> `TowerSignalCrashReporting`, `ddInternal` -> `TowerSignalInternal`, `ddRUM` ->
+// `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed the
+// `_dd` attribute prefix to `_towersignal`; rebranded the `dd` name to `TowerSignal` in comments and docs;
 // rebranded the licence header.
 
 import XCTest
 import UIKit
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusRUM
-@testable import AtatusCrashReporting
-@testable import AtatusCore
+@testable import TowerSignalRUM
+@testable import TowerSignalCrashReporting
+@testable import TowerSignalCore
 
 class RUMMonitorTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
     private var config: RUM.Configuration! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
         config = RUM.Configuration(applicationID: .mockAny(), trackAnonymousUser: false)
     }
 
@@ -313,10 +313,10 @@ class RUMMonitorTests: XCTestCase {
         setGlobalAttributes(of: monitor)
         monitor.startView(key: .mockAny())
         monitor.startResource(resourceKey: "/resource/1", httpMethod: .post, urlString: "/some/url/string", attributes: [
-            "_atatus.graphql.operation_name": "GetCountry",
-            "_atatus.graphql.operation_type": "query",
-            "_atatus.graphql.payload": "{country(code:$code){name}}",
-            "_atatus.graphql.variables": "{\"code\":\"BE\"}"
+            "_towersignal.graphql.operation_name": "GetCountry",
+            "_towersignal.graphql.operation_type": "query",
+            "_towersignal.graphql.payload": "{country(code:$code){name}}",
+            "_towersignal.graphql.variables": "{\"code\":\"BE\"}"
         ])
         monitor.stopResource(resourceKey: "/resource/1", response: .mockWith(statusCode: 200, mimeType: "text/json"))
 
@@ -1265,7 +1265,7 @@ class RUMMonitorTests: XCTestCase {
         defer { consolePrint = { message, _ in print(message) } }
 
         // Given
-        let core = NOPAtatusCore()
+        let core = NOPTowerSignalCore()
 
         // When
         let monitor = RUMMonitor.shared(in: core)
@@ -1273,7 +1273,7 @@ class RUMMonitorTests: XCTestCase {
         // Then
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Atatus SDK must be initialized and RUM feature must be enabled before calling `RUMMonitor.shared(in:)`."
+            "🔥 TowerSignal SDK usage error: TowerSignal SDK must be initialized and RUM feature must be enabled before calling `RUMMonitor.shared(in:)`."
         )
         XCTAssertTrue(monitor is NOPMonitor)
     }
@@ -1293,7 +1293,7 @@ class RUMMonitorTests: XCTestCase {
         // Then
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: RUM feature must be enabled before calling `RUMMonitor.shared(in:)`."
+            "🔥 TowerSignal SDK usage error: RUM feature must be enabled before calling `RUMMonitor.shared(in:)`."
         )
         XCTAssertTrue(monitor is NOPMonitor)
     }
@@ -1407,31 +1407,31 @@ class RUMMonitorTests: XCTestCase {
         let viewEvents = rumEventMatchers.filterRUMEvents(ofType: RUMViewEvent.self)
         XCTAssertNotEqual(viewEvents.count, 0)
         for event in viewEvents {
-            XCTAssertEqual(try event.attribute(forKeyPath: "_atatus.configuration.session_sample_rate"), config.sessionSampleRate)
+            XCTAssertEqual(try event.attribute(forKeyPath: "_towersignal.configuration.session_sample_rate"), config.sessionSampleRate)
         }
 
         let actionEvents = rumEventMatchers.filterRUMEvents(ofType: RUMActionEvent.self)
         XCTAssertNotEqual(actionEvents.count, 0)
         for event in actionEvents {
-            XCTAssertEqual(try event.attribute(forKeyPath: "_atatus.configuration.session_sample_rate"), config.sessionSampleRate)
+            XCTAssertEqual(try event.attribute(forKeyPath: "_towersignal.configuration.session_sample_rate"), config.sessionSampleRate)
         }
 
         let resourceEvents = rumEventMatchers.filterRUMEvents(ofType: RUMResourceEvent.self)
         XCTAssertNotEqual(resourceEvents.count, 0)
         for event in resourceEvents {
-            XCTAssertEqual(try event.attribute(forKeyPath: "_atatus.configuration.session_sample_rate"), config.sessionSampleRate)
+            XCTAssertEqual(try event.attribute(forKeyPath: "_towersignal.configuration.session_sample_rate"), config.sessionSampleRate)
         }
 
         let errorEvents = rumEventMatchers.filterRUMEvents(ofType: RUMErrorEvent.self)
         XCTAssertNotEqual(errorEvents.count, 0)
         for event in errorEvents {
-            XCTAssertEqual(try event.attribute(forKeyPath: "_atatus.configuration.session_sample_rate"), config.sessionSampleRate)
+            XCTAssertEqual(try event.attribute(forKeyPath: "_towersignal.configuration.session_sample_rate"), config.sessionSampleRate)
         }
 
         let longTaskEvents = rumEventMatchers.filterRUMEvents(ofType: RUMLongTaskEvent.self)
         XCTAssertNotEqual(longTaskEvents.count, 0)
         for event in longTaskEvents {
-            XCTAssertEqual(try event.attribute(forKeyPath: "_atatus.configuration.session_sample_rate"), config.sessionSampleRate)
+            XCTAssertEqual(try event.attribute(forKeyPath: "_towersignal.configuration.session_sample_rate"), config.sessionSampleRate)
         }
     }
 

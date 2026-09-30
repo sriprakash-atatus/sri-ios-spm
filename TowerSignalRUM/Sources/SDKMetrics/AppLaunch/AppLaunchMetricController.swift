@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Controller responsible for managing "RUM App Launch" metrics.
 internal final class AppLaunchMetricController {
@@ -57,8 +57,8 @@ internal final class AppLaunchMetricController {
         telemetry.metric(name: appLaunchMetric.metricName, attributes: metricAttributes, sampleRate: sampleRate)
     }
 
-    /// Tracks the TTID info with the Atatus context.
-    func track(ttidEvent: RUMVitalAppLaunchEvent, context: AtatusContext) {
+    /// Tracks the TTID info with the TowerSignal context.
+    func track(ttidEvent: RUMVitalAppLaunchEvent, context: TowerSignalContext) {
         appLaunchMetric = .init(vitalEvent: ttidEvent, context: context, coldStartRule: coldStartRule)
     }
 

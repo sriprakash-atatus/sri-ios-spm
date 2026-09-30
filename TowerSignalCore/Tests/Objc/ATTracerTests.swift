@@ -1,30 +1,30 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddLogs` -> `AtatusLogs`, `ddTrace` -> `AtatusTrace`; renamed `dd*`
-// types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix to
-// `_atatus`; renamed the `x-dd-*` trace headers to `x-atatus-*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddLogs` -> `TowerSignalLogs`, `ddTrace` -> `TowerSignalTrace`; renamed `dd*`
+// types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix to
+// `_towersignal`; renamed the `x-dd-*` trace headers to `x-towersignal-*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 
-@testable import AtatusLogs
-@testable import AtatusCore
+@testable import TowerSignalLogs
+@testable import TowerSignalCore
 @_spi(objc)
-@testable import AtatusTrace
+@testable import TowerSignalTrace
 
 class ATTracerTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
     private var config: Trace.Configuration! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
         CoreRegistry.register(default: core)
         config = Trace.Configuration()
     }
@@ -43,7 +43,7 @@ class ATTracerTests: XCTestCase {
 
     func testWhenSwiftTraceIsEnabled_thenObjcTracerIsRegistered() {
         Trace.enable(with: config)
-        XCTAssertTrue(objc_Tracer.shared().dd?.swiftTracer is AtatusTracer)
+        XCTAssertTrue(objc_Tracer.shared().dd?.swiftTracer is TowerSignalTracer)
     }
 
     func testSendingCustomizedSpans() throws {
@@ -215,10 +215,10 @@ class ATTracerTests: XCTestCase {
         try objcTracer.inject(objcSpanContext, format: OT.formatTextMap, carrier: objcWriter)
 
         let expectedHTTPHeaders = [
-            "x-atatus-trace-id": "100",
-            "x-atatus-parent-id": "200",
-            "x-atatus-sampling-priority": "1",
-            "x-atatus-tags": "_atatus.p.tid=a,_atatus.p.dm=-1"
+            "x-towersignal-trace-id": "100",
+            "x-towersignal-parent-id": "200",
+            "x-towersignal-sampling-priority": "1",
+            "x-towersignal-tags": "_towersignal.p.tid=a,_towersignal.p.dm=-1"
         ]
         XCTAssertEqual(objcWriter.traceHeaderFields, expectedHTTPHeaders)
     }

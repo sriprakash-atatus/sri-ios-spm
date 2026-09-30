@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed `dd*` types to `Atatus*`; rebranded the `dd` name to `Atatus` in
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; rebranded the `dd` name to `TowerSignal` in
 // comments and docs; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 @_spi(Internal)
-@testable import AtatusCore
+@testable import TowerSignalCore
 
-private struct FeatureMock: AtatusRemoteFeature {
+private struct FeatureMock: TowerSignalRemoteFeature {
     static let name: String = "mock"
 
     struct Event: Encodable {
@@ -26,7 +26,7 @@ private struct FeatureMock: AtatusRemoteFeature {
     var performanceOverride: PerformancePresetOverride? = nil
 }
 
-class AtatusCoreTests: XCTestCase {
+class TowerSignalCoreTests: XCTestCase {
     override func setUp() {
         super.setUp()
         temporaryCoreDirectory.create()
@@ -39,7 +39,7 @@ class AtatusCoreTests: XCTestCase {
 
     func testWhenWritingEventsWithDifferentTrackingConsent_itOnlyUploadsAuthorizedEvents() throws {
         // Given
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .mockRandom(),
@@ -85,7 +85,7 @@ class AtatusCoreTests: XCTestCase {
 
     func testWhenWritingEventsWithPendingConsentThenGranted_itUploadsAllEvents() throws {
         // Given
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .mockRandom(),
@@ -144,7 +144,7 @@ class AtatusCoreTests: XCTestCase {
 
     func testWhenWritingEventsWithBypassingConsent_itUploadsAllEvents() throws {
         // Given
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .mockRandom(),
@@ -198,7 +198,7 @@ class AtatusCoreTests: XCTestCase {
 
     func testWhenFeatureAdditionalContextIsUpdated_thenNewValueIsImmediatellyAvailable() throws {
         // Given
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .mockRandom(),
@@ -251,7 +251,7 @@ class AtatusCoreTests: XCTestCase {
 
     func testWhenPerformancePresetOverrideIsProvided_itOverridesPresets() throws {
         // Given
-        let core1 = AtatusCore(
+        let core1 = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: RelativeDateProvider(advancingBySeconds: 0.01),
             initialConsent: .granted,
@@ -263,7 +263,7 @@ class AtatusCoreTests: XCTestCase {
             maxBatchesPerUpload: .mockRandom(min: 1, max: 100),
             backgroundTasksEnabled: .mockAny()
         )
-        let core2 = AtatusCore(
+        let core2 = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: RelativeDateProvider(advancingBySeconds: 0.01),
             initialConsent: .granted,
@@ -309,7 +309,7 @@ class AtatusCoreTests: XCTestCase {
 
     func testWhenStoppingInstance_itDoesNotUploadEvents() throws {
         // Given
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -340,7 +340,7 @@ class AtatusCoreTests: XCTestCase {
     }
 
     func testItAppendsUserDataIfAnonymousIdentifierExists() {
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -369,7 +369,7 @@ class AtatusCoreTests: XCTestCase {
     }
 
     func testItAppendsAnonymousIdentifierIfUserExists() {
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -399,7 +399,7 @@ class AtatusCoreTests: XCTestCase {
     }
 
     func testItAppendsAccountDataAndUpdatesIt() {
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -428,7 +428,7 @@ class AtatusCoreTests: XCTestCase {
     }
 
     func testItUpdatesAccountExtraInfoWhileKeepingOriginalAccountInfo() {
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -457,7 +457,7 @@ class AtatusCoreTests: XCTestCase {
     }
 
     func testItClearsAccountInfo() {
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -484,7 +484,7 @@ class AtatusCoreTests: XCTestCase {
     }
 
     func testItClearUserInfo() {
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -516,7 +516,7 @@ class AtatusCoreTests: XCTestCase {
 
     func testFlushAndUpload_uploadsAuthorizedEvents() throws {
         // Given
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -551,7 +551,7 @@ class AtatusCoreTests: XCTestCase {
 
     func testFlushAndUpload_sdkRemainsOperationalAfterFlush() throws {
         // Given
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -589,9 +589,9 @@ class AtatusCoreTests: XCTestCase {
         XCTAssertTrue(uploadedEvents.contains(#"{"event":"second"}"#))
     }
 
-    func testAtatusFlush_uploadsEventsAndReturnsSynchronously() throws {
+    func testTowerSignalFlush_uploadsEventsAndReturnsSynchronously() throws {
         // Given
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -608,14 +608,14 @@ class AtatusCoreTests: XCTestCase {
         let scope = core.scope(for: FeatureMock.self)
 
         CoreRegistry.register(default: core)
-        defer { Atatus.internalFlushAndDeinitialize() }
+        defer { TowerSignal.internalFlushAndDeinitialize() }
 
         scope.eventWriteContext { _, writer in
             writer.write(value: FeatureMock.Event(event: "test"))
         }
 
         // When
-        Atatus.flush()
+        TowerSignal.flush()
 
         // Then - if flush is synchronous, events are uploaded before this assertion
         let uploadedEvents = requestBuilderSpy.requestParameters
@@ -626,7 +626,7 @@ class AtatusCoreTests: XCTestCase {
     }
 
     func testItClearsAnonymousIdentifier() {
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,

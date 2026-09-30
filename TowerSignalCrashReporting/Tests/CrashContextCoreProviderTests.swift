@@ -1,27 +1,27 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`,
-// `ddInternal` -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`,
+// `ddInternal` -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; rebranded the licence
 // header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusCrashReporting
+@testable import TowerSignalCrashReporting
 
 class CrashContextCoreProviderTests: XCTestCase {
     // MARK: - Context Update Tests
 
-    func testItUpdatesContextFromAtatusContext() {
+    func testItUpdatesContextFromTowerSignalContext() {
         // Given
         let provider = CrashContextCoreProvider()
         let core = PassthroughCoreMock()
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             service: "test-service",
             env: "test-env",
             version: "1.0.0"
@@ -43,7 +43,7 @@ class CrashContextCoreProviderTests: XCTestCase {
         // Given
         let provider = CrashContextCoreProvider()
         let core = PassthroughCoreMock()
-        let context: AtatusContext = .mockWith(service: "test-service")
+        let context: TowerSignalContext = .mockWith(service: "test-service")
         var callbackCount = 0
 
         provider.onCrashContextChange = { _ in
@@ -65,7 +65,7 @@ class CrashContextCoreProviderTests: XCTestCase {
         // Given
         let provider = CrashContextCoreProvider()
         let core = PassthroughCoreMock()
-        let context: AtatusContext = .mockAny()
+        let context: TowerSignalContext = .mockAny()
         let viewEvent: RUMViewEvent = .mockRandom()
 
         // When
@@ -82,7 +82,7 @@ class CrashContextCoreProviderTests: XCTestCase {
         // Given
         let provider = CrashContextCoreProvider()
         let core = PassthroughCoreMock()
-        let context: AtatusContext = .mockAny()
+        let context: TowerSignalContext = .mockAny()
         let viewEvent: RUMViewEvent = .mockRandom()
 
         XCTAssertTrue(provider.receive(message: .context(context), from: core))
@@ -105,7 +105,7 @@ class CrashContextCoreProviderTests: XCTestCase {
         // Given
         let provider = CrashContextCoreProvider()
         let core = PassthroughCoreMock()
-        let context: AtatusContext = .mockAny()
+        let context: TowerSignalContext = .mockAny()
         let sessionState: RUMSessionState = .mockRandom()
 
         // When
@@ -124,7 +124,7 @@ class CrashContextCoreProviderTests: XCTestCase {
         // Given
         let provider = CrashContextCoreProvider()
         let core = PassthroughCoreMock()
-        let context: AtatusContext = .mockWith(service: "test-service")
+        let context: TowerSignalContext = .mockWith(service: "test-service")
         var receivedContext: CrashContext?
 
         provider.onCrashContextChange = { crashContext in

@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 #if canImport(WebKit)
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 import WebKit
 
 /// The WebView Tracking feature.
 ///
 /// The feature exists so it can be notified when a RUM session rolls over, and update tracked WebViews accordingly.
-internal struct WebViewTrackingFeature: AtatusFeature {
+internal struct WebViewTrackingFeature: TowerSignalFeature {
     static var name: String { "web-view-tracking" }
 
     let messageReceiver: FeatureMessageReceiver
@@ -28,7 +28,7 @@ internal struct WebViewTrackingFeature: AtatusFeature {
     /// - Parameters:
     ///   - core: The core where this feature will be registered in.
     @MainActor
-    private init(core: AtatusCoreProtocol) {
+    private init(core: TowerSignalCoreProtocol) {
         self.sessionRolloverHandler = WebViewSessionRolloverHandler(core: core)
         self.messageReceiver = WebViewTrackingMessageReceiver(sessionRolloverHandler: sessionRolloverHandler)
     }
@@ -46,7 +46,7 @@ internal struct WebViewTrackingFeature: AtatusFeature {
     ///
     /// - throws: If a problem happens registering a newly created feature.
     @MainActor
-    static func obtainOrRegisterFeature(in core: AtatusCoreProtocol) throws -> WebViewTrackingFeature {
+    static func obtainOrRegisterFeature(in core: TowerSignalCoreProtocol) throws -> WebViewTrackingFeature {
         if let feature = core.feature(named: name, type: WebViewTrackingFeature.self) {
             return feature
         }
@@ -79,7 +79,7 @@ internal class WebViewTrackingMessageReceiver: FeatureMessageReceiver {
         self.sessionRolloverHandler = sessionRolloverHandler
     }
 
-    func receive(message: AtatusInternal.FeatureMessage, from core: any AtatusInternal.AtatusCoreProtocol) -> Bool {
+    func receive(message: TowerSignalInternal.FeatureMessage, from core: any TowerSignalInternal.TowerSignalCoreProtocol) -> Bool {
         switch message {
         case .context(let context):
             let sessionSampler = context.additionalContext(ofType: RUMCoreContext.self)?.sessionSampler

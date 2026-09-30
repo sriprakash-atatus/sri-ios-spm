@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
@@ -60,17 +60,17 @@ internal func isNSErrorOrItsSubclass(_ error: Error) -> Bool {
 
 /// An exception thrown due to programmer error when calling SDK public API.
 /// It makes the SDK non-functional and print the error to developer in debugger console..
-/// When thrown, check if configuration passed to `Atatus.initialize(...)` is correct
+/// When thrown, check if configuration passed to `TowerSignal.initialize(...)` is correct
 /// and if you do not call any other SDK methods before it returns.
 public struct ProgrammerError: Error, CustomStringConvertible {
     public let description: String
     public init(description: String) {
-        self.description = "🔥 Atatus SDK usage error: \(description)"
+        self.description = "🔥 TowerSignal SDK usage error: \(description)"
     }
 }
 
 /// An exception thrown internally by SDK.
-/// It is always handled by SDK (keeps it functional) and never passed to the user until `Atatus.verbosity` is set (then it might be printed in debugger console).
+/// It is always handled by SDK (keeps it functional) and never passed to the user until `TowerSignal.verbosity` is set (then it might be printed in debugger console).
 /// `InternalError` might be thrown due to programmer error (API misuse) or SDK internal inconsistency or external issues (e.g.  I/O errors). The SDK
 /// should always recover from that failures.
 public struct InternalError: Error, CustomStringConvertible {

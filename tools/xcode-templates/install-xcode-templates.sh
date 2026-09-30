@@ -6,12 +6,12 @@ if [ ! -f "Package.swift" ]; then
 fi
 
 SOURCE_TEMPLATES_LOCATION="./tools/xcode-templates/TowerSignal/"
-TARGET_TEMPLATES_LOCATION="$HOME/Library/Developer/Xcode/Templates/File Templates/Atatus"
+TARGET_TEMPLATES_LOCATION="$HOME/Library/Developer/Xcode/Templates/File Templates/TowerSignal"
 
 rm -r "$TARGET_TEMPLATES_LOCATION" 2> /dev/null
 mkdir -p "$TARGET_TEMPLATES_LOCATION"
 cp -R "$SOURCE_TEMPLATES_LOCATION" "$TARGET_TEMPLATES_LOCATION"
 
-echo "✅ Atatus templates copied to: $TARGET_TEMPLATES_LOCATION"
+echo "✅ TowerSignal templates copied to: $TARGET_TEMPLATES_LOCATION"
 
 exit 0

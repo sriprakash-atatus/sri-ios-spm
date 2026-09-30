@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Passthrough core mocks feature-scope allowing recording events in **sync**.
 ///
-/// The `AtatusCoreProtocol` implementation does not require any feature registration,
+/// The `TowerSignalCoreProtocol` implementation does not require any feature registration,
 /// it will always provide a `FeatureScope` with the current context and a `writer` that will
 /// store all events in the `events` property.
 ///
@@ -29,14 +29,14 @@ import AtatusInternal
 ///     try core.register(feature: feature)
 ///     core.get(feature: MyCustomFeature.self) // returns nil
 ///
-open class PassthroughCoreMock: AtatusCoreProtocol, FeatureScope, @unchecked Sendable {
+open class PassthroughCoreMock: TowerSignalCoreProtocol, FeatureScope, @unchecked Sendable {
     /// Counts references to `PassthroughCoreMock` instances, so we can prevent memory
-    /// leaks of SDK core in `AtatusTestsObserver`.
+    /// leaks of SDK core in `TowerSignalTestsObserver`.
     public private(set) static var referenceCount = 0
 
     /// Current context that will be passed to feature-scopes.
     @ReadWriteLock
-    public var context: AtatusContext {
+    public var context: TowerSignalContext {
         didSet { send(message: .context(context)) }
     }
 
@@ -54,7 +54,7 @@ open class PassthroughCoreMock: AtatusCoreProtocol, FeatureScope, @unchecked Sen
     ///   - context: The testing context.
 
     public required init(
-        context: AtatusContext = .mockAny(),
+        context: TowerSignalContext = .mockAny(),
         dataStore: DataStore = NOPDataStore(),
         messageReceiver: FeatureMessageReceiver = NOPFeatureMessageReceiver()
     ) {
@@ -72,12 +72,12 @@ open class PassthroughCoreMock: AtatusCoreProtocol, FeatureScope, @unchecked Sen
     }
 
     /// no-op
-    public func register<T>(feature: T) throws where T: AtatusFeature { }
+    public func register<T>(feature: T) throws where T: TowerSignalFeature { }
     /// no-op
     public func feature<T>(named name: String, type: T.Type) -> T? { nil }
 
     /// Always returns a feature-scope.
-    public func scope<T>(for featureType: T.Type) -> FeatureScope where T: AtatusFeature {
+    public func scope<T>(for featureType: T.Type) -> FeatureScope where T: TowerSignalFeature {
         self
     }
 
@@ -97,12 +97,12 @@ open class PassthroughCoreMock: AtatusCoreProtocol, FeatureScope, @unchecked Sen
     /// Execute `block` with the current context and a `writer` to record events.
     ///
     /// - Parameter block: The block to execute.
-    public func eventWriteContext(bypassConsent: Bool, _ block: @escaping (AtatusContext, Writer) -> Void) {
+    public func eventWriteContext(bypassConsent: Bool, _ block: @escaping (TowerSignalContext, Writer) -> Void) {
         block(context, writer)
         onEventWriteContext?(bypassConsent)
     }
 
-    public func context(_ block: @escaping (AtatusContext) -> Void) {
+    public func context(_ block: @escaping (TowerSignalContext) -> Void) {
         block(context)
     }
 

@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`;
-// renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`;
+// renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import KSCrashRecording
-@testable import AtatusCrashReporting
+@testable import TowerSignalCrashReporting
 
-class AtatusMinifyFilterTests: XCTestCase {
+class TowerSignalMinifyFilterTests: XCTestCase {
     // MARK: - Binary Images Filtering
 
     func testMinify_RemovesUnreferencedBinaryImages() throws {
         // Given
-        let filter = AtatusMinifyFilter()
+        let filter = TowerSignalMinifyFilter()
         let json = """
         {
             "crash": {
@@ -53,7 +53,7 @@ class AtatusMinifyFilterTests: XCTestCase {
 
     func testMinify_HandlesMultipleThreadsAndRecrashReport() throws {
         // Given
-        let filter = AtatusMinifyFilter()
+        let filter = TowerSignalMinifyFilter()
         let json = """
         {
             "crash": {
@@ -96,7 +96,7 @@ class AtatusMinifyFilterTests: XCTestCase {
 
     func testMinify_LimitsStackFramesWhenExceedingLimit() throws {
         // Given
-        let filter = AtatusMinifyFilter(stackFramesLimit: 5)
+        let filter = TowerSignalMinifyFilter(stackFramesLimit: 5)
         let json = """
         {
             "crash": {
@@ -130,7 +130,7 @@ class AtatusMinifyFilterTests: XCTestCase {
 
     func testMinify_DoesNotLimitStackFramesWhenBelowLimit() throws {
         // Given
-        let filter = AtatusMinifyFilter(stackFramesLimit: 10)
+        let filter = TowerSignalMinifyFilter(stackFramesLimit: 10)
         let json = """
         {
             "crash": {
@@ -164,7 +164,7 @@ class AtatusMinifyFilterTests: XCTestCase {
 
     func testMinify_RemovesMiddleFramesWhenLimiting() throws {
         // Given - 10 frames, limit to 6
-        let filter = AtatusMinifyFilter(stackFramesLimit: 6)
+        let filter = TowerSignalMinifyFilter(stackFramesLimit: 6)
         let json = """
         {
             "crash": {
@@ -211,7 +211,7 @@ class AtatusMinifyFilterTests: XCTestCase {
 
     func testFilterReports_ProcessesReportSuccessfully() throws {
         // Given
-        let filter = AtatusMinifyFilter()
+        let filter = TowerSignalMinifyFilter()
         let json = """
         {
             "crash": {
@@ -252,7 +252,7 @@ class AtatusMinifyFilterTests: XCTestCase {
 
     func testFilterReports_ReturnsErrorForInvalidReportType() throws {
         // Given
-        let filter = AtatusMinifyFilter()
+        let filter = TowerSignalMinifyFilter()
         let invalidReport = AnyCrashReport("not a dictionary")
         var capturedReports: [CrashReport]? = []
         var capturedError: Error?

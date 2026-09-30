@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`;
-// renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`;
+// renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import KSCrashRecording
-@testable import AtatusCrashReporting
+@testable import TowerSignalCrashReporting
 
-class AtatusTypeSafeFilterTests: XCTestCase {
+class TowerSignalTypeSafeFilterTests: XCTestCase {
      // MARK: - Success Cases
 
     func testFilterReports_ConvertsValidReportsToCrashFieldDictionary() throws {
         // Given
-        let filter = AtatusTypeSafeFilter()
+        let filter = TowerSignalTypeSafeFilter()
         let inputReport: KSCrashRecording.CrashReportDictionary = .report(withValue: [
             "crash": ["error": ["type": "signal"]],
             "name": "MyApp"
@@ -44,7 +44,7 @@ class AtatusTypeSafeFilterTests: XCTestCase {
 
     func testFilterReports_HandlesMultipleReports() throws {
         // Given
-        let filter = AtatusTypeSafeFilter()
+        let filter = TowerSignalTypeSafeFilter()
         let report1: KSCrashRecording.CrashReportDictionary = .report(withValue: ["name": "Report1"])
         let report2: KSCrashRecording.CrashReportDictionary = .report(withValue: ["name": "Report2"])
         var capturedReports: [KSCrashRecording.CrashReport]?
@@ -68,7 +68,7 @@ class AtatusTypeSafeFilterTests: XCTestCase {
 
     func testFilterReports_ReturnsErrorForInvalidReportType() {
         // Given - Create a mock object that isn't CrashReportDictionary
-        let filter = AtatusTypeSafeFilter()
+        let filter = TowerSignalTypeSafeFilter()
         let invalidReport = InvalidCrashReport()
         var capturedReports: [KSCrashRecording.CrashReport]? = []
         var capturedError: Error?
@@ -90,7 +90,7 @@ class AtatusTypeSafeFilterTests: XCTestCase {
 
     func testFilterReports_StopsProcessingOnFirstError() {
         // Given
-        let filter = AtatusTypeSafeFilter()
+        let filter = TowerSignalTypeSafeFilter()
         let validReport = AnyCrashReport(["name": "Valid"])
         let invalidReport = InvalidCrashReport()
         var capturedReports: [KSCrashRecording.CrashReport]? = []

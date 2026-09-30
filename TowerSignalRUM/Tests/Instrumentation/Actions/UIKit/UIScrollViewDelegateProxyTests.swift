@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddRUM` -> `AtatusRUM`; renamed `dd*` members
-// to `at*`; renamed the `__dd_private_*` ObjC symbols to `__atatus_private_*`; rebranded the `dd` name
-// to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddRUM` -> `TowerSignalRUM`; renamed `dd*` members
+// to `at*`; renamed the `__dd_private_*` ObjC symbols to `__towersignal_private_*`; rebranded the `dd` name
+// to `TowerSignal` in comments and docs; rebranded the licence header.
 
 #if os(iOS) || os(visionOS)
 
 import XCTest
 import TestUtilities
-@testable import AtatusRUM
+@testable import TowerSignalRUM
 
 class UIScrollViewDelegateProxyTests: XCTestCase {
     private let handler = MockScrollViewHandler()
@@ -87,7 +87,7 @@ class UIScrollViewDelegateProxyTests: XCTestCase {
     // MARK: - Proxy lifetime (regression for SwiftUI UICollectionView crash)
 
     func testProxyLifetime_whenOriginalDelegateIsDeallocated_doesNotCrashOnSubsequentDelegateCall() {
-        // Regression test for: https://github.com/dd/atatus-sdk-ios/issues/2760
+        // Regression test for: https://github.com/dd/towersignal-sdk-ios/issues/2760
         //
         // Expected behavior: the proxy's lifetime must be tied to the original delegate's lifetime.
         // When the delegate is deallocated, the proxy must be released too, so that
@@ -120,7 +120,7 @@ class UIScrollViewDelegateProxyTests: XCTestCase {
 
     /// Reproduces the crash from RUMS-5962 / RUMS-5941 and GH #2867.
     ///
-    /// Crash signature: `-[AtatusRUM.UIScrollViewDelegateProxy <selector>]: unrecognized
+    /// Crash signature: `-[TowerSignalRUM.UIScrollViewDelegateProxy <selector>]: unrecognized
     /// selector`, dispatched from `_notifyDidScroll` during view-controller teardown.
     ///
     /// Mechanism: a VC that owns its scroll view AND is its delegate hits a dealloc-time
@@ -192,7 +192,7 @@ class UIScrollViewDelegateProxyTests: XCTestCase {
         XCTAssertNil(result, "Expected nil for object-typed forwarded selector when delegate is gone")
     }
 
-    // MARK: - RUM-16361: Forwarding happy path (via __atatus_private_DDForwardingProxyBase)
+    // MARK: - RUM-16361: Forwarding happy path (via __towersignal_private_DDForwardingProxyBase)
 
     /// Proves alive-delegate forwarding still works end-to-end for a UIScrollViewDelegate
     /// selector the proxy does NOT implement directly.
@@ -233,7 +233,7 @@ class UIScrollViewDelegateProxyTests: XCTestCase {
     // MARK: - Circular Proxy Chain (regression for RxSwift-style delegate proxy conflict)
 
     func testRespondsTo_withCircularProxyChain_doesNotCauseInfiniteRecursion() {
-        // Regression test: when Atatus's proxy and a third-party proxy (e.g. RxSwift's
+        // Regression test: when TowerSignal's proxy and a third-party proxy (e.g. RxSwift's
         // DelegateProxy) mutually reference each other, `responds(to:)` must not infinitely recurse.
         //
         // Circular chain:

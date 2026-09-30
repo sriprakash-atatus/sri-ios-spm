@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Resolves the app's launch reason (`LaunchReason`) for platforms like tvOS, where
 /// it cannot be determined immediately at SDK initialization (e.g., no `task_role` kernel's API support).
@@ -29,7 +29,7 @@ internal final class LaunchReasonResolver {
     /// Launch window duration before resolving `.backgroundLaunch`.
     private let threshold: TimeInterval
     /// Buffer of commands received while the launch reason is unresolved.
-    private var buffer: [(command: RUMCommand, context: AtatusContext, writer: Writer)] = []
+    private var buffer: [(command: RUMCommand, context: TowerSignalContext, writer: Writer)] = []
     /// Resolved launch reason, updated once a conclusive condition is met.
     private var resolvedReason: LaunchReason?
 
@@ -43,21 +43,21 @@ internal final class LaunchReasonResolver {
     /// Defers processing of a RUM command until `launchReason` is resolved.
     ///
     /// If the `launchReason` is known - either already set in the `context` or already resolved internally - the command
-    /// is immediately passed to `onReady` with the resolved reason injected into its `AtatusContext`.
+    /// is immediately passed to `onReady` with the resolved reason injected into its `TowerSignalContext`.
     ///
     /// If the reason is still `.uncertain`, the command is buffered and forwarded later when resolution occurs.
     /// All buffered commands are flushed in FIFO order with the resolved reason once available.
     ///
     /// - Parameters:
     ///   - command: Incoming RUM command to buffer or forward.
-    ///   - context: The associated `AtatusContext` (typically with `launchReason = .uncertain`).
+    ///   - context: The associated `TowerSignalContext` (typically with `launchReason = .uncertain`).
     ///   - writer: The writer to be used when the command is ready.
     ///   - onReady: Callback called once per command, with the resolved launch reason injected into context.
     func deferUntilLaunchReasonResolved(
         command: RUMCommand,
-        context: AtatusContext,
+        context: TowerSignalContext,
         writer: Writer,
-        onReady: (RUMCommand, AtatusContext, Writer) -> Void
+        onReady: (RUMCommand, TowerSignalContext, Writer) -> Void
     ) {
         // If the launch reason was already resolved externally (e.g., via iOS `task_role` or prewarm flag),
         // forward the command immediately. This is a defensive check — callers should avoid deferring resolution
@@ -96,7 +96,7 @@ internal final class LaunchReasonResolver {
     /// Attempts to resolve the launch reason based on current state, lifecycle events, or elapsed time.
     ///
     /// - Returns: A resolved `LaunchReason`, or `nil` if it remains uncertain.
-    private func evaluateLaunchReason(command: RUMCommand, context: AtatusContext) -> LaunchReason? {
+    private func evaluateLaunchReason(command: RUMCommand, context: TowerSignalContext) -> LaunchReason? {
         if context.applicationStateHistory.initialState != .background {
             return .userLaunch
         }
@@ -115,9 +115,9 @@ internal final class LaunchReasonResolver {
     }
 }
 
-private extension AtatusContext {
+private extension TowerSignalContext {
     /// Returns a copy of this context with the updated `launchReason`.
-    func replacing(launchReason: LaunchReason) -> AtatusContext {
+    func replacing(launchReason: LaunchReason) -> TowerSignalContext {
         var copy = self
         copy.launchInfo.launchReason = launchReason
         return copy

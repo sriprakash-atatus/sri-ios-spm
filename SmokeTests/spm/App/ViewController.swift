@@ -1,25 +1,25 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddProfiling`
-// -> `AtatusProfiling`, `ddRUM` -> `AtatusRUM`, `ddSessionReplay` -> `AtatusSessionReplay`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddProfiling`
+// -> `TowerSignalProfiling`, `ddRUM` -> `TowerSignalRUM`, `ddSessionReplay` -> `TowerSignalSessionReplay`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import UIKit
-import AtatusRUM
-import AtatusSessionReplay // it should compile for iOS and tvOS, but APIs are only available on iOS
-import AtatusTrace
-import AtatusFlags
-import AtatusProfiling
+import TowerSignalRUM
+import TowerSignalSessionReplay // it should compile for iOS and tvOS, but APIs are only available on iOS
+import TowerSignalTrace
+import TowerSignalFlags
+import TowerSignalProfiling
 @preconcurrency import OpenTelemetryApi
 
 internal class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        AtatusSetup.initialize()
+        TowerSignalSetup.initialize()
 
         // RUM APIs must be visible:
         RUM.enable(

@@ -1,25 +1,25 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `DD` symbol prefix to `AT`; renamed `dd.trace_id` / `dd.span_id` to `atatus.trace_id` / `atatus.span_id`;
-// renamed the `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `DD` symbol prefix to `AT`; renamed `dd.trace_id` / `dd.span_id` to `towersignal.trace_id` / `towersignal.span_id`;
+// renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// Sanitizes `Log` representation received from the user, so it can match Atatus log constraints.
+/// Sanitizes `Log` representation received from the user, so it can match TowerSignal log constraints.
 internal struct LogEventSanitizer {
     internal struct Constraints {
-        /// Attribute names reserved for Atatus.
+        /// Attribute names reserved for TowerSignal.
         /// If any of those is used by the user, the attribute will be ignored.
         static let reservedAttributeNames: Set<String> = [
-            "host", "message", "status", "service", "source", "atatusTags",
-            "atatus.trace_id", "atatus.span_id",
+            "host", "message", "status", "service", "source", "towersignalTags",
+            "towersignal.trace_id", "towersignal.span_id",
             "application_id", "session_id", "view.id", "user_action.id",
             "build_id",
         ]
@@ -29,7 +29,7 @@ internal struct LogEventSanitizer {
         /// Maximum length of the tag.
         /// Tags exceeting this length will be trunkated.
         static let maxTagLength: Int = 200
-        /// Tag keys reserved for Atatus.
+        /// Tag keys reserved for TowerSignal.
         /// If any of those is used by user, the tag will be ignored.
         static let reservedTagKeys: Set<String> = [
             "host", "device", "source", "service", "env"
@@ -124,7 +124,7 @@ internal struct LogEventSanitizer {
     private func replaceIllegalCharactersIn(tag: String) -> String {
         let sanitized = tag.replacingOccurrences(of: #"[^a-z0-9_:.\/-]"#, with: "_", options: .regularExpression)
         if sanitized != tag {
-            AT.logger.warn("Tag '\(tag)' was modified to '\(sanitized)' to match Atatus constraints.")
+            AT.logger.warn("Tag '\(tag)' was modified to '\(sanitized)' to match TowerSignal constraints.")
         }
         return sanitized
     }
@@ -134,7 +134,7 @@ internal struct LogEventSanitizer {
         var sanitized = tag
         while sanitized.last == ":" { _ = sanitized.removeLast() }
         if sanitized != tag {
-            AT.logger.warn("Tag '\(tag)' was modified to '\(sanitized)' to match Atatus constraints.")
+            AT.logger.warn("Tag '\(tag)' was modified to '\(sanitized)' to match TowerSignal constraints.")
         }
         return sanitized
     }
@@ -142,7 +142,7 @@ internal struct LogEventSanitizer {
     private func limitToMaxLength(tag: String) -> String {
         if tag.count > Constraints.maxTagLength {
             let sanitized = String(tag.prefix(Constraints.maxTagLength))
-            AT.logger.warn("Tag '\(tag)' was modified to '\(sanitized)' to match Atatus constraints.")
+            AT.logger.warn("Tag '\(tag)' was modified to '\(sanitized)' to match TowerSignal constraints.")
             return sanitized
         } else {
             return tag

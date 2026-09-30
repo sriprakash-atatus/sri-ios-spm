@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd.trace_id` /
-// `dd.span_id` to `atatus.trace_id` / `atatus.span_id`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd.trace_id` /
+// `dd.span_id` to `towersignal.trace_id` / `towersignal.span_id`; rebranded the licence header.
 
 import Foundation
-@preconcurrency import AtatusInternal
+@preconcurrency import TowerSignalInternal
 
 /// Integration between Tracing and Logging Features to allow sending logs for spans (`span.log(fields:timestamp:)`)
 internal struct TracingWithLoggingIntegration: Sendable {
@@ -17,17 +17,17 @@ internal struct TracingWithLoggingIntegration: Sendable {
         static let defaultLogMessage = "Span event"
         static let defaultErrorProperty = "Unknown"
         /// Key referencing the trace ID.
-        static let traceIDKey = "atatus.trace_id"
+        static let traceIDKey = "towersignal.trace_id"
         /// Key referencing the span ID.
-        static let spanIDKey = "atatus.span_id"
+        static let spanIDKey = "towersignal.span_id"
     }
 
-    /// `AtatusCore` instance managing this integration.
-    weak var core: AtatusCoreProtocol?
+    /// `TowerSignalCore` instance managing this integration.
+    weak var core: TowerSignalCoreProtocol?
     let service: String?
     let networkInfoEnabled: Bool
 
-    init(core: AtatusCoreProtocol, service: String?, networkInfoEnabled: Bool) {
+    init(core: TowerSignalCoreProtocol, service: String?, networkInfoEnabled: Bool) {
         self.core = core
         self.service = service
         self.networkInfoEnabled = networkInfoEnabled

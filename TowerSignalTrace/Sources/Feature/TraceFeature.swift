@@ -1,29 +1,29 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-internal final class TraceFeature: AtatusRemoteFeature {
+internal final class TraceFeature: TowerSignalRemoteFeature {
     static let name = "tracing"
 
     let requestBuilder: FeatureRequestBuilder
     var messageReceiver: FeatureMessageReceiver { contextReceiver }
 
-    let tracer: AtatusTracer
+    let tracer: TowerSignalTracer
     let contextReceiver: ContextMessageReceiver
 
     /// Allows overriding certain performance presets if needed. Default is nil.
     let performanceOverride: PerformancePresetOverride?
 
     init(
-        in core: AtatusCoreProtocol,
+        in core: TowerSignalCoreProtocol,
         configuration: Trace.Configuration
     ) {
         self.requestBuilder = TracingRequestBuilder(
@@ -35,7 +35,7 @@ internal final class TraceFeature: AtatusRemoteFeature {
         let samplingProvider = SamplerProvider(sampleRate: sampleRate)
 
         self.contextReceiver = ContextMessageReceiver(samplerProvider: samplingProvider)
-        self.tracer = AtatusTracer(
+        self.tracer = TowerSignalTracer(
             core: core,
             samplingProvider: samplingProvider,
             tags: configuration.tags ?? [:],

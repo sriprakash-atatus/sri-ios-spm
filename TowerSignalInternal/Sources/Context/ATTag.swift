@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// ATCHG: TowerSignal SDK migration - renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
 // renamed the build `variant` to `appName`; rebranded the licence header.
 
 import Foundation
@@ -16,7 +16,7 @@ public enum ATTag {
     public static let sdkVersion = "sdk_version"
     public static let env = "env"
     // ATCHG: Renamed the `variant` tag key to `app_name`, matching `LogAttributes.VARIANT`,
-    // `RumAttributes.VARIANT` and `APPLICATION_VARIANT_KEY` in the Atatus Android agent.
+    // `RumAttributes.VARIANT` and `APPLICATION_VARIANT_KEY` in the TowerSignal Android agent.
     public static let appName = "app_name"
     // ATCHG: End
 

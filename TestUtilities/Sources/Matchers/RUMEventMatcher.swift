@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - scrubbed the remaining `dd` name to `dd` in comments and docs;
+// ATCHG: TowerSignal SDK migration - scrubbed the remaining `dd` name to `dd` in comments and docs;
 // rebranded the licence header.
 
 import Foundation
@@ -128,7 +128,7 @@ extension RUMEventMatcher: CustomStringConvertible {
 extension Array where Element == RUMEventMatcher {
     public func filterApplicationLaunchView() -> [RUMEventMatcher] {
         return filter {
-            (try? $0.attribute(forKeyPath: "view.url")) != "com/atatus/application-launch/view"
+            (try? $0.attribute(forKeyPath: "view.url")) != "com/towersignal/application-launch/view"
         }
     }
 

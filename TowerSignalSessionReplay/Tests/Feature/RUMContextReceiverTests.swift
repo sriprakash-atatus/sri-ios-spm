@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; renamed `dd*` types to `Atatus*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; renamed `dd*` types to `TowerSignal*`; rebranded the
 // licence header.
 
 #if os(iOS)
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 
 class RUMContextReceiverTests: XCTestCase {
     private let receiver = RUMContextReceiver()
@@ -21,7 +21,7 @@ class RUMContextReceiverTests: XCTestCase {
     func testWhenMessageContainsNonEmptyRUMContext_itNotifiesRUMContext() throws {
         // Given
         let core = PassthroughCoreMock()
-        let coreContext: AtatusContext = .mockWith(
+        let coreContext: TowerSignalContext = .mockWith(
             additionalContext: [
                 RUMCoreContext(
                     applicationID: "app-id",
@@ -53,7 +53,7 @@ class RUMContextReceiverTests: XCTestCase {
     func testWhenSucceedingMessagesContainDifferentRUMContexts_itNotifiesRUMContextChange() throws {
         // Given
         let core = PassthroughCoreMock()
-        let coreContext1: AtatusContext = .mockWith(
+        let coreContext1: TowerSignalContext = .mockWith(
             additionalContext: [
                 RUMCoreContext(
                     applicationID: "app-id-1",
@@ -65,7 +65,7 @@ class RUMContextReceiverTests: XCTestCase {
             ]
         )
 
-        let coreContext2: AtatusContext = .mockWith(
+        let coreContext2: TowerSignalContext = .mockWith(
             additionalContext: [
                 RUMCoreContext(
                     applicationID: "app-id-2",
@@ -105,7 +105,7 @@ class RUMContextReceiverTests: XCTestCase {
     func testWhenSucceedingMessagesContainSameRUMContexts_itNotifiesRUMContextChangeOnce() throws {
         // Given
         let core = PassthroughCoreMock()
-        let coreContext1: AtatusContext = .mockWith(
+        let coreContext1: TowerSignalContext = .mockWith(
             additionalContext: [
                 RUMCoreContext(
                     applicationID: "app-id",
@@ -117,7 +117,7 @@ class RUMContextReceiverTests: XCTestCase {
             ]
         )
 
-        let coreContext2: AtatusContext = .mockWith(
+        let coreContext2: TowerSignalContext = .mockWith(
             additionalContext: [
                 RUMCoreContext(
                     applicationID: "app-id",
@@ -153,7 +153,7 @@ class RUMContextReceiverTests: XCTestCase {
     func testWhenMessageContainsNoRUMContext_itResetRUMContext() throws {
         // Given
         let core = PassthroughCoreMock()
-        let coreContext1: AtatusContext = .mockWith(
+        let coreContext1: TowerSignalContext = .mockWith(
             additionalContext: [
                 RUMCoreContext(
                     applicationID: "app-id",
@@ -165,7 +165,7 @@ class RUMContextReceiverTests: XCTestCase {
             ]
         )
 
-        let coreContext2: AtatusContext = .mockWith()
+        let coreContext2: TowerSignalContext = .mockWith()
 
         var rumContext: RUMCoreContext? = .mockAny()
         receiver.observe(on: NoQueue()) { context in

@@ -1,23 +1,23 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; renamed `dd*` types to `Atatus*`; renamed the `DD`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; renamed `dd*` types to `TowerSignal*`; renamed the `DD`
 // symbol prefix to `AT`; renamed `clientToken` to `licenseKey`; renamed the `ddsource` / `ddtags` query
-// parameters to `atatus_source` / `atatustags`; renamed the `DD-*` intake headers to their Atatus
-// equivalents; repointed the intake host at the Atatus site; rebranded the licence header.
+// parameters to `towersignal_source` / `towersignaltags`; renamed the `DD-*` intake headers to their TowerSignal
+// equivalents; repointed the intake host at the TowerSignal site; rebranded the licence header.
 
 #if os(iOS)
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 
 @_spi(Internal)
 @testable import TestUtilities
 @_spi(Internal)
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 
 class SegmentRequestBuilderTests: XCTestCase {
     private let rumContext: RUMCoreContext = .mockRandom() // all records must reference the same RUM context
@@ -46,14 +46,14 @@ class SegmentRequestBuilderTests: XCTestCase {
         let builder = SegmentRequestBuilder(customUploadURL: nil, telemetry: TelemetryMock())
 
         // When
-        func url(for site: AtatusSite) throws -> String {
+        func url(for site: TowerSignalSite) throws -> String {
             let request = try builder.request(for: mockEvents, with: .mockWith(site: site), execution: .mockAny())
             return request.url!.absoluteStringWithoutQuery!
         }
 
         // Then
-        // ATCHG: single Atatus intake host replaces the nine dd region endpoints
-        XCTAssertEqual(try url(for: .atatus), "https://mo-rx.atatus.com/v1/android/replay")
+        // ATCHG: single TowerSignal intake host replaces the nine dd region endpoints
+        XCTAssertEqual(try url(for: .towersignal), "https://mo-rx.towersignal.com/v1/android/replay")
     }
 
     func testItSetsCustomIntakeURL() {
@@ -62,21 +62,21 @@ class SegmentRequestBuilderTests: XCTestCase {
         let builder = SegmentRequestBuilder(customUploadURL: randomURL, telemetry: TelemetryMock())
 
         // When
-        func url(for site: AtatusSite) throws -> String {
+        func url(for site: TowerSignalSite) throws -> String {
             let request = try builder.request(for: mockEvents, with: .mockWith(site: site), execution: .mockAny())
             return request.url!.absoluteStringWithoutQuery!
         }
 
         // Then
         let expectedURL = randomURL.absoluteStringWithoutQuery
-        // ATCHG: single Atatus site replaces the nine dd regions
-        XCTAssertEqual(try url(for: .atatus), expectedURL)
+        // ATCHG: single TowerSignal site replaces the nine dd regions
+        XCTAssertEqual(try url(for: .towersignal), expectedURL)
     }
 
     func testItSetsQueryParameters() throws {
         // Given
         let builder = SegmentRequestBuilder(customUploadURL: nil, telemetry: TelemetryMock())
-        let context: AtatusContext = .mockRandom()
+        let context: TowerSignalContext = .mockRandom()
 
         // When
         let request = try builder.request(for: mockEvents, with: context, execution: .mockWith(previousResponseCode: nil, attempt: 0))
@@ -97,7 +97,7 @@ class SegmentRequestBuilderTests: XCTestCase {
 
         // Given
         let builder = SegmentRequestBuilder(customUploadURL: nil, telemetry: TelemetryMock())
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             licenseKey: randomClientToken,
             version: randomVersion,
             source: randomSource,
@@ -123,10 +123,10 @@ class SegmentRequestBuilderTests: XCTestCase {
             """
         )
         XCTAssertEqual(request.allHTTPHeaderFields?["api-key"], randomClientToken)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN"], randomSource)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN-VERSION"], randomSDKVersion)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN"], randomSource)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN-VERSION"], randomSDKVersion)
         XCTAssertNil(request.allHTTPHeaderFields?["Content-Encoding"], "It must us no compression, because multipart file is compressed separately")
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
     }
 
     func testItSetsHTTPBodyInExpectedFormat() throws {
@@ -267,7 +267,7 @@ class SegmentRequestBuilderTests: XCTestCase {
         let request = try builder.request(for: mockEvents, with: .mockRandom(), execution: execution)
 
         // Then
-        XCTAssertEqual(request.url!.query, "atatustags=retry_count:\(randomAttempt),retry_after:\(randomStatus)")
+        XCTAssertEqual(request.url!.query, "towersignaltags=retry_count:\(randomAttempt),retry_after:\(randomStatus)")
     }
 
     func testItSetsRetryQueryParametersOnNetworkErrorRetry() throws {
@@ -279,7 +279,7 @@ class SegmentRequestBuilderTests: XCTestCase {
         let request = try builder.request(for: mockEvents, with: .mockRandom(), execution: execution)
 
         // Then
-        XCTAssertEqual(request.url!.query, "atatustags=retry_count:1") // no retry_after without response code
+        XCTAssertEqual(request.url!.query, "towersignaltags=retry_count:1") // no retry_after without response code
     }
 }
 #endif

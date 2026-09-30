@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; rebranded the
 // licence header.
 
 import XCTest
 import TestUtilities
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 
 class HostsSanitizerTests: XCTestCase {
     func testSanitizationAndWarningMessages() throws {
@@ -86,20 +86,20 @@ class HostsSanitizerTests: XCTestCase {
         defer { consolePrint = { message, _ in print(message) } }
 
         let patterns: [String: Set<TracingHeaderType>] = [
-            "*.example.com": [.atatus],
+            "*.example.com": [.towersignal],
             "preview-*.shopist.io": [.tracecontext],
-            "*.UPPER.COM": [.atatus],
-            "*.invalid_pattern.com": [.atatus],
-            "*.foo.*.bar.com": [.atatus],
-            "": [.atatus],
+            "*.UPPER.COM": [.towersignal],
+            "*.invalid_pattern.com": [.towersignal],
+            "*.foo.*.bar.com": [.towersignal],
+            "": [.towersignal],
         ]
 
         let sanitizer = HostsSanitizer()
         let sanitized = sanitizer.sanitized(hostsWithTracingHeaderTypes: patterns, warningMessage: "Pattern not valid")
 
-        XCTAssertEqual(sanitized["*.example.com"], [.atatus])
+        XCTAssertEqual(sanitized["*.example.com"], [.towersignal])
         XCTAssertEqual(sanitized["preview-*.shopist.io"], [.tracecontext])
-        XCTAssertEqual(sanitized["*.upper.com"], [.atatus])
+        XCTAssertEqual(sanitized["*.upper.com"], [.towersignal])
         XCTAssertNil(sanitized["*.UPPER.COM"])
         XCTAssertNil(sanitized["*.invalid_pattern.com"])
         XCTAssertNil(sanitized["*.foo.*.bar.com"])
@@ -120,13 +120,13 @@ class HostsSanitizerTests: XCTestCase {
 
     func testWildcardPlainHostAsPattern_isAccepted() {
         let sanitizer = HostsSanitizer()
-        let sanitized = sanitizer.sanitized(hostsWithTracingHeaderTypes: ["example.com": [.atatus]], warningMessage: "")
-        XCTAssertEqual(sanitized["example.com"], [.atatus])
+        let sanitized = sanitizer.sanitized(hostsWithTracingHeaderTypes: ["example.com": [.towersignal]], warningMessage: "")
+        XCTAssertEqual(sanitized["example.com"], [.towersignal])
     }
 
     func testWildcardTrailingDotPattern_isDropped() {
         let sanitizer = HostsSanitizer()
-        let sanitized = sanitizer.sanitized(hostsWithTracingHeaderTypes: ["*.": [.atatus]], warningMessage: "")
+        let sanitized = sanitizer.sanitized(hostsWithTracingHeaderTypes: ["*.": [.towersignal]], warningMessage: "")
         XCTAssertNil(sanitized["*."])
         XCTAssertEqual(sanitized.count, 0)
     }
@@ -137,7 +137,7 @@ class HostsSanitizerTests: XCTestCase {
         defer { consolePrint = { message, _ in print(message) } }
 
         let sanitizer = HostsSanitizer()
-        let sanitized = sanitizer.sanitized(hostsWithTracingHeaderTypes: ["*": [.atatus]], warningMessage: "Pattern not valid")
+        let sanitized = sanitizer.sanitized(hostsWithTracingHeaderTypes: ["*": [.towersignal]], warningMessage: "Pattern not valid")
 
         XCTAssertNil(sanitized["*"])
         XCTAssertEqual(sanitized.count, 0)
@@ -154,7 +154,7 @@ class HostsSanitizerTests: XCTestCase {
 
         let sanitizer = HostsSanitizer()
         let sanitized = sanitizer.sanitized(
-            hostsWithTracingHeaderTypes: ["*example.com": [.atatus]],
+            hostsWithTracingHeaderTypes: ["*example.com": [.towersignal]],
             warningMessage: "Pattern not valid"
         )
 

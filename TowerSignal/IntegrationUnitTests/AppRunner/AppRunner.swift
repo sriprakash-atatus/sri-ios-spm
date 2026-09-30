@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddRUM` -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed
-// `clientToken` to `licenseKey`; renamed the `__dd_private_*` ObjC symbols to `__atatus_private_*`;
-// rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed
+// `clientToken` to `licenseKey`; renamed the `__dd_private_*` ObjC symbols to `__towersignal_private_*`;
+// rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusCore
-@testable import AtatusRUM
+@testable import TowerSignalCore
+@testable import TowerSignalRUM
 
 /// A [Test Harness](https://en.wikipedia.org/wiki/Test_harness) that simulates the iOS app environment and manages SDK lifecycle.
 /// Used for testing how the SDK responds to different app states and events.
@@ -21,7 +21,7 @@ internal class AppRunner {
     /// Describes how the app process was launched.
     struct ProcessLaunchType {
         /// The current process’s task policy role (`task_role_t`), indicating how the process was launched (e.g., by user or system prewarming).
-        /// See `__atatus_private_AppLaunchHandler.taskPolicyRole` for context and resolution logic.
+        /// See `__towersignal_private_AppLaunchHandler.taskPolicyRole` for context and resolution logic.
         let taskPolicyRole: Int
         let processInfoEnvironment: [String: String]
         let processLaunchDate: Date
@@ -42,11 +42,11 @@ internal class AppRunner {
             let taskPolicyRole = Int(TASK_FOREGROUND_APPLICATION.rawValue)
             let initialAppState = AppState.background
             #elseif os(watchOS)
-            let taskPolicyRole = __atatus_private_TASK_POLICY_UNAVAILABLE
+            let taskPolicyRole = __towersignal_private_TASK_POLICY_UNAVAILABLE
             // watchOS has no UIScene-based lifecycle; the app starts in INACTIVE state.
             let initialAppState = AppState.inactive
             #else
-            let taskPolicyRole = __atatus_private_TASK_POLICY_UNAVAILABLE
+            let taskPolicyRole = __towersignal_private_TASK_POLICY_UNAVAILABLE
             let initialAppState = AppState.background
             #endif
 
@@ -68,7 +68,7 @@ internal class AppRunner {
             #if os(iOS) || os(visionOS)
             let taskPolicyRole = Int(TASK_FOREGROUND_APPLICATION.rawValue)
             #else
-            let taskPolicyRole = __atatus_private_TASK_POLICY_UNAVAILABLE
+            let taskPolicyRole = __towersignal_private_TASK_POLICY_UNAVAILABLE
             #endif
 
             return .init(
@@ -107,7 +107,7 @@ internal class AppRunner {
             #if os(iOS) || os(visionOS)
             let taskPolicyRole = Int(TASK_NONUI_APPLICATION.rawValue)
             #else
-            let taskPolicyRole = __atatus_private_TASK_POLICY_UNAVAILABLE
+            let taskPolicyRole = __towersignal_private_TASK_POLICY_UNAVAILABLE
             #endif
 
             return .init(
@@ -152,7 +152,7 @@ internal class AppRunner {
     #if !os(watchOS)
     private var frameInfoProvider: FrameInfoProviderMock!
     #endif
-    private var core: AtatusCoreProxy!
+    private var core: TowerSignalCoreProxy!
     // swiftlint:enable implicitly_unwrapped_optional
     private var appStateObservers: [NSObjectProtocol] = []
 
@@ -256,11 +256,11 @@ internal class AppRunner {
     // MARK: - SDK Setup
 
     /// Typealias for SDK configuration closure.
-    typealias SDKSetup = (inout Atatus.Configuration) -> Void
+    typealias SDKSetup = (inout TowerSignal.Configuration) -> Void
 
     /// Initializes the SDK using an optional setup block.
     func initializeSDK(_ sdkSetup: SDKSetup = { _ in }) {
-        var config = Atatus.Configuration(licenseKey: "mock-client-token", env: "env")
+        var config = TowerSignal.Configuration(licenseKey: "mock-client-token", env: "env")
         config.systemDirectory = appDirectory
         config.processInfo = processInfo
         config.dateProvider = dateProvider
@@ -270,8 +270,8 @@ internal class AppRunner {
         config.serverDateProvider = ServerDateProviderMock()
         sdkSetup(&config)
         do {
-            core = AtatusCoreProxy(
-                core: try AtatusCore(configuration: config, trackingConsent: .granted, instanceName: .mockAny())
+            core = TowerSignalCoreProxy(
+                core: try TowerSignalCore(configuration: config, trackingConsent: .granted, instanceName: .mockAny())
             )
         } catch {
             preconditionFailure("\(error)")

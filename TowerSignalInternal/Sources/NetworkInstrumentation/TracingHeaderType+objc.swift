@@ -1,12 +1,12 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `DD` symbol prefix to `AT`; renamed the `x-dd-*` trace
-// headers to `x-atatus-*`; repointed the intake host at the Atatus site; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed the `DD` symbol prefix to `AT`; renamed the `x-dd-*` trace
+// headers to `x-towersignal-*`; repointed the intake host at the TowerSignal site; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
@@ -21,8 +21,8 @@ public final class objc_TracingHeaderType: NSObject {
         self.swiftType = swiftType
     }
 
-    /// [Atatus's `x-atatus-*` header](https://www.atatus.com/docs/).
-    public static let atatus = objc_TracingHeaderType(.atatus)
+    /// [TowerSignal's `x-towersignal-*` header](https://www.towersignal.com/docs/).
+    public static let towersignal = objc_TracingHeaderType(.towersignal)
     /// Open Telemetry B3 [Multiple headers](https://github.com/openzipkin/b3-propagation#multiple-headers).
     public static let b3multi = objc_TracingHeaderType(.b3multi)
     /// Open Telemetry B3 [Single header](https://github.com/openzipkin/b3-propagation#single-headers).

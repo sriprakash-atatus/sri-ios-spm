@@ -1,29 +1,29 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddRUM` -> `AtatusRUM`, `ddTrace` -> `AtatusTrace`; renamed `dd*` types
-// to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`, `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types
+// to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
 @_spi(Internal)
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusRUM
-@testable import AtatusTrace
-@testable import AtatusCore
+@testable import TowerSignalRUM
+@testable import TowerSignalTrace
+@testable import TowerSignalCore
 
 class NetworkInstrumentationIntegrationTests: XCTestCase {
     // swiftlint:disable implicitly_unwrapped_optional
-    private var core: AtatusCoreProxy!
+    private var core: TowerSignalCoreProxy!
     // swiftlint:enable implicitly_unwrapped_optional
 
     override func setUp() {
-        core = AtatusCoreProxy(
+        core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.1.1",
@@ -34,7 +34,7 @@ class NetworkInstrumentationIntegrationTests: XCTestCase {
         var config = Trace.Configuration(
             urlSessionTracking: Trace.Configuration.URLSessionTracking(
                 firstPartyHostsTracing: .traceWithHeaders(
-                    hostsWithHeaders: ["www.example.com": [.atatus]],
+                    hostsWithHeaders: ["www.example.com": [.towersignal]],
                     sampleRate: 100
                 )
             )
@@ -94,7 +94,7 @@ class NetworkInstrumentationIntegrationTests: XCTestCase {
     }
 
     func testResourceAttributesProvider_givenURLSessionDataTaskRequestWithCompletionHandler() throws {
-        core = AtatusCoreProxy(
+        core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.1.1",
@@ -154,7 +154,7 @@ class NetworkInstrumentationIntegrationTests: XCTestCase {
 
     func testAutomaticMode_resourceAttributesProvider_withCompletionHandler() {
         // Verifies that automatic mode passes response data to the provider for completion-handler tasks.
-        core = AtatusCoreProxy(context: .mockWith(env: "test", version: "1.1.1", serverTimeOffset: 123))
+        core = TowerSignalCoreProxy(context: .mockWith(env: "test", version: "1.1.1", serverTimeOffset: 123))
 
         let providerExpectation = expectation(description: "provider called")
         var providerData: Data?
@@ -193,7 +193,7 @@ class NetworkInstrumentationIntegrationTests: XCTestCase {
     func testAutomaticMode_resourceAttributesProvider_asyncAwait_dataIsNil() async {
         // Documents the known limitation: async/await tasks return data directly to the caller,
         // bypassing all swizzled hooks, so data is always nil in the provider.
-        core = AtatusCoreProxy(context: .mockWith(env: "test", version: "1.1.1", serverTimeOffset: 123))
+        core = TowerSignalCoreProxy(context: .mockWith(env: "test", version: "1.1.1", serverTimeOffset: 123))
 
         let providerExpectation = expectation(description: "provider called")
         var providerData: Data? = .mockAny() // initialize non-nil to confirm it is overwritten with nil
@@ -256,7 +256,7 @@ class NetworkInstrumentationIntegrationTests: XCTestCase {
     func testDualMode_doesNotDoubleTrackRequest_withRegisteredDelegate() throws {
         // Verifies that enabling both automatic mode (via RUM) and metrics mode (via enableDurationBreakdown)
         // does not cause a single request with a registered delegate to be tracked twice.
-        core = AtatusCoreProxy(context: .mockWith(env: "test", version: "1.1.1", serverTimeOffset: 123))
+        core = TowerSignalCoreProxy(context: .mockWith(env: "test", version: "1.1.1", serverTimeOffset: 123))
 
         let providerExpectation = expectation(description: "provider called once")
         providerExpectation.assertForOverFulfill = true
@@ -297,7 +297,7 @@ class NetworkInstrumentationIntegrationTests: XCTestCase {
     func testDualMode_resourceAttributesProvider_registeredDelegateWithoutCompletionHandler() {
         // Verifies that metrics mode captures response data via the delegate's didReceive callback
         // even when the task has no completion handler.
-        core = AtatusCoreProxy(context: .mockWith(env: "test", version: "1.1.1", serverTimeOffset: 123))
+        core = TowerSignalCoreProxy(context: .mockWith(env: "test", version: "1.1.1", serverTimeOffset: 123))
 
         let providerExpectation = expectation(description: "provider called")
         var providerData: Data?

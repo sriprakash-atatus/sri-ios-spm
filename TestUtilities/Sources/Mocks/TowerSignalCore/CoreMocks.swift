@@ -1,33 +1,33 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddLogs` -> `AtatusLogs`, `ddPrivate` -> `AtatusPrivate`; renamed `dd*`
-// types to `Atatus*`; renamed `clientToken` to `licenseKey`; renamed the build `variant` to `appName`;
-// renamed the `__dd_private_*` ObjC symbols to `__atatus_private_*`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddLogs` -> `TowerSignalLogs`, `ddPrivate` -> `TowerSignalPrivate`; renamed `dd*`
+// types to `TowerSignal*`; renamed `clientToken` to `licenseKey`; renamed the build `variant` to `appName`;
+// renamed the `__dd_private_*` ObjC symbols to `__towersignal_private_*`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import Foundation
 
 #if SPM_BUILD
-import AtatusPrivate
+import TowerSignalPrivate
 #endif
-@testable import AtatusCore
-@testable import AtatusLogs
+@testable import TowerSignalCore
+@testable import TowerSignalLogs
 
 // MARK: - Configuration Mocks
 
-extension Atatus.Configuration: AnyMockable {
-    public static func mockAny() -> Atatus.Configuration { .mockWith() }
+extension TowerSignal.Configuration: AnyMockable {
+    public static func mockAny() -> TowerSignal.Configuration { .mockWith() }
 
     public static func mockWith(
         licenseKey: String = .mockAny(),
         env: String = .mockAny(),
-        site: AtatusSite = .atatus,
+        site: TowerSignalSite = .towersignal,
         serverUrl: String? = nil, // ATCHG: Added the custom intake base url
         service: String? = .mockAny(),
         bundle: Bundle = .main,
@@ -53,7 +53,7 @@ extension Atatus.Configuration: AnyMockable {
     }
 }
 
-typealias BatchSize = Atatus.Configuration.BatchSize
+typealias BatchSize = TowerSignal.Configuration.BatchSize
 
 extension BatchSize: RandomMockable {
     public static func mockRandom() -> Self {
@@ -61,7 +61,7 @@ extension BatchSize: RandomMockable {
     }
 }
 
-typealias UploadFrequency = Atatus.Configuration.UploadFrequency
+typealias UploadFrequency = TowerSignal.Configuration.UploadFrequency
 
 extension UploadFrequency: RandomMockable {
     public static func mockRandom() -> Self {
@@ -69,7 +69,7 @@ extension UploadFrequency: RandomMockable {
     }
 }
 
-extension Atatus.Configuration.BatchProcessingLevel: RandomMockable {
+extension TowerSignal.Configuration.BatchProcessingLevel: RandomMockable {
     public static func mockRandom() -> Self {
         allCases.randomElement()!
     }
@@ -306,8 +306,8 @@ public  class DataUploaderMock: DataUploaderType {
     }
 
     public func upload(
-        events: [AtatusInternal.Event],
-        context: AtatusInternal.AtatusContext,
+        events: [TowerSignalInternal.Event],
+        context: TowerSignalInternal.TowerSignalContext,
         previous: DataUploadStatus?) throws -> DataUploadStatus {
             uploadedEvents += events
             try onUpload?(previous)
@@ -375,9 +375,9 @@ public class AppLaunchHandlerMock: AppLaunchHandling {
     /// The current process’s task policy role (`task_role_t`), indicating how the process was started (e.g., user vs background launch).
     /// On success, the property contains the raw [`policy.role`](https://developer.apple.com/documentation/kernel/task_role_t) value
     /// defined in `MachO`; otherwise, it returns one of the special constants defined in `ObjcAppLaunchHandler.h`:
-    /// - `__atatus_private_TASK_POLICY_KERN_FAILURE`
-    /// - `__atatus_private_TASK_POLICY_DEFAULTED`
-    /// - `__atatus_private_TASK_POLICY_UNAVAILABLE`
+    /// - `__towersignal_private_TASK_POLICY_KERN_FAILURE`
+    /// - `__towersignal_private_TASK_POLICY_DEFAULTED`
+    /// - `__towersignal_private_TASK_POLICY_UNAVAILABLE`
     public var taskPolicyRole: Int
     /// The date when the application process was launched.
     public let processLaunchDate: Date

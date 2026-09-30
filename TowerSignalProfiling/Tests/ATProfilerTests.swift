@@ -1,26 +1,26 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddMachProfiler` -> `AtatusMachProfiler`; renamed the `DD` symbol prefix to `AT`; renamed
-// `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddMachProfiler` -> `TowerSignalMachProfiler`; renamed the `DD` symbol prefix to `AT`; renamed
+// `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the licence header.
 
 #if !os(watchOS)
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 // swiftlint:disable duplicate_imports
-import AtatusMachProfiler
-import AtatusMachProfiler.Pprof
-import AtatusMachProfiler.Testing
+import TowerSignalMachProfiler
+import TowerSignalMachProfiler.Pprof
+import TowerSignalMachProfiler.Testing
 // swiftlint:enable duplicate_imports
 
 final class ATProfilerTests: XCTestCase {
     override func setUp() {
         super.setUp()
-        // `tearDown` leaves `g_atatus_profiler` nil; without this, only the first test would match the
+        // `tearDown` leaves `g_towersignal_profiler` nil; without this, only the first test would match the
         // static constructor's state. Recreate with 0% sample rate so `auto_start` leaves `NOT_STARTED`.
         dd_profiler_destroy()
         dd_profiler_start_testing(0, false, 5.seconds.dd.toInt64Nanoseconds, 0)
@@ -145,7 +145,7 @@ final class ATProfilerTests: XCTestCase {
         }
 
         XCTAssertFalse(
-            threadNames.contains(where: { $0.hasPrefix("com.atatus.profiler.") }),
+            threadNames.contains(where: { $0.hasPrefix("com.towersignal.profiler.") }),
             "Profiler-owned threads should not appear in the harvested profile"
         )
     }

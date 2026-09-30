@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `ddsource` / `ddtags`
-// query parameters to `atatus_source` / `atatustags`; rebranded the `dd` name to `Atatus` in comments
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `ddsource` / `ddtags`
+// query parameters to `towersignal_source` / `towersignaltags`; rebranded the `dd` name to `TowerSignal` in comments
 // and docs; rebranded the licence header.
 
 import Foundation
@@ -13,8 +13,8 @@ import Foundation
 /// The `FeatureRequestBuilder` defines an interface for building a single `URLRequest`
 /// for a list of data events and the current core context.
 ///
-/// A Feature should use this interface for creating requests that needs be sent to its Atatus Intake.
-/// The request will be transported by `AtatusCore`.
+/// A Feature should use this interface for creating requests that needs be sent to its TowerSignal Intake.
+/// The request will be transported by `TowerSignalCore`.
 public protocol FeatureRequestBuilder {
     /// Builds an `URLRequest` for a list of events and the current core context to be uploaded
     /// to the Feature's Intake.
@@ -31,7 +31,7 @@ public protocol FeatureRequestBuilder {
     /// - Returns: The URL request.
     func request(
         for events: [Event],
-        with context: AtatusContext,
+        with context: TowerSignalContext,
         execution: ExecutionContext
     ) throws -> URLRequest
 }
@@ -60,7 +60,7 @@ public struct ExecutionContext {
     /// Query items to include in the request when this is a retry attempt.
     /// Returns an empty array on the first request (`attempt == 0`).
     public var retryQueryItems: [URLRequestBuilder.QueryItem] {
-        retryTags.map { [.atatusTags(tags: $0)] } ?? []
+        retryTags.map { [.towersignalTags(tags: $0)] } ?? []
     }
 
     /// Initializes the execution context.

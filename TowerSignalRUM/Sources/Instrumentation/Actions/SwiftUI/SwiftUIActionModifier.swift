@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 #if !os(tvOS) && canImport(SwiftUI)
 
 import SwiftUI
-import AtatusInternal
+import TowerSignalInternal
 
 /// `SwiftUI.ViewModifier` which notifies RUM instrumentation when the modified view is tapped.
 /// It serves as an entry point to RUM actions instrumentation in SwiftUI.
@@ -26,7 +26,7 @@ import AtatusInternal
 @available(iOS 13, watchOS 7, *)
 internal struct RUMTapActionModifier: SwiftUI.ViewModifier {
     /// The SDK core instance.
-    weak var core: AtatusCoreProtocol?
+    weak var core: TowerSignalCoreProtocol?
 
     /// The required number of taps to complete the tap action.
     let count: Int
@@ -55,7 +55,7 @@ internal struct RUMTapActionModifier: SwiftUI.ViewModifier {
 
 @available(iOS 13, watchOS 7, *)
 public extension SwiftUI.View {
-    /// Monitor tap actions on this view with Atatus RUM. An Action event will be logged after the required number of taps.
+    /// Monitor tap actions on this view with TowerSignal RUM. An Action event will be logged after the required number of taps.
     ///
     /// ⚠️ **Warning:**
     /// - Do **not** apply this modifier inside a `List`, as it can interfere with SwiftUI’s built-in gesture resolution.
@@ -72,7 +72,7 @@ public extension SwiftUI.View {
         name: String,
         attributes: [String: Encodable] = [:],
         count: Int = 1,
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) -> some View {
         return modifier(
             RUMTapActionModifier(

@@ -2,7 +2,7 @@
 
 ## Methodology
 
-The following benchmarks were collected by running Atatus iOS SDK ([fe86f81](https://github.com/atatus/atatus-sdk-ios/commit/fe86f8151e0a7932bb397f98cb166a9c81f5dac9)) in open source application: [Beam](https://github.com/awkward/beam). Performance data was recorded with Xcode 14.3 (14E222b) Debug Navigator and network traffic was recorded with [Charles Proxy 4.6.4](https://www.charlesproxy.com/download/latest-release/) installed on macOS.
+The following benchmarks were collected by running TowerSignal iOS SDK ([fe86f81](https://github.com/towersignal/towersignal-sdk-ios/commit/fe86f8151e0a7932bb397f98cb166a9c81f5dac9)) in open source application: [Beam](https://github.com/awkward/beam). Performance data was recorded with Xcode 14.3 (14E222b) Debug Navigator and network traffic was recorded with [Charles Proxy 4.6.4](https://www.charlesproxy.com/download/latest-release/) installed on macOS.
 
 **3** **configurations** were measured:
 
@@ -85,7 +85,7 @@ We see a minor decrease of overhead when the SDK is not initialized or without c
 
 ### Network Utilization (Uploads / Downloads)
 
-This table includes data sent and received by Atatus SDK only.
+This table includes data sent and received by TowerSignal SDK only.
 
 |Run|SDK not initialized|Consent granted|Consent not granted|
 |--- |--- |--- |--- |
@@ -125,7 +125,7 @@ The application launch time is the time interval between the application process
 
 ### Bundle Size
 
-||without Atatus SDK|with Atatus SDK|
+||without TowerSignal SDK|with TowerSignal SDK|
 |--- |--- |--- |
 |Size of the `.ipa` file|22.2 MB|23.6 MB|
 
@@ -170,7 +170,7 @@ Network traffic was recorded with Charles Proxy 4.6.4. The proxy was enabled bef
 The SDK was initialized with basic RUM instrumentation for tracking views, actions, and resources:
 
 ```swift
-Atatus.initialize(
+TowerSignal.initialize(
     appContext: .init(),
     trackingConsent: trackingConsent,
     configuration: .builderUsing(
@@ -192,13 +192,13 @@ Atatus.initialize(
     .build()
 )
 
-Atatus.verbosityLevel = .debug
+TowerSignal.verbosityLevel = .debug
 
-AtatusTracer.initialize(
+TowerSignalTracer.initialize(
     configuration: .init(customIntakeURL: URL(string: "http://172.16.10.112:8000/span")!)
 )
 
-logger = AtatusLogger.builder.build()
+logger = TowerSignalLogger.builder.build()
 ```
 
 The `ATURLSessionDelegate` was installed in session instances created in: `ImgurController`, `AuthenticationController`, `DataRequest` and `RedditUserRequest`.

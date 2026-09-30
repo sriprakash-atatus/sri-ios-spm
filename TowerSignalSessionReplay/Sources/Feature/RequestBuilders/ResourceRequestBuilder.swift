@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `dd*` members to `at*`; renamed `clientToken` to `licenseKey`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `dd*` members to `at*`; renamed `clientToken` to `licenseKey`;
 // rebranded the licence header.
 
 #if os(iOS)
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal struct ResourceRequestBuilder: FeatureRequestBuilder {
     /// Custom URL for uploading data to.
@@ -32,7 +32,7 @@ internal struct ResourceRequestBuilder: FeatureRequestBuilder {
 
     func request(
         for events: [Event],
-        with context: AtatusContext,
+        with context: TowerSignalContext,
         execution: ExecutionContext
     ) throws -> URLRequest {
         let decoder = JSONDecoder()
@@ -42,14 +42,14 @@ internal struct ResourceRequestBuilder: FeatureRequestBuilder {
         return try createRequest(resources: resources, context: context, execution: execution)
     }
 
-    private func createRequest(resources: [EnrichedResource], context: AtatusContext, execution: ExecutionContext) throws -> URLRequest {
+    private func createRequest(resources: [EnrichedResource], context: TowerSignalContext, execution: ExecutionContext) throws -> URLRequest {
         var multipart = multipartBuilder
 
         let builder = URLRequestBuilder(
             url: url(with: context),
-            // ATCHG: Added the Atatus identification query items, matching AtatusRUM's and
-            // AtatusLogs' `RequestBuilder`.
-            queryItems: atatusIdentificationQueryItems(with: context) + execution.retryQueryItems,
+            // ATCHG: Added the TowerSignal identification query items, matching TowerSignalRUM's and
+            // TowerSignalLogs' `RequestBuilder`.
+            queryItems: towersignalIdentificationQueryItems(with: context) + execution.retryQueryItems,
             // ATCHG: End
             headers: [
                 .contentTypeHeader(contentType: .multipartFormData(boundary: multipart.boundary)),
@@ -88,10 +88,10 @@ internal struct ResourceRequestBuilder: FeatureRequestBuilder {
         return builder.uploadRequest(with: multipart.build(), compress: true)
     }
 
-    private func url(with context: AtatusContext) -> URL {
-        // ATCHG: Atatus Session Replay intake path, matching `v1/ios/rum` in AtatusRUM. Built from
+    private func url(with context: TowerSignalContext) -> URL {
+        // ATCHG: TowerSignal Session Replay intake path, matching `v1/ios/rum` in TowerSignalRUM. Built from
         // `intakeEndpoint` so a custom `serverUrl` is honoured, as on Android.
-        customUploadURL ?? context.intakeEndpoint.appendingPathComponent(atatusSessionReplayIntakePath)
+        customUploadURL ?? context.intakeEndpoint.appendingPathComponent(towersignalSessionReplayIntakePath)
         // ATCHG: End
     }
 }

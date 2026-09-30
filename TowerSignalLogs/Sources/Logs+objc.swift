@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 @objc(ATLogLevel)
 @_spi(objc)
@@ -74,10 +74,10 @@ public final class objc_LogsConfiguration: NSObject {
         )
     }
 
-    /// Sets the custom mapper for `ATLogEvent`. This can be used to modify logs before they are send to Atatus.
+    /// Sets the custom mapper for `ATLogEvent`. This can be used to modify logs before they are send to TowerSignal.
     ///
     /// The implementation should obtain a mutable version of the `ATLogEvent`, modify it and return it. Returning `nil` will result
-    /// with dropping the Log event entirely, so it won't be send to Atatus.
+    /// with dropping the Log event entirely, so it won't be send to TowerSignal.
     public func setEventMapper(_ mapper: @escaping (objc_LogEvent) -> objc_LogEvent?) {
         configuration.eventMapper = { swiftEvent in
             let objcEvent = objc_LogEvent(swiftModel: swiftEvent)
@@ -159,7 +159,7 @@ public final class objc_LoggerConfiguration: NSObject {
 
     /// Enables the logs integration with active span API from Tracing.
     ///
-    /// If enabled all the logs will be bundled with the `AtatusTracer.shared().activeSpan` trace and
+    /// If enabled all the logs will be bundled with the `TowerSignalTracer.shared().activeSpan` trace and
     /// it will be possible to see all the logs sent during that specific trace.
     ///
     /// `true` by default
@@ -187,7 +187,7 @@ public final class objc_LoggerConfiguration: NSObject {
         set { configuration.consoleLogFormat = newValue ? .short : nil }
     }
 
-    /// Set the minim log level reported to Atatus servers.
+    /// Set the minim log level reported to TowerSignal servers.
     /// Any log with a level equal or above the threshold will be sent.
     ///
     /// Note: this setting doesn't impact logs printed to the console if `printLogsToConsole(_:)`
@@ -213,8 +213,8 @@ public final class objc_LoggerConfiguration: NSObject {
     ///   - networkInfoEnabled: Enriches logs with network connection info. `false` by default.
     ///   - bundleWithRumEnabled: Enables the logs integration with RUM. `true` by default.
     ///   - bundleWithTraceEnabled: Enables the logs integration with active span API from Tracing. `true` by default
-    ///   - remoteSampleRate: The sample rate for remote logging. **When set to `0`, no log entries will be sent to Atatus servers.**
-    ///   - remoteLogThreshold: Set the minimum log level reported to Atatus servers. .debug by default.
+    ///   - remoteSampleRate: The sample rate for remote logging. **When set to `0`, no log entries will be sent to TowerSignal servers.**
+    ///   - remoteLogThreshold: Set the minimum log level reported to TowerSignal servers. .debug by default.
     ///   - printLogsToConsole: Format to use when printing logs to console - either `.short` or `.json`.
     public init(
         service: String? = nil,
@@ -357,7 +357,7 @@ public final class objc_Logger: NSObject {
 }
 
 extension objc_Logger {
-    /// **For Atatus internal use only. Subject to changes.**
+    /// **For TowerSignal internal use only. Subject to changes.**
     ///
     /// Logs a critical entry in sync.
     ///

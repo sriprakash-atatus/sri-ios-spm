@@ -1,34 +1,34 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// Extends `RUMMonitorProtocol` with additional methods designed for Atatus cross-platform SDKs.
+/// Extends `RUMMonitorProtocol` with additional methods designed for TowerSignal cross-platform SDKs.
 public extension RUMMonitorProtocol {
-    /// Grants access to an internal interface utilized only by Atatus cross-platform SDKs.
+    /// Grants access to an internal interface utilized only by TowerSignal cross-platform SDKs.
     /// **It is not meant for public use** and it might change without prior notice.
-    var _internal: AtatusInternalInterface? {
+    var _internal: TowerSignalInternalInterface? {
         guard let monitor = self as? RUMCommandSubscriber else {
             return nil
         }
-        return AtatusInternalInterface(monitor: monitor)
+        return TowerSignalInternalInterface(monitor: monitor)
     }
 }
 
-/// An interface granting access to internal methods exclusively utilized by Atatus cross-platform SDKs.
+/// An interface granting access to internal methods exclusively utilized by TowerSignal cross-platform SDKs.
 /// **It is not meant for public use.**
 ///
 /// Methods, members, and functionality of this interface is subject to change without prior notice,
-/// as they are not considered part of the public interface of the Atatus SDK.
-public struct AtatusInternalInterface {
+/// as they are not considered part of the public interface of the TowerSignal SDK.
+public struct TowerSignalInternalInterface {
     let monitor: RUMCommandSubscriber
 
     /// Adds a RUM error to the current view, allowing the addition of BinaryImages

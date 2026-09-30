@@ -19,11 +19,11 @@ define_arg "artifacts-path" "" "Path to store artifacts." "string" "true"
 check_for_help "$@"
 parse_args "$@"
 
-REPO_NAME="atatus/atatus-sdk-ios"
-ASSET_NAME="Atatus.xcframework.zip"
+REPO_NAME="towersignal/towersignal-sdk-ios"
+ASSET_NAME="TowerSignal.xcframework.zip"
 ARTIFACTS_PATH="$artifacts_path"
-ORIGINAL_OUTPUT="$ARTIFACTS_PATH/Atatus-with-arm64e.xcframework.zip"
-FINAL_OUTPUT="$ARTIFACTS_PATH/Atatus.xcframework.zip"
+ORIGINAL_OUTPUT="$ARTIFACTS_PATH/TowerSignal-with-arm64e.xcframework.zip"
+FINAL_OUTPUT="$ARTIFACTS_PATH/TowerSignal.xcframework.zip"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Verifies that the GitHub CLI is authenticated and ready to use.
@@ -38,10 +38,10 @@ verify_gh_auth() {
 
 # Downloads the XCFramework asset from the specified GitHub release tag.
 #
-# This function downloads the Atatus.xcframework.zip asset from the release
-# matching the provided tag in the atatus/atatus-sdk-ios repository.
+# This function downloads the TowerSignal.xcframework.zip asset from the release
+# matching the provided tag in the towersignal/towersignal-sdk-ios repository.
 # The original downloaded file is saved to the artifacts path as
-# Atatus-with-arm64e.xcframework.zip.
+# TowerSignal-with-arm64e.xcframework.zip.
 #
 # Exits with error code 1 if:
 #   - The release tag does not exist
@@ -66,7 +66,7 @@ download_xcframework() {
 process_xcframework() {
     echo "Extracting XCFramework"
     local TEMP_DIR=$(mktemp -d)
-    local XCF_DIR="$TEMP_DIR/Atatus.xcframework"
+    local XCF_DIR="$TEMP_DIR/TowerSignal.xcframework"
 
     unzip -q "$ORIGINAL_OUTPUT" -d "$TEMP_DIR"
 
@@ -75,7 +75,7 @@ process_xcframework() {
         --xcframework "$XCF_DIR"
 
     echo "Creating modified XCFramework archive"
-    (cd "$TEMP_DIR" && zip -r -q "$(basename "$FINAL_OUTPUT")" "Atatus.xcframework")
+    (cd "$TEMP_DIR" && zip -r -q "$(basename "$FINAL_OUTPUT")" "TowerSignal.xcframework")
     mv "$TEMP_DIR/$(basename "$FINAL_OUTPUT")" "$FINAL_OUTPUT"
 
     # Cleanup

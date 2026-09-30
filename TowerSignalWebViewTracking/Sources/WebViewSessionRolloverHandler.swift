@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 #if canImport(WebKit)
 import WebKit
 #endif
@@ -35,13 +35,13 @@ internal class WebViewSessionRolloverHandler {
     )
 
     /// The core that owns this handler.
-    private weak var core: AtatusCoreProtocol?
+    private weak var core: TowerSignalCoreProtocol?
 
     /// Creates a new RUM session rollover handler.
     ///
     /// - Parameters:
     ///   - core: The core that owns this handler.
-    init(core: AtatusCoreProtocol) {
+    init(core: TowerSignalCoreProtocol) {
         self.core = core
     }
 
@@ -139,7 +139,7 @@ internal class WebViewSessionRolloverHandler {
     ///   for details.
     ///
     /// - throws: If a problem happens registering a newly created feature.
-    static func register(webView: WKWebView, in core: AtatusCoreProtocol, using elements: WebViewTrackingElements) throws {
+    static func register(webView: WKWebView, in core: TowerSignalCoreProtocol, using elements: WebViewTrackingElements) throws {
         // In some situations, like users manually removing the injected user scripts and enabling tracking on the
         // WebView again, we cannot detect the view is already instrumented. So, just in case, try to unregister
         // the given WebView it before registering it.
@@ -173,7 +173,7 @@ internal class WebViewSessionRolloverHandler {
         activeWebViews
     }
 
-    internal var coreTesting: AtatusCoreProtocol? {
+    internal var coreTesting: TowerSignalCoreProtocol? {
         core
     }
     #endif

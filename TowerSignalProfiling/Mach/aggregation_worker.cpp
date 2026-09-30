@@ -1,7 +1,7 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 #include "aggregation_worker.h"
@@ -35,7 +35,7 @@ aggregation_worker::~aggregation_worker() {
 }
 
 void* aggregation_worker::worker_thread_entry(void* arg) {
-    pthread_setname_np("com.atatus.profiler.aggregate");
+    pthread_setname_np("com.towersignal.profiler.aggregate");
     static_cast<aggregation_worker*>(arg)->worker_main();
     return nullptr;
 }

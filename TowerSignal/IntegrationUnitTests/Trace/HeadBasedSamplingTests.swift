@@ -1,29 +1,29 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `_dd` attribute
-// prefix to `_atatus`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `_dd` attribute
+// prefix to `_towersignal`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import XCTest
-@testable import AtatusTrace
+@testable import TowerSignalTrace
 @_spi(Internal)
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 
 class HeadBasedSamplingTests: XCTestCase {
     private class InstrumentedSessionDelegate: NSObject, URLSessionDataDelegate {}
 
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
     private var traceConfig: Trace.Configuration! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
         traceConfig = Trace.Configuration()
     }
 
@@ -220,10 +220,10 @@ class HeadBasedSamplingTests: XCTestCase {
 
     func testSendingSampledDistributedTraceWithNoParent_throughURLSessionInstrumentationAPI() throws {
         /*
-         This is the situation where distributed trace starts with the span created with AtatusTrace network
+         This is the situation where distributed trace starts with the span created with TowerSignalTrace network
          instrumentation (with no parent):
 
-         atatus-sdk-ios:         [--- urlsession.request ---]   keep
+         towersignal-sdk-ios:         [--- urlsession.request ---]   keep
          client backend:        [--- backend span ---]      keep
          */
 
@@ -250,7 +250,7 @@ class HeadBasedSamplingTests: XCTestCase {
         // Then
         let expectedTraceIDField = String(span.traceID.idLo)
         let expectedSpanIDField = String(span.spanID, representation: .decimal)
-        let expectedTagsField = "_atatus.p.tid=\(span.traceID.idHiHex),_atatus.p.dm=-1"
+        let expectedTagsField = "_towersignal.p.tid=\(span.traceID.idHiHex),_towersignal.p.dm=-1"
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.traceIDField), expectedTraceIDField)
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.parentSpanIDField), expectedSpanIDField)
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), expectedTagsField)
@@ -259,10 +259,10 @@ class HeadBasedSamplingTests: XCTestCase {
 
     func testSendingDroppedDistributedTraceWithNoParent_throughURLSessionInstrumentationAPI() throws {
         /*
-         This is the situation where distributed trace starts with the span created with AtatusTrace network
+         This is the situation where distributed trace starts with the span created with TowerSignalTrace network
          instrumentation (with no parent):
 
-         atatus-sdk-ios:         [--- urlsession.request ---]   drop
+         towersignal-sdk-ios:         [--- urlsession.request ---]   drop
          client backend:        [--- backend span ---]      drop
          */
 
@@ -291,10 +291,10 @@ class HeadBasedSamplingTests: XCTestCase {
     func testSendingSampledDistributedTraceWithParent_throughURLSessionInstrumentationAPI() throws {
         /*
          This is the situation where distributed trace starts with an active local span and is continued with the span
-         created with AtatusTrace network instrumentation:
+         created with TowerSignalTrace network instrumentation:
 
          client-ios-app:     [-------- active.span -----------]   keep
-         atatus-sdk-ios:            [--- urlsession.request ---]      keep
+         towersignal-sdk-ios:            [--- urlsession.request ---]      keep
          client backend:           [--- backend span ---]         keep
          */
 
@@ -330,7 +330,7 @@ class HeadBasedSamplingTests: XCTestCase {
         // Then
         let expectedTraceIDField = String(activeSpan.traceID.idLo)
         let expectedSpanIDField = String(urlsessionSpan.spanID, representation: .decimal)
-        let expectedTagsField = "_atatus.p.tid=\(activeSpan.traceID.idHiHex),_atatus.p.dm=-1"
+        let expectedTagsField = "_towersignal.p.tid=\(activeSpan.traceID.idHiHex),_towersignal.p.dm=-1"
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.traceIDField), expectedTraceIDField)
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.parentSpanIDField), expectedSpanIDField)
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), expectedTagsField)
@@ -340,10 +340,10 @@ class HeadBasedSamplingTests: XCTestCase {
     func testSendingDroppedDistributedTraceWithParent_throughURLSessionInstrumentationAPI() throws {
         /*
          This is the situation where distributed trace starts with an active local span and is continued with the span
-         created with AtatusTrace network instrumentation:
+         created with TowerSignalTrace network instrumentation:
 
          client-ios-app:     [-------- active.span -----------]   drop
-         atatus-sdk-ios:            [--- urlsession.request ---]      drop
+         towersignal-sdk-ios:            [--- urlsession.request ---]      drop
          client backend:           [--- backend span ---]         drop
          */
 
@@ -379,10 +379,10 @@ class HeadBasedSamplingTests: XCTestCase {
     func testSendingDroppedDistributedTraceWithParent_throughURLSessionInstrumentationAPI_noInjection() throws {
         /*
          This is the situation where distributed trace starts with an active local span and is continued with the span
-         created with AtatusTrace network instrumentation:
+         created with TowerSignalTrace network instrumentation:
 
          client-ios-app:     [-------- active.span -----------]   manual drop
-         atatus-sdk-ios:            [--- urlsession.request ---]      manual drop
+         towersignal-sdk-ios:            [--- urlsession.request ---]      manual drop
          client backend:           [--- backend span ---]         server decision
          */
 
@@ -419,7 +419,7 @@ class HeadBasedSamplingTests: XCTestCase {
 
     func testSendingSampledDistributedTraceWithNoParent_throughTracerAPI() throws {
         /*
-         This is the situation where distributed trace starts with the span created with Atatus tracer:
+         This is the situation where distributed trace starts with the span created with TowerSignal tracer:
 
          client-ios-app:     [------ network.span ------]   keep
          client backend:        [--- backend span ---]      keep
@@ -448,7 +448,7 @@ class HeadBasedSamplingTests: XCTestCase {
         // Then
         let expectedTraceIDField = String(networkSpan.traceID.idLo)
         let expectedSpanIDField = String(networkSpan.spanID, representation: .decimal)
-        let expectedTagsField = "_atatus.p.tid=\(networkSpan.traceID.idHiHex),_atatus.p.dm=-1"
+        let expectedTagsField = "_towersignal.p.tid=\(networkSpan.traceID.idHiHex),_towersignal.p.dm=-1"
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.traceIDField), expectedTraceIDField)
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.parentSpanIDField), expectedSpanIDField)
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), expectedTagsField)
@@ -457,7 +457,7 @@ class HeadBasedSamplingTests: XCTestCase {
 
     func testSendingDroppedDistributedTraceWithNoParent_throughTracerAPI() throws {
         /*
-         This is the situation where distributed trace starts with the span created with Atatus tracer:
+         This is the situation where distributed trace starts with the span created with TowerSignal tracer:
 
          client-ios-app:     [------ network.span ------]   drop
          client backend:        [--- backend span ---]      drop
@@ -490,7 +490,7 @@ class HeadBasedSamplingTests: XCTestCase {
     func testSendingSampledDistributedTraceWithParent_throughTracerAPI() throws {
         /*
          This is the situation where distributed trace starts with an active local span and is continued with the span
-         created with Atatus tracer:
+         created with TowerSignal tracer:
 
          client-ios-app:     [-------- active.span -----------]   keep
          client-ios-app:         [------ network.span ------]     keep
@@ -528,7 +528,7 @@ class HeadBasedSamplingTests: XCTestCase {
         // Then
         let expectedTraceIDField = String(activeSpan.traceID.idLo)
         let expectedSpanIDField = String(networkSpan.spanID, representation: .decimal)
-        let expectedTagsField = "_atatus.p.tid=\(activeSpan.traceID.idHiHex),_atatus.p.dm=-1"
+        let expectedTagsField = "_towersignal.p.tid=\(activeSpan.traceID.idHiHex),_towersignal.p.dm=-1"
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.traceIDField), expectedTraceIDField)
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.parentSpanIDField), expectedSpanIDField)
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), expectedTagsField)
@@ -538,7 +538,7 @@ class HeadBasedSamplingTests: XCTestCase {
     func testSendingDroppedDistributedTraceWithParent_throughTracerAPI() throws {
         /*
          This is the situation where distributed trace starts with an active local span and is continued with the span
-         created with Atatus tracer:
+         created with TowerSignal tracer:
 
          client-ios-app:     [-------- active.span -----------]   drop
          client-ios-app:         [------ network.span ------]     drop

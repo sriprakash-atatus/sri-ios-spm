@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import SwiftUI
 
 @available(iOS 13, tvOS 13,*)
 extension Color {
-    /// Atatus purple.
-    static var atatusPurple: Color {
+    /// TowerSignal purple.
+    static var towersignalPurple: Color {
         return Color(UIColor(red: 99/256, green: 44/256, blue: 166/256, alpha: 1))
     }
 
@@ -34,12 +34,12 @@ extension Color {
 }
 
 @available(iOS 13, tvOS 13,*)
-internal struct AtatusButtonStyle: ButtonStyle {
-    func makeBody(configuration: AtatusButtonStyle.Configuration) -> some View {
+internal struct TowerSignalButtonStyle: ButtonStyle {
+    func makeBody(configuration: TowerSignalButtonStyle.Configuration) -> some View {
         return configuration.label
             .font(.system(size: 12, weight: .medium))
             .padding(6)
-            .background(Color.atatusPurple)
+            .background(Color.towersignalPurple)
             .foregroundColor(.white)
             .cornerRadius(6)
     }

@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
 // `AT`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusTrace
+import TowerSignalInternal
+@testable import TowerSignalTrace
 
 private class MockWriter: OTFormatWriter, TracePropagationHeadersWriter {
     var traceHeaderFields: [String: String] = [:]
@@ -25,13 +25,13 @@ private class MockReader: OTFormatReader, TracePropagationHeadersReader {
     var extractedSamplingDecisionMaker: SamplingMechanismType? = nil
 
     func read() -> (traceID: TraceID, spanID: SpanID, parentSpanID: SpanID?)? { extractedIDs }
-    var samplingPriority: AtatusInternal.SamplingPriority? { extractedSamplingPriority }
-    var samplingDecisionMaker: AtatusInternal.SamplingMechanismType? { extractedSamplingDecisionMaker }
+    var samplingPriority: TowerSignalInternal.SamplingPriority? { extractedSamplingPriority }
+    var samplingDecisionMaker: TowerSignalInternal.SamplingMechanismType? { extractedSamplingDecisionMaker }
 }
 
-class AtatusTracer_InjectAndExtract: XCTestCase {
-    private func createTracer(sampleRate: Float) -> AtatusTracer {
-        return AtatusTracer(
+class TowerSignalTracer_InjectAndExtract: XCTestCase {
+    private func createTracer(sampleRate: Float) -> TowerSignalTracer {
+        return TowerSignalTracer(
             featureScope: NOPFeatureScope(),
             samplingProvider: TracerSamplerProviderMock(sampler: Sampler(samplingRate: sampleRate)),
             tags: [:],

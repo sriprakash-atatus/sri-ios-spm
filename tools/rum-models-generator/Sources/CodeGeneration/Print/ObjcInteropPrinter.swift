@@ -1,10 +1,10 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
 // `AT`; rebranded the licence header.
 
 import Foundation
@@ -721,7 +721,7 @@ public class ObjcInteropPrinter: BasePrinter, CodePrinter {
             // However our SDK bridges `[String: Any]` attributes passed in Objective-C API to their `[String: Encodable]` representation
             // in underlying Swift SDK. This is done with `AnyEncodable` type erasure. To return these attributes back
             // to the user, `AnyEncodable` must be unpacked to its original `Any` value. This is done in `.dd.objCAttributes` extension
-            // defined in `AtatusInternal` module. Here we just emit its invocation:
+            // defined in `TowerSignalInternal` module. Here we just emit its invocation:
             return optionality + ".dd.objCAttributes"
         case let objcStruct as ObjcInteropNestedClass:
             let transitiveType = objcStruct.parentProperty as? ObjcInteropPropertyWrapperForTransitiveType

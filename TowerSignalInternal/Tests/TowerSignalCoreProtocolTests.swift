@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
 
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 
-class AtatusCoreProtocolTests: XCTestCase {
+class TowerSignalCoreProtocolTests: XCTestCase {
     func testSendMessageExtension() {
         // Given
         let receiver = FeatureMessageReceiverMock()
@@ -23,7 +23,7 @@ class AtatusCoreProtocolTests: XCTestCase {
 
         // Then
         XCTAssertEqual(
-            receiver.messages.last?.asPayload as? String, "value", "AtatusCoreProtocol.send(message:) should forward message"
+            receiver.messages.last?.asPayload as? String, "value", "TowerSignalCoreProtocol.send(message:) should forward message"
         )
     }
 

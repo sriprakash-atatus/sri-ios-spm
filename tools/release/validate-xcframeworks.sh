@@ -17,7 +17,7 @@ define_arg "artifacts-path" "" "The path to build artifacts." "string" "true"
 check_for_help "$@"
 parse_args "$@"
 
-XCF_ZIP_NAME="Atatus.xcframework.zip"
+XCF_ZIP_NAME="TowerSignal.xcframework.zip"
 XCF_ZIP_PATH="$artifacts_path/$XCF_ZIP_NAME"
 
 unzip_archive() {
@@ -99,12 +99,12 @@ list_remaining_files() {
 # validated, and any remaining files are reported as unexpected.
 #
 # Arguments:
-#   $1 - Framework name (e.g., "AtatusInternal.xcframework")
+#   $1 - Framework name (e.g., "TowerSignalInternal.xcframework")
 #   $2 - Comma-separated platform list (e.g., "iOS,tvOS" or "iOS")
 #
 # Examples:
-#   validate_xcframework "AtatusCore.xcframework" "iOS,tvOS"
-#   validate_xcframework "AtatusSessionReplay.xcframework" "iOS"
+#   validate_xcframework "TowerSignalCore.xcframework" "iOS,tvOS"
+#   validate_xcframework "TowerSignalSessionReplay.xcframework" "iOS"
 validate_xcframework() {
     local framework_name=$1
     local platforms=$2
@@ -167,21 +167,21 @@ echo_subtitle "Validate xcframeworks in '$XCF_ZIP_NAME'"
 unzip_archive "$XCF_ZIP_PATH" "$temp_dir"
 
 # Check if the main bundle exists in the archive
-XCF_PATH="$temp_dir/Atatus.xcframework"
+XCF_PATH="$temp_dir/TowerSignal.xcframework"
 check_xcframework_bundle_exists "$XCF_PATH"
 
 # Validate xcframeworks from the archive
 # Each framework is validated for specified platforms (iOS, tvOS, or both)
-validate_xcframework "AtatusInternal.xcframework"          "iOS,tvOS"
-validate_xcframework "AtatusCore.xcframework"              "iOS,tvOS"
-validate_xcframework "AtatusLogs.xcframework"              "iOS,tvOS"
-validate_xcframework "AtatusTrace.xcframework"             "iOS,tvOS"
-validate_xcframework "AtatusRUM.xcframework"               "iOS,tvOS"
-validate_xcframework "AtatusCrashReporting.xcframework"    "iOS,tvOS"
-validate_xcframework "AtatusFlags.xcframework"             "iOS,tvOS"
-validate_xcframework "AtatusProfiling.xcframework"         "iOS,tvOS"
-validate_xcframework "AtatusSessionReplay.xcframework"     "iOS"
-validate_xcframework "AtatusWebViewTracking.xcframework"   "iOS"
+validate_xcframework "TowerSignalInternal.xcframework"          "iOS,tvOS"
+validate_xcframework "TowerSignalCore.xcframework"              "iOS,tvOS"
+validate_xcframework "TowerSignalLogs.xcframework"              "iOS,tvOS"
+validate_xcframework "TowerSignalTrace.xcframework"             "iOS,tvOS"
+validate_xcframework "TowerSignalRUM.xcframework"               "iOS,tvOS"
+validate_xcframework "TowerSignalCrashReporting.xcframework"    "iOS,tvOS"
+validate_xcframework "TowerSignalFlags.xcframework"             "iOS,tvOS"
+validate_xcframework "TowerSignalProfiling.xcframework"         "iOS,tvOS"
+validate_xcframework "TowerSignalSessionReplay.xcframework"     "iOS"
+validate_xcframework "TowerSignalWebViewTracking.xcframework"   "iOS"
 validate_xcframework "OpenTelemetryApi.xcframework"         "iOS,tvOS"
 
 # Check if archive has any remaining files

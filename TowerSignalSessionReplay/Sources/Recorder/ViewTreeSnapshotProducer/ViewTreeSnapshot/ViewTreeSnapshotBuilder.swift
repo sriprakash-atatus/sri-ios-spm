@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 #if os(iOS)
 import Foundation
@@ -13,7 +13,7 @@ import UIKit
 import WebKit
 
 @_spi(Internal)
-import AtatusInternal
+import TowerSignalInternal
 
 /// Builds `ViewTreeSnapshot` for given root view.
 ///
@@ -24,7 +24,7 @@ internal struct ViewTreeSnapshotBuilder {
     /// Generates stable IDs for traversed views.
     let idsGenerator: NodeIDGenerator
     /// A weak core reference.
-    weak var core: AtatusCoreProtocol?
+    weak var core: TowerSignalCoreProtocol?
     /// Feature flags for Session Replay.
     let featureFlags: SessionReplay.Configuration.FeatureFlags
     /// The webviews cache.
@@ -86,7 +86,7 @@ internal struct ViewTreeSnapshotBuilder {
 extension ViewTreeSnapshotBuilder {
     init(
         additionalNodeRecorders: [NodeRecorder],
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         featureFlags: SessionReplay.Configuration.FeatureFlags
     ) {
         self.init(

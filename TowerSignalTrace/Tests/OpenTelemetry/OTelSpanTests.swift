@@ -1,24 +1,24 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
 // `AT`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusTrace
+import TowerSignalInternal
+@testable import TowerSignalTrace
 
 final class OTelSpanTests: XCTestCase {
     private let featureScope = FeatureScopeMock()
 
     func testSpanResourceNameDefault() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "OperationName").startSpan()
 
         // When
@@ -34,7 +34,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSpanOperationNameAttribute() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "https://httpbin.org/get").startSpan()
 
         // When
@@ -51,7 +51,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSpanServiceNameDefault() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "OperationName").startSpan()
 
         // When
@@ -66,7 +66,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSpanServiceNameAttribute() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "OperationName").startSpan()
 
         // When
@@ -82,7 +82,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSpanResourceNameAttribute() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "OperationName").startSpan()
 
         // When
@@ -99,7 +99,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSpanSetName() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "OperationName").startSpan()
 
         // When
@@ -119,7 +119,7 @@ final class OTelSpanTests: XCTestCase {
         let (name, ignoredName) = ("trueName", "invalidName")
         let (attributes, ignoredAttributes) = (["key": "value"], ["ignoredKey": "ignoredValue"])
 
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: name).startSpan()
         for (key, value) in attributes {
             span.setAttribute(key: key, value: value)
@@ -153,7 +153,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSetParentSpan() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let parentSpan = tracer.spanBuilder(spanName: "Parent").startSpan()
         _ = tracer.spanBuilder(spanName: "Noise").startSpan()
         let childSpan = tracer.spanBuilder(spanName: "Child").setParent(parentSpan).startSpan()
@@ -173,7 +173,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSetParentContext() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let parentSpan = tracer.spanBuilder(spanName: "Parent").startSpan()
         _ = tracer.spanBuilder(spanName: "Noise").startSpan()
         let childSpan = tracer.spanBuilder(spanName: "Child").setParent(parentSpan.context).startSpan()
@@ -193,7 +193,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSetNoParent() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let parentSpan = tracer.spanBuilder(spanName: "Parent").startSpan()
         _ = tracer.spanBuilder(spanName: "Noise").startSpan()
         let childSpan = tracer.spanBuilder(spanName: "Child").setNoParent().startSpan()
@@ -213,7 +213,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSetActive_givenParentSpan() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let parentSpan = tracer.spanBuilder(spanName: "Parent").setActive(true).startSpan()
         let childSpan = tracer.spanBuilder(spanName: "Child").startSpan()
 
@@ -233,7 +233,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSetActive_givenParentWithMultipleChildren() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let parentSpan = tracer.spanBuilder(spanName: "Parent").setActive(true).startSpan()
         let childSpan = tracer.spanBuilder(spanName: "Child1").setActive(true).startSpan()
         childSpan.end()
@@ -258,7 +258,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testWithActiveSpan() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
 
         // When
         tracer.spanBuilder(spanName: "Parent").withActiveSpan { _ in
@@ -278,7 +278,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testParentIds_givenDisjointSpans() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span1 = tracer.spanBuilder(spanName: "Span1").startSpan()
         let span2 = tracer.spanBuilder(spanName: "Span2").startSpan()
 
@@ -299,7 +299,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSetAttribute() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "Span").startSpan()
 
         // When
@@ -327,7 +327,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSetAttributes() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "Span").startSpan()
 
         // When
@@ -356,7 +356,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testSetGlobalAttribute() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(
+        let tracer: TowerSignalTracer = .mockWith(
             featureScope: featureScope,
             tags: [
                 "global": "keep_me",
@@ -392,7 +392,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testStatus_whenStatusIsNotSet() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "Span").startSpan()
 
         // When
@@ -411,7 +411,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testStatus_whenStatusIsOk() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "Span").startSpan()
 
         // When
@@ -430,7 +430,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testStatus_whenStatusIsErrorWithMessage() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "Span").startSpan()
 
         // When
@@ -452,7 +452,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testStatus_givenStatusOk_whenSetStatusCalledWithErrorAndUnset() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "Span").startSpan()
         span.status = .ok
 
@@ -473,7 +473,7 @@ final class OTelSpanTests: XCTestCase {
 
     func testStatus_givenStatusError_whenSetStatusCalledWithUnset() throws {
         // Given
-        let tracer: AtatusTracer = .mockWith(featureScope: featureScope)
+        let tracer: TowerSignalTracer = .mockWith(featureScope: featureScope)
         let span = tracer.spanBuilder(spanName: "Span").startSpan()
         span.status = .error(description: "error description")
 

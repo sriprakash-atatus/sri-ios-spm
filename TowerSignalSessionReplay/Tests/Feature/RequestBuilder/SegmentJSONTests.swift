@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; renamed `dd*` types to `Atatus*`; renamed the `DD`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; renamed `dd*` types to `TowerSignal*`; renamed the `DD`
 // symbol prefix to `AT`; rebranded the licence header.
 
 #if os(iOS)
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 
 @_spi(Internal)
 import TestUtilities
 @_spi(Internal)
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 
 class SegmentJSONTests: XCTestCase {
     func testGivenSRSegmentWithRecords_whenCreatingSegmentJSON_itEcodesToTheSameJSON() throws {
@@ -65,11 +65,11 @@ class SegmentJSONTests: XCTestCase {
 
         // When & Then
         XCTAssertThrowsError(try SegmentJSON(malrofmedData1, source: .mockRandom())) { error in
-            let description = (error as! AtatusSessionReplay.InternalError).description
+            let description = (error as! TowerSignalSessionReplay.InternalError).description
             XCTAssertTrue(description.hasPrefix("Failed to decode Dictionary<String, Any>.Type"))
         }
         XCTAssertThrowsError(try SegmentJSON(malrofmedData2, source: .mockRandom())) { error in
-            let description = (error as! AtatusSessionReplay.InternalError).description
+            let description = (error as! TowerSignalSessionReplay.InternalError).description
             XCTAssertTrue(description.hasPrefix("Failed to read attribute at key path"))
         }
     }
@@ -166,7 +166,7 @@ class SegmentJSONTests: XCTestCase {
             // expected `segment`, so they are spread among many enriched records:
             .chunkedRandomly(numberOfChunks: .random(in: 1...segment.records.count))
             .map { EnrichedRecord(context: context, records: $0) }
-            // Encode `EnrichedRecords` into `Data`, just like it happens in `AtatusCore` when
+            // Encode `EnrichedRecords` into `Data`, just like it happens in `TowerSignalCore` when
             // writing them into batches:
             .map { try encoder.encode($0) }
             // Decode it back to `EnrichedRecordJSON` just like it happens when preparing

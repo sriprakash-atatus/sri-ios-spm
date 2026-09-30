@@ -1,23 +1,23 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 #if os(iOS)
 
-import AtatusInternal
+import TowerSignalInternal
 import Foundation
 import SwiftUI
 
 @available(iOS 13.0, *)
-extension SwiftUI.Path: AtatusExtended {}
+extension SwiftUI.Path: TowerSignalExtended {}
 
 @available(iOS 13.0, *)
-extension AtatusExtension where ExtendedType == SwiftUI.Path {
+extension TowerSignalExtension where ExtendedType == SwiftUI.Path {
     var svgString: String {
         var d = ""
         type.forEach { element in
@@ -38,17 +38,17 @@ extension AtatusExtension where ExtendedType == SwiftUI.Path {
     }
 }
 
-extension CGPoint: AtatusExtended {}
+extension CGPoint: TowerSignalExtended {}
 
-extension AtatusExtension where ExtendedType == CGPoint {
+extension TowerSignalExtension where ExtendedType == CGPoint {
     internal var svgString: String {
         "\(type.x.dd.svgString) \(type.y.dd.svgString)"
     }
 }
 
-extension CGFloat: AtatusExtended {}
+extension CGFloat: TowerSignalExtended {}
 
-extension AtatusExtension where ExtendedType == CGFloat {
+extension TowerSignalExtension where ExtendedType == CGFloat {
     internal var svgString: String {
         String(format: "%.3f", locale: .init(identifier: "en_US_POSIX"), type)
     }

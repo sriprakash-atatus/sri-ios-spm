@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddInternal`
-// -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddInternal`
+// -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
 @_spi(Internal)
-@testable import AtatusFlags
+@testable import TowerSignalFlags
 
 /// Covers integration scenarios for flag evaluation logging.
 final class FlagsEvaluationIntegrationTests: XCTestCase {
@@ -40,7 +40,7 @@ final class FlagsEvaluationIntegrationTests: XCTestCase {
     /// EVALLOG.4: Evaluations are flushed when SDK shuts down via flushAndTearDown()
     func testGivenPendingEvaluations_whenSDKShutsDown_itFlushes() throws {
         // Given
-        let core = AtatusCoreProxy(context: .mockWith(trackingConsent: .granted))
+        let core = TowerSignalCoreProxy(context: .mockWith(trackingConsent: .granted))
         Flags.enable(with: .init(trackEvaluations: true), in: core)
 
         let featureScope = core.scope(for: FlagsFeature.self)

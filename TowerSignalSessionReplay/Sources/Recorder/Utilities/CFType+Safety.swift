@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - removed the `dd` name from comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - removed the `dd` name from comments and docs; rebranded the licence
 // header.
 
 #if os(iOS)
@@ -29,7 +29,7 @@ import CoreGraphics
 /// let alpha = sanitize(value: view.layer.borderColor, expectedTypeID: CGColor.typeID)?.alpha
 /// ```
 ///
-/// For full context, see: https://github.com/dd/atatus-sdk-ios/pull/1373
+/// For full context, see: https://github.com/dd/towersignal-sdk-ios/pull/1373
 ///
 /// Reference: [CFTypeRef - Core Foundation](https://developer.apple.com/documentation/corefoundation/cftyperef)
 private func sanitize<T: CFTypeRef>(value: T?, expectedTypeID: CFTypeID) -> T? {

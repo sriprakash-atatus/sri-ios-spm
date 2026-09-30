@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// Atatus logger.
+/// TowerSignal logger.
 public struct Logger {
     public struct Configuration {
         /// Format to use when printing logs to console.
@@ -46,7 +46,7 @@ public struct Logger {
 
         /// Enables the logs integration with active span API from Tracing.
         ///
-        /// If enabled all the logs will be bundled with the `AtatusTracer.shared().activeSpan` trace and
+        /// If enabled all the logs will be bundled with the `TowerSignalTracer.shared().activeSpan` trace and
         /// it will be possible to see all the logs sent during that specific trace.
         ///
         /// `true` by default.
@@ -54,7 +54,7 @@ public struct Logger {
 
         /// Sets the sample rate for remote logging.
         ///
-        /// **When set to `0`, no log entries will be sent to Atatus servers.**
+        /// **When set to `0`, no log entries will be sent to TowerSignal servers.**
         /// A value of`100` means all logs will be processed.
         ///
         /// When setting the `remoteSampleRate` to `0`
@@ -62,7 +62,7 @@ public struct Logger {
         /// Default is `100`, meaning that all logs will be sent.
         public var remoteSampleRate: Float
 
-        /// Set the minimum log level reported to Atatus servers.
+        /// Set the minimum log level reported to TowerSignal servers.
         /// Any log with a level equal or above the threshold will be sent.
         ///
         /// Note: this setting doesn't impact logs printed to the console if `printLogsToConsole(_:)`
@@ -87,8 +87,8 @@ public struct Logger {
         ///   - networkInfoEnabled: Enriches logs with network connection info. `false` by default.
         ///   - bundleWithRUM: Enables the logs integration with RUM. `true` by default.
         ///   - bundleWithTraceEnabled: Enables the logs integration with active span API from Tracing. `true` by default
-        ///   - remoteSampleRate: The sample rate for remote logging. **When set to `0`, no log entries will be sent to Atatus servers.**
-        ///   - remoteLogThreshold: Set the minimum log level reported to Atatus servers. .debug by default.
+        ///   - remoteSampleRate: The sample rate for remote logging. **When set to `0`, no log entries will be sent to TowerSignal servers.**
+        ///   - remoteLogThreshold: Set the minimum log level reported to TowerSignal servers. .debug by default.
         ///   - consoleLogFormat: Format to use when printing logs to console - either `.short` or `.json`.
         public init(
             service: String? = nil,
@@ -117,11 +117,11 @@ public struct Logger {
     ///
     /// - Parameters:
     ///   - configuration: The logger configuration.
-    ///   - core: The instance of Atatus SDK to enable Logs in (global instance by default).
+    ///   - core: The instance of TowerSignal SDK to enable Logs in (global instance by default).
     /// - Returns: A logger instance.
     public static func create(
         with configuration: Configuration = .init(),
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) -> LoggerProtocol {
         do {
             return try createOrThrow(with: configuration, in: core)
@@ -135,12 +135,12 @@ public struct Logger {
     ///
     /// - Parameters:
     ///   - configuration: The logger configuration.
-    ///   - core: The instance of Atatus SDK to enable Logs in (global instance by default).
+    ///   - core: The instance of TowerSignal SDK to enable Logs in (global instance by default).
     /// - Returns: A logger instance.
-    private static func createOrThrow(with configuration: Configuration, in core: AtatusCoreProtocol) throws -> LoggerProtocol {
-        if core is NOPAtatusCore {
+    private static func createOrThrow(with configuration: Configuration, in core: TowerSignalCoreProtocol) throws -> LoggerProtocol {
+        if core is NOPTowerSignalCore {
             throw ProgrammerError(
-                description: "`Atatus.initialize()` must be called prior to `Logger.create()`."
+                description: "`TowerSignal.initialize()` must be called prior to `Logger.create()`."
             )
         }
 

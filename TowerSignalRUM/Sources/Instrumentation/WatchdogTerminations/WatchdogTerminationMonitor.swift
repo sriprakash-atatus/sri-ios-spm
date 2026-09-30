@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// Monitors the Watchdog Termination events and reports them to Atatus.
+/// Monitors the Watchdog Termination events and reports them to TowerSignal.
 internal final class WatchdogTerminationMonitor {
     /// The state of the Watchdog Termination Monitor.
     enum State {
@@ -89,7 +89,7 @@ internal final class WatchdogTerminationMonitor {
         feature.rumDataStore.setValue(viewEvent, forKey: .watchdogRUMViewEvent)
     }
 
-    /// Checks if the app was terminated by Watchdog and sends the Watchdog Termination event to Atatus.
+    /// Checks if the app was terminated by Watchdog and sends the Watchdog Termination event to TowerSignal.
     /// - Parameter launch: The launch report containing information about the app launch.
     private func sendWatchTerminationIfFound(launch: LaunchReport, completion: @escaping () -> Void) {
         checker.isWatchdogTermination(launch: launch) { [weak self] isWatchdogTermination, state  in
@@ -102,7 +102,7 @@ internal final class WatchdogTerminationMonitor {
         }
     }
 
-    /// Sends the Watchdog Termination event to Atatus with the given state.
+    /// Sends the Watchdog Termination event to TowerSignal with the given state.
     /// Because Watchdog Termination are reported in the next app session, it uses the saved `RUMViewEvent`
     /// to report the event.
     /// - Parameter state: The app state when the Watchdog Termination occurred.
@@ -151,7 +151,7 @@ extension WatchdogTerminationMonitor: FeatureMessageReceiver {
     ///   - message: The feature message.
     ///   - core: The core instance.
     /// - Returns: Always `false`, because it doesn't block the message propagation.
-    func receive(message: AtatusInternal.FeatureMessage, from core: any AtatusInternal.AtatusCoreProtocol) -> Bool {
+    func receive(message: TowerSignalInternal.FeatureMessage, from core: any TowerSignalInternal.TowerSignalCoreProtocol) -> Bool {
         guard case .context(let context) = message else {
             return false
         }

@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`,
-// `ddInternal` -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`,
+// `ddInternal` -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; rebranded the licence
 // header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusCrashReporting
+import TowerSignalInternal
+@testable import TowerSignalCrashReporting
 
 class KSCrashBacktraceTests: XCTestCase {
     /// Regex pattern to match stack frame format: index library_name address load_address + offset
-    /// Library name can contain spaces (e.g., "AtatusCrashReportingTests iOS")
+    /// Library name can contain spaces (e.g., "TowerSignalCrashReportingTests iOS")
     let regex = try! NSRegularExpression(pattern: #"^\d+\s+.+?\s+0x[0-9a-f]+\s+0x[0-9a-f]+\s+\+\s+\d+$"#, options: [.anchorsMatchLines])
 
     // MARK: - Current Thread Tests
@@ -41,7 +41,7 @@ class KSCrashBacktraceTests: XCTestCase {
             )
         }
 
-        let userImage = report.binaryImages.first(where: { $0.libraryName.contains("AtatusCrashReportingTests") })
+        let userImage = report.binaryImages.first(where: { $0.libraryName.contains("TowerSignalCrashReportingTests") })
         let systemImage = report.binaryImages.first(where: { $0.libraryName == "xctest" })
 
         XCTAssertFalse(userImage?.isSystemLibrary ?? true, "Should include current binary image")
@@ -101,7 +101,7 @@ class KSCrashBacktraceTests: XCTestCase {
             )
         }
 
-        let userImage = report.binaryImages.first(where: { $0.libraryName.contains("AtatusCrashReportingTests") })
+        let userImage = report.binaryImages.first(where: { $0.libraryName.contains("TowerSignalCrashReportingTests") })
         let systemImage = report.binaryImages.first(where: { $0.libraryName == "Foundation" })
 
         XCTAssertFalse(userImage?.isSystemLibrary ?? true, "Should include current binary image")
@@ -169,7 +169,7 @@ class KSCrashBacktraceTests: XCTestCase {
 
         // Then
         let testImage = try XCTUnwrap(
-            images.first { $0.libraryName.contains("AtatusCrashReportingTests") },
+            images.first { $0.libraryName.contains("TowerSignalCrashReportingTests") },
             "Binary images should include the test target"
         )
         XCTAssertFalse(testImage.isSystemLibrary, "Test target should not be a system library")

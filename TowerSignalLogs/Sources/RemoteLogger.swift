@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`; repointed the intake host at the Atatus site;
-// rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`; repointed the intake host at the TowerSignal site;
+// rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// `Logger` sending logs to Atatus.
+/// `Logger` sending logs to TowerSignal.
 internal final class RemoteLogger: LoggerProtocol, Sendable {
     struct Configuration: @unchecked Sendable {
         /// The `service` value for logs.
-        /// See: [Unified Service Tagging](https://www.atatus.com/docs/).
+        /// See: [Unified Service Tagging](https://www.towersignal.com/docs/).
         let service: String?
         /// The `logger.name` value for logs.
         let name: String?
@@ -186,7 +186,7 @@ internal final class RemoteLogger: LoggerProtocol, Sendable {
                 threadName: threadName
             ) { log in
                 // ATCHG: Append the `agent` object and `log_source` to the log payload, matching
-                // `LogEventSerializer.serialize()` in the Atatus Android agent.
+                // `LogEventSerializer.serialize()` in the TowerSignal Android agent.
                 writer.write(
                     value: log.withAgentInfo(logSource: AgentInfo.logSource),
                     completion: completionHandler

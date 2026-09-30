@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddInternal`
-// -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed `clientToken` to `licenseKey`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddInternal`
+// -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed `clientToken` to `licenseKey`;
 // rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusFlags
+@testable import TowerSignalFlags
 
 final class FlagAssignmentsRequestTests: XCTestCase {
     private let testURL = URL(string: "https://test.example.com/precompute-assignments")!
@@ -26,7 +26,7 @@ final class FlagAssignmentsRequestTests: XCTestCase {
                 "userId": .string("123")
             ]
         )
-        let context = AtatusContext.mockWith(
+        let context = TowerSignalContext.mockWith(
             licenseKey: "test-token",
             env: "production",
             sdkVersion: "3.5.1",
@@ -42,7 +42,7 @@ final class FlagAssignmentsRequestTests: XCTestCase {
                 "name" : "production"
               },
               "source" : {
-                "sdk_name" : "atatus-sdk-ios",
+                "sdk_name" : "towersignal-sdk-ios",
                 "sdk_version" : "3.5.1"
               },
               "subject" : {

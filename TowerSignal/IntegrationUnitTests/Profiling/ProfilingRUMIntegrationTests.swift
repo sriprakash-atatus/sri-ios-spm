@@ -1,27 +1,27 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddMachProfiler` -> `AtatusMachProfiler`, `ddProfiling` -> `AtatusProfiling`, `ddRUM` ->
-// `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddMachProfiler` -> `TowerSignalMachProfiler`, `ddProfiling` -> `TowerSignalProfiling`, `ddRUM` ->
+// `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the
 // licence header.
 
 import XCTest
 
 #if !os(watchOS)
 
-import AtatusInternal
+import TowerSignalInternal
 //swiftlint:disable duplicate_imports
-import AtatusMachProfiler
-import AtatusMachProfiler.Testing
+import TowerSignalMachProfiler
+import TowerSignalMachProfiler.Testing
 //swiftlint:enable duplicate_imports
 import TestUtilities
 
-@testable import AtatusProfiling
-@testable import AtatusRUM
+@testable import TowerSignalProfiling
+@testable import TowerSignalRUM
 
 final class ProfilingRUMIntegrationTests: XCTestCase {
     private enum Fixtures {
@@ -33,7 +33,7 @@ final class ProfilingRUMIntegrationTests: XCTestCase {
         static let minProfileDuration: TimeInterval = 0.1
     }
 
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
@@ -41,7 +41,7 @@ final class ProfilingRUMIntegrationTests: XCTestCase {
         dd_profiler_start()
 
         let launchInfo: LaunchInfo = .mockWith(processLaunchDate: Date())
-        core = AtatusCoreProxy(
+        core = TowerSignalCoreProxy(
             context: .mockWith(
                 trackingConsent: .granted,
                 launchInfo: launchInfo
@@ -305,7 +305,7 @@ private extension ProfilingRUMIntegrationTests {
 
     func triggerProfileFlush() {
         let expectation = expectation(description: "read latest profiler context")
-        var currentContext: AtatusContext?
+        var currentContext: TowerSignalContext?
         core.scope(for: ProfilerFeature.self).context {
             currentContext = $0
             expectation.fulfill()

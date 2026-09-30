@@ -20,18 +20,18 @@ check_for_help "$@"
 parse_args "$@"
 
 ARTIFACTS_PATH="$artifacts_path"
-REPO_CLONE_PATH="$ARTIFACTS_PATH/atatus-sdk-ios"
-XCF_DIR_WITH_ARM64E="Atatus-with-arm64e.xcframework"
-XCF_DIR_WITHOUT_ARM64E="Atatus.xcframework"
-XCF_ZIP_NAME_WITH_ARM64E="Atatus-with-arm64e.xcframework.zip"
-XCF_ZIP_NAME="Atatus.xcframework.zip"
+REPO_CLONE_PATH="$ARTIFACTS_PATH/towersignal-sdk-ios"
+XCF_DIR_WITH_ARM64E="TowerSignal-with-arm64e.xcframework"
+XCF_DIR_WITHOUT_ARM64E="TowerSignal.xcframework"
+XCF_ZIP_NAME_WITH_ARM64E="TowerSignal-with-arm64e.xcframework.zip"
+XCF_ZIP_NAME="TowerSignal.xcframework.zip"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Clone a fresh version of the repo to the artifacts path to ensure that release tools
 # operate on a clean version of the repo, unaltered by any configuration changes.
 clone_repo () {
     echo_subtitle "Clone repo for '$tag' into '$ARTIFACTS_PATH'"
-    git clone --depth 1 --branch $tag --single-branch git@github.com:atatus/atatus-sdk-ios.git $REPO_CLONE_PATH
+    git clone --depth 1 --branch $tag --single-branch git@github.com:towersignal/towersignal-sdk-ios.git $REPO_CLONE_PATH
 }
 
 # Create XCFrameworks for the repo clone using release tools from the current repo.

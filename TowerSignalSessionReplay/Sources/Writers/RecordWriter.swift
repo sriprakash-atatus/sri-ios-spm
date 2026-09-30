@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 #if os(iOS)
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// A type writing Session Replay records to `AtatusCore`.
+/// A type writing Session Replay records to `TowerSignalCore`.
 internal protocol RecordWriting {
     /// Writes next records to SDK core.
     func write(nextRecord: EnrichedRecord)
@@ -19,9 +19,9 @@ internal protocol RecordWriting {
 
 internal class RecordWriter: RecordWriting {
     /// An instance of SDK core the SR feature is registered to.
-    private weak var core: AtatusCoreProtocol?
+    private weak var core: TowerSignalCoreProtocol?
 
-    init(core: AtatusCoreProtocol) {
+    init(core: TowerSignalCoreProtocol) {
         self.core = core
     }
 

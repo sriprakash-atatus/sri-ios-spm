@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddMachProfiler` -> `AtatusMachProfiler`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddMachProfiler` -> `TowerSignalMachProfiler`;
 // rebranded the licence header.
 
 #if !os(watchOS)
@@ -12,9 +12,9 @@ import XCTest
 import TestUtilities
 
 // swiftlint:disable duplicate_imports
-import AtatusMachProfiler.Cxx
-import AtatusMachProfiler.Pprof
-import AtatusMachProfiler.Testing
+import TowerSignalMachProfiler.Cxx
+import TowerSignalMachProfiler.Pprof
+import TowerSignalMachProfiler.Testing
 // swiftlint:enable duplicate_imports
 
 final class ProfileCxxTests: XCTestCase {

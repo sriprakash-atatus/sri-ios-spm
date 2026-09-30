@@ -1,7 +1,7 @@
 // swift-tools-version: 6.0
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; rebranded the `dd` name to `Atatus` in comments and docs.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs.
 
 import PackageDescription
 import Foundation
@@ -10,7 +10,7 @@ let internalSwiftSettings: [SwiftSetting] = ProcessInfo.processInfo.environment[
     [.define("AT_BENCHMARK")] : []
 
 let package = Package(
-    name: "Atatus",
+    name: "TowerSignal",
     platforms: [
         .iOS(.v12),
         .tvOS(.v12),
@@ -20,40 +20,40 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "AtatusCore",
-            targets: ["AtatusCore"]
+            name: "TowerSignalCore",
+            targets: ["TowerSignalCore"]
         ),
         .library(
-            name: "AtatusLogs",
-            targets: ["AtatusLogs"]
+            name: "TowerSignalLogs",
+            targets: ["TowerSignalLogs"]
         ),
         .library(
-            name: "AtatusTrace",
-            targets: ["AtatusTrace"]
+            name: "TowerSignalTrace",
+            targets: ["TowerSignalTrace"]
         ),
         .library(
-            name: "AtatusRUM",
-            targets: ["AtatusRUM"]
+            name: "TowerSignalRUM",
+            targets: ["TowerSignalRUM"]
         ),
         .library(
-            name: "AtatusSessionReplay",
-            targets: ["AtatusSessionReplay"]
+            name: "TowerSignalSessionReplay",
+            targets: ["TowerSignalSessionReplay"]
         ),
         .library(
-            name: "AtatusCrashReporting",
-            targets: ["AtatusCrashReporting"]
+            name: "TowerSignalCrashReporting",
+            targets: ["TowerSignalCrashReporting"]
         ),
         .library(
-            name: "AtatusWebViewTracking",
-            targets: ["AtatusWebViewTracking"]
+            name: "TowerSignalWebViewTracking",
+            targets: ["TowerSignalWebViewTracking"]
         ),
         .library(
-            name: "AtatusFlags",
-            targets: ["AtatusFlags"]
+            name: "TowerSignalFlags",
+            targets: ["TowerSignalFlags"]
         ),
         .library(
-            name: "AtatusProfiling",
-            targets: ["AtatusProfiling"]
+            name: "TowerSignalProfiling",
+            targets: ["TowerSignalProfiling"]
         ),
     ],
     dependencies: [
@@ -62,10 +62,10 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "AtatusCore",
+            name: "TowerSignalCore",
             dependencies: [
-                .target(name: "AtatusInternal"),
-                .target(name: "AtatusPrivate"),
+                .target(name: "TowerSignalInternal"),
+                .target(name: "TowerSignalPrivate"),
             ],
             path: "TowerSignalCore",
             sources: ["Sources"],
@@ -75,44 +75,44 @@ let package = Package(
             swiftSettings: [.define("SPM_BUILD")] + internalSwiftSettings
         ),
         .target(
-            name: "AtatusPrivate",
+            name: "TowerSignalPrivate",
             path: "TowerSignalCore/Private"
         ),
 
         .target(
-            name: "AtatusInternal",
+            name: "TowerSignalInternal",
             path: "TowerSignalInternal/Sources",
             swiftSettings: internalSwiftSettings
         ),
         .testTarget(
-            name: "AtatusInternalTests",
+            name: "TowerSignalInternalTests",
             dependencies: [
-                .target(name: "AtatusInternal"),
+                .target(name: "TowerSignalInternal"),
                 .target(name: "TestUtilities"),
             ],
             path: "TowerSignalInternal/Tests"
         ),
 
         .target(
-            name: "AtatusLogs",
+            name: "TowerSignalLogs",
             dependencies: [
-                .target(name: "AtatusInternal"),
+                .target(name: "TowerSignalInternal"),
             ],
             path: "TowerSignalLogs/Sources"
         ),
         .testTarget(
-            name: "AtatusLogsTests",
+            name: "TowerSignalLogsTests",
             dependencies: [
-                .target(name: "AtatusLogs"),
+                .target(name: "TowerSignalLogs"),
                 .target(name: "TestUtilities"),
             ],
             path: "TowerSignalLogs/Tests"
         ),
 
         .target(
-            name: "AtatusTrace",
+            name: "TowerSignalTrace",
             dependencies: [
-                .target(name: "AtatusInternal"),
+                .target(name: "TowerSignalInternal"),
                 .product(name: "OpenTelemetryApi", package: "opentelemetry-swift-core")
             ],
             path: "TowerSignalTrace/Sources",
@@ -121,9 +121,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "AtatusTraceTests",
+            name: "TowerSignalTraceTests",
             dependencies: [
-                .target(name: "AtatusTrace"),
+                .target(name: "TowerSignalTrace"),
                 .target(name: "TestUtilities"),
             ],
             path: "TowerSignalTrace/Tests",
@@ -133,10 +133,10 @@ let package = Package(
         ),
 
         .target(
-            name: "AtatusRUM",
+            name: "TowerSignalRUM",
             dependencies: [
-                .target(name: "AtatusInternal"),
-                .target(name: "AtatusRUMPrivate"),
+                .target(name: "TowerSignalInternal"),
+                .target(name: "TowerSignalRUMPrivate"),
             ],
             path: "TowerSignalRUM",
             sources: ["Sources"],
@@ -146,22 +146,22 @@ let package = Package(
             swiftSettings: [.define("SPM_BUILD")] + internalSwiftSettings
         ),
         .target(
-            name: "AtatusRUMPrivate",
+            name: "TowerSignalRUMPrivate",
             path: "TowerSignalRUM/Private"
         ),
         .testTarget(
-            name: "AtatusRUMTests",
+            name: "TowerSignalRUMTests",
             dependencies: [
-                .target(name: "AtatusRUM"),
+                .target(name: "TowerSignalRUM"),
                 .target(name: "TestUtilities"),
             ],
             path: "TowerSignalRUM/Tests"
         ),
 
         .target(
-            name: "AtatusCrashReporting",
+            name: "TowerSignalCrashReporting",
             dependencies: [
-                .target(name: "AtatusInternal"),
+                .target(name: "TowerSignalInternal"),
                 .product(name: "Recording", package: "KSCrash"),
                 .product(name: "Filters", package: "KSCrash")
             ],
@@ -172,39 +172,39 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "AtatusCrashReportingTests",
+            name: "TowerSignalCrashReportingTests",
             dependencies: [
-                .target(name: "AtatusCrashReporting"),
+                .target(name: "TowerSignalCrashReporting"),
                 .target(name: "TestUtilities"),
             ],
             path: "TowerSignalCrashReporting/Tests"
         ),
 
         .target(
-            name: "AtatusWebViewTracking",
+            name: "TowerSignalWebViewTracking",
             dependencies: [
-                .target(name: "AtatusInternal"),
+                .target(name: "TowerSignalInternal"),
             ],
             path: "TowerSignalWebViewTracking/Sources"
         ),
         .testTarget(
-            name: "AtatusWebViewTrackingTests",
+            name: "TowerSignalWebViewTrackingTests",
             dependencies: [
-                .target(name: "AtatusWebViewTracking"),
+                .target(name: "TowerSignalWebViewTracking"),
                 .target(name: "TestUtilities"),
             ],
             path: "TowerSignalWebViewTracking/Tests"
         ),
 
         .target(
-            name: "AtatusSessionReplay",
-            dependencies: ["AtatusInternal"],
+            name: "TowerSignalSessionReplay",
+            dependencies: ["TowerSignalInternal"],
             path: "TowerSignalSessionReplay/Sources"
         ),
         .testTarget(
-            name: "AtatusSessionReplayTests",
+            name: "TowerSignalSessionReplayTests",
             dependencies: [
-                .target(name: "AtatusSessionReplay"),
+                .target(name: "TowerSignalSessionReplay"),
                 .target(name: "TestUtilities"),
             ],
             path: "TowerSignalSessionReplay/Tests",
@@ -214,10 +214,10 @@ let package = Package(
         ),
         
         .target(
-            name: "AtatusProfiling",
+            name: "TowerSignalProfiling",
             dependencies: [
-                .target(name: "AtatusInternal"),
-                .target(name: "AtatusMachProfiler")
+                .target(name: "TowerSignalInternal"),
+                .target(name: "TowerSignalMachProfiler")
             ],
             path: "TowerSignalProfiling",
             sources: ["Sources"],
@@ -227,14 +227,14 @@ let package = Package(
             swiftSettings: internalSwiftSettings
         ),
         .target(
-            name: "AtatusMachProfiler",
+            name: "TowerSignalMachProfiler",
             path: "TowerSignalProfiling/Mach"
         ),
         .testTarget(
-            name: "AtatusProfilingTests",
+            name: "TowerSignalProfilingTests",
             dependencies: [
-                .target(name: "AtatusMachProfiler"),
-                .target(name: "AtatusProfiling"),
+                .target(name: "TowerSignalMachProfiler"),
+                .target(name: "TowerSignalProfiling"),
                 .target(name: "TestUtilities"),
             ],
             path: "TowerSignalProfiling/Tests",
@@ -242,16 +242,16 @@ let package = Package(
         ),
 
         .target(
-            name: "AtatusFlags",
+            name: "TowerSignalFlags",
             dependencies: [
-                .target(name: "AtatusInternal"),
+                .target(name: "TowerSignalInternal"),
             ],
             path: "TowerSignalFlags/Sources"
         ),
         .testTarget(
-            name: "AtatusFlagsTests",
+            name: "TowerSignalFlagsTests",
             dependencies: [
-                .target(name: "AtatusFlags"),
+                .target(name: "TowerSignalFlags"),
                 .target(name: "TestUtilities"),
             ],
             path: "TowerSignalFlags/Tests"
@@ -260,16 +260,16 @@ let package = Package(
         .target(
             name: "TestUtilities",
             dependencies: [
-                .target(name: "AtatusCore"),
-                .target(name: "AtatusPrivate"),
-                .target(name: "AtatusInternal"),
-                .target(name: "AtatusLogs"),
-                .target(name: "AtatusRUM"),
-                .target(name: "AtatusSessionReplay"),
-                .target(name: "AtatusTrace"),
-                .target(name: "AtatusCrashReporting"),
-                .target(name: "AtatusWebViewTracking"),
-                .target(name: "AtatusFlags"),
+                .target(name: "TowerSignalCore"),
+                .target(name: "TowerSignalPrivate"),
+                .target(name: "TowerSignalInternal"),
+                .target(name: "TowerSignalLogs"),
+                .target(name: "TowerSignalRUM"),
+                .target(name: "TowerSignalSessionReplay"),
+                .target(name: "TowerSignalTrace"),
+                .target(name: "TowerSignalCrashReporting"),
+                .target(name: "TowerSignalWebViewTracking"),
+                .target(name: "TowerSignalFlags"),
             ],
             path: "TestUtilities/Sources",
             swiftSettings: [.define("SPM_BUILD")] + internalSwiftSettings

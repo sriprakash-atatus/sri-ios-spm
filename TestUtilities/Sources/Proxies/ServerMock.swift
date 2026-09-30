@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed `dd*`
-// members to `at*`; renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed `dd*`
+// members to `at*`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the licence header.
 
 import XCTest
 import ObjectiveC
-import AtatusInternal
+import TowerSignalInternal
 
 /// An utility header, added to each request by the `ServerMock` and removed while intercepting through `ServerMockProtocol`.
 /// It transmits an unique identifier of the `URLSession` instance obtained from `ServerMock`. It is used for consistency check
@@ -203,7 +203,7 @@ public class ServerMock {
         self.skipIsMainThreadCheck = skipIsMainThreadCheck
         precondition(skipIsMainThreadCheck || Thread.isMainThread, "`ServerMock` should be initialized on the main thread.")
         precondition(ServerMock.activeInstance == nil, "Only one active instance of `ServerMock` is allowed at a time.")
-        self.queue = DispatchQueue(label: "com.atatus.ServerMock-\(urlSessionUUID.uuidString)")
+        self.queue = DispatchQueue(label: "com.towersignal.ServerMock-\(urlSessionUUID.uuidString)")
 
         ServerMock.activeInstance = self
     }

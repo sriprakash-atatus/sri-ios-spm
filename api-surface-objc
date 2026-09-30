@@ -1,12 +1,12 @@
 # ----------------------------------
-# API surface for AtatusCore:
+# API surface for TowerSignalCore:
 # ----------------------------------
 
 public final class objc_TrackingConsent: NSObject
     public static func granted() -> objc_TrackingConsent
     public static func notGranted() -> objc_TrackingConsent
     public static func pending() -> objc_TrackingConsent
-public final class objc_Atatus: NSObject
+public final class objc_TowerSignal: NSObject
     public static func initialize(configuration: objc_Configuration,trackingConsent: objc_TrackingConsent)
     public static func initialize(configuration: objc_Configuration,trackingConsent: objc_TrackingConsent,instanceName: String)
     public static func setVerbosityLevel(_ verbosityLevel: objc_CoreLoggerLevel)
@@ -31,16 +31,16 @@ public final class objc_Atatus: NSObject
     public static func stopInstance(instanceName: String?)
     public static func clearAllData()
     public static func clearAllData(instanceName: String?)
-public final class objc_AtatusSite: NSObject
-    public static func us1() -> objc_AtatusSite
-    public static func us3() -> objc_AtatusSite
-    public static func us5() -> objc_AtatusSite
-    public static func eu1() -> objc_AtatusSite
-    public static func ap1() -> objc_AtatusSite
-    public static func ap2() -> objc_AtatusSite
-    public static func uk1() -> objc_AtatusSite
-    public static func us1_fed() -> objc_AtatusSite
-    public static func us2_fed() -> objc_AtatusSite
+public final class objc_TowerSignalSite: NSObject
+    public static func us1() -> objc_TowerSignalSite
+    public static func us3() -> objc_TowerSignalSite
+    public static func us5() -> objc_TowerSignalSite
+    public static func eu1() -> objc_TowerSignalSite
+    public static func ap1() -> objc_TowerSignalSite
+    public static func ap2() -> objc_TowerSignalSite
+    public static func uk1() -> objc_TowerSignalSite
+    public static func us1_fed() -> objc_TowerSignalSite
+    public static func us2_fed() -> objc_TowerSignalSite
 public enum objc_BatchSize: Int
     case small
     case medium
@@ -61,7 +61,7 @@ public protocol objc_ServerDateProvider: AnyObject
 public final class objc_Configuration: NSObject
     public var clientToken: String
     public var env: String
-    public var site: objc_AtatusSite
+    public var site: objc_TowerSignalSite
     public var service: String?
     public var version: String?
     public var batchSize: objc_BatchSize
@@ -90,7 +90,7 @@ public final class objc_URLSessionInstrumentation: NSObject
     public static func disable(delegateClass: URLSessionDataDelegate.Type, instanceName: String?)
 
 # ----------------------------------
-# API surface for AtatusLogs:
+# API surface for TowerSignalLogs:
 # ----------------------------------
 
 public enum objc_LogLevel: Int
@@ -286,7 +286,7 @@ public enum objc_LogEventRadioAccessTechnology: Int
     case unknown
 
 # ----------------------------------
-# API surface for AtatusTrace:
+# API surface for TowerSignalTrace:
 # ----------------------------------
 
 public protocol objc_OTSpan
@@ -369,7 +369,7 @@ public final class objc_Tracer: NSObject, objc_OTTracer
     public func extractWithFormat(_ format: String, carrier: Any) throws
 
 # ----------------------------------
-# API surface for AtatusRUM:
+# API surface for TowerSignalRUM:
 # ----------------------------------
 
 public class objc_RUMActionEvent: NSObject
@@ -3660,7 +3660,7 @@ public class objc_TelemetryConfigurationEventTelemetryConfigurationPlugins: NSOb
     public var pluginsInfo: [String: Any]
 public enum objc_TelemetryConfigurationEventTelemetryConfigurationSelectedTracingPropagators: Int
     case none
-    case atatus
+    case towersignal
     case b3
     case b3multi
     case tracecontext
@@ -4018,13 +4018,13 @@ public class objc_RUMMonitor: NSObject
     public func _internal_sync_addError(_ error: Error,source: objc_RUMErrorSource,attributes: [String: Any])
 
 # ----------------------------------
-# API surface for AtatusCrashReporting:
+# API surface for TowerSignalCrashReporting:
 # ----------------------------------
 
 
 
 # ----------------------------------
-# API surface for AtatusWebViewTracking:
+# API surface for TowerSignalWebViewTracking:
 # ----------------------------------
 
 public final class objc_WebViewTracking: NSObject
@@ -4033,7 +4033,7 @@ public final class objc_WebViewTracking: NSObject
     public static func disable(webView: WKWebView)
 
 # ----------------------------------
-# API surface for AtatusSessionReplay:
+# API surface for TowerSignalSessionReplay:
 # ----------------------------------
 
 public final class objc_SessionReplay: NSObject
@@ -4088,13 +4088,13 @@ public final class objc_SessionReplayPrivacyOverrides: NSObject
     @objc public var hide: NSNumber?
 
 # ----------------------------------
-# API surface for AtatusFlags:
+# API surface for TowerSignalFlags:
 # ----------------------------------
 
 
 
 # ----------------------------------
-# API surface for AtatusProfiling:
+# API surface for TowerSignalProfiling:
 # ----------------------------------
 
 

@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
@@ -13,7 +13,7 @@ import Foundation
 /// generation started) to the root cause or the origin of the problem.
 ///
 /// - Unlike `ATCrashReport`, the backtrace report can be generated on-demand without the actual crash being triggered.
-/// - Like in `ATCrashReport`, threads and stacks information in `BacktraceReport` follows the format compatible with Atatus symbolication.
+/// - Like in `ATCrashReport`, threads and stacks information in `BacktraceReport` follows the format compatible with TowerSignal symbolication.
 public struct BacktraceReport: Codable {
     /// The stack trace of the thread for which the backtrace is generated.
     public let stack: String

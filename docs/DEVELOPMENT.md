@@ -2,10 +2,10 @@
 
 ## Where to Add New Code
 
-### New Feature Module (e.g., AtatusNotifications)
-1. Create `AtatusNotifications/` with `Sources/` and `Tests/` subdirectories
+### New Feature Module (e.g., TowerSignalNotifications)
+1. Create `TowerSignalNotifications/` with `Sources/` and `Tests/` subdirectories
 2. Entry point: `Notifications.swift`, config: `NotificationsConfiguration.swift`
-3. Feature plugin: `Feature/NotificationsFeature.swift` (implements `AtatusRemoteFeature`)
+3. Feature plugin: `Feature/NotificationsFeature.swift` (implements `TowerSignalRemoteFeature`)
 4. Update `TowerSignal.xcworkspace` and any relevant `.pbxproj` files
 
 ### New RUM Instrumentation
@@ -23,10 +23,10 @@
 6. Update API surface: `make api-surface`
 
 ### New Context Provider
-1. Add the property to `AtatusContext` in `TowerSignalInternal/Sources/Context/`
+1. Add the property to `TowerSignalContext` in `TowerSignalInternal/Sources/Context/`
 2. Create `TowerSignalCore/Sources/Core/Context/<ProviderName>Publisher.swift` implementing `ContextValuePublisher`
 3. Subscribe to relevant system notifications
-4. Register the publisher in `AtatusContextProvider` initialization
+4. Register the publisher in `TowerSignalContextProvider` initialization
 5. Add tests in `TowerSignalCore/Tests/`
 
 ### Shared Internal Types (used by multiple features)

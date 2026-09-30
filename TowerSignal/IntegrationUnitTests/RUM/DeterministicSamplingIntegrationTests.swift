@@ -1,23 +1,23 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddRUM` -> `AtatusRUM`, `ddSessionReplay` -> `AtatusSessionReplay`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`, `ddSessionReplay` -> `TowerSignalSessionReplay`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusCore
-@testable import AtatusRUM
-@testable import AtatusTrace
+@testable import TowerSignalCore
+@testable import TowerSignalRUM
+@testable import TowerSignalTrace
 
 #if os(iOS)
 @_spi(Internal)
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 #endif
 
 /// Integration tests verifying deterministic sampling behavior.
@@ -29,12 +29,12 @@ import TestUtilities
 /// are suppressed end-to-end when `isSampled == false`.
 class DeterministicSamplingIntegrationTests: XCTestCase {
     // swiftlint:disable implicitly_unwrapped_optional
-    private var core: AtatusCoreProxy!
+    private var core: TowerSignalCoreProxy!
     // swiftlint:enable implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
     }
 
     override func tearDownWithError() throws {

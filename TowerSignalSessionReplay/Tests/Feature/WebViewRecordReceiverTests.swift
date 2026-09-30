@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; renamed the `DD` symbol prefix to `AT`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; renamed the `DD` symbol prefix to `AT`; rebranded the
 // licence header.
 
 #if os(iOS)
@@ -13,8 +13,8 @@
 import XCTest
 import TestUtilities
 
-@testable import AtatusInternal
-@testable import AtatusSessionReplay
+@testable import TowerSignalInternal
+@testable import TowerSignalSessionReplay
 
 class WebViewRecordReceiverTests: XCTestCase {
     func testGivenRUMContextAvailable_whenReceivingWebRecord_itCreatesSegment() throws {
@@ -47,7 +47,7 @@ class WebViewRecordReceiverTests: XCTestCase {
         // When
 
         let message = WebViewMessage.record(webRecordMock, WebViewMessage.View(id: browserViewID))
-        let result = receiver.receive(message: .webview(message), from: NOPAtatusCore())
+        let result = receiver.receive(message: .webview(message), from: NOPTowerSignalCore())
 
         // Then
         let expectedWebSegmentWritten: [String: Any] = [
@@ -78,7 +78,7 @@ class WebViewRecordReceiverTests: XCTestCase {
 
         // When
         let record = WebViewMessage.record(mockRandomAttributes(), WebViewMessage.View(id: .mockRandom()))
-        let result = receiver.receive(message: .webview(record), from: NOPAtatusCore())
+        let result = receiver.receive(message: .webview(record), from: NOPTowerSignalCore())
 
         // Then
         XCTAssertTrue(result, "It must accept the message")
@@ -93,7 +93,7 @@ class WebViewRecordReceiverTests: XCTestCase {
 
         // When
         let otherMessage: FeatureMessage = .payload(String.mockRandom())
-        let result = receiver.receive(message: otherMessage, from: NOPAtatusCore())
+        let result = receiver.receive(message: otherMessage, from: NOPTowerSignalCore())
 
         // Then
         XCTAssertFalse(result, "It must reject messages addressed to other receivers")

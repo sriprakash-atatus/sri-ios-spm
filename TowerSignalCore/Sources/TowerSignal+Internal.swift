@@ -1,35 +1,35 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; repointed the intake host at the Atatus site; rebranded the `dd` name
-// to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; repointed the intake host at the TowerSignal site; rebranded the `dd` name
+// to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-extension Atatus: InternalExtended {}
+extension TowerSignal: InternalExtended {}
 
-/// This extension exposes internal methods that are used by other Atatus modules and cross platform
+/// This extension exposes internal methods that are used by other TowerSignal modules and cross platform
 /// frameworks. It is not meant for public use.
 ///
-/// DO NOT USE this extension or its methods if you are not working on the internals of the Atatus SDK
+/// DO NOT USE this extension or its methods if you are not working on the internals of the TowerSignal SDK
 /// or one of the cross platform frameworks.
 ///
 /// Methods, members, and functionality of this class  are subject to change without notice, as they
-/// are not considered part of the public interface of the Atatus SDK.
-extension InternalExtension where ExtendedType == Atatus {
+/// are not considered part of the public interface of the TowerSignal SDK.
+extension InternalExtension where ExtendedType == TowerSignal {
     /// Internal telemetry proxy.
     public static var telemetry: _TelemetryProxy {
         .init(telemetry: CoreRegistry.default.telemetry)
     }
 
-    /// Changes the `version` used for [Unified Service Tagging](https://www.atatus.com/docs/).
+    /// Changes the `version` used for [Unified Service Tagging](https://www.towersignal.com/docs/).
     public static func set(customVersion: String) {
-        guard let core = CoreRegistry.default as? AtatusCore else {
+        guard let core = CoreRegistry.default as? TowerSignalCore else {
             return
         }
 
@@ -51,8 +51,8 @@ public struct _TelemetryProxy {
     }
 }
 
-extension Atatus.Configuration: InternalExtended { }
-extension InternalExtension where ExtendedType == Atatus.Configuration {
+extension TowerSignal.Configuration: InternalExtended { }
+extension InternalExtension where ExtendedType == TowerSignal.Configuration {
     /// Sets additional configuration attributes.
     /// This can be used to tweak internal features of the SDK.
     public var additionalConfiguration: [String: Any] {

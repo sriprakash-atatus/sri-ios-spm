@@ -1,23 +1,23 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 #import <XCTest/XCTest.h>
-@import AtatusCore;
-@import AtatusInternal;
+@import TowerSignalCore;
+@import TowerSignalInternal;
 
-@interface ATAtatus_apiTests : XCTestCase
+@interface ATTowerSignal_apiTests : XCTestCase
 @end
 
 /*
  * Objc APIs smoke tests - only check if the interface is available to Objc.
  */
-@implementation ATAtatus_apiTests
+@implementation ATTowerSignal_apiTests
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-value"
@@ -28,43 +28,43 @@
     [ATTrackingConsent pending];
 }
 
-- (void)testDDAtatus {
+- (void)testDDTowerSignal {
     ATConfiguration *configuration = [[ATConfiguration alloc] initWithClientToken:@"abc" env:@"def"];
 
-    [ATAtatus initializeWithConfiguration:configuration trackingConsent:[ATTrackingConsent notGranted]];
+    [ATTowerSignal initializeWithConfiguration:configuration trackingConsent:[ATTrackingConsent notGranted]];
 
-    [ATAtatus isInitialized];
+    [ATTowerSignal isInitialized];
 
-    ATCoreLoggerLevel verbosity = [ATAtatus verbosityLevel];
-    [ATAtatus setVerbosityLevel:verbosity];
+    ATCoreLoggerLevel verbosity = [ATTowerSignal verbosityLevel];
+    [ATTowerSignal setVerbosityLevel:verbosity];
 
-    [ATAtatus setUserInfoWithUserId:@"" name:@"" email:@"" extraInfo:@{}];
-    [ATAtatus addUserExtraInfo:@{}];
-    [ATAtatus setTrackingConsentWithConsent:[ATTrackingConsent notGranted]];
+    [ATTowerSignal setUserInfoWithUserId:@"" name:@"" email:@"" extraInfo:@{}];
+    [ATTowerSignal addUserExtraInfo:@{}];
+    [ATTowerSignal setTrackingConsentWithConsent:[ATTrackingConsent notGranted]];
 
-    [ATAtatus clearAllData];
-    [ATAtatus stopInstance];
+    [ATTowerSignal clearAllData];
+    [ATTowerSignal stopInstance];
 }
 
-- (void)testDDAtatusInstanceNameAPI {
+- (void)testDDTowerSignalInstanceNameAPI {
     NSString *instanceName = @"test-instance";
     ATConfiguration *configuration = [[ATConfiguration alloc] initWithClientToken:@"abc" env:@"def"];
 
-    [ATAtatus initializeWithConfiguration:configuration trackingConsent:[ATTrackingConsent notGranted] instanceName:instanceName];
+    [ATTowerSignal initializeWithConfiguration:configuration trackingConsent:[ATTrackingConsent notGranted] instanceName:instanceName];
 
-    XCTAssertTrue([ATAtatus isInitializedWithInstanceName:instanceName]);
+    XCTAssertTrue([ATTowerSignal isInitializedWithInstanceName:instanceName]);
 
-    [ATAtatus setUserInfoWithUserId:@"user-id" instanceName:instanceName name:@"name" email:@"email" extraInfo:@{}];
-    [ATAtatus addUserExtraInfo:@{} instanceName:instanceName];
-    [ATAtatus clearUserInfoWithInstanceName:instanceName];
+    [ATTowerSignal setUserInfoWithUserId:@"user-id" instanceName:instanceName name:@"name" email:@"email" extraInfo:@{}];
+    [ATTowerSignal addUserExtraInfo:@{} instanceName:instanceName];
+    [ATTowerSignal clearUserInfoWithInstanceName:instanceName];
 
-    [ATAtatus setAccountInfoWithAccountId:@"account-id" instanceName:instanceName name:@"name" extraInfo:@{}];
-    [ATAtatus addAccountExtraInfo:@{} instanceName:instanceName];
-    [ATAtatus clearAccountInfoWithInstanceName:instanceName];
+    [ATTowerSignal setAccountInfoWithAccountId:@"account-id" instanceName:instanceName name:@"name" extraInfo:@{}];
+    [ATTowerSignal addAccountExtraInfo:@{} instanceName:instanceName];
+    [ATTowerSignal clearAccountInfoWithInstanceName:instanceName];
 
-    [ATAtatus setTrackingConsentWithConsent:[ATTrackingConsent notGranted] instanceName:instanceName];
-    [ATAtatus clearAllDataWithInstanceName:instanceName];
-    [ATAtatus stopInstanceWithInstanceName:instanceName];
+    [ATTowerSignal setTrackingConsentWithConsent:[ATTrackingConsent notGranted] instanceName:instanceName];
+    [ATTowerSignal clearAllDataWithInstanceName:instanceName];
+    [ATTowerSignal stopInstanceWithInstanceName:instanceName];
 }
 
 #pragma clang diagnostic pop

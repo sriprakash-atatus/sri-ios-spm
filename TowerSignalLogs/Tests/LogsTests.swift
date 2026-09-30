@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`; rebranded the licence header.
 
 import XCTest
 @_spi(Internal)
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 
-@testable import AtatusLogs
+@testable import TowerSignalLogs
 
 class LogsTests: XCTestCase {
     func testDefaultConfiguration() {
@@ -79,7 +79,7 @@ class LogsTests: XCTestCase {
 
     func testConfigurationInternalOverrides() throws {
         struct LogEventMapperMock: LogEventMapper {
-            func map(event: AtatusLogs.LogEvent, callback: @escaping (AtatusLogs.LogEvent) -> Void) {
+            func map(event: TowerSignalLogs.LogEvent, callback: @escaping (TowerSignalLogs.LogEvent) -> Void) {
                 callback(event)
             }
         }
@@ -174,10 +174,10 @@ class LogsTests: XCTestCase {
     }
 }
 
-// ATCHG: Tests covering the Atatus changes ported from the Android agent's `LogsRequestFactory`:
+// ATCHG: Tests covering the TowerSignal changes ported from the Android agent's `LogsRequestFactory`:
 // the `/v1/android/logs` intake path, the agent identification headers and query parameters, and the
 // logs heartbeat gate.
-class AtatusLogsRequestBuilderTests: XCTestCase {
+class TowerSignalLogsRequestBuilderTests: XCTestCase {
     private let mockEvents: [Event] = [.init(data: "{}".utf8Data)]
 
     override func setUp() {
@@ -190,24 +190,24 @@ class AtatusLogsRequestBuilderTests: XCTestCase {
         super.tearDown()
     }
 
-    func testItSetsTheAtatusLogsIntakeURL() throws {
+    func testItSetsTheTowerSignalLogsIntakeURL() throws {
         // Given
         let builder = RequestBuilder(customIntakeURL: nil, telemetry: NOPTelemetry())
 
         // When
-        let request = try builder.request(for: mockEvents, with: .mockWith(site: .atatus), execution: .mockAny())
+        let request = try builder.request(for: mockEvents, with: .mockWith(site: .towersignal), execution: .mockAny())
 
         // Then
-        XCTAssertEqual(request.url?.absoluteStringWithoutQuery, "https://mo-rx.atatus.com/v1/android/logs")
+        XCTAssertEqual(request.url?.absoluteStringWithoutQuery, "https://mo-rx.towersignal.com/v1/android/logs")
     }
 
-    func testItSetsTheAtatusQueryParametersAndHeaders() throws {
+    func testItSetsTheTowerSignalQueryParametersAndHeaders() throws {
         // Given
         let randomLicenseKey: String = .mockRandom(among: .alphanumerics)
         let randomAppName: String = .mockRandom(among: .alphanumerics)
         let randomSource: String = .mockRandom(among: .alphanumerics)
         let builder = RequestBuilder(customIntakeURL: nil, telemetry: NOPTelemetry())
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             licenseKey: randomLicenseKey,
             appName: randomAppName,
             source: randomSource
@@ -219,16 +219,16 @@ class AtatusLogsRequestBuilderTests: XCTestCase {
         // Then
         let components = try XCTUnwrap(URLComponents(url: try XCTUnwrap(request.url), resolvingAgainstBaseURL: false))
         let query = (components.queryItems ?? []).reduce(into: [String: String]()) { $0[$1.name] = $1.value }
-        XCTAssertEqual(query["atatus_source"], randomSource)
+        XCTAssertEqual(query["towersignal_source"], randomSource)
         XCTAssertEqual(query["license_key"], randomLicenseKey)
         XCTAssertEqual(query["agent_name"], AgentInfo.agentName)
         XCTAssertEqual(query["agent_version"], AgentInfo.agentVersion)
         XCTAssertEqual(query["app_name"], randomAppName)
 
         XCTAssertEqual(request.allHTTPHeaderFields?["api-key"], randomLicenseKey)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-AGENT-NAME"], AgentInfo.agentName)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-AGENT-VERSION"], AgentInfo.agentVersion)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-APP-NAME"], randomAppName)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-AGENT-NAME"], AgentInfo.agentName)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-AGENT-VERSION"], AgentInfo.agentVersion)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-APP-NAME"], randomAppName)
     }
 
     func testItSkipsTheBatchWhileTheLogsHeartbeatDisablesLogs() {

@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`,
-// `ddInternal` -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`,
+// `ddInternal` -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol
 // prefix to `AT`; renamed `dd*` members to `at*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 import KSCrashRecording
-@testable import AtatusCrashReporting
+@testable import TowerSignalCrashReporting
 
-class AtatusCrashReportFilterTests: XCTestCase {
+class TowerSignalCrashReportFilterTests: XCTestCase {
     /// Regex pattern to match stack frame format: index library_name address load_address + offset
-    /// Library name can contain spaces (e.g., "AtatusCrashReportingTests iOS")
+    /// Library name can contain spaces (e.g., "TowerSignalCrashReportingTests iOS")
     private let stackFrameRegex = try! NSRegularExpression(pattern: #"^(\d+)\s+(.+?)\s+(0x[0-9a-f]+)\s+(0x[0-9a-f]+)\s+\+\s+(\d+)$"#, options: [.anchorsMatchLines])
 
     private func parseStackFrame(_ frame: String) throws -> (index: Int, libraryName: String, instructionAddr: String, loadAddr: String, offset: Int) {
@@ -94,7 +94,7 @@ class AtatusCrashReportFilterTests: XCTestCase {
 
         let dict = try XCTUnwrap(JSONSerialization.jsonObject(with: json) as? [String: Any])
         let report = AnyCrashReport(CrashFieldDictionary(from: dict))
-        let filter = AtatusCrashReportFilter()
+        let filter = TowerSignalCrashReportFilter()
         var capturedReports: [CrashReport]?
 
         // When
@@ -175,7 +175,7 @@ class AtatusCrashReportFilterTests: XCTestCase {
 
         let dict = try XCTUnwrap(JSONSerialization.jsonObject(with: json) as? [String: Any])
         let report = AnyCrashReport(CrashFieldDictionary(from: dict))
-        let filter = AtatusCrashReportFilter()
+        let filter = TowerSignalCrashReportFilter()
         var capturedReports: [CrashReport]?
 
         // When
@@ -252,7 +252,7 @@ class AtatusCrashReportFilterTests: XCTestCase {
 
         let dict = try XCTUnwrap(JSONSerialization.jsonObject(with: json) as? [String: Any])
         let report = AnyCrashReport(CrashFieldDictionary(from: dict))
-        let filter = AtatusCrashReportFilter()
+        let filter = TowerSignalCrashReportFilter()
         var capturedReports: [CrashReport]?
 
         // When
@@ -338,7 +338,7 @@ class AtatusCrashReportFilterTests: XCTestCase {
 
         let dict = try XCTUnwrap(JSONSerialization.jsonObject(with: json) as? [String: Any])
         let report = AnyCrashReport(CrashFieldDictionary(from: dict))
-        let filter = AtatusCrashReportFilter()
+        let filter = TowerSignalCrashReportFilter()
         var capturedReports: [CrashReport]?
 
         // When
@@ -409,7 +409,7 @@ class AtatusCrashReportFilterTests: XCTestCase {
 
         let dict = try XCTUnwrap(JSONSerialization.jsonObject(with: json) as? [String: Any])
         let report = AnyCrashReport(CrashFieldDictionary(from: dict))
-        let filter = AtatusCrashReportFilter()
+        let filter = TowerSignalCrashReportFilter()
         var capturedReports: [CrashReport]?
 
         // When
@@ -425,7 +425,7 @@ class AtatusCrashReportFilterTests: XCTestCase {
     func testFilterReports_ReturnsErrorForInvalidReportType() {
         // Given
         let report = AnyCrashReport(["invalid": "data"])
-        let filter = AtatusCrashReportFilter()
+        let filter = TowerSignalCrashReportFilter()
         var capturedError: Error?
 
         // When
@@ -464,7 +464,7 @@ class AtatusCrashReportFilterTests: XCTestCase {
         let dict2 = try XCTUnwrap(JSONSerialization.jsonObject(with: json2) as? [String: Any])
         let report1 = AnyCrashReport(CrashFieldDictionary(from: dict1))
         let report2 = AnyCrashReport(CrashFieldDictionary(from: dict2))
-        let filter = AtatusCrashReportFilter()
+        let filter = TowerSignalCrashReportFilter()
         var capturedReports: [CrashReport]?
 
         // When
@@ -520,7 +520,7 @@ class AtatusCrashReportFilterTests: XCTestCase {
 
         let dict = try XCTUnwrap(JSONSerialization.jsonObject(with: json) as? [String: Any])
         let report = AnyCrashReport(CrashFieldDictionary(from: dict))
-        let filter = AtatusCrashReportFilter()
+        let filter = TowerSignalCrashReportFilter()
         var capturedReports: [CrashReport]?
 
         // When

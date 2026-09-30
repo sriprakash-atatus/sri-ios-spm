@@ -1,26 +1,26 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`, `ddWebViewTracking` -> `AtatusWebViewTracking`; renamed `dd*` types to
-// `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`, `ddWebViewTracking` -> `TowerSignalWebViewTracking`; renamed `dd*` types to
+// `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 #if canImport(WebKit)
 
 import XCTest
 import WebKit
 import TestUtilities
-import AtatusInternal
-@testable import AtatusRUM
-@testable import AtatusWebViewTracking
+import TowerSignalInternal
+@testable import TowerSignalRUM
+@testable import TowerSignalWebViewTracking
 
 @MainActor
 final class WebViewSessionRolloverHandlerTests: XCTestCase {
     func testSingleCore() throws {
-        let core = AtatusCoreProxy(
+        let core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",
@@ -69,7 +69,7 @@ final class WebViewSessionRolloverHandlerTests: XCTestCase {
 
     func testMultipleCores() throws {
         // Setup two cores
-        let core1 = AtatusCoreProxy(
+        let core1 = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",
@@ -80,7 +80,7 @@ final class WebViewSessionRolloverHandlerTests: XCTestCase {
         RUM.enable(with: .mockWith(applicationID: "test-app-id"), in: core1)
         core1.flush()
 
-        let core2 = AtatusCoreProxy(
+        let core2 = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",
@@ -135,7 +135,7 @@ final class WebViewSessionRolloverHandlerTests: XCTestCase {
     }
 
     func testWeakReferencesHandling() throws {
-        let core = AtatusCoreProxy(
+        let core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",

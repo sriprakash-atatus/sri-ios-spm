@@ -1,26 +1,26 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`, `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD`
-// symbol prefix to `AT`; renamed the `_dd` attribute prefix to `_atatus`; renamed `dd.trace_id` /
-// `dd.span_id` to `atatus.trace_id` / `atatus.span_id`; renamed the `x-dd-*` trace headers to
-// `x-atatus-*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`, `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD`
+// symbol prefix to `AT`; renamed the `_dd` attribute prefix to `_towersignal`; renamed `dd.trace_id` /
+// `dd.span_id` to `towersignal.trace_id` / `towersignal.span_id`; renamed the `x-dd-*` trace headers to
+// `x-towersignal-*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
 
-@testable import AtatusInternal
-@testable import AtatusLogs
-@testable import AtatusTrace
+@testable import TowerSignalInternal
+@testable import TowerSignalLogs
+@testable import TowerSignalTrace
 
 class TracingURLSessionHandlerTests: XCTestCase {
     // swiftlint:disable implicitly_unwrapped_optional
     var core: PassthroughCoreMock!
-    var tracer: AtatusTracer!
+    var tracer: TowerSignalTracer!
     var handler: TracingURLSessionHandler!
     // swiftlint:enable implicitly_unwrapped_optional
 
@@ -44,7 +44,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
             contextReceiver: receiver,
             samplingRate: .maxSampleRate,
             firstPartyHosts: .init([
-                "www.example.com": [.atatus]
+                "www.example.com": [.towersignal]
             ]),
             traceContextInjection: .all,
             telemetry: NOPTelemetry()
@@ -130,15 +130,15 @@ class TracingURLSessionHandlerTests: XCTestCase {
         XCTAssertEqual(log.status, .error)
         XCTAssertEqual(log.message, "network error")
         XCTAssertEqual(
-            log.attributes.internalAttributes?["atatus.trace_id"] as? String,
+            log.attributes.internalAttributes?["towersignal.trace_id"] as? String,
             String(span.traceID, representation: .hexadecimal)
         )
         XCTAssertEqual(
-            log.attributes.internalAttributes?["atatus.trace_id"] as? String,
+            log.attributes.internalAttributes?["towersignal.trace_id"] as? String,
             String(span.traceID, representation: .hexadecimal)
         )
         XCTAssertEqual(
-            log.attributes.internalAttributes?["atatus.span_id"] as? String,
+            log.attributes.internalAttributes?["towersignal.span_id"] as? String,
             String(span.spanID, representation: .hexadecimal)
         )
         XCTAssertEqual(log.error?.kind, "domain - 123")
@@ -200,11 +200,11 @@ class TracingURLSessionHandlerTests: XCTestCase {
         XCTAssertEqual(log.status, .error)
         XCTAssertEqual(log.message, "404 not found")
         ATAssertJSONEqual(
-            AnyEncodable(log.attributes.internalAttributes?["atatus.trace_id"]),
+            AnyEncodable(log.attributes.internalAttributes?["towersignal.trace_id"]),
             String(span.traceID, representation: .hexadecimal)
         )
         ATAssertJSONEqual(
-            AnyEncodable(log.attributes.internalAttributes?["atatus.span_id"]),
+            AnyEncodable(log.attributes.internalAttributes?["towersignal.span_id"]),
             String(span.spanID, representation: .hexadecimal)
         )
         XCTAssertEqual(log.error?.kind, "HTTPURLResponse - 404")
@@ -223,7 +223,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
     func testGivenAllTracingHeaderTypes_itUsesTheSameIds() throws {
         let request: URLRequest = .mockWith(httpMethod: "GET")
         let fakeSessionId: UUID = .mockWith("8b723a25-e941-47ea-9173-910c866ccf19")
-        let fakeContext: AtatusContext = .mockWith(
+        let fakeContext: TowerSignalContext = .mockWith(
             additionalContext: [
                 RUMCoreContext.mockWith(
                     applicationID: .mockRandom(),
@@ -235,7 +235,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         _ = handler.contextReceiver.receive(message: message, from: core)
         let (modifiedRequest, _, _) = handler.modify(
             request: request,
-            headerTypes: [.atatus, .tracecontext, .b3, .b3multi],
+            headerTypes: [.towersignal, .tracecontext, .b3, .b3multi],
             networkContext: NetworkContext(
                 rumContext: .mockWith(
                     applicationID: .mockRandom(),
@@ -252,12 +252,12 @@ class TracingURLSessionHandlerTests: XCTestCase {
                 "X-B3-Sampled": "1",
                 "X-B3-TraceId": "000000000000000a0000000000000064",
                 "b3": "000000000000000a0000000000000064-0000000000000064-1",
-                "x-atatus-trace-id": "100",
-                "x-atatus-tags": "_atatus.p.tid=a,_atatus.p.dm=-1",
+                "x-towersignal-trace-id": "100",
+                "x-towersignal-tags": "_towersignal.p.tid=a,_towersignal.p.dm=-1",
                 "baggage": "session.id=\(fakeSessionId.uuidString.lowercased())",
                 "tracestate": "dd=p:0000000000000064;s:1;t.dm:-1",
-                "x-atatus-parent-id": "100",
-                "x-atatus-sampling-priority": "1"
+                "x-towersignal-parent-id": "100",
+                "x-towersignal-sampling-priority": "1"
             ]
         )
     }

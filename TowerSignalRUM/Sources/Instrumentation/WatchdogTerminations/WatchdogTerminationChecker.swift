@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 #if canImport(UIKit)
 import UIKit
@@ -47,7 +47,7 @@ internal final class WatchdogTerminationChecker {
     /// Checks if the app was terminated by Watchdog.
     /// - Parameters:
     ///  - launch: The launch report containing information about the app launch.
-    ///  - deviceInfo: The device information provided by AtatusContext.
+    ///  - deviceInfo: The device information provided by TowerSignalContext.
     ///  - previous: The previous app state stored in the data store from the last app session.
     ///  - current: The current app state of the app.
     func isWatchdogTermination(

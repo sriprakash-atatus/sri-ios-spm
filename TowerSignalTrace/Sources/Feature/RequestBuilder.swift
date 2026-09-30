@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// The Tracing URL Request Builder for formatting and configuring the `URLRequest`
 /// to upload traces data.
@@ -21,15 +21,15 @@ internal struct TracingRequestBuilder: FeatureRequestBuilder {
 
     func request(
         for events: [Event],
-        with context: AtatusContext,
+        with context: TowerSignalContext,
         execution: ExecutionContext
     ) -> URLRequest {
         let builder = URLRequestBuilder(
             url: url(with: context),
-            // ATCHG: Added the Atatus identification query items (source, license key, agent name,
+            // ATCHG: Added the TowerSignal identification query items (source, license key, agent name,
             // agent version, app name), matching `create()` in Android's `TracesRequestFactory`.
             queryItems: [
-                .atatusSource(source: context.source),
+                .towersignalSource(source: context.source),
                 .licenseKey(licenseKey: context.licenseKey),
                 .agentName(agentName: AgentInfo.agentName),
                 .agentVersion(agentVersion: AgentInfo.agentVersion),
@@ -50,9 +50,9 @@ internal struct TracingRequestBuilder: FeatureRequestBuilder {
                 .atRequestIDHeader(),
                 // ATCHG: Added the agent identification headers, matching `buildHeaders()` in
                 // Android's `TracesRequestFactory`.
-                .atatusAgentNameHeader(),
-                .atatusAgentVersionHeader(),
-                .atatusAppNameHeader(appName: context.appName ?? "")
+                .towersignalAgentNameHeader(),
+                .towersignalAgentVersionHeader(),
+                .towersignalAppNameHeader(appName: context.appName ?? "")
                 // ATCHG: End
             ],
             telemetry: telemetry
@@ -62,8 +62,8 @@ internal struct TracingRequestBuilder: FeatureRequestBuilder {
         return builder.uploadRequest(with: data)
     }
 
-    func url(with context: AtatusContext) -> URL {
-        // ATCHG: Atatus spans intake path, matching `/v1/android/spans` in Android's `TracesRequestFactory`.
+    func url(with context: TowerSignalContext) -> URL {
+        // ATCHG: TowerSignal spans intake path, matching `/v1/android/spans` in Android's `TracesRequestFactory`.
         // ATCHG: Built from `intakeEndpoint` so a custom `serverUrl` is honoured, as on Android.
         customIntakeURL ?? context.intakeEndpoint.appendingPathComponent("v1/android/spans")
         // ATCHG: End

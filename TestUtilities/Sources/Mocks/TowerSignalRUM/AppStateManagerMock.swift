@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 
 /// Mock of the AppState manager.
 public final class AppStateManagerMock: AppStateManaging {
@@ -21,7 +21,7 @@ public final class AppStateManagerMock: AppStateManaging {
 
     public func deleteAppState() {}
     public func updateAppState(state: AppState) {}
-    public func previousAppStateInfo(completion: @escaping (AtatusRUM.AppStateInfo?) -> Void) {
+    public func previousAppStateInfo(completion: @escaping (TowerSignalRUM.AppStateInfo?) -> Void) {
         if shouldDeferPreviousAppStateInfoCallback {
             previousAppStateInfoCompletion = completion
         } else {

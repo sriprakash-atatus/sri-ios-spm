@@ -8,16 +8,16 @@ This section describes the main changes introduced in SDK `3.0` compared to `2.x
 
 ### Product Modules 
 
-All SDK products (RUM, Trace, Logs, SessionReplay, and so on) remain modular and separated into distinct libraries. The main change is that the `AtatusObjc` module has been removed, with its contents integrated into the corresponding product modules.
+All SDK products (RUM, Trace, Logs, SessionReplay, and so on) remain modular and separated into distinct libraries. The main change is that the `TowerSignalObjc` module has been removed, with its contents integrated into the corresponding product modules.
 
-The available `Atatus` libraries in 3.0 are:
-- `AtatusCore`
-- `AtatusCrashReporting`
-- `AtatusLogs`
-- `AtatusRUM`
-- `AtatusSessionReplay`
-- `AtatusTrace`
-- `AtatusWebViewTracking`
+The available `TowerSignal` libraries in 3.0 are:
+- `TowerSignalCore`
+- `TowerSignalCrashReporting`
+- `TowerSignalLogs`
+- `TowerSignalRUM`
+- `TowerSignalSessionReplay`
+- `TowerSignalTrace`
+- `TowerSignalWebViewTracking`
 
 <details>
   <summary>SPM</summary>
@@ -26,19 +26,19 @@ The available `Atatus` libraries in 3.0 are:
 let package = Package(
     ...
     dependencies: [
-        .package(url: "https://github.com/atatus/atatus-sdk-ios", from: "3.0.0")
+        .package(url: "https://github.com/towersignal/towersignal-sdk-ios", from: "3.0.0")
     ],
     targets: [
         .target(
             ...
             dependencies: [
-                .product(name: "AtatusCore", package: "atatus-sdk-ios"),
-                .product(name: "AtatusCrashReporting", package: "atatus-sdk-ios"),
-                .product(name: "AtatusLogs", package: "atatus-sdk-ios"),
-                .product(name: "AtatusRUM", package: "atatus-sdk-ios"),
-                .product(name: "AtatusSessionReplay", package: "atatus-sdk-ios"),
-                .product(name: "AtatusTrace", package: "atatus-sdk-ios"),
-                .product(name: "AtatusWebViewTracking", package: "atatus-sdk-ios"),
+                .product(name: "TowerSignalCore", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalCrashReporting", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalLogs", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalRUM", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalSessionReplay", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalTrace", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalWebViewTracking", package: "towersignal-sdk-ios"),
             ]
         ),
     ]
@@ -50,13 +50,13 @@ let package = Package(
   <summary>CocoaPods</summary>
 
   ```ruby
-  pod 'AtatusCore'
-  pod 'AtatusCrashReporting'
-  pod 'AtatusLogs'
-  pod 'AtatusRUM'
-  pod 'AtatusSessionReplay'
-  pod 'AtatusTrace'
-  pod 'AtatusWebViewTracking'
+  pod 'TowerSignalCore'
+  pod 'TowerSignalCrashReporting'
+  pod 'TowerSignalLogs'
+  pod 'TowerSignalRUM'
+  pod 'TowerSignalSessionReplay'
+  pod 'TowerSignalTrace'
+  pod 'TowerSignalWebViewTracking'
   ```
 </details>
 
@@ -65,23 +65,23 @@ let package = Package(
 
   The `Cartfile` remains the same: 
   ```
-  github "atatus/atatus-sdk-ios"
+  github "towersignal/towersignal-sdk-ios"
   ```
 
   In Xcode, you **must** link the following frameworks:
   ```
-  AtatusCore.xcframework
-  AtatusInternal.xcframework
+  TowerSignalCore.xcframework
+  TowerSignalInternal.xcframework
   ```
 
   Then select the product modules you intend to use:
   ```
-  AtatusCrashReporting.xcframework + CrashReporter.xcframework
-  AtatusLogs.xcframework
-  AtatusRUM.xcframework
-  AtatusSessionReplay.xcframework
-  AtatusTrace.xcframework
-  AtatusWebViewTracking.xcframework
+  TowerSignalCrashReporting.xcframework + CrashReporter.xcframework
+  TowerSignalLogs.xcframework
+  TowerSignalRUM.xcframework
+  TowerSignalSessionReplay.xcframework
+  TowerSignalTrace.xcframework
+  TowerSignalWebViewTracking.xcframework
   ```
 </details>
 
@@ -90,10 +90,10 @@ let package = Package(
 The SDK should be initialized as early as possible in the app lifecycle, specifically in the `AppDelegate`'s `application(_:didFinishLaunchingWithOptions:)` callback. This ensures accurate measurement of all metrics, including application startup duration. For apps built with SwiftUI, use `@UIApplicationDelegateAdaptor` to access the `AppDelegate`.
 
 ```swift
-import AtatusCore
+import TowerSignalCore
 
-Atatus.initialize(
-    with: Atatus.Configuration(
+TowerSignal.initialize(
+    with: TowerSignal.Configuration(
         licenseKey: "<client token>",
         env: "<environment>",
         service: "<service name>"
@@ -106,7 +106,7 @@ Atatus.initialize(
 
 ### RUM Product Changes
 
-RUM View-level attributes are now automatically propagated to all related child events, including resources, user actions, errors, and long tasks. This ensures consistent metadata across events, making it easier to filter and correlate data on Atatus dashboards.
+RUM View-level attributes are now automatically propagated to all related child events, including resources, user actions, errors, and long tasks. This ensures consistent metadata across events, making it easier to filter and correlate data on TowerSignal dashboards.
 
 To manage View level attributes more effectively, new APIs were added:
 - `Monitor.addViewAttribute(forKey:value:)`
@@ -115,7 +115,7 @@ To manage View level attributes more effectively, new APIs were added:
 - `Monitor.removeViewAttributes(forKeys:)`
 
 Other notable changes:
-- All Objective-C RUM APIs are now included in `AtatusRUM`. The separate `AtatusObjc` module is no longer available.
+- All Objective-C RUM APIs are now included in `TowerSignalRUM`. The separate `TowerSignalObjc` module is no longer available.
 - App Hangs and Watchdog terminations are no longer reported from app extensions or widgets.
 - A new property `trackMemoryWarnings` was added to `RUM.Configuration` to report memory warnings as RUM Errors.
 
@@ -134,7 +134,7 @@ API changes:
 
 The Logs product no longer reports fatal errors. To enable Error Tracking for crashes, Crash Reporting must be enabled in conjunction with RUM.
 
-Additionally, all Objective-C Logs APIs are now included in `AtatusLogs`. The separate `AtatusObjc` module is no longer available.
+Additionally, all Objective-C Logs APIs are now included in `TowerSignalLogs`. The separate `TowerSignalObjc` module is no longer available.
 
 ### APM Trace Product Changes
 
@@ -142,7 +142,7 @@ Trace sampling is now deterministic when used alongside RUM. It uses the RUM `se
 
 Also:
 - The `Trace.Configuration.URLSessionTracking.FirstPartyHostsTracing` configuration sets sampling for all requests by default and the trace context is injected only into sampled requests.
-- All Objective-C Trace APIs are now included in `AtatusTrace`. The separate `AtatusObjc` module is no longer available.
+- All Objective-C Trace APIs are now included in `TowerSignalTrace`. The separate `TowerSignalObjc` module is no longer available.
 
 **Note**: A similar configuration exists in `RUM.Configuration.URLSessionTracking.FirstPartyHostsTracing`.
 
@@ -168,7 +168,7 @@ Legacy delegate types have been replaced by a unified instrumentation API:
 
 |`2.x`|`3.0`|
 |---|---|
-|`AtatusURLSessionDelegate()`|`URLSessionInstrumentation.enable(with:)`|
+|`TowerSignalURLSessionDelegate()`|`URLSessionInstrumentation.enable(with:)`|
 |`ATURLSessionDelegate()`|`URLSessionInstrumentation.enable(with:)`|
 |`ATNSURLSessionDelegate()`|`URLSessionInstrumentation.enable(with:)`|
 
@@ -180,15 +180,15 @@ This section describes the main changes introduced in SDK `2.0` compared to `1.x
 
 All relevant products (RUM, Trace, Logs, etc.) are now extracted into different modules. That allows you to integrate only what is needed into your application.
 
-Whereas all products in version 1.x were contained in the single module, `Atatus`, you now need to adopt the following libraries:
+Whereas all products in version 1.x were contained in the single module, `TowerSignal`, you now need to adopt the following libraries:
 
-- `AtatusCore`
-- `AtatusLogs`
-- `AtatusTrace`
-- `AtatusRUM`
-- `AtatusWebViewTracking`
+- `TowerSignalCore`
+- `TowerSignalLogs`
+- `TowerSignalTrace`
+- `TowerSignalRUM`
+- `TowerSignalWebViewTracking`
 
-These come in addition to the existing `AtatusCrashReporting` and `AtatusObjc`.
+These come in addition to the existing `TowerSignalCrashReporting` and `TowerSignalObjc`.
 
 <details>
   <summary>SPM</summary>
@@ -197,18 +197,18 @@ These come in addition to the existing `AtatusCrashReporting` and `AtatusObjc`.
 let package = Package(
     ...
     dependencies: [
-        .package(url: "https://github.com/atatus/atatus-sdk-ios", from: "2.0.0")
+        .package(url: "https://github.com/towersignal/towersignal-sdk-ios", from: "2.0.0")
     ],
     targets: [
         .target(
             ...
             dependencies: [
-                .product(name: "AtatusCore", package: "atatus-sdk-ios"),
-                .product(name: "AtatusLogs", package: "atatus-sdk-ios"),
-                .product(name: "AtatusTrace", package: "atatus-sdk-ios"),
-                .product(name: "AtatusRUM", package: "atatus-sdk-ios"),
-                .product(name: "AtatusCrashReporting", package: "atatus-sdk-ios"),
-                .product(name: "AtatusWebViewTracking", package: "atatus-sdk-ios"),
+                .product(name: "TowerSignalCore", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalLogs", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalTrace", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalRUM", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalCrashReporting", package: "towersignal-sdk-ios"),
+                .product(name: "TowerSignalWebViewTracking", package: "towersignal-sdk-ios"),
             ]
         ),
     ]
@@ -220,13 +220,13 @@ let package = Package(
   <summary>CocoaPods</summary>
 
   ```ruby
-  pod 'AtatusCore'
-  pod 'AtatusLogs'
-  pod 'AtatusTrace'
-  pod 'AtatusRUM'
-  pod 'AtatusCrashReporting'
-  pod 'AtatusWebViewTracking'
-  pod 'AtatusObjc'
+  pod 'TowerSignalCore'
+  pod 'TowerSignalLogs'
+  pod 'TowerSignalTrace'
+  pod 'TowerSignalRUM'
+  pod 'TowerSignalCrashReporting'
+  pod 'TowerSignalWebViewTracking'
+  pod 'TowerSignalObjc'
   ```
 </details>
 
@@ -235,29 +235,29 @@ let package = Package(
 
   The `Cartfile` stays the same: 
   ```
-  github "atatus/atatus-sdk-ios"
+  github "towersignal/towersignal-sdk-ios"
   ```
 
   In Xcode, you **must** link the following frameworks:
   ```
-  AtatusInternal.xcframework
-  AtatusCore.xcframework
+  TowerSignalInternal.xcframework
+  TowerSignalCore.xcframework
   ```
 
   Then you can select the modules you want to use:
   ```
-  AtatusLogs.xcframework
-  AtatusTrace.xcframework
-  AtatusRUM.xcframework
-  AtatusCrashReporting.xcframework + CrashReporter.xcframework
-  AtatusWebViewTracking.xcframework
-  AtatusObjc.xcframework
+  TowerSignalLogs.xcframework
+  TowerSignalTrace.xcframework
+  TowerSignalRUM.xcframework
+  TowerSignalCrashReporting.xcframework + CrashReporter.xcframework
+  TowerSignalWebViewTracking.xcframework
+  TowerSignalObjc.xcframework
   ```
 </details>
 
 **Note**: In case of Crash Reporting and WebView Tracking usage it's also needed to add RUM and/or Logs modules to be able to report events to RUM and/or Logs respectively.
 
-The `2.0` version of the iOS SDK also exposes unified API layouts and naming between iOS and Android SDKs and with other Atatus products.
+The `2.0` version of the iOS SDK also exposes unified API layouts and naming between iOS and Android SDKs and with other TowerSignal products.
 
 ### SDK Configuration Changes
 
@@ -269,12 +269,12 @@ The Builder pattern of the SDK initialization has been removed in favor of struc
 
 **V1 Initialization**
 ```swift
-import Atatus
+import TowerSignal
 
-Atatus.initialize(
+TowerSignal.initialize(
     appContext: .init(),
     trackingConsent: .granted,
-    configuration: Atatus.Configuration
+    configuration: TowerSignal.Configuration
         .builderUsing(
             licenseKey: "<client token>",
             environment: "<environment>"
@@ -284,10 +284,10 @@ Atatus.initialize(
 ```
 **V2 Initialization**
 ```swift
-import AtatusCore
+import TowerSignalCore
 
-Atatus.initialize(
-    with: Atatus.Configuration(
+TowerSignal.initialize(
+    with: TowerSignal.Configuration(
         licenseKey: "<client token>",
         env: "<environment>",
         service: "<service name>"
@@ -300,20 +300,20 @@ API changes:
 
 |`1.x`|`2.0`|
 |---|---|
-|`Atatus.Configuration.Builder.set(serviceName:)`|`Atatus.Configuration.service`|
-|`Atatus.Configuration.Builder.set(batchSize:)`|`Atatus.Configuration.batchSize`|
-|`Atatus.Configuration.Builder.set(uploadFrequency:)`|`Atatus.Configuration.uploadFrequency`|
-|`Atatus.Configuration.Builder.set(proxyConfiguration:)`|`Atatus.Configuration.proxyConfiguration`|
-|`Atatus.Configuration.Builder.set(encryption:)`|`Atatus.Configuration.encryption`|
-|`Atatus.Configuration.Builder.set(serverDateProvider:)`|`Atatus.Configuration.serverDateProvider`|
-|`Atatus.AppContext(mainBundle:)`|`Atatus.Configuration.bundle`|
+|`TowerSignal.Configuration.Builder.set(serviceName:)`|`TowerSignal.Configuration.service`|
+|`TowerSignal.Configuration.Builder.set(batchSize:)`|`TowerSignal.Configuration.batchSize`|
+|`TowerSignal.Configuration.Builder.set(uploadFrequency:)`|`TowerSignal.Configuration.uploadFrequency`|
+|`TowerSignal.Configuration.Builder.set(proxyConfiguration:)`|`TowerSignal.Configuration.proxyConfiguration`|
+|`TowerSignal.Configuration.Builder.set(encryption:)`|`TowerSignal.Configuration.encryption`|
+|`TowerSignal.Configuration.Builder.set(serverDateProvider:)`|`TowerSignal.Configuration.serverDateProvider`|
+|`TowerSignal.AppContext(mainBundle:)`|`TowerSignal.Configuration.bundle`|
 
 ### Logs Product Changes
 
-All the classes related to Logs are now strictly in the `AtatusLogs` module. You first need to enable the product:
+All the classes related to Logs are now strictly in the `TowerSignalLogs` module. You first need to enable the product:
 
 ```swift
-import AtatusLogs
+import TowerSignalLogs
 
 Logs.enable(with: Logs.Configuration(...))
 ```
@@ -321,7 +321,7 @@ Logs.enable(with: Logs.Configuration(...))
 Then, you can create a logger instance:
 
 ```swift
-import AtatusLogs
+import TowerSignalLogs
 
 let logger = Logger.create(
     with: Logger.Configuration(name: "<logger name>")
@@ -332,23 +332,23 @@ API changes:
 
 |`1.x`|`2.0`|
 |---|---|
-|`Atatus.Configuration.Builder.setLogEventMapper(_:)`|`Logs.Configuration.eventMapper`|
-|`Atatus.Configuration.Builder.set(loggingSamplingRate:)`|`Logs.Configuration.eventMapper`|
+|`TowerSignal.Configuration.Builder.setLogEventMapper(_:)`|`Logs.Configuration.eventMapper`|
+|`TowerSignal.Configuration.Builder.set(loggingSamplingRate:)`|`Logs.Configuration.eventMapper`|
 |`Logger.Builder.set(serviceName:)`|`Logger.Configuration.service`|
 |`Logger.Builder.set(loggerName:)`|`Logger.Configuration.name`|
 |`Logger.Builder.sendNetworkInfo(_:)`|`Logger.Configuration.networkInfoEnabled`|
 |`Logger.Builder.bundleWithRUM(_:)`|`Logger.Configuration.bundleWithRumEnabled`|
 |`Logger.Builder.bundleWithTrace(_:)`|`Logger.Configuration.bundleWithTraceEnabled`|
-|`Logger.Builder.sendLogsToAtatus(false)`|`Logger.Configuration.remoteSampleRate = 0`|
-|`Logger.Builder.set(atatusReportingThreshold:)`|`Logger.Configuration.remoteLogThreshold`|
+|`Logger.Builder.sendLogsToTowerSignal(false)`|`Logger.Configuration.remoteSampleRate = 0`|
+|`Logger.Builder.set(towersignalReportingThreshold:)`|`Logger.Configuration.remoteLogThreshold`|
 |`Logger.Builder.printLogsToConsole(_:, usingFormat)`|`Logger.Configuration.consoleLogFormat`|
 
 ### APM Trace Product Changes
 
-All the classes related to Trace are now strictly in the `AtatusTrace` module. You first need to enable the product:
+All the classes related to Trace are now strictly in the `TowerSignalTrace` module. You first need to enable the product:
 
 ```swift
-import AtatusTrace
+import TowerSignalTrace
 
 Trace.enable(
     with: Trace.Configuration(...)
@@ -358,7 +358,7 @@ Trace.enable(
 Then, you can access the shared Tracer instance:
 
 ```swift
-import AtatusTrace
+import TowerSignalTrace
 
 let tracer = Tracer.shared()
 ```
@@ -367,9 +367,9 @@ API changes:
 
 |`1.x`|`2.0`|
 |---|---|
-|`Atatus.Configuration.Builder.trackURLSession(_:)`|`Trace.Configuration.urlSessionTracking`|
-|`Atatus.Configuration.Builder.setSpanEventMapper(_:)`|`Trace.Configuration.eventMapper`|
-|`Atatus.Configuration.Builder.set(tracingSamplingRate:)`|`Trace.Configuration.sampleRate`|
+|`TowerSignal.Configuration.Builder.trackURLSession(_:)`|`Trace.Configuration.urlSessionTracking`|
+|`TowerSignal.Configuration.Builder.setSpanEventMapper(_:)`|`Trace.Configuration.eventMapper`|
+|`TowerSignal.Configuration.Builder.set(tracingSamplingRate:)`|`Trace.Configuration.sampleRate`|
 |`Tracer.Configuration.serviceName`|`Trace.Configuration.service`|
 |`Tracer.Configuration.sendNetworkInfo`|`Trace.Configuration.networkInfoEnabled`|
 |`Tracer.Configuration.globalTags`|`Trace.Configuration.tags`|
@@ -378,10 +378,10 @@ API changes:
 
 ### RUM Product Changes
 
-All the classes related to RUM are now strictly in the `AtatusRUM` module. You will first need to enable the product:
+All the classes related to RUM are now strictly in the `TowerSignalRUM` module. You will first need to enable the product:
 
 ```swift
-import AtatusRUM
+import TowerSignalRUM
 
 RUM.enable(
     with: RUM.Configuration(applicationID: "<RUM Application ID>")
@@ -391,7 +391,7 @@ RUM.enable(
 Then, you can access the shared RUM monitor instance:
 
 ```swift
-import AtatusRUM
+import TowerSignalRUM
 
 let monitor = RUMMonitor.shared()
 ```
@@ -400,36 +400,36 @@ API changes:
 
 |`1.x`|`2.0`|
 |---|---|
-|`Atatus.Configuration.Builder.trackURLSession(_:)`|`RUM.Configuration.urlSessionTracking`|
-|`Atatus.Configuration.Builder.set(rumSessionsSamplingRate:)`|`RUM.Configuration.sessionSampleRate`|
-|`Atatus.Configuration.Builder.onRUMSessionStart`|`RUM.Configuration.onSessionStart`|
-|`Atatus.Configuration.Builder.trackUIKitRUMViews(using:)`|`RUM.Configuration.uiKitViewsPredicate`|
-|`Atatus.Configuration.Builder.trackUIKitRUMActions(using:)`|`RUM.Configuration.uiKitActionsPredicate`|
-|`Atatus.Configuration.Builder.trackRUMLongTasks(threshold:)`|`RUM.Configuration.longTaskThreshold`|
-|`Atatus.Configuration.Builder.setRUMViewEventMapper(_:)`|`RUM.Configuration.viewEventMapper`|
-|`Atatus.Configuration.Builder.setRUMResourceEventMapper(_:)`|`RUM.Configuration.resourceEventMapper`|
-|`Atatus.Configuration.Builder.setRUMActionEventMapper(_:)`|`RUM.Configuration.actionEventMapper`|
-|`Atatus.Configuration.Builder.setRUMErrorEventMapper(_:)`|`RUM.Configuration.errorEventMapper`|
-|`Atatus.Configuration.Builder.setRUMLongTaskEventMapper(_:)`|`RUM.Configuration.longTaskEventMapper`|
-|`Atatus.Configuration.Builder.setRUMResourceAttributesProvider(_:)`|`RUM.Configuration.urlSessionTracking.resourceAttributesProvider`|
-|`Atatus.Configuration.Builder.trackBackgroundEvents(_:)`|`RUM.Configuration.trackBackgroundEvents`|
-|`Atatus.Configuration.Builder.trackFrustrations(_:)`|`RUM.Configuration.frustrationsTracking`|
-|`Atatus.Configuration.Builder.set(mobileVitalsFrequency:)`|`RUM.Configuration.vitalsUpdateFrequency`|
-|`Atatus.Configuration.Builder.set(sampleTelemetry:)`|`RUM.Configuration.telemetrySampleRate`|
+|`TowerSignal.Configuration.Builder.trackURLSession(_:)`|`RUM.Configuration.urlSessionTracking`|
+|`TowerSignal.Configuration.Builder.set(rumSessionsSamplingRate:)`|`RUM.Configuration.sessionSampleRate`|
+|`TowerSignal.Configuration.Builder.onRUMSessionStart`|`RUM.Configuration.onSessionStart`|
+|`TowerSignal.Configuration.Builder.trackUIKitRUMViews(using:)`|`RUM.Configuration.uiKitViewsPredicate`|
+|`TowerSignal.Configuration.Builder.trackUIKitRUMActions(using:)`|`RUM.Configuration.uiKitActionsPredicate`|
+|`TowerSignal.Configuration.Builder.trackRUMLongTasks(threshold:)`|`RUM.Configuration.longTaskThreshold`|
+|`TowerSignal.Configuration.Builder.setRUMViewEventMapper(_:)`|`RUM.Configuration.viewEventMapper`|
+|`TowerSignal.Configuration.Builder.setRUMResourceEventMapper(_:)`|`RUM.Configuration.resourceEventMapper`|
+|`TowerSignal.Configuration.Builder.setRUMActionEventMapper(_:)`|`RUM.Configuration.actionEventMapper`|
+|`TowerSignal.Configuration.Builder.setRUMErrorEventMapper(_:)`|`RUM.Configuration.errorEventMapper`|
+|`TowerSignal.Configuration.Builder.setRUMLongTaskEventMapper(_:)`|`RUM.Configuration.longTaskEventMapper`|
+|`TowerSignal.Configuration.Builder.setRUMResourceAttributesProvider(_:)`|`RUM.Configuration.urlSessionTracking.resourceAttributesProvider`|
+|`TowerSignal.Configuration.Builder.trackBackgroundEvents(_:)`|`RUM.Configuration.trackBackgroundEvents`|
+|`TowerSignal.Configuration.Builder.trackFrustrations(_:)`|`RUM.Configuration.frustrationsTracking`|
+|`TowerSignal.Configuration.Builder.set(mobileVitalsFrequency:)`|`RUM.Configuration.vitalsUpdateFrequency`|
+|`TowerSignal.Configuration.Builder.set(sampleTelemetry:)`|`RUM.Configuration.telemetrySampleRate`|
 
 ### Crash Reporting Changes
 
 To enable Crash Reporting, make sure to also enable RUM and/or Logs.
 
 ```swift
-import AtatusCrashReporting
+import TowerSignalCrashReporting
 
 CrashReporting.enable()
 ```
 
 |`1.x`|`2.0`|
 |---|---|
-|`Atatus.Configuration.Builder.enableCrashReporting()`|`CrashReporting.enable()`|
+|`TowerSignal.Configuration.Builder.enableCrashReporting()`|`CrashReporting.enable()`|
 
 ### WebView Tracking Changes
 
@@ -437,7 +437,7 @@ To enable WebViewTracking, make sure to also enable RUM and/or Logs.
 
 ```swift
 import WebKit
-import AtatusWebViewTracking
+import TowerSignalWebViewTracking
 
 let webView = WKWebView(...)
 WebViewTracking.enable(webView: webView)
@@ -445,11 +445,11 @@ WebViewTracking.enable(webView: webView)
 
 |`1.x`|`2.0`|
 |---|---|
-|`WKUserContentController.startTrackingAtatusEvents`|`WebViewTracking.enable(webView:)`|
+|`WKUserContentController.startTrackingTowerSignalEvents`|`WebViewTracking.enable(webView:)`|
 
 ### Using a Secondary Instance of the SDK
 
-Previously Atatus SDK implemented a singleton and only one SDK instance could exist in the application process. This created obstacles for use-cases like the usage of the SDK by 3rd party libraries.
+Previously TowerSignal SDK implemented a singleton and only one SDK instance could exist in the application process. This created obstacles for use-cases like the usage of the SDK by 3rd party libraries.
 
 With version 2.0 we addressed this limitation:
 
@@ -459,12 +459,12 @@ With version 2.0 we addressed this limitation:
 Here is an example illustrating how to initialize a secondary core instance and enable products:
 
 ```swift
-import AtatusCore
-import AtatusRUM
-import AtatusLogs
-import AtatusTrace
+import TowerSignalCore
+import TowerSignalRUM
+import TowerSignalLogs
+import TowerSignalTrace
 
-let core = Atatus.initialize(
+let core = TowerSignal.initialize(
     with: configuration, 
     trackingConsent: trackingConsent, 
     instanceName: "my-instance"
@@ -482,31 +482,31 @@ Trace.enable(in: core)
 
 **Note**: The SDK instance name should have the same value between application runs. Storage paths for SDK events are associated with it.
 
-Once initialized, you can retrieve the named SDK instance by calling `Atatus.sdkInstance(named: "<name>")` and use it for accessing the products.
+Once initialized, you can retrieve the named SDK instance by calling `TowerSignal.sdkInstance(named: "<name>")` and use it for accessing the products.
 
 ```swift
-import AtatusCore
+import TowerSignalCore
 
-let core = Atatus.sdkInstance(named: "my-instance")
+let core = TowerSignal.sdkInstance(named: "my-instance")
 ```
 
 #### Logs
 ```swift
-import AtatusLogs
+import TowerSignalLogs
 
 let logger = Logger.create(in: core)
 ```
 
 #### Trace
 ```swift
-import AtatusRUM
+import TowerSignalRUM
 
 let monitor = RUMMonitor.shared(in: core)
 ```
 
 #### RUM
 ```swift
-import AtatusRUM
+import TowerSignalRUM
 
 let monitor = RUMMonitor.shared(in: core)
 ```

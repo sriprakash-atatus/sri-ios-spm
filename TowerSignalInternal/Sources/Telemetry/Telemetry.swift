@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
@@ -188,7 +188,7 @@ public enum TelemetryMessage {
 }
 
 /// The `Telemetry` protocol defines methods to collect debug information
-/// and detect execution errors of the Atatus SDK.
+/// and detect execution errors of the TowerSignal SDK.
 public protocol Telemetry: Sendable {
     /// Sends a Telemetry message.
     ///
@@ -557,7 +557,7 @@ public struct NOPTelemetry: Telemetry {
 
 internal struct CoreTelemetry: Telemetry {
     /// A weak core reference.
-    private weak var core: AtatusCoreProtocol?
+    private weak var core: TowerSignalCoreProtocol?
 
     /// Creates a Telemetry associated with a core instance.
     ///
@@ -565,7 +565,7 @@ internal struct CoreTelemetry: Telemetry {
     /// to the provided core.
     ///
     /// - Parameter core: The core instance.
-    init(core: AtatusCoreProtocol) {
+    init(core: TowerSignalCoreProtocol) {
         self.core = core
     }
 
@@ -580,14 +580,14 @@ internal struct CoreTelemetry: Telemetry {
     }
 }
 
-extension AtatusCoreProtocol {
+extension TowerSignalCoreProtocol {
     /// Telemetry endpoint.
     ///
     /// Use this property to report any telemetry event to the core.
     public var telemetry: Telemetry { CoreTelemetry(core: self) }
 }
 
-extension AtatusCoreProtocol {
+extension TowerSignalCoreProtocol {
     /// Provides access to the `Storage` associated with the core.
     /// - Returns: The `Storage` instance.
     public var storage: Storage { CoreStorage(core: self) }

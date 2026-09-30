@@ -9,37 +9,37 @@
 /* Begin PBXBuildFile section */
 		09FA792C2F6C4C33001BCA9C /* StrictConcurrencyChecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FA792B2F6C4C33001BCA9C /* StrictConcurrencyChecks.swift */; };
 		09FA792D2F6C4C33001BCA9C /* StrictConcurrencyChecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FA792B2F6C4C33001BCA9C /* StrictConcurrencyChecks.swift */; };
-		3CB7A04C29F6ABDA007A27ED /* AtatusWebViewTracking in Frameworks */ = {isa = PBXBuildFile; productRef = 3CB7A04B29F6ABDA007A27ED /* AtatusWebViewTracking */; };
-		6125A4042E79876700185E4F /* AtatusFlags in Frameworks */ = {isa = PBXBuildFile; productRef = 6125A4032E79876700185E4F /* AtatusFlags */; };
-		6125A4062E79877000185E4F /* AtatusFlags in Frameworks */ = {isa = PBXBuildFile; productRef = 6125A4052E79877000185E4F /* AtatusFlags */; };
+		3CB7A04C29F6ABDA007A27ED /* TowerSignalWebViewTracking in Frameworks */ = {isa = PBXBuildFile; productRef = 3CB7A04B29F6ABDA007A27ED /* TowerSignalWebViewTracking */; };
+		6125A4042E79876700185E4F /* TowerSignalFlags in Frameworks */ = {isa = PBXBuildFile; productRef = 6125A4032E79876700185E4F /* TowerSignalFlags */; };
+		6125A4062E79877000185E4F /* TowerSignalFlags in Frameworks */ = {isa = PBXBuildFile; productRef = 6125A4052E79877000185E4F /* TowerSignalFlags */; };
 		61C363DA24374D5F00C4D4E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363D924374D5F00C4D4E6 /* AppDelegate.swift */; };
 		61C363DC24374D5F00C4D4E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363DB24374D5F00C4D4E6 /* SceneDelegate.swift */; };
 		61C363DE24374D5F00C4D4E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363DD24374D5F00C4D4E6 /* ViewController.swift */; };
 		61C363F124374D6100C4D4E6 /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363F024374D6100C4D4E6 /* AppTests.swift */; };
 		61C363FC24374D6100C4D4E6 /* AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363FB24374D6100C4D4E6 /* AppUITests.swift */; };
-		9E73374026B0123500917C24 /* AtatusCrashReporting in Frameworks */ = {isa = PBXBuildFile; productRef = 9E73373F26B0123500917C24 /* AtatusCrashReporting */; };
+		9E73374026B0123500917C24 /* TowerSignalCrashReporting in Frameworks */ = {isa = PBXBuildFile; productRef = 9E73373F26B0123500917C24 /* TowerSignalCrashReporting */; };
 		A71398B22BD12B6D0050A54E /* TowerSignalSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71398B12BD12B6D0050A54E /* TowerSignalSetup.swift */; };
 		A71398B32BD12B6D0050A54E /* TowerSignalSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71398B12BD12B6D0050A54E /* TowerSignalSetup.swift */; };
 		D22919312B76589B00C38A18 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D22919302B76589B00C38A18 /* PrivacyInfo.xcprivacy */; };
 		D22919322B76589B00C38A18 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D22919302B76589B00C38A18 /* PrivacyInfo.xcprivacy */; };
-		D229FF662E3BBB42009CCD62 /* AtatusProfiling in Frameworks */ = {isa = PBXBuildFile; productRef = D229FF652E3BBB42009CCD62 /* AtatusProfiling */; };
-		D229FF682E3BBB49009CCD62 /* AtatusProfiling in Frameworks */ = {isa = PBXBuildFile; productRef = D229FF672E3BBB49009CCD62 /* AtatusProfiling */; };
-		D2344E1F29ACDE61007F5BD2 /* AtatusLogs in Frameworks */ = {isa = PBXBuildFile; productRef = D2344E1E29ACDE61007F5BD2 /* AtatusLogs */; };
-		D2344E2129ACDE68007F5BD2 /* AtatusLogs in Frameworks */ = {isa = PBXBuildFile; productRef = D2344E2029ACDE68007F5BD2 /* AtatusLogs */; };
+		D229FF662E3BBB42009CCD62 /* TowerSignalProfiling in Frameworks */ = {isa = PBXBuildFile; productRef = D229FF652E3BBB42009CCD62 /* TowerSignalProfiling */; };
+		D229FF682E3BBB49009CCD62 /* TowerSignalProfiling in Frameworks */ = {isa = PBXBuildFile; productRef = D229FF672E3BBB49009CCD62 /* TowerSignalProfiling */; };
+		D2344E1F29ACDE61007F5BD2 /* TowerSignalLogs in Frameworks */ = {isa = PBXBuildFile; productRef = D2344E1E29ACDE61007F5BD2 /* TowerSignalLogs */; };
+		D2344E2129ACDE68007F5BD2 /* TowerSignalLogs in Frameworks */ = {isa = PBXBuildFile; productRef = D2344E2029ACDE68007F5BD2 /* TowerSignalLogs */; };
 		D23BF5F327CCCC3300BB4CCD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363DD24374D5F00C4D4E6 /* ViewController.swift */; };
 		D23BF5F427CCCC3300BB4CCD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363D924374D5F00C4D4E6 /* AppDelegate.swift */; };
 		D23BF5F527CCCC3300BB4CCD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363DB24374D5F00C4D4E6 /* SceneDelegate.swift */; };
-		D23BF5F727CCCC3300BB4CCD /* AtatusCrashReporting in Frameworks */ = {isa = PBXBuildFile; productRef = D23BF5F027CCCC3300BB4CCD /* AtatusCrashReporting */; };
+		D23BF5F727CCCC3300BB4CCD /* TowerSignalCrashReporting in Frameworks */ = {isa = PBXBuildFile; productRef = D23BF5F027CCCC3300BB4CCD /* TowerSignalCrashReporting */; };
 		D23BF60427CCCCF800BB4CCD /* AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363FB24374D6100C4D4E6 /* AppUITests.swift */; };
 		D23BF61027CCCD5700BB4CCD /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C363F024374D6100C4D4E6 /* AppTests.swift */; };
-		D266C6892B766095008866F9 /* AtatusSessionReplay in Frameworks */ = {isa = PBXBuildFile; productRef = D266C6882B766095008866F9 /* AtatusSessionReplay */; };
-		D26A32D72A4C892A00903514 /* AtatusCore in Frameworks */ = {isa = PBXBuildFile; productRef = D26A32D62A4C892A00903514 /* AtatusCore */; };
-		D26A32D92A4C893300903514 /* AtatusCore in Frameworks */ = {isa = PBXBuildFile; productRef = D26A32D82A4C893300903514 /* AtatusCore */; };
-		D276FB592D109E0800771673 /* AtatusSessionReplay in Frameworks */ = {isa = PBXBuildFile; productRef = D276FB582D109E0800771673 /* AtatusSessionReplay */; };
-		D2966C2E29CA1F2D00FC6B3C /* AtatusTrace in Frameworks */ = {isa = PBXBuildFile; productRef = D2966C2D29CA1F2D00FC6B3C /* AtatusTrace */; };
-		D2966C3029CA1F3300FC6B3C /* AtatusTrace in Frameworks */ = {isa = PBXBuildFile; productRef = D2966C2F29CA1F3300FC6B3C /* AtatusTrace */; };
-		D2CE76BA29F6B9E300D79713 /* AtatusRUM in Frameworks */ = {isa = PBXBuildFile; productRef = D2CE76B929F6B9E300D79713 /* AtatusRUM */; };
-		D2CE76BC29F6B9EE00D79713 /* AtatusRUM in Frameworks */ = {isa = PBXBuildFile; productRef = D2CE76BB29F6B9EE00D79713 /* AtatusRUM */; };
+		D266C6892B766095008866F9 /* TowerSignalSessionReplay in Frameworks */ = {isa = PBXBuildFile; productRef = D266C6882B766095008866F9 /* TowerSignalSessionReplay */; };
+		D26A32D72A4C892A00903514 /* TowerSignalCore in Frameworks */ = {isa = PBXBuildFile; productRef = D26A32D62A4C892A00903514 /* TowerSignalCore */; };
+		D26A32D92A4C893300903514 /* TowerSignalCore in Frameworks */ = {isa = PBXBuildFile; productRef = D26A32D82A4C893300903514 /* TowerSignalCore */; };
+		D276FB592D109E0800771673 /* TowerSignalSessionReplay in Frameworks */ = {isa = PBXBuildFile; productRef = D276FB582D109E0800771673 /* TowerSignalSessionReplay */; };
+		D2966C2E29CA1F2D00FC6B3C /* TowerSignalTrace in Frameworks */ = {isa = PBXBuildFile; productRef = D2966C2D29CA1F2D00FC6B3C /* TowerSignalTrace */; };
+		D2966C3029CA1F3300FC6B3C /* TowerSignalTrace in Frameworks */ = {isa = PBXBuildFile; productRef = D2966C2F29CA1F3300FC6B3C /* TowerSignalTrace */; };
+		D2CE76BA29F6B9E300D79713 /* TowerSignalRUM in Frameworks */ = {isa = PBXBuildFile; productRef = D2CE76B929F6B9E300D79713 /* TowerSignalRUM */; };
+		D2CE76BC29F6B9EE00D79713 /* TowerSignalRUM in Frameworks */ = {isa = PBXBuildFile; productRef = D2CE76BB29F6B9EE00D79713 /* TowerSignalRUM */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,15 +123,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D26A32D72A4C892A00903514 /* AtatusCore in Frameworks */,
-				D266C6892B766095008866F9 /* AtatusSessionReplay in Frameworks */,
-				D2966C2E29CA1F2D00FC6B3C /* AtatusTrace in Frameworks */,
-				D2344E1F29ACDE61007F5BD2 /* AtatusLogs in Frameworks */,
-				D2CE76BC29F6B9EE00D79713 /* AtatusRUM in Frameworks */,
-				6125A4042E79876700185E4F /* AtatusFlags in Frameworks */,
-				3CB7A04C29F6ABDA007A27ED /* AtatusWebViewTracking in Frameworks */,
-				D229FF662E3BBB42009CCD62 /* AtatusProfiling in Frameworks */,
-				9E73374026B0123500917C24 /* AtatusCrashReporting in Frameworks */,
+				D26A32D72A4C892A00903514 /* TowerSignalCore in Frameworks */,
+				D266C6892B766095008866F9 /* TowerSignalSessionReplay in Frameworks */,
+				D2966C2E29CA1F2D00FC6B3C /* TowerSignalTrace in Frameworks */,
+				D2344E1F29ACDE61007F5BD2 /* TowerSignalLogs in Frameworks */,
+				D2CE76BC29F6B9EE00D79713 /* TowerSignalRUM in Frameworks */,
+				6125A4042E79876700185E4F /* TowerSignalFlags in Frameworks */,
+				3CB7A04C29F6ABDA007A27ED /* TowerSignalWebViewTracking in Frameworks */,
+				D229FF662E3BBB42009CCD62 /* TowerSignalProfiling in Frameworks */,
+				9E73374026B0123500917C24 /* TowerSignalCrashReporting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,14 +153,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2966C3029CA1F3300FC6B3C /* AtatusTrace in Frameworks */,
-				D2344E2129ACDE68007F5BD2 /* AtatusLogs in Frameworks */,
-				6125A4062E79877000185E4F /* AtatusFlags in Frameworks */,
-				D276FB592D109E0800771673 /* AtatusSessionReplay in Frameworks */,
-				D2CE76BA29F6B9E300D79713 /* AtatusRUM in Frameworks */,
-				D26A32D92A4C893300903514 /* AtatusCore in Frameworks */,
-				D229FF682E3BBB49009CCD62 /* AtatusProfiling in Frameworks */,
-				D23BF5F727CCCC3300BB4CCD /* AtatusCrashReporting in Frameworks */,
+				D2966C3029CA1F3300FC6B3C /* TowerSignalTrace in Frameworks */,
+				D2344E2129ACDE68007F5BD2 /* TowerSignalLogs in Frameworks */,
+				6125A4062E79877000185E4F /* TowerSignalFlags in Frameworks */,
+				D276FB592D109E0800771673 /* TowerSignalSessionReplay in Frameworks */,
+				D2CE76BA29F6B9E300D79713 /* TowerSignalRUM in Frameworks */,
+				D26A32D92A4C893300903514 /* TowerSignalCore in Frameworks */,
+				D229FF682E3BBB49009CCD62 /* TowerSignalProfiling in Frameworks */,
+				D23BF5F727CCCC3300BB4CCD /* TowerSignalCrashReporting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,15 +282,15 @@
 			);
 			name = "App iOS";
 			packageProductDependencies = (
-				9E73373F26B0123500917C24 /* AtatusCrashReporting */,
-				D2344E1E29ACDE61007F5BD2 /* AtatusLogs */,
-				D2966C2D29CA1F2D00FC6B3C /* AtatusTrace */,
-				D2CE76BB29F6B9EE00D79713 /* AtatusRUM */,
-				3CB7A04B29F6ABDA007A27ED /* AtatusWebViewTracking */,
-				D26A32D62A4C892A00903514 /* AtatusCore */,
-				D266C6882B766095008866F9 /* AtatusSessionReplay */,
-				6125A4032E79876700185E4F /* AtatusFlags */,
-				D229FF652E3BBB42009CCD62 /* AtatusProfiling */,
+				9E73373F26B0123500917C24 /* TowerSignalCrashReporting */,
+				D2344E1E29ACDE61007F5BD2 /* TowerSignalLogs */,
+				D2966C2D29CA1F2D00FC6B3C /* TowerSignalTrace */,
+				D2CE76BB29F6B9EE00D79713 /* TowerSignalRUM */,
+				3CB7A04B29F6ABDA007A27ED /* TowerSignalWebViewTracking */,
+				D26A32D62A4C892A00903514 /* TowerSignalCore */,
+				D266C6882B766095008866F9 /* TowerSignalSessionReplay */,
+				6125A4032E79876700185E4F /* TowerSignalFlags */,
+				D229FF652E3BBB42009CCD62 /* TowerSignalProfiling */,
 			);
 			productName = SPMProject;
 			productReference = 61C363D624374D5F00C4D4E6 /* App.app */;
@@ -348,14 +348,14 @@
 			);
 			name = "App tvOS";
 			packageProductDependencies = (
-				D23BF5F027CCCC3300BB4CCD /* AtatusCrashReporting */,
-				D2344E2029ACDE68007F5BD2 /* AtatusLogs */,
-				D2966C2F29CA1F3300FC6B3C /* AtatusTrace */,
-				D2CE76B929F6B9E300D79713 /* AtatusRUM */,
-				D26A32D82A4C893300903514 /* AtatusCore */,
-				D276FB582D109E0800771673 /* AtatusSessionReplay */,
-				6125A4052E79877000185E4F /* AtatusFlags */,
-				D229FF672E3BBB49009CCD62 /* AtatusProfiling */,
+				D23BF5F027CCCC3300BB4CCD /* TowerSignalCrashReporting */,
+				D2344E2029ACDE68007F5BD2 /* TowerSignalLogs */,
+				D2966C2F29CA1F3300FC6B3C /* TowerSignalTrace */,
+				D2CE76B929F6B9E300D79713 /* TowerSignalRUM */,
+				D26A32D82A4C893300903514 /* TowerSignalCore */,
+				D276FB582D109E0800771673 /* TowerSignalSessionReplay */,
+				6125A4052E79877000185E4F /* TowerSignalFlags */,
+				D229FF672E3BBB49009CCD62 /* TowerSignalProfiling */,
 			);
 			productName = SPMProject;
 			productReference = D23BF5FE27CCCC3300BB4CCD /* App.app */;
@@ -405,7 +405,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1310;
-				ORGANIZATIONNAME = Atatus;
+				ORGANIZATIONNAME = TowerSignal;
 				TargetAttributes = {
 					61C363D524374D5F00C4D4E6 = {
 						CreatedOnToolsVersion = 11.4;
@@ -436,7 +436,7 @@
 			);
 			mainGroup = 61C363CD24374D5F00C4D4E6;
 			packageReferences = (
-				9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */,
+				9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */,
 			);
 			productRefGroup = 61C363D724374D5F00C4D4E6 /* Products */;
 			projectDirPath = "";
@@ -755,7 +755,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProject;
 				PRODUCT_NAME = App;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -777,7 +777,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProject;
 				PRODUCT_NAME = App;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -802,7 +802,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProjectTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProjectTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -827,7 +827,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProjectTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProjectTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -850,7 +850,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProjectUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProjectUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -873,7 +873,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProjectUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProjectUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -895,7 +895,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProject;
 				PRODUCT_NAME = App;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -916,7 +916,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProject;
 				PRODUCT_NAME = App;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -938,7 +938,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProjectUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProjectUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -961,7 +961,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProjectUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProjectUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -986,7 +986,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProjectTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProjectTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -1011,7 +1011,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.SPMProjectTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.SPMProjectTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -1090,17 +1090,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */ = {
+		9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/atatus/atatus-sdk-ios";
+			repositoryURL = "https://github.com/towersignal/towersignal-sdk-ios";
 			requirement = {
 				branch = "GIT_REFERENCE";
 				kind = branch;
 			};
 		};
-		D23BF5F127CCCC3300BB4CCD /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */ = {
+		D23BF5F127CCCC3300BB4CCD /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/atatus/atatus-sdk-ios";
+			repositoryURL = "https://github.com/towersignal/towersignal-sdk-ios";
 			requirement = {
 				branch = "GIT_REFERENCE";
 				kind = branch;
@@ -1109,90 +1109,90 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3CB7A04B29F6ABDA007A27ED /* AtatusWebViewTracking */ = {
+		3CB7A04B29F6ABDA007A27ED /* TowerSignalWebViewTracking */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusWebViewTracking;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalWebViewTracking;
 		};
-		6125A4032E79876700185E4F /* AtatusFlags */ = {
+		6125A4032E79876700185E4F /* TowerSignalFlags */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusFlags;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalFlags;
 		};
-		6125A4052E79877000185E4F /* AtatusFlags */ = {
+		6125A4052E79877000185E4F /* TowerSignalFlags */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusFlags;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalFlags;
 		};
-		9E73373F26B0123500917C24 /* AtatusCrashReporting */ = {
+		9E73373F26B0123500917C24 /* TowerSignalCrashReporting */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusCrashReporting;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalCrashReporting;
 		};
-		D229FF652E3BBB42009CCD62 /* AtatusProfiling */ = {
+		D229FF652E3BBB42009CCD62 /* TowerSignalProfiling */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusProfiling;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalProfiling;
 		};
-		D229FF672E3BBB49009CCD62 /* AtatusProfiling */ = {
+		D229FF672E3BBB49009CCD62 /* TowerSignalProfiling */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusProfiling;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalProfiling;
 		};
-		D2344E1E29ACDE61007F5BD2 /* AtatusLogs */ = {
+		D2344E1E29ACDE61007F5BD2 /* TowerSignalLogs */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusLogs;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalLogs;
 		};
-		D2344E2029ACDE68007F5BD2 /* AtatusLogs */ = {
+		D2344E2029ACDE68007F5BD2 /* TowerSignalLogs */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusLogs;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalLogs;
 		};
-		D23BF5F027CCCC3300BB4CCD /* AtatusCrashReporting */ = {
+		D23BF5F027CCCC3300BB4CCD /* TowerSignalCrashReporting */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D23BF5F127CCCC3300BB4CCD /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusCrashReporting;
+			package = D23BF5F127CCCC3300BB4CCD /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalCrashReporting;
 		};
-		D266C6882B766095008866F9 /* AtatusSessionReplay */ = {
+		D266C6882B766095008866F9 /* TowerSignalSessionReplay */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusSessionReplay;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalSessionReplay;
 		};
-		D26A32D62A4C892A00903514 /* AtatusCore */ = {
+		D26A32D62A4C892A00903514 /* TowerSignalCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusCore;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalCore;
 		};
-		D26A32D82A4C893300903514 /* AtatusCore */ = {
+		D26A32D82A4C893300903514 /* TowerSignalCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusCore;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalCore;
 		};
-		D276FB582D109E0800771673 /* AtatusSessionReplay */ = {
+		D276FB582D109E0800771673 /* TowerSignalSessionReplay */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusSessionReplay;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalSessionReplay;
 		};
-		D2966C2D29CA1F2D00FC6B3C /* AtatusTrace */ = {
+		D2966C2D29CA1F2D00FC6B3C /* TowerSignalTrace */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusTrace;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalTrace;
 		};
-		D2966C2F29CA1F3300FC6B3C /* AtatusTrace */ = {
+		D2966C2F29CA1F3300FC6B3C /* TowerSignalTrace */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusTrace;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalTrace;
 		};
-		D2CE76B929F6B9E300D79713 /* AtatusRUM */ = {
+		D2CE76B929F6B9E300D79713 /* TowerSignalRUM */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusRUM;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalRUM;
 		};
-		D2CE76BB29F6B9EE00D79713 /* AtatusRUM */ = {
+		D2CE76BB29F6B9EE00D79713 /* TowerSignalRUM */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "atatus-sdk-ios" */;
-			productName = AtatusRUM;
+			package = 9E73373E26B0123500917C24 /* XCRemoteSwiftPackageReference "towersignal-sdk-ios" */;
+			productName = TowerSignalRUM;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

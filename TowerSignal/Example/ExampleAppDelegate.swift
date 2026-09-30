@@ -1,21 +1,21 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`,
-// `ddCrashReporting` -> `AtatusCrashReporting`, `ddLogs` -> `AtatusLogs`, `ddRUM` ->
-// `AtatusRUM`, `ddTrace` -> `AtatusTrace`; renamed `clientToken` to `licenseKey`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`,
+// `ddCrashReporting` -> `TowerSignalCrashReporting`, `ddLogs` -> `TowerSignalLogs`, `ddRUM` ->
+// `TowerSignalRUM`, `ddTrace` -> `TowerSignalTrace`; renamed `clientToken` to `licenseKey`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import UIKit
-import AtatusCore
-import AtatusLogs
-import AtatusTrace
-import AtatusRUM
-import AtatusCrashReporting
-import AtatusSessionReplay
+import TowerSignalCore
+import TowerSignalLogs
+import TowerSignalTrace
+import TowerSignalRUM
+import TowerSignalCrashReporting
+import TowerSignalSessionReplay
 import OpenTelemetryApi
 
 let serviceName = "ios-sdk-example-app"
@@ -41,12 +41,12 @@ class ExampleAppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
 
-        // Initialize Atatus SDK
-        Atatus.initialize(
-            with: Atatus.Configuration(
+        // Initialize TowerSignal SDK
+        TowerSignal.initialize(
+            with: TowerSignal.Configuration(
                 licenseKey: "lic_apm_3c890780dd3a4acd97fab9ce6eb5b917",
                 env: "demo",
-                serverUrl: "https://demo.atatus.com",
+                serverUrl: "https://demo.towersignal.com",
                 service: serviceName,
                 batchSize: .small,
                 uploadFrequency: .frequent
@@ -55,13 +55,13 @@ class ExampleAppDelegate: UIResponder, UIApplicationDelegate {
         )
 
         // Set user information
-        Atatus.setUserInfo(id: "abcd-1234",
+        TowerSignal.setUserInfo(id: "abcd-1234",
         name: "foo", 
         email: "foo@example.com", 
         extraInfo: ["key-extraUserInfo": "value-extraUserInfo"])
 
         // Set account information
-        Atatus.setAccountInfo(id: "account-1234", name: "account-US")
+        TowerSignal.setAccountInfo(id: "account-1234", name: "account-US")
 
         // Enable Logs
         Logs.enable(
@@ -74,7 +74,7 @@ class ExampleAppDelegate: UIResponder, UIApplicationDelegate {
         CrashReporting.enable()
 
         // Set highest verbosity level to see debugging logs from the SDK
-        Atatus.verbosityLevel = .debug
+        TowerSignal.verbosityLevel = .debug
 
         // Enable Trace
         Trace.enable(
@@ -83,11 +83,11 @@ class ExampleAppDelegate: UIResponder, UIApplicationDelegate {
                 urlSessionTracking: .init(
                     firstPartyHostsTracing: .traceWithHeaders(
                         hostsWithHeaders: [
-                            "api.shopist.io": [.atatus],
-                            "demo.atatus.com": [.atatus, .tracecontext],
-                            "10.40.31.91": [.atatus, .tracecontext],
-                            "localhost": [.atatus, .tracecontext],
-                            "127.0.0.1": [.atatus, .tracecontext]
+                            "api.shopist.io": [.towersignal],
+                            "demo.towersignal.com": [.towersignal, .tracecontext],
+                            "10.40.31.91": [.towersignal, .tracecontext],
+                            "localhost": [.towersignal, .tracecontext],
+                            "127.0.0.1": [.towersignal, .tracecontext]
                         ],
                         sampleRate: 100
                     )
@@ -103,11 +103,11 @@ class ExampleAppDelegate: UIResponder, UIApplicationDelegate {
                 urlSessionTracking: .init(
                     firstPartyHostsTracing: .traceWithHeaders(
                         hostsWithHeaders: [
-                            "api.shopist.io": [.atatus],
-                            "demo.atatus.com": [.atatus, .tracecontext],
-                            "10.40.31.91": [.atatus, .tracecontext],
-                            "localhost": [.atatus, .tracecontext],
-                            "127.0.0.1": [.atatus, .tracecontext]
+                            "api.shopist.io": [.towersignal],
+                            "demo.towersignal.com": [.towersignal, .tracecontext],
+                            "10.40.31.91": [.towersignal, .tracecontext],
+                            "localhost": [.towersignal, .tracecontext],
+                            "127.0.0.1": [.towersignal, .tracecontext]
                         ],
                         sampleRate: 100
                     ),

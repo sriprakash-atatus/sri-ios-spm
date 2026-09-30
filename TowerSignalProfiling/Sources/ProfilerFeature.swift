@@ -1,27 +1,27 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddMachProfiler` -> `AtatusMachProfiler`; renamed `dd*` types to `Atatus*`; renamed the `DD`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddMachProfiler` -> `TowerSignalMachProfiler`; renamed `dd*` types to `TowerSignal*`; renamed the `DD`
 // symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 #if !os(watchOS)
 
 // swiftlint:disable duplicate_imports
 #if swift(>=6.0)
-internal import AtatusMachProfiler
+internal import TowerSignalMachProfiler
 #else
-@_implementationOnly import AtatusMachProfiler
+@_implementationOnly import TowerSignalMachProfiler
 #endif
 // swiftlint:enable duplicate_imports
 
-internal final class ProfilerFeature: AtatusRemoteFeature {
+internal final class ProfilerFeature: TowerSignalRemoteFeature {
     enum Constants {
         static let maxFileSize = 10.MB.asUInt32()
         static let maxObjectSize = 10.MB.asUInt32()
@@ -44,7 +44,7 @@ internal final class ProfilerFeature: AtatusRemoteFeature {
     )
 
     init(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         configuration: Profiling.Configuration,
         requestBuilder: FeatureRequestBuilder,
         telemetryController: ProfilingTelemetryController,
@@ -72,14 +72,14 @@ internal final class ProfilerFeature: AtatusRemoteFeature {
 
         messageReceivers.append(quotaChecker)
 
-        if let atatusProfiler = AtatusProfiler(
+        if let towersignalProfiler = TowerSignalProfiler(
             core: core,
             profilingSamplerProvider: profilingSamplerProvider,
             quotaChecker: quotaChecker,
             telemetryController: telemetryController,
             minProfileDuration: configuration.minProfileDuration
         ) {
-            messageReceivers.append(atatusProfiler)
+            messageReceivers.append(towersignalProfiler)
         }
 
         self.messageReceiver = CombinedFeatureMessageReceiver(messageReceivers)

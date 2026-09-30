@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `_dd` attribute prefix to `_atatus`; removed the `dd`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `_dd` attribute prefix to `_towersignal`; removed the `dd`
 // name from comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal final class TelemetryReceiver: FeatureMessageReceiver {
     /// Maximum number of telemetry events allowed per RUM  sessions.
@@ -68,7 +68,7 @@ internal final class TelemetryReceiver: FeatureMessageReceiver {
     ///   - message: The message to consume.
     ///   - core: The core sending the message.
     /// - Returns: `true` if the message is a `.telemetry` case.
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         guard case let .telemetry(telemetry) = message else {
             return false
         }
@@ -132,7 +132,7 @@ internal final class TelemetryReceiver: FeatureMessageReceiver {
                 date: date.addingTimeInterval(context.serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
                 effectiveSampleRate: Double(self.sampler.samplingRate),
                 experimentalFeatures: nil,
-                service: "atatus-sdk-ios",
+                service: "towersignal-sdk-ios",
                 session: rum.map { .init(id: $0.sessionID) },
                 source: .init(rawValue: context.source) ?? .ios,
                 telemetry: .init(
@@ -178,7 +178,7 @@ internal final class TelemetryReceiver: FeatureMessageReceiver {
                 date: date.addingTimeInterval(context.serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
                 effectiveSampleRate: Double(self.sampler.samplingRate),
                 experimentalFeatures: nil,
-                service: "atatus-sdk-ios",
+                service: "towersignal-sdk-ios",
                 session: rum.map { .init(id: $0.sessionID) },
                 source: .init(rawValue: context.source) ?? .ios,
                 telemetry: .init(
@@ -196,7 +196,7 @@ internal final class TelemetryReceiver: FeatureMessageReceiver {
         }
     }
 
-    private func send(usage: AtatusInternal.UsageTelemetry) {
+    private func send(usage: TowerSignalInternal.UsageTelemetry) {
         let date = dateProvider.now
 
         self.record(event: nil) { context, writer in
@@ -209,7 +209,7 @@ internal final class TelemetryReceiver: FeatureMessageReceiver {
                 date: date.addingTimeInterval(context.serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
                 effectiveSampleRate: Double(usage.sampleRate.composed(with: self.sampler.samplingRate)),
                 experimentalFeatures: nil,
-                service: "atatus-sdk-ios",
+                service: "towersignal-sdk-ios",
                 session: rum.map { .init(id: $0.sessionID) },
                 source: .init(rawValue: context.source) ?? .ios,
                 telemetry: .init(
@@ -232,14 +232,14 @@ internal final class TelemetryReceiver: FeatureMessageReceiver {
     /// configuration for lazy initialization of the SDK.
     ///
     /// - Parameter configuration: The SDK configuration.
-    private func send(configuration: AtatusInternal.ConfigurationTelemetry) {
+    private func send(configuration: TowerSignalInternal.ConfigurationTelemetry) {
         guard configurationExtraSampler.sample() else {
             return
         }
 
         let date = dateProvider.now
 
-        self.record(event: "_atatus.configuration") { context, writer in
+        self.record(event: "_towersignal.configuration") { context, writer in
             let rum = context.additionalContext(ofType: RUMCoreContext.self)
 
             let event = TelemetryConfigurationEvent(
@@ -249,7 +249,7 @@ internal final class TelemetryReceiver: FeatureMessageReceiver {
                 date: date.addingTimeInterval(context.serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
                 effectiveSampleRate: Double(self.configurationExtraSampler.samplingRate.composed(with: self.sampler.samplingRate)),
                 experimentalFeatures: nil,
-                service: "atatus-sdk-ios",
+                service: "towersignal-sdk-ios",
                 session: rum.map { .init(id: $0.sessionID) },
                 source: .init(rawValue: context.source) ?? .ios,
                 telemetry: .init(
@@ -293,7 +293,7 @@ internal final class TelemetryReceiver: FeatureMessageReceiver {
                 date: date.addingTimeInterval(context.serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
                 effectiveSampleRate: Double(effectiveSampleRate),
                 experimentalFeatures: nil,
-                service: "atatus-sdk-ios",
+                service: "towersignal-sdk-ios",
                 session: sessionID.map { .init(id: $0) },
                 source: .init(rawValue: context.source) ?? .ios,
                 telemetry: .init(
@@ -310,7 +310,7 @@ internal final class TelemetryReceiver: FeatureMessageReceiver {
         }
     }
 
-    private func record(event id: String?, operation: @escaping (AtatusContext, Writer) -> Void) {
+    private func record(event id: String?, operation: @escaping (TowerSignalContext, Writer) -> Void) {
         guard sampler.sample() else {
             return
         }
@@ -390,7 +390,7 @@ private extension TelemetryUsageEvent.Telemetry.Usage {
 }
 
 private extension TelemetryUsageEvent.Telemetry.Usage.TelemetryCommonFeaturesUsage.SetTrackingConsent.TrackingConsent {
-    init(consent: AtatusInternal.TrackingConsent) {
+    init(consent: TowerSignalInternal.TrackingConsent) {
         switch consent {
         case .granted:
             self = .granted
@@ -403,7 +403,7 @@ private extension TelemetryUsageEvent.Telemetry.Usage.TelemetryCommonFeaturesUsa
 }
 
 private extension TelemetryConfigurationEvent.Telemetry.Configuration {
-    init(_ configuration: AtatusInternal.ConfigurationTelemetry) {
+    init(_ configuration: TowerSignalInternal.ConfigurationTelemetry) {
         self.init(
             actionNameAttribute: nil,
             allowFallbackToLocalStorage: nil,

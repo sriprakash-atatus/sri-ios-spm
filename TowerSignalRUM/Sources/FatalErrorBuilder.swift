@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `dd*` members to `at*`; renamed the `ddsource` / `ddtags` query
-// parameters to `atatus_source` / `atatustags`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `dd*` members to `at*`; renamed the `ddsource` / `ddtags` query
+// parameters to `towersignal_source` / `towersignaltags`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Builder for constructing fatal errors (such as Crashes or Fatal App Hangs) that can be sent to the last RUM session in previous process.
 internal struct FatalErrorBuilder {
@@ -34,7 +34,7 @@ internal struct FatalErrorBuilder {
     }
 
     /// Current SDK context.
-    let context: AtatusContext
+    let context: TowerSignalContext
 
     let error: FatalError
 
@@ -89,7 +89,7 @@ internal struct FatalErrorBuilder {
                 contextInfo: contextInfo
             ),
             date: errorDate.timeIntervalSince1970.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: lastRUMView.device,
             display: nil,
             error: .init(
@@ -169,7 +169,7 @@ internal struct FatalErrorBuilder {
             container: original.container,
             context: original.context,
             date: errorDate.timeIntervalSince1970.dd.toInt64Milliseconds - 1, // -1ms to put the fatal error after view in RUM session
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: original.device,
             display: original.display,
             featureFlags: original.featureFlags,

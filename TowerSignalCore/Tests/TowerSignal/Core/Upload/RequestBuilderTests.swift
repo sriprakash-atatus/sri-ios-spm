@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`; renamed
-// `clientToken` to `licenseKey`; renamed the `ddsource` / `ddtags` query parameters to `atatus_source` /
-// `atatustags`; renamed the `DD-*` intake headers to their Atatus equivalents; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`; renamed
+// `clientToken` to `licenseKey`; renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` /
+// `towersignaltags`; renamed the `DD-*` intake headers to their TowerSignal equivalents; rebranded the licence
 // header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusCore
+import TowerSignalInternal
+@testable import TowerSignalCore
 
 class RequestBuilderTests: XCTestCase {
     // MARK: - Request URL
@@ -21,22 +21,22 @@ class RequestBuilderTests: XCTestCase {
         let randomURL: URL = .mockRandom()
         let builder = URLRequestBuilder(
             url: randomURL,
-            queryItems: [.atatusSource(source: "abc"), .atatusTags(tags: ["abc:def"])],
+            queryItems: [.towersignalSource(source: "abc"), .towersignalTags(tags: ["abc:def"])],
             headers: .mockRandom()
         )
         let request = builder.uploadRequest(with: .mockRandom())
-        XCTAssertEqual(request.url?.absoluteString, "\(randomURL.absoluteString)?atatus_source=abc&atatustags=abc:def")
+        XCTAssertEqual(request.url?.absoluteString, "\(randomURL.absoluteString)?towersignal_source=abc&towersignaltags=abc:def")
     }
 
     func testWhenBuildingRequestWithURLAndQueryItems_itEscapesWhitespacesInQuery() throws {
         let randomURL: URL = .mockRandom()
         let builder = URLRequestBuilder(
             url: randomURL,
-            queryItems: [.atatusSource(source: "source with whitespace"), .atatusTags(tags: ["tag with whitespace"])],
+            queryItems: [.towersignalSource(source: "source with whitespace"), .towersignalTags(tags: ["tag with whitespace"])],
             headers: .mockRandom()
         )
         let request = builder.uploadRequest(with: .mockRandom())
-        XCTAssertEqual(request.url?.absoluteString, "\(randomURL.absoluteString)?atatus_source=source%20with%20whitespace&atatustags=tag%20with%20whitespace")
+        XCTAssertEqual(request.url?.absoluteString, "\(randomURL.absoluteString)?towersignal_source=source%20with%20whitespace&towersignaltags=tag%20with%20whitespace")
     }
 
     // MARK: - Request Headers
@@ -110,14 +110,14 @@ class RequestBuilderTests: XCTestCase {
         let randomSource: String = .mockRandom()
         let builder = URLRequestBuilder(url: .mockRandom(), queryItems: .mockRandom(), headers: [.atEVPOriginHeader(source: randomSource)])
         let request = builder.uploadRequest(with: .mockRandom())
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN"], randomSource)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN"], randomSource)
     }
 
     func testBuildingRequestWithDDEVPOriginVersionHeader() {
         let randomSDKVersion: String = .mockRandom()
         let builder = URLRequestBuilder(url: .mockRandom(), queryItems: .mockRandom(), headers: [.atEVPOriginVersionHeader(sdkVersion: randomSDKVersion)])
         let request = builder.uploadRequest(with: .mockRandom())
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN-VERSION"], randomSDKVersion)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN-VERSION"], randomSDKVersion)
     }
 
     func testBuildingRequestWithDDRequestIDHeader() throws {
@@ -127,14 +127,14 @@ class RequestBuilderTests: XCTestCase {
         let request2 = builder.uploadRequest(with: .mockRandom())
         let request3 = builder.uploadRequest(with: .mockRandom())
 
-        let requestID1 = try XCTUnwrap(request1.allHTTPHeaderFields?["ATATUS-REQUEST-ID"])
-        let requestID2 = try XCTUnwrap(request2.allHTTPHeaderFields?["ATATUS-REQUEST-ID"])
-        let requestID3 = try XCTUnwrap(request3.allHTTPHeaderFields?["ATATUS-REQUEST-ID"])
+        let requestID1 = try XCTUnwrap(request1.allHTTPHeaderFields?["TOWERSIGNAL-REQUEST-ID"])
+        let requestID2 = try XCTUnwrap(request2.allHTTPHeaderFields?["TOWERSIGNAL-REQUEST-ID"])
+        let requestID3 = try XCTUnwrap(request3.allHTTPHeaderFields?["TOWERSIGNAL-REQUEST-ID"])
 
         let allIDs = Set([requestID1, requestID2, requestID3])
-        XCTAssertEqual(allIDs.count, 3, "Each `ATATUS-REQUEST-ID` must produce unique ID")
+        XCTAssertEqual(allIDs.count, 3, "Each `TOWERSIGNAL-REQUEST-ID` must produce unique ID")
         allIDs.forEach { id in
-            XCTAssertTrue(id.matches(regex: .uuidRegex), "Each `ATATUS-REQUEST-ID` must be an UUID string")
+            XCTAssertTrue(id.matches(regex: .uuidRegex), "Each `TOWERSIGNAL-REQUEST-ID` must be an UUID string")
         }
     }
 
@@ -157,9 +157,9 @@ class RequestBuilderTests: XCTestCase {
         XCTAssertNotNil(request.allHTTPHeaderFields?["Content-Encoding"])
         XCTAssertNotNil(request.allHTTPHeaderFields?["User-Agent"])
         XCTAssertNotNil(request.allHTTPHeaderFields?["api-key"])
-        XCTAssertNotNil(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN"])
-        XCTAssertNotNil(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN-VERSION"])
-        XCTAssertNotNil(request.allHTTPHeaderFields?["ATATUS-REQUEST-ID"])
+        XCTAssertNotNil(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN"])
+        XCTAssertNotNil(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN-VERSION"])
+        XCTAssertNotNil(request.allHTTPHeaderFields?["TOWERSIGNAL-REQUEST-ID"])
         XCTAssertEqual(request.allHTTPHeaderFields?.count, 7)
     }
 

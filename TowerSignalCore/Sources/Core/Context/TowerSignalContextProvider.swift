@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `com.ddhq.*`
-// identifiers to `com.atatus.*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `com.ddhq.*`
+// identifiers to `com.towersignal.*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// Provides thread-safe access to Atatus Context.
+/// Provides thread-safe access to TowerSignal Context.
 ///
 /// The context can be accessed asynchronously for reads and writes.
 ///
@@ -41,32 +41,32 @@ import AtatusInternal
 ///     provider.subscribe(\.serverTimeOffset, to: publisher)
 ///
 /// All subscriptions will be cancelled when the provider is deallocated.
-internal final class AtatusContextProvider {
+internal final class TowerSignalContextProvider {
     static let defaultQueue = DispatchQueue(
-        label: "com.atatus.core-context",
+        label: "com.towersignal.core-context",
         qos: .utility
     )
     /// The current `context`.
     ///
     /// The value must be accessed from the `queue` only.
-    private var context: AtatusContext
+    private var context: TowerSignalContext
 
-    /// The queue used to synchronize the access to the `AtatusContext`.
+    /// The queue used to synchronize the access to the `TowerSignalContext`.
     internal let queue: DispatchQueue
 
     /// List of receivers to invoke when the context changes.
-    private var receivers: [ContextValueReceiver<AtatusContext>]
+    private var receivers: [ContextValueReceiver<TowerSignalContext>]
 
     /// List of subscription of context values.
     private var subscriptions: [ContextValueSubscription]
 
     /// Creates a context provider to perform reads and writes on the
-    /// shared Atatus context.
+    /// shared TowerSignal context.
     ///
     /// - Parameters:
     ///   - context: The initial context value.
-    ///   - queue: The queue to synchronize the access to the `AtatusContext`.
-    init(context: AtatusContext, queue: DispatchQueue = AtatusContextProvider.defaultQueue) {
+    ///   - queue: The queue to synchronize the access to the `TowerSignalContext`.
+    init(context: TowerSignalContext, queue: DispatchQueue = TowerSignalContextProvider.defaultQueue) {
         self.context = context
         self.queue = queue
         self.receivers = []
@@ -80,7 +80,7 @@ internal final class AtatusContextProvider {
     /// Publishes context changes to the given receiver.
     ///
     /// - Parameter receiver: The receiver closure.
-    func publish(to receiver: @escaping ContextValueReceiver<AtatusContext>) {
+    func publish(to receiver: @escaping ContextValueReceiver<TowerSignalContext>) {
         queue.async { self.receivers.append(receiver) }
     }
 
@@ -90,21 +90,21 @@ internal final class AtatusContextProvider {
     /// synchronously on a concurrent queue.
     /// 
     /// - Returns: The current context.
-    func read() -> AtatusContext {
+    func read() -> TowerSignalContext {
         queue.sync { context }
     }
 
     /// Reads to the `context` asynchronously, without blocking the caller thread.
     ///
     /// - Parameter block: The block closure called with the current context.
-    func read(block: @escaping (AtatusContext) -> Void) {
+    func read(block: @escaping (TowerSignalContext) -> Void) {
         queue.async { block(self.context) }
     }
 
     /// Writes to the `context` asynchronously, without blocking the caller thread.
     ///
     /// - Parameter block: The block closure called with the current context.
-    func write(block: @escaping (inout AtatusContext) -> Void) {
+    func write(block: @escaping (inout TowerSignalContext) -> Void) {
         queue.async {
             block(&self.context)
             self.receivers.forEach { receiver in
@@ -124,7 +124,7 @@ internal final class AtatusContextProvider {
     /// - Parameters:
     ///   - keyPath: A context's key path that supports reading from and writing to the resulting value.
     ///   - publisher: The context value publisher.
-    func subscribe<Publisher>(_ keyPath: WritableKeyPath<AtatusContext, Publisher.Value>, to publisher: Publisher) where Publisher: ContextValuePublisher {
+    func subscribe<Publisher>(_ keyPath: WritableKeyPath<TowerSignalContext, Publisher.Value>, to publisher: Publisher) where Publisher: ContextValuePublisher {
         let subscription = publisher.subscribe { [weak self] value in
             self?.write { $0[keyPath: keyPath] = value }
         }
@@ -136,7 +136,7 @@ internal final class AtatusContextProvider {
     }
 
 #if AT_SDK_COMPILED_FOR_TESTING
-    func replace(context newContext: AtatusContext) {
+    func replace(context newContext: TowerSignalContext) {
         queue.async {
             self.context = newContext
         }
@@ -144,7 +144,7 @@ internal final class AtatusContextProvider {
 #endif
 }
 
-extension AtatusContextProvider: Flushable {
+extension TowerSignalContextProvider: Flushable {
     /// Awaits completion of all asynchronous operations.
     ///
     /// **blocks the caller thread**

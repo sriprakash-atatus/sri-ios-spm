@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddRUM` -> `AtatusRUM`,
-// `ddWebViewTracking` -> `AtatusWebViewTracking`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddRUM` -> `TowerSignalRUM`,
+// `ddWebViewTracking` -> `TowerSignalWebViewTracking`; rebranded the licence header.
 
 #if canImport(WebKit)
 
 import UIKit
 import WebKit
-import AtatusRUM
-import AtatusWebViewTracking
+import TowerSignalRUM
+import TowerSignalWebViewTracking
 
 class DebugWebviewViewController: UIViewController {
     @IBOutlet weak var rumServiceNameTextField: UITextField!
@@ -55,7 +55,7 @@ class DebugWebviewViewController: UIViewController {
 
     private var webviewURL: String {
         guard let text = webviewURLTextField.text, !text.isEmpty else {
-            return "https://atatus.dev/browser-sdk-test-playground/webview.html"
+            return "https://towersignal.dev/browser-sdk-test-playground/webview.html"
         }
         return text
     }

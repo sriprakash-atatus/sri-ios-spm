@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 
 /// Utility to access the convenience methods defined in `Telemetry` protocol extension while sending telemetry to tested receiver.
 private struct TelemetryMock: Telemetry {
@@ -21,7 +21,7 @@ private struct TelemetryMock: Telemetry {
     }
 
     func send(telemetry: TelemetryMessage) {
-        let result = receiver.receive(message: .telemetry(telemetry), from: NOPAtatusCore())
+        let result = receiver.receive(message: .telemetry(telemetry), from: NOPTowerSignalCore())
         XCTAssertTrue(result, "It must accept every message")
     }
 }
@@ -53,7 +53,7 @@ class TelemetryReceiverTests: XCTestCase {
         let event = featureScope.eventsWritten(ofType: TelemetryDebugEvent.self).first
         XCTAssertEqual(event?.date, 0)
         XCTAssertEqual(event?.version, "sdk-version")
-        XCTAssertEqual(event?.service, "atatus-sdk-ios")
+        XCTAssertEqual(event?.service, "towersignal-sdk-ios")
         XCTAssertEqual(event?.source, .flutter)
         XCTAssertEqual(event?.telemetry.message, "Hello world!")
         XCTAssertEqual(event?.telemetry.telemetryInfo["foo"] as? Int, 42)
@@ -84,7 +84,7 @@ class TelemetryReceiverTests: XCTestCase {
         let event = featureScope.eventsWritten(ofType: TelemetryErrorEvent.self).first
         XCTAssertEqual(event?.date, 0)
         XCTAssertEqual(event?.version, "sdk-version")
-        XCTAssertEqual(event?.service, "atatus-sdk-ios")
+        XCTAssertEqual(event?.service, "towersignal-sdk-ios")
         XCTAssertEqual(event?.source, .ios)
         XCTAssertEqual(event?.telemetry.message, "Oops")
         XCTAssertEqual(event?.telemetry.error?.kind, "OutOfMemory")
@@ -399,7 +399,7 @@ class TelemetryReceiverTests: XCTestCase {
         let event = featureScope.eventsWritten(ofType: TelemetryConfigurationEvent.self).first
         XCTAssertEqual(event?.date, 0)
         XCTAssertEqual(event?.version, "sdk-version")
-        XCTAssertEqual(event?.service, "atatus-sdk-ios")
+        XCTAssertEqual(event?.service, "towersignal-sdk-ios")
         XCTAssertEqual(event?.source, .unity)
         XCTAssertEqual(event?.telemetry.configuration.backgroundTasksEnabled, backgroundTasksEnabled)
         XCTAssertEqual(event?.telemetry.configuration.batchProcessingLevel, batchProcessingLevel)
@@ -477,7 +477,7 @@ class TelemetryReceiverTests: XCTestCase {
         let event = featureScope.eventsWritten(ofType: TelemetryDebugEvent.self).first
         XCTAssertEqual(event?.date, 0)
         XCTAssertEqual(event?.version, "sdk-version")
-        XCTAssertEqual(event?.service, "atatus-sdk-ios")
+        XCTAssertEqual(event?.service, "towersignal-sdk-ios")
         XCTAssertEqual(event?.source, .reactNative)
         XCTAssertEqual(event?.telemetry.message, "[Mobile Metric] \(randomName)")
         XCTAssertEqual(event?.effectiveSampleRate, 100)
@@ -611,7 +611,7 @@ class TelemetryReceiverTests: XCTestCase {
         // When
         let result = receiver.receive(
             message: .telemetry(.usage(.init(event: .trackWebView, sampleRate: 100))),
-            from: NOPAtatusCore()
+            from: NOPTowerSignalCore()
         )
         XCTAssertTrue(result)
 
@@ -619,7 +619,7 @@ class TelemetryReceiverTests: XCTestCase {
         let event = featureScope.eventsWritten(ofType: TelemetryUsageEvent.self).first
         XCTAssertNotNil(event)
         XCTAssertEqual(event?.effectiveSampleRate, 100)
-        XCTAssertEqual(event?.service, "atatus-sdk-ios")
+        XCTAssertEqual(event?.service, "towersignal-sdk-ios")
         XCTAssertEqual(event?.source, .ios)
         XCTAssertEqual(event?.version, "sdk-version")
         guard case .telemetryMobileFeaturesUsage(let usage) = event?.telemetry.usage,

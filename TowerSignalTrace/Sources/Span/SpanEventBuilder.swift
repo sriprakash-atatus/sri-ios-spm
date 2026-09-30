@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Builds `SpanEvent` representation (for later serialization) from span information recorded in `ATSpan` and values received from global configuration.
 internal struct SpanEventBuilder: Sendable {
@@ -28,7 +28,7 @@ internal struct SpanEventBuilder: Sendable {
     let attributesEncoder: JSONEncoder = .dd.default()
 
     func createSpanEvent(
-        context: AtatusContext,
+        context: TowerSignalContext,
         traceID: TraceID,
         spanID: SpanID,
         parentSpanID: SpanID?,
@@ -56,8 +56,8 @@ internal struct SpanEventBuilder: Sendable {
         if bundleWithRUM {
             // Enrich with RUM context
             if let rum = context.additionalContext(ofType: RUMCoreContext.self), rum.sessionSampler.isSampled {
-                // ATCHG: `_atatus.application.id` is no longer added -- Atatus spans do not carry a RUM application ID,
-                // matching `CoreTracerSpanToSpanEventMapper` in the Atatus Android agent.
+                // ATCHG: `_towersignal.application.id` is no longer added -- TowerSignal spans do not carry a RUM application ID,
+                // matching `CoreTracerSpanToSpanEventMapper` in the TowerSignal Android agent.
                 tags[SpanTags.rumSessionID] = rum.sessionID
                 tags[SpanTags.rumViewID] = rum.viewID
                 tags[SpanTags.rumActionID] = rum.userActionID

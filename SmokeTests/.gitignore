@@ -20,4 +20,4 @@ xcuserdata
 /cocoapods/**/Podfile
 
 # XCFramework test
-/xcframeworks/atatus-sdk-ios
+/xcframeworks/towersignal-sdk-ios

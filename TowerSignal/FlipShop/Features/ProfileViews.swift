@@ -1,7 +1,7 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 import SwiftUI
@@ -268,7 +268,7 @@ struct AboutView: View {
             Text("FlipShop")
                 .font(.title)
                 .fontWeight(.bold)
-            Text("Modern Swift 6 & iOS e-commerce showcase application instrumented with Atatus Mobile APM & Session Replay.")
+            Text("Modern Swift 6 & iOS e-commerce showcase application instrumented with TowerSignal Mobile APM & Session Replay.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

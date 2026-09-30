@@ -1,32 +1,32 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix
-// to `_atatus`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix
+// to `_towersignal`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 #if !os(watchOS)
 import QuartzCore
 #endif
 
 // swiftlint:disable duplicate_imports
-@_exported import enum AtatusInternal.URLSessionInstrumentation
-@_exported import enum AtatusInternal.TracingHeaderType
-@_exported import enum AtatusInternal.TraceContextInjection
-@_exported import struct AtatusInternal.RUMViewEvent
-@_exported import struct AtatusInternal.RUMResourceEvent
-@_exported import struct AtatusInternal.RUMErrorEvent
-@_exported import struct AtatusInternal.RUMActionEvent
-@_exported import struct AtatusInternal.RUMLongTaskEvent
-@_exported import struct AtatusInternal.ProfilingOptions
-@_exported import protocol AtatusInternal.CACurrentMediaTimeProvider
-@_exported import struct AtatusInternal.MediaTimeProvider
+@_exported import enum TowerSignalInternal.URLSessionInstrumentation
+@_exported import enum TowerSignalInternal.TracingHeaderType
+@_exported import enum TowerSignalInternal.TraceContextInjection
+@_exported import struct TowerSignalInternal.RUMViewEvent
+@_exported import struct TowerSignalInternal.RUMResourceEvent
+@_exported import struct TowerSignalInternal.RUMErrorEvent
+@_exported import struct TowerSignalInternal.RUMActionEvent
+@_exported import struct TowerSignalInternal.RUMLongTaskEvent
+@_exported import struct TowerSignalInternal.ProfilingOptions
+@_exported import protocol TowerSignalInternal.CACurrentMediaTimeProvider
+@_exported import struct TowerSignalInternal.MediaTimeProvider
 // swiftlint:enable duplicate_imports
 
 extension RUM {
@@ -60,7 +60,7 @@ extension RUM {
 
     /// RUM feature configuration.
     public struct Configuration {
-        /// An unique identifier of the RUM application in Atatus.
+        /// An unique identifier of the RUM application in TowerSignal.
         public let applicationID: String
 
         /// The sampling rate for RUM sessions.
@@ -194,7 +194,7 @@ extension RUM {
         ///         The SDK implements a secondary thread for monitoring App Hangs. To reduce CPU utilization, it tracks hangs with a tolerance of 2.5%, meaning that
         ///         some hangs lasting very close to this threshold may not be reported.
         ///
-        /// - Note: App Hangs monitoring requires Atatus Crash Reporting to be enabled. Otherwise stack trace will be not reported in App Hang errors.
+        /// - Note: App Hangs monitoring requires TowerSignal Crash Reporting to be enabled. Otherwise stack trace will be not reported in App Hang errors.
         ///
         /// - Default: `nil` (hangs monitoring disabled).
         public var appHangThreshold: TimeInterval?
@@ -319,8 +319,8 @@ extension RUM {
         /// Default: `true`.
         public var trackSlowFrames: Bool
 
-        /// The sampling rate for SDK internal telemetry utilized by Atatus.
-        /// This telemetry is used to monitor the internal workings of the entire Atatus iOS SDK.
+        /// The sampling rate for SDK internal telemetry utilized by TowerSignal.
+        /// This telemetry is used to monitor the internal workings of the entire TowerSignal iOS SDK.
         ///
         /// It must be a number between 0.0 and 100.0, where 0 means no telemetry will be sent,
         /// and 100 means all telemetry will be uploaded. The default value is 20.0.
@@ -351,7 +351,7 @@ extension RUM {
             ///     - Third-party URL examples: https://example.com/ and https://foo.com/
             ///
             /// RUM will create a trace for each first-party resource by injecting HTTP trace headers and creating an APM span.
-            /// If your backend is also instrumented with Atatus, you will see the full trace (app → backend).
+            /// If your backend is also instrumented with TowerSignal, you will see the full trace (app → backend).
             ///
             /// Default: `nil` - which means distributed tracing is not enabled by default.
             public var firstPartyHostsTracing: FirstPartyHostsTracing?
@@ -433,8 +433,8 @@ extension RUM {
         internal var debugSDK: Bool = ProcessInfo.processInfo.arguments.contains(LaunchArguments.Debug)
         internal var debugViews: Bool = ProcessInfo.processInfo.arguments.contains("AT_DEBUG_RUM")
         internal var ciTestExecutionID: String? = ProcessInfo.processInfo.environment["CI_VISIBILITY_TEST_EXECUTION_ID"]
-        internal var syntheticsTestId: String? = ProcessInfo.processInfo.environment["_atatus.synthetics.test_id"]
-        internal var syntheticsResultId: String? = ProcessInfo.processInfo.environment["_atatus.synthetics.result_id"]
+        internal var syntheticsTestId: String? = ProcessInfo.processInfo.environment["_towersignal.synthetics.test_id"]
+        internal var syntheticsResultId: String? = ProcessInfo.processInfo.environment["_towersignal.synthetics.result_id"]
         internal var syntheticsEnvironment: Bool { syntheticsTestId != nil || syntheticsResultId != nil }
         internal var sessionTypeOverride: String? = ProcessInfo.processInfo.environment["AT_SESSION_TYPE"]
     }
@@ -452,7 +452,7 @@ extension RUM {
 extension RUM.Configuration.URLSessionTracking {
     /// Defines configuration for first-party hosts in distributed tracing.
     public enum FirstPartyHostsTracing {
-        /// Trace the specified hosts using Atatus and W3C `tracecontext` tracing headers.
+        /// Trace the specified hosts using TowerSignal and W3C `tracecontext` tracing headers.
         ///
         /// Wildcard patterns using `*` are supported (e.g. `"*.example.com"`).
         ///
@@ -557,7 +557,7 @@ extension RUM.Configuration {
     ///   - trackAnonymousUser: Enables the collection of anonymous user id across sessions. Default: `true`.
     ///   - trackMemoryWarnings: Enables the collection of memory warnings. Default: `true`.
     ///   - trackSlowFrames: Enables the collection of slow frames (view hitches). Default: `true`.
-    ///   - telemetrySampleRate: The sampling rate for SDK internal telemetry utilized by Atatus. Must be a value between `0` and `100`. Default: `20`.
+    ///   - telemetrySampleRate: The sampling rate for SDK internal telemetry utilized by TowerSignal. Must be a value between `0` and `100`. Default: `20`.
     ///   - collectAccessibility: Determines whether accessibility data should be collected and included in RUM view events. Default: `false`.
     ///   - featureFlags: Experimental feature flags.
     /// 
@@ -683,7 +683,7 @@ extension InternalExtension where ExtendedType == RUM.Configuration {
     /// The sampling rate for configuration telemetry events. When set, it overwrites the value
     /// of `configurationTelemetrySampleRate` in `RUM.Configuration`.
     ///
-    /// It is used to enable or disable telemetry events on internal plugins (e.g. flutter's `AtatusRumPlugin`) and when running test scenarios.
+    /// It is used to enable or disable telemetry events on internal plugins (e.g. flutter's `TowerSignalRumPlugin`) and when running test scenarios.
     /// Expects value between `0.0` and `100.0`.
     public var configurationTelemetrySampleRate: Float {
         get { type.configurationTelemetrySampleRate }

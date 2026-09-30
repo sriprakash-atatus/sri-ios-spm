@@ -1,25 +1,25 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddProfiling` -> `AtatusProfiling`; renamed `dd*` types to `Atatus*`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddProfiling` -> `TowerSignalProfiling`; renamed `dd*` types to `TowerSignal*`; rebranded the licence
 // header.
 
 #if !os(watchOS)
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusProfiling
+@testable import TowerSignalProfiling
 
 final class ProfilingConditionsTests: XCTestCase {
     func testCanProfileApplication_whenAllDefaultConditionsMet() {
         // Given
         let conditions = ProfilingConditions()
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInForeground(),
             batteryStatus: .mockWith(state: .charging, level: 1.0),
             isLowPowerModeEnabled: false
@@ -32,7 +32,7 @@ final class ProfilingConditionsTests: XCTestCase {
     func testCannotProfileApplication_whenLowPowerModeEnabled() {
         // Given
         let conditions = ProfilingConditions()
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInForeground(),
             batteryStatus: .mockWith(state: .full, level: 1.0),
             isLowPowerModeEnabled: true
@@ -45,7 +45,7 @@ final class ProfilingConditionsTests: XCTestCase {
     func testCannotProfileApplication_whenBatteryBelowMinimumAndUnplugged() {
         // Given
         let conditions = ProfilingConditions()
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInForeground(),
             batteryStatus: .mockWith(state: .unplugged, level: 0.05),
             isLowPowerModeEnabled: false
@@ -58,7 +58,7 @@ final class ProfilingConditionsTests: XCTestCase {
     func testCanProfileApplication_whenBatteryBelowMinimumButCharging() {
         // Given
         let conditions = ProfilingConditions()
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInForeground(),
             batteryStatus: .mockWith(state: .charging, level: 0.05),
             isLowPowerModeEnabled: false
@@ -71,7 +71,7 @@ final class ProfilingConditionsTests: XCTestCase {
     func testCannotProfileApplication_whenInBackground() {
         // Given
         let conditions = ProfilingConditions()
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInBackground(),
             batteryStatus: .mockWith(state: .full, level: 1.0),
             isLowPowerModeEnabled: false
@@ -86,7 +86,7 @@ final class ProfilingConditionsTests: XCTestCase {
         let conditions = ProfilingConditions()
 
         // Given — battery status not available
-        let noStatus: AtatusContext = .mockWith(
+        let noStatus: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInForeground(),
             batteryStatus: nil,
             isLowPowerModeEnabled: false
@@ -94,7 +94,7 @@ final class ProfilingConditionsTests: XCTestCase {
         XCTAssertTrue(conditions.canProfileApplication(with: noStatus))
 
         // Given — iOS reports level -1.0 when battery monitoring is disabled (e.g. simulator)
-        let unknownLevel: AtatusContext = .mockWith(
+        let unknownLevel: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInForeground(),
             batteryStatus: .mockWith(state: .unplugged, level: -1.0),
             isLowPowerModeEnabled: false
@@ -107,7 +107,7 @@ final class ProfilingConditionsTests: XCTestCase {
     func testCanProfileApplication_withNoBlockers() {
         // Given
         let conditions = ProfilingConditions(blockers: [])
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInBackground(),
             batteryStatus: .mockWith(state: .unplugged, level: 0.0),
             isLowPowerModeEnabled: true
@@ -120,7 +120,7 @@ final class ProfilingConditionsTests: XCTestCase {
     func testCanProfileBackgroundApplication_whenNoBackgroundBlocker() {
         // Given
         let conditions = ProfilingConditions(blockers: [.battery, .lowPowerModeOn])
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInBackground(),
             batteryStatus: .mockWith(state: .full, level: 1.0),
             isLowPowerModeEnabled: false
@@ -133,7 +133,7 @@ final class ProfilingConditionsTests: XCTestCase {
     func testCannotProfileApplication_withCustomMinBatteryLevel() {
         // Given
         let conditions = ProfilingConditions(minBatteryLevel: 0.5)
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             applicationStateHistory: .mockAppInForeground(),
             batteryStatus: .mockWith(state: .unplugged, level: 0.4),
             isLowPowerModeEnabled: false

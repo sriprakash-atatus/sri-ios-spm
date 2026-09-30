@@ -1,63 +1,63 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 import XCTest
 import TestUtilities
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 
-// ATCHG: New test file covering the Atatus-specific changes ported from the Atatus Android agent:
-// the single Atatus site and its `serverUrl` override, the `AgentInfo` identity, the `agent`
+// ATCHG: New test file covering the TowerSignal-specific changes ported from the TowerSignal Android agent:
+// the single TowerSignal site and its `serverUrl` override, the `AgentInfo` identity, the `agent`
 // payload object, the renamed intake headers and query parameters, and the heartbeat request.
 
-// MARK: - AtatusSite
+// MARK: - TowerSignalSite
 
-class AtatusSiteTests: XCTestCase {
+class TowerSignalSiteTests: XCTestCase {
     override func tearDown() {
-        AtatusSite.serverUrl = nil
+        TowerSignalSite.serverUrl = nil
         super.tearDown()
     }
 
-    func testItDefinesOnlyTheAtatusSite() {
-        XCTAssertEqual(AtatusSite.atatus.rawValue, "atatus")
+    func testItDefinesOnlyTheTowerSignalSite() {
+        XCTAssertEqual(TowerSignalSite.towersignal.rawValue, "towersignal")
     }
 
-    func testItUsesTheAtatusIntakeHost() {
-        AtatusSite.serverUrl = nil
-        XCTAssertEqual(AtatusSite.atatus.endpoint.absoluteString, "https://mo-rx.atatus.com")
+    func testItUsesTheTowerSignalIntakeHost() {
+        TowerSignalSite.serverUrl = nil
+        XCTAssertEqual(TowerSignalSite.towersignal.endpoint.absoluteString, "https://mo-rx.towersignal.com")
     }
 
     func testServerUrlOverridesTheIntakeHost() {
-        AtatusSite.serverUrl = "https://example.ngrok.io"
-        XCTAssertEqual(AtatusSite.atatus.endpoint.absoluteString, "https://example.ngrok.io")
+        TowerSignalSite.serverUrl = "https://example.ngrok.io"
+        XCTAssertEqual(TowerSignalSite.towersignal.endpoint.absoluteString, "https://example.ngrok.io")
     }
 
     func testInvalidServerUrlFallsBackToTheIntakeHost() {
-        AtatusSite.serverUrl = ""
-        XCTAssertEqual(AtatusSite.atatus.endpoint.absoluteString, "https://mo-rx.atatus.com")
+        TowerSignalSite.serverUrl = ""
+        XCTAssertEqual(TowerSignalSite.towersignal.endpoint.absoluteString, "https://mo-rx.towersignal.com")
     }
 
     // MARK: - intakeEndpoint(serverUrl:site:)
 
     func testIntakeEndpointUsesTheSiteEndpointWhenNoServerUrlIsSet() {
         XCTAssertEqual(
-            AtatusSite.intakeEndpoint(serverUrl: nil, site: .atatus).absoluteString,
-            "https://mo-rx.atatus.com"
+            TowerSignalSite.intakeEndpoint(serverUrl: nil, site: .towersignal).absoluteString,
+            "https://mo-rx.towersignal.com"
         )
     }
 
     func testIntakeEndpointUsesTheCustomServerUrl() {
         XCTAssertEqual(
-            AtatusSite.intakeEndpoint(serverUrl: "https://rum.example.com", site: .atatus).absoluteString,
+            TowerSignalSite.intakeEndpoint(serverUrl: "https://rum.example.com", site: .towersignal).absoluteString,
             "https://rum.example.com"
         )
     }
 
     func testIntakeEndpointDropsTrailingSlashesFromTheCustomServerUrl() {
         XCTAssertEqual(
-            AtatusSite.intakeEndpoint(serverUrl: "https://rum.example.com//", site: .atatus).absoluteString,
+            TowerSignalSite.intakeEndpoint(serverUrl: "https://rum.example.com//", site: .towersignal).absoluteString,
             "https://rum.example.com"
         )
     }
@@ -65,8 +65,8 @@ class AtatusSiteTests: XCTestCase {
     func testIntakeEndpointFallsBackToTheSiteEndpointOnBlankServerUrl() {
         for blank in ["", "   ", "\n"] {
             XCTAssertEqual(
-                AtatusSite.intakeEndpoint(serverUrl: blank, site: .atatus).absoluteString,
-                "https://mo-rx.atatus.com",
+                TowerSignalSite.intakeEndpoint(serverUrl: blank, site: .towersignal).absoluteString,
+                "https://mo-rx.towersignal.com",
                 "\"\(blank)\" should be ignored"
             )
         }
@@ -75,57 +75,57 @@ class AtatusSiteTests: XCTestCase {
     func testIntakeEndpointFallsBackToTheSiteEndpointOnMalformedServerUrl() {
         for malformed in ["not a url", "rum.example.com", "https://"] {
             XCTAssertEqual(
-                AtatusSite.intakeEndpoint(serverUrl: malformed, site: .atatus).absoluteString,
-                "https://mo-rx.atatus.com",
+                TowerSignalSite.intakeEndpoint(serverUrl: malformed, site: .towersignal).absoluteString,
+                "https://mo-rx.towersignal.com",
                 "\"\(malformed)\" should be ignored"
             )
         }
     }
 
     func testCustomServerUrlTakesPrecedenceOverTheGlobalOverride() {
-        AtatusSite.serverUrl = "https://global.ngrok.io"
+        TowerSignalSite.serverUrl = "https://global.ngrok.io"
         XCTAssertEqual(
-            AtatusSite.intakeEndpoint(serverUrl: "https://rum.example.com", site: .atatus).absoluteString,
+            TowerSignalSite.intakeEndpoint(serverUrl: "https://rum.example.com", site: .towersignal).absoluteString,
             "https://rum.example.com"
         )
     }
 
     func testIntakeEndpointFallsBackToTheGlobalOverrideWhenNoCustomServerUrlIsSet() {
-        AtatusSite.serverUrl = "https://global.ngrok.io"
+        TowerSignalSite.serverUrl = "https://global.ngrok.io"
         XCTAssertEqual(
-            AtatusSite.intakeEndpoint(serverUrl: nil, site: .atatus).absoluteString,
+            TowerSignalSite.intakeEndpoint(serverUrl: nil, site: .towersignal).absoluteString,
             "https://global.ngrok.io"
         )
     }
 }
 
-// MARK: - AtatusContext.intakeEndpoint
+// MARK: - TowerSignalContext.intakeEndpoint
 
-// ATCHG: Mirrors `AtatusContextTest` in the Atatus Android agent, which covers the same three
-// cases for the `AtatusContext.intakeEndpoint` extension.
-class AtatusContextIntakeEndpointTests: XCTestCase {
+// ATCHG: Mirrors `TowerSignalContextTest` in the TowerSignal Android agent, which covers the same three
+// cases for the `TowerSignalContext.intakeEndpoint` extension.
+class TowerSignalContextIntakeEndpointTests: XCTestCase {
     override func tearDown() {
-        AtatusSite.serverUrl = nil
+        TowerSignalSite.serverUrl = nil
         super.tearDown()
     }
 
     func testItUsesTheSiteEndpointWhenNoServerUrlIsSet() {
-        let context = AtatusContext.mockWith(site: .atatus, serverUrl: nil)
-        XCTAssertEqual(context.intakeEndpoint, AtatusSite.atatus.endpoint)
+        let context = TowerSignalContext.mockWith(site: .towersignal, serverUrl: nil)
+        XCTAssertEqual(context.intakeEndpoint, TowerSignalSite.towersignal.endpoint)
     }
 
     func testItUsesTheCustomServerUrl() {
-        let context = AtatusContext.mockWith(site: .atatus, serverUrl: "https://rum.example.com")
+        let context = TowerSignalContext.mockWith(site: .towersignal, serverUrl: "https://rum.example.com")
         XCTAssertEqual(context.intakeEndpoint.absoluteString, "https://rum.example.com")
     }
 
     func testItUsesTheSiteEndpointOnBlankServerUrl() {
-        let context = AtatusContext.mockWith(site: .atatus, serverUrl: "   ")
-        XCTAssertEqual(context.intakeEndpoint, AtatusSite.atatus.endpoint)
+        let context = TowerSignalContext.mockWith(site: .towersignal, serverUrl: "   ")
+        XCTAssertEqual(context.intakeEndpoint, TowerSignalSite.towersignal.endpoint)
     }
 
     func testFeaturePathsAreAppendedToTheCustomServerUrl() {
-        let context = AtatusContext.mockWith(site: .atatus, serverUrl: "https://rum.example.com/")
+        let context = TowerSignalContext.mockWith(site: .towersignal, serverUrl: "https://rum.example.com/")
 
         XCTAssertEqual(
             context.intakeEndpoint.appendingPathComponent("v1/ios/rum").absoluteString,
@@ -159,7 +159,7 @@ class AgentInfoTests: XCTestCase {
     }
 
     func testItIdentifiesTheNativeIOSAgentByDefault() {
-        XCTAssertEqual(AgentInfo.agentName, "Atatus iOS Agent")
+        XCTAssertEqual(AgentInfo.agentName, "TowerSignal iOS Agent")
         XCTAssertEqual(AgentInfo.agentVersion, "1.0.0")
     }
 
@@ -168,10 +168,10 @@ class AgentInfoTests: XCTestCase {
     }
 
     func testLogSourceFollowsTheCrossPlatformAgentName() {
-        AgentInfo.agentName = "Atatus Flutter Agent"
+        AgentInfo.agentName = "TowerSignal Flutter Agent"
         XCTAssertEqual(AgentInfo.logSource, "flutter")
 
-        AgentInfo.agentName = "Atatus React Native Agent"
+        AgentInfo.agentName = "TowerSignal React Native Agent"
         XCTAssertEqual(AgentInfo.logSource, "react-native")
     }
 
@@ -180,7 +180,7 @@ class AgentInfoTests: XCTestCase {
         struct Event: Encodable {
             let message: String
         }
-        AgentInfo.agentName = "Atatus iOS Agent"
+        AgentInfo.agentName = "TowerSignal iOS Agent"
         AgentInfo.agentVersion = "2.3.4"
 
         // When
@@ -190,7 +190,7 @@ class AgentInfoTests: XCTestCase {
         let json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
         XCTAssertEqual(json["message"] as? String, "hello")
         let agent = try XCTUnwrap(json["agent"] as? [String: Any])
-        XCTAssertEqual(agent["name"] as? String, "Atatus iOS Agent")
+        XCTAssertEqual(agent["name"] as? String, "TowerSignal iOS Agent")
         XCTAssertEqual(agent["version"] as? String, "2.3.4")
         XCTAssertNil(json["log_source"], "log_source is only added when explicitly requested")
     }
@@ -212,32 +212,32 @@ class AgentInfoTests: XCTestCase {
 
 // MARK: - URLRequestBuilder
 
-class AtatusURLRequestBuilderTests: XCTestCase {
-    func testItUsesTheAtatusIntakeHeaderNames() {
+class TowerSignalURLRequestBuilderTests: XCTestCase {
+    func testItUsesTheTowerSignalIntakeHeaderNames() {
         XCTAssertEqual(URLRequestBuilder.HTTPHeader.atAPIKeyHeaderField, "api-key")
-        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atClientTokenHeaderField, "atatus-client-token")
-        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atEVPOriginHeaderField, "ATATUS-EVP-ORIGIN")
-        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atEVPOriginVersionHeaderField, "ATATUS-EVP-ORIGIN-VERSION")
-        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atRequestIDHeaderField, "ATATUS-REQUEST-ID")
+        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atClientTokenHeaderField, "towersignal-client-token")
+        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atEVPOriginHeaderField, "TOWERSIGNAL-EVP-ORIGIN")
+        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atEVPOriginVersionHeaderField, "TOWERSIGNAL-EVP-ORIGIN-VERSION")
+        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atRequestIDHeaderField, "TOWERSIGNAL-REQUEST-ID")
         XCTAssertEqual(URLRequestBuilder.HTTPHeader.atIdempotencyKeyHeaderField, "AT-IDEMPOTENCY-KEY")
     }
 
     func testItDefinesTheAgentIdentificationHeaders() {
-        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atatusAgentNameHeaderField, "ATATUS-AGENT-NAME")
-        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atatusAgentVersionHeaderField, "ATATUS-AGENT-VERSION")
-        XCTAssertEqual(URLRequestBuilder.HTTPHeader.atatusAppNameHeaderField, "ATATUS-APP-NAME")
+        XCTAssertEqual(URLRequestBuilder.HTTPHeader.towersignalAgentNameHeaderField, "TOWERSIGNAL-AGENT-NAME")
+        XCTAssertEqual(URLRequestBuilder.HTTPHeader.towersignalAgentVersionHeaderField, "TOWERSIGNAL-AGENT-VERSION")
+        XCTAssertEqual(URLRequestBuilder.HTTPHeader.towersignalAppNameHeaderField, "TOWERSIGNAL-APP-NAME")
     }
 
-    func testItEncodesTheAtatusQueryParameterNames() throws {
+    func testItEncodesTheTowerSignalQueryParameterNames() throws {
         // Given
         let builder = URLRequestBuilder(
             // swiftlint:disable:next force_unwrapping
-            url: URL(string: "https://mo-rx.atatus.com/v1/ios/rum")!,
+            url: URL(string: "https://mo-rx.towersignal.com/v1/ios/rum")!,
             queryItems: [
-                .atatusSource(source: "ios"),
-                .atatusTags(tags: ["retry_count:1"]),
+                .towersignalSource(source: "ios"),
+                .towersignalTags(tags: ["retry_count:1"]),
                 .licenseKey(licenseKey: "license-abc"),
-                .agentName(agentName: "Atatus iOS Agent"),
+                .agentName(agentName: "TowerSignal iOS Agent"),
                 .agentVersion(agentVersion: "1.0.0"),
                 .appName(appName: "MyApp")
             ],
@@ -250,10 +250,10 @@ class AtatusURLRequestBuilderTests: XCTestCase {
         // Then
         let components = try XCTUnwrap(URLComponents(url: try XCTUnwrap(request.url), resolvingAgainstBaseURL: false))
         let query = (components.queryItems ?? []).reduce(into: [String: String]()) { $0[$1.name] = $1.value }
-        XCTAssertEqual(query["atatus_source"], "ios")
-        XCTAssertEqual(query["atatustags"], "retry_count:1")
+        XCTAssertEqual(query["towersignal_source"], "ios")
+        XCTAssertEqual(query["towersignaltags"], "retry_count:1")
         XCTAssertEqual(query["license_key"], "license-abc")
-        XCTAssertEqual(query["agent_name"], "Atatus iOS Agent")
+        XCTAssertEqual(query["agent_name"], "TowerSignal iOS Agent")
         XCTAssertEqual(query["agent_version"], "1.0.0")
         XCTAssertEqual(query["app_name"], "MyApp")
         XCTAssertNil(query["ddsource"])
@@ -265,7 +265,7 @@ class AtatusURLRequestBuilderTests: XCTestCase {
 
 class AgentHeartbeatTests: XCTestCase {
     // swiftlint:disable:next force_unwrapping
-    private let endpoint = URL(string: "https://mo-rx.atatus.com")!
+    private let endpoint = URL(string: "https://mo-rx.towersignal.com")!
 
     private func configuration(licenseKey: String = "license-abc") -> HeartbeatConfiguration {
         HeartbeatConfiguration(
@@ -286,7 +286,7 @@ class AgentHeartbeatTests: XCTestCase {
         let components = try XCTUnwrap(URLComponents(url: url, resolvingAgainstBaseURL: false))
         XCTAssertEqual(components.path, "/v1/android/agent-heartbeat")
         let query = (components.queryItems ?? []).reduce(into: [String: String]()) { $0[$1.name] = $1.value }
-        XCTAssertEqual(query["atatus_source"], "ios")
+        XCTAssertEqual(query["towersignal_source"], "ios")
         XCTAssertEqual(query["license_key"], "license-abc")
         XCTAssertEqual(query["agent_name"], AgentInfo.agentName)
         XCTAssertEqual(query["agent_version"], AgentInfo.agentVersion)

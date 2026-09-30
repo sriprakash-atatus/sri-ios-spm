@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "118247B32D908BEF00E3D16F"
-               BuildableName = "AtatusIntegrationTests.xctest"
-               BlueprintName = "AtatusIntegrationTests"
+               BuildableName = "TowerSignalIntegrationTests.xctest"
+               BlueprintName = "TowerSignalIntegrationTests"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,8 +34,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "118247B32D908BEF00E3D16F"
-            BuildableName = "AtatusIntegrationTests.xctest"
-            BlueprintName = "AtatusIntegrationTests"
+            BuildableName = "TowerSignalIntegrationTests.xctest"
+            BlueprintName = "TowerSignalIntegrationTests"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -196,8 +196,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "61133B81242393DE00786299"
-            BuildableName = "AtatusCore.framework"
-            BlueprintName = "AtatusCore"
+            BuildableName = "TowerSignalCore.framework"
+            BlueprintName = "TowerSignalCore"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
@@ -207,8 +207,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "118247B32D908BEF00E3D16F"
-               BuildableName = "AtatusIntegrationTests.xctest"
-               BlueprintName = "AtatusIntegrationTests"
+               BuildableName = "TowerSignalIntegrationTests.xctest"
+               BlueprintName = "TowerSignalIntegrationTests"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </TestableReference>

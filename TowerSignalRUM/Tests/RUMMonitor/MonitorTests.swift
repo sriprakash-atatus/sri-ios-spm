@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 @testable import TestUtilities
 
 class MonitorTests: XCTestCase {
@@ -39,9 +39,9 @@ class MonitorTests: XCTestCase {
 
         // Then
         let expectedContext = monitor.currentRUMContext
-        var atatusContext: AtatusContext?
-        featureScope.context { atatusContext = $0 }
-        let rumContext = try XCTUnwrap(atatusContext?.additionalContext(ofType: RUMCoreContext.self))
+        var towersignalContext: TowerSignalContext?
+        featureScope.context { towersignalContext = $0 }
+        let rumContext = try XCTUnwrap(towersignalContext?.additionalContext(ofType: RUMCoreContext.self))
         XCTAssertEqual(rumContext.applicationID, expectedContext.rumApplicationID)
         XCTAssertEqual(rumContext.sessionID, expectedContext.sessionID.toRUMDataFormat)
         XCTAssertEqual(rumContext.viewID, expectedContext.activeViewID?.toRUMDataFormat)
@@ -58,7 +58,7 @@ class MonitorTests: XCTestCase {
         monitor.startView(key: "foo")
 
         // Then
-        var context: AtatusContext?
+        var context: TowerSignalContext?
         featureScope.context { context = $0 }
         let rumContext = try XCTUnwrap(context?.additionalContext(ofType: RUMCoreContext.self))
         XCTAssertFalse(rumContext.sessionSampler.isSampled)

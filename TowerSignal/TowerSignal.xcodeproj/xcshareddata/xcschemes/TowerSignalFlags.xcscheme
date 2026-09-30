@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1410"
+   LastUpgradeVersion = "1420"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "61B7885325C180CB002675B5"
-               BuildableName = "AtatusCrashReporting.framework"
-               BlueprintName = "AtatusCrashReporting"
+               BlueprintIdentifier = "5BA8C2EC2E784B3C00B1DA80"
+               BuildableName = "TowerSignalFlags.framework"
+               BlueprintName = "TowerSignalFlags"
+               ReferencedContainer = "container:TowerSignal.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5BF228272E795D6500D79E8A"
+               BuildableName = "TowerSignalFlagsTests.xctest"
+               BlueprintName = "TowerSignalFlagsTests"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,24 +41,17 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "NO"
-      enableThreadSanitizer = "YES"
       codeCoverageEnabled = "YES"
       onlyGenerateCoverageForSpecifiedTargets = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "61B7885325C180CB002675B5"
-            BuildableName = "AtatusCrashReporting.framework"
-            BlueprintName = "AtatusCrashReporting"
+            BlueprintIdentifier = "5BA8C2EC2E784B3C00B1DA80"
+            BuildableName = "TowerSignalFlags.framework"
+            BlueprintName = "TowerSignalFlags"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "IS_RUNNING_UNIT_TESTS"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "DD_TEST_RUNNER"
@@ -190,9 +197,9 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "61B7885325C180CB002675B5"
-            BuildableName = "AtatusCrashReporting.framework"
-            BlueprintName = "AtatusCrashReporting"
+            BlueprintIdentifier = "5BA8C2EC2E784B3C00B1DA80"
+            BuildableName = "TowerSignalFlags.framework"
+            BlueprintName = "TowerSignalFlags"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
@@ -201,9 +208,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "61B7885B25C180CB002675B5"
-               BuildableName = "AtatusCrashReportingTests.xctest"
-               BlueprintName = "AtatusCrashReportingTests"
+               BlueprintIdentifier = "5BF228272E795D6500D79E8A"
+               BuildableName = "TowerSignalFlagsTests.xctest"
+               BlueprintName = "TowerSignalFlagsTests"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -229,9 +236,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "61B7885325C180CB002675B5"
-            BuildableName = "AtatusCrashReporting.framework"
-            BlueprintName = "AtatusCrashReporting"
+            BlueprintIdentifier = "5BA8C2EC2E784B3C00B1DA80"
+            BuildableName = "TowerSignalFlags.framework"
+            BlueprintName = "TowerSignalFlags"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

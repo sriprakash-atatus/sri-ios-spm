@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
-// renamed the `_dd` attribute prefix to `_atatus`; renamed the `ddsource` / `ddtags` query parameters to
-// `atatus_source` / `atatustags`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// renamed the `_dd` attribute prefix to `_towersignal`; renamed the `ddsource` / `ddtags` query parameters to
+// `towersignal_source` / `towersignaltags`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import Foundation
 
 internal class RUMViewScope: RUMScope, RUMContextProvider {
@@ -181,9 +181,9 @@ internal class RUMViewScope: RUMScope, RUMContextProvider {
 
         // Notify Synthetics if needed
         if dependencies.syntheticsTest != nil {
-            NSLog("_atatus.session.id=" + self.context.sessionID.toRUMDataFormat)
-            NSLog("_atatus.application.id=" + self.context.rumApplicationID)
-            NSLog("_atatus.view.id=" + self.viewUUID.toRUMDataFormat)
+            NSLog("_towersignal.session.id=" + self.context.sessionID.toRUMDataFormat)
+            NSLog("_towersignal.application.id=" + self.context.rumApplicationID)
+            NSLog("_towersignal.view.id=" + self.viewUUID.toRUMDataFormat)
         }
     }
 
@@ -208,7 +208,7 @@ internal class RUMViewScope: RUMScope, RUMContextProvider {
 // MARK: - RUMCommands Processing
 
 extension RUMViewScope {
-    func process(command: RUMCommand, context: AtatusContext, writer: Writer) -> Bool {
+    func process(command: RUMCommand, context: TowerSignalContext, writer: Writer) -> Bool {
         // Tells if the View did change and an update event should be send.
         needsViewUpdate = false
 
@@ -463,7 +463,7 @@ extension RUMViewScope {
         userActionScope = createDiscreteUserActionScope(on: command)
     }
 
-    private func sendDiscreteCustomUserAction(on command: RUMAddUserActionCommand, context: AtatusContext, writer: Writer) {
+    private func sendDiscreteCustomUserAction(on command: RUMAddUserActionCommand, context: TowerSignalContext, writer: Writer) {
         let customActionScope = createDiscreteUserActionScope(on: command)
         _ = customActionScope.process(
             command: RUMStopUserActionCommand(
@@ -488,7 +488,7 @@ extension RUMViewScope {
 
     // MARK: - Sending RUM Events
 
-    private func sendViewUpdateEvent(on command: RUMCommand, context: AtatusContext, writer: Writer) {
+    private func sendViewUpdateEvent(on command: RUMCommand, context: TowerSignalContext, writer: Writer) {
         version += 1
 
         if let hasContextReplay = context.hasReplay {
@@ -598,7 +598,7 @@ extension RUMViewScope {
                 )
             ),
             account: .init(context: context),
-            // ATCHG: application_id removed -- Atatus events do not carry a RUM application ID
+            // ATCHG: application_id removed -- TowerSignal events do not carry a RUM application ID
             application: .init(currentLocale: context.localeInfo.currentLocale, id: ""),
             buildId: context.buildId,
             buildVersion: context.buildNumber,
@@ -607,7 +607,7 @@ extension RUMViewScope {
             container: nil,
             context: .init(contextInfo: attributes),
             date: viewStartTime.addingTimeInterval(serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: context.normalizedDevice(),
             display: nil,
             featureFlags: .init(featureFlagsInfo: featureFlags),
@@ -721,7 +721,7 @@ extension RUMViewScope {
         }
     }
 
-    private func sendErrorEvent(on command: RUMErrorCommand, context: AtatusContext, writer: Writer) {
+    private func sendErrorEvent(on command: RUMErrorCommand, context: TowerSignalContext, writer: Writer) {
         let errorId = dependencies.rumUUIDGenerator.generateUnique().toRUMDataFormat
         errorsCount += 1
         totalAppHangDuration += (command as? RUMAddCurrentViewAppHangCommand)?.hangDuration ?? 0
@@ -773,7 +773,7 @@ extension RUMViewScope {
             action: self.context.activeUserActionID.map { rumUUID in
                 .init(id: .string(value: rumUUID.toRUMDataFormat))
             },
-            // ATCHG: application_id removed -- Atatus events do not carry a RUM application ID
+            // ATCHG: application_id removed -- TowerSignal events do not carry a RUM application ID
             application: .init(id: ""),
             buildId: context.buildId,
             buildVersion: context.buildNumber,
@@ -782,7 +782,7 @@ extension RUMViewScope {
             container: nil,
             context: .init(contextInfo: commandAttributes),
             date: command.time.addingTimeInterval(serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: context.normalizedDevice(),
             display: nil,
             error: .init(
@@ -842,7 +842,7 @@ extension RUMViewScope {
         }
     }
 
-    private func sendLongTaskEvent(on command: RUMAddLongTaskCommand, context: AtatusContext, writer: Writer) {
+    private func sendLongTaskEvent(on command: RUMAddLongTaskCommand, context: TowerSignalContext, writer: Writer) {
         let longTaskId = dependencies.rumUUIDGenerator.generateUnique().toRUMDataFormat
         let start = (command.time - command.duration).addingTimeInterval(serverTimeOffset).timeIntervalSince1970
         let taskDurationInNs = command.duration.dd.toInt64Nanoseconds
@@ -879,7 +879,7 @@ extension RUMViewScope {
             action: self.context.activeUserActionID.map {
                 .init(id: .string(value: $0.toRUMDataFormat))
             },
-            // ATCHG: application_id removed -- Atatus events do not carry a RUM application ID
+            // ATCHG: application_id removed -- TowerSignal events do not carry a RUM application ID
             application: .init(id: ""),
             buildId: context.buildId,
             buildVersion: context.buildNumber,
@@ -888,7 +888,7 @@ extension RUMViewScope {
             container: nil,
             context: .init(contextInfo: commandAttributes),
             date: start.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: context.normalizedDevice(),
             display: nil,
             longTask: .init(
@@ -939,7 +939,7 @@ extension RUMViewScope {
         if customTiming != sanitized {
             AT.logger.warn(
                 """
-                Custom timing '\(customTiming)' was modified to '\(sanitized)' to match Atatus constraints.
+                Custom timing '\(customTiming)' was modified to '\(sanitized)' to match TowerSignal constraints.
                 """
             )
         }

@@ -1,15 +1,15 @@
 #!/bin/bash
 #
 # Launches the iOS sample app ("Integration Tests Runner.app") in a booted simulator, waits until
-# the Atatus iOS agent has actually reported data, and captures a screenshot plus the agent's own
+# the TowerSignal iOS agent has actually reported data, and captures a screenshot plus the agent's own
 # debug log.
 #
 # Two modes:
 #
 #   --mode mock  (default)  The app reports to the repository's local `http-server-mock` intake.
 #                           Delivery is proven by reading the recorded requests back.
-#   --mode demo             The app reports to a real Atatus intake, configured through
-#                           `ATATUS_SERVER_URL`. Delivery is proven from the intake response codes
+#   --mode demo             The app reports to a real TowerSignal intake, configured through
+#                           `TOWERSIGNAL_SERVER_URL`. Delivery is proven from the intake response codes
 #                           the agent logs, since the payloads cannot be read back from CI.
 #
 # Usage:
@@ -25,7 +25,7 @@
 #   MOCK_SERVER_URL  base URL of the running http-server-mock intake (mock mode only)
 #
 # Optional environment, forwarded to the app process in demo mode:
-#   ATATUS_SERVER_URL, AT_TEST_LICENSE_KEY, AT_TEST_RUM_APPLICATION_ID,
+#   TOWERSIGNAL_SERVER_URL, AT_TEST_LICENSE_KEY, AT_TEST_RUM_APPLICATION_ID,
 #   AT_TEST_SERVICE, AT_TEST_ENV, AT_TEST_TRACED_REQUEST_URL
 #
 # Optional environment, forwarded in both modes:
@@ -105,16 +105,16 @@ if [[ "$MODE" == "mock" ]]; then
     )"
     CHILD_ENV+=("SIMCTL_CHILD_AT_TEST_SERVER_MOCK_CONFIGURATION=$SERVER_MOCK_CONFIGURATION")
     # `customEndpoint` only redirects feature uploads. The logs heartbeat the agent polls on start
-    # is built from `AtatusSite.serverUrl`, which the SDK reads from ATATUS_SERVER_URL — without
+    # is built from `TowerSignalSite.serverUrl`, which the SDK reads from TOWERSIGNAL_SERVER_URL — without
     # this it goes to the production intake, answers `allowAgent: false`, and no log is uploaded.
-    CHILD_ENV+=("SIMCTL_CHILD_ATATUS_SERVER_URL=$MOCK_SERVER_URL")
+    CHILD_ENV+=("SIMCTL_CHILD_TOWERSIGNAL_SERVER_URL=$MOCK_SERVER_URL")
 else
     # No server-mock configuration: with no `customEndpoint`, every feature falls back to
-    # `AtatusSite.serverUrl`, which the agent reads from `ATATUS_SERVER_URL`.
-    : "${ATATUS_SERVER_URL:?ATATUS_SERVER_URL must be set in demo mode}"
+    # `TowerSignalSite.serverUrl`, which the agent reads from `TOWERSIGNAL_SERVER_URL`.
+    : "${TOWERSIGNAL_SERVER_URL:?TOWERSIGNAL_SERVER_URL must be set in demo mode}"
     : "${AT_TEST_LICENSE_KEY:?AT_TEST_LICENSE_KEY must be set in demo mode}"
 
-    echo "  Reporting to $ATATUS_SERVER_URL"
+    echo "  Reporting to $TOWERSIGNAL_SERVER_URL"
     # Referenced by name rather than indirectly: `${!var:-}` is not portable to the bash 3.2 that
     # ships with macOS.
     add_child_env() {
@@ -122,7 +122,7 @@ else
             CHILD_ENV+=("SIMCTL_CHILD_$1=$2")
         fi
     }
-    add_child_env ATATUS_SERVER_URL "${ATATUS_SERVER_URL:-}"
+    add_child_env TOWERSIGNAL_SERVER_URL "${TOWERSIGNAL_SERVER_URL:-}"
     add_child_env AT_TEST_LICENSE_KEY "${AT_TEST_LICENSE_KEY:-}"
     add_child_env AT_TEST_RUM_APPLICATION_ID "${AT_TEST_RUM_APPLICATION_ID:-}"
     add_child_env AT_TEST_SERVICE "${AT_TEST_SERVICE:-}"
@@ -130,7 +130,7 @@ else
     add_child_env AT_TEST_TRACED_REQUEST_URL "${AT_TEST_TRACED_REQUEST_URL:-}"
 fi
 
-# Capture the agent's own diagnostics. `consolePrint` logs to the `atatus-sdk-ios` subsystem with
+# Capture the agent's own diagnostics. `consolePrint` logs to the `towersignal-sdk-ios` subsystem with
 # `.private` redaction, so private data logging is enabled first — otherwise every message is
 # recorded as `<private>`, including the intake response codes checked below.
 xcrun simctl spawn "$SIMULATOR_UDID" log config --mode "private_data:on" >/dev/null 2>&1 || \
@@ -139,7 +139,7 @@ xcrun simctl spawn "$SIMULATOR_UDID" log config --mode "private_data:on" >/dev/n
 LOG_FILE="$ARTIFACTS_DIR/logs/agent-oslog-$LABEL.log"
 xcrun simctl spawn "$SIMULATOR_UDID" log stream \
     --level debug --style syslog \
-    --predicate 'subsystem == "atatus-sdk-ios" OR processImagePath CONTAINS "Integration Tests Runner"' \
+    --predicate 'subsystem == "towersignal-sdk-ios" OR processImagePath CONTAINS "Integration Tests Runner"' \
     > "$LOG_FILE" 2>&1 &
 LOG_STREAM_PID=$!
 
@@ -176,7 +176,7 @@ Agent initialization most likely crashed — see $LOG_FILE."
 fi
 
 if [[ "$MODE" == "mock" ]]; then
-    # Prove the agent initialized: nothing reaches the intake unless `Atatus.initialize` succeeded
+    # Prove the agent initialized: nothing reaches the intake unless `TowerSignal.initialize` succeeded
     # and the product was enabled. This is also where batching/upload is waited out.
     for index in "${!SESSION_IDS[@]}"; do
         python3 "$SCRIPT_DIR/mock_intake.py" --server "$MOCK_SERVER_URL" wait \

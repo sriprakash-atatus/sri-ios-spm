@@ -1,13 +1,13 @@
 ---
-name: atatus-sdk-ios:xcode-file-management
-description: Use when adding, removing, moving, or renaming Swift source files in the atatus-sdk-ios Xcode project. Use when the task involves file creation, deletion, or relocation in any module (AtatusRUM, AtatusLogs, AtatusCore, etc.). Use when you would otherwise reach for Write, Bash mv/mkdir/rm, or manual pbxproj editing for file management.
+name: towersignal-sdk-ios:xcode-file-management
+description: Use when adding, removing, moving, or renaming Swift source files in the towersignal-sdk-ios Xcode project. Use when the task involves file creation, deletion, or relocation in any module (TowerSignalRUM, TowerSignalLogs, TowerSignalCore, etc.). Use when you would otherwise reach for Write, Bash mv/mkdir/rm, or manual pbxproj editing for file management.
 ---
 
-# atatus-sdk-ios Xcode File Management
+# towersignal-sdk-ios Xcode File Management
 
 ## Overview
 
-The atatus-sdk-ios project is both an SPM package **and** an Xcode workspace with `.pbxproj` files. SPM builds discover files automatically, but **Xcode does not** — it requires explicit registration in `.pbxproj`. The Xcode MCP server (available from Xcode 26.3+) handles this automatically. Always use it.
+The towersignal-sdk-ios project is both an SPM package **and** an Xcode workspace with `.pbxproj` files. SPM builds discover files automatically, but **Xcode does not** — it requires explicit registration in `.pbxproj`. The Xcode MCP server (available from Xcode 26.3+) handles this automatically. Always use it.
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ Use Xcode MCP tools instead — they update the filesystem AND the `.pbxproj` in
 
 ## Target Membership
 
-Target membership is **implicit** — Xcode MCP infers the target from the navigator path where the file is placed. A file added under `TowerSignalLogs/` is automatically assigned to the `AtatusLogs` target. No explicit target specification is needed.
+Target membership is **implicit** — Xcode MCP infers the target from the navigator path where the file is placed. A file added under `TowerSignalLogs/` is automatically assigned to the `TowerSignalLogs` target. No explicit target specification is needed.
 
 ## Quick Reference
 

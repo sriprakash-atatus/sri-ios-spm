@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
-  s.name         = "AtatusCore"
+  s.name         = "TowerSignalCore"
   s.version      = "3.15.0"
-  s.summary      = "Official Atatus Swift SDK for iOS."
+  s.summary      = "Official TowerSignal Swift SDK for iOS."
   
-  s.homepage     = "https://www.atatus.com"
+  s.homepage     = "https://www.towersignal.com"
 
   s.license            = { :type => "Apache", :file => 'LICENSE' }
-  s.authors            = { "Atatus" => "info@atatus.com" }
+  s.authors            = { "TowerSignal" => "info@towersignal.com" }
 
   s.swift_version = '5.9'
   s.ios.deployment_target = '12.0'
@@ -14,15 +14,15 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '7.0'
   s.visionos.deployment_target = '1.0'
 
-  s.source = { :git => "https://github.com/Atatus/atatus-sdk-ios.git", :tag => s.version.to_s }
+  s.source = { :git => "https://github.com/TowerSignal/towersignal-sdk-ios.git", :tag => s.version.to_s }
   
   s.source_files = ["TowerSignalCore/Sources/**/*.swift",
                     "TowerSignalCore/Private/**/*.{h,m}"]
 
   s.resource_bundle = {
-    "AtatusCore" => "TowerSignalCore/Resources/PrivacyInfo.xcprivacy"
+    "TowerSignalCore" => "TowerSignalCore/Resources/PrivacyInfo.xcprivacy"
   }
 
-  s.dependency 'AtatusInternal', s.version.to_s
+  s.dependency 'TowerSignalInternal', s.version.to_s
 
 end

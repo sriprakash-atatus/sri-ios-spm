@@ -1,7 +1,7 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 // ATCHG: An e-commerce app built on the agent, used by `.github/workflows/ios-agent-test.yml`.
@@ -30,19 +30,19 @@
 // Note on Logs: the Logs product has no auto-capture — every log is written by application code, so
 // a scenario that reports nothing by hand produces no logs. Logs is still enabled here, so the
 // feature is initialized the way a real app would have it, but this scenario is not expected to
-// upload log payloads. `AtatusDemoScenario` remains the one that exercises the Logs API.
+// upload log payloads. `TowerSignalDemoScenario` remains the one that exercises the Logs API.
 //
 // The funnel walks itself (see `ECAutoPilot`), so `simctl launch` alone drives it without a test
 // runner. `customEndpoint` is read from the server mock configuration where there is one, so this
-// runs against the local mock intake as well as against a real Atatus intake, where every feature
-// falls back to `AtatusSite.serverUrl`.
+// runs against the local mock intake as well as against a real TowerSignal intake, where every feature
+// falls back to `TowerSignalSite.serverUrl`.
 
 import UIKit
-import AtatusCore
-import AtatusLogs
-import AtatusRUM
-import AtatusTrace
-import AtatusSessionReplay
+import TowerSignalCore
+import TowerSignalLogs
+import TowerSignalRUM
+import TowerSignalTrace
+import TowerSignalSessionReplay
 
 struct EcommerceUIKitRUMViewsPredicate: UIKitRUMViewsPredicate {
     func rumView(for viewController: UIViewController) -> RUMView? {
@@ -82,10 +82,10 @@ struct EcommerceUIKitRUMViewsPredicate: UIKitRUMViewsPredicate {
     }
 }
 
-final class AtatusEcommerceScenario: TestScenario {
-    static let storyboardName = "AtatusEcommerceScenario"
+final class TowerSignalEcommerceScenario: TestScenario {
+    static let storyboardName = "TowerSignalEcommerceScenario"
 
-    func override(configuration: inout Atatus.Configuration) {
+    func override(configuration: inout TowerSignal.Configuration) {
         configuration.version = "2.0.0"
     }
 

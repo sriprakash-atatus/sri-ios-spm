@@ -1,28 +1,28 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed the `__dd_private_*` ObjC symbols to `__atatus_private_*`;
+// ATCHG: TowerSignal SDK migration - renamed the `__dd_private_*` ObjC symbols to `__towersignal_private_*`;
 // rebranded the licence header.
 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Returned when `__atatus_private_getTaskPolicy()` fails to query the kernel (return code != KERN_SUCCESS).
-FOUNDATION_EXPORT const NSInteger __atatus_private_TASK_POLICY_KERN_FAILURE;
+/// Returned when `__towersignal_private_getTaskPolicy()` fails to query the kernel (return code != KERN_SUCCESS).
+FOUNDATION_EXPORT const NSInteger __towersignal_private_TASK_POLICY_KERN_FAILURE;
 
-/// Returned when `__atatus_private_getTaskPolicy()` falls back to the system’s default policy (get_default == TRUE).
-FOUNDATION_EXPORT const NSInteger __atatus_private_TASK_POLICY_DEFAULTED;
+/// Returned when `__towersignal_private_getTaskPolicy()` falls back to the system’s default policy (get_default == TRUE).
+FOUNDATION_EXPORT const NSInteger __towersignal_private_TASK_POLICY_DEFAULTED;
 
-/// Returned when `__atatus_private_getTaskPolicy()` queries are unsupported on the current platform (e.g., tvOS).
-FOUNDATION_EXPORT const NSInteger __atatus_private_TASK_POLICY_UNAVAILABLE;
+/// Returned when `__towersignal_private_getTaskPolicy()` queries are unsupported on the current platform (e.g., tvOS).
+FOUNDATION_EXPORT const NSInteger __towersignal_private_TASK_POLICY_UNAVAILABLE;
 
 /// `AppLaunchHandler` tracks key timestamps in the app launch sequence, as described in Apple's documentation:
 /// https://developer.apple.com/documentation/uikit/app_and_environment/responding_to_the_launch_of_your_app/about_the_app_launch_sequence
-@interface __atatus_private_AppLaunchHandler : NSObject
+@interface __towersignal_private_AppLaunchHandler : NSObject
 
 /// Callback block invoked when the app receives a UIApplication notification.
 ///
@@ -32,14 +32,14 @@ typedef void (^UIApplicationNotificationCallback)(NSDate * _Nullable didFinishLa
                                                   NSDate * _Nullable didBecomeActiveTimeInterval);
 
 /// Shared singleton instance.
-@property (class, nonatomic, readonly) __atatus_private_AppLaunchHandler *shared;
+@property (class, nonatomic, readonly) __towersignal_private_AppLaunchHandler *shared;
 
 /// The current process’s task policy role (`task_role_t`), indicating how the process was started (e.g., user vs background launch).
 /// On success, the property contains the raw [`policy.role`](https://developer.apple.com/documentation/kernel/task_role_t) value;
 /// otherwise, it returns one of the special constants:
-/// - `__atatus_private_TASK_POLICY_KERN_FAILURE`
-/// - `__atatus_private_TASK_POLICY_DEFAULTED`
-/// - `__atatus_private_TASK_POLICY_UNAVAILABLE`
+/// - `__towersignal_private_TASK_POLICY_KERN_FAILURE`
+/// - `__towersignal_private_TASK_POLICY_DEFAULTED`
+/// - `__towersignal_private_TASK_POLICY_UNAVAILABLE`
 @property (nonatomic, readonly) NSInteger taskPolicyRole;
 
 /// The timestamp when the application process was launched.

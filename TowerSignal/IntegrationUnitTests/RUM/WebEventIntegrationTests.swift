@@ -1,32 +1,32 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`, `ddWebViewTracking` -> `AtatusWebViewTracking`; renamed `dd*` types to
-// `Atatus*`; renamed the `_dd` attribute prefix to `_atatus`; renamed the `ddsource` / `ddtags` query
-// parameters to `atatus_source` / `atatustags`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`, `ddWebViewTracking` -> `TowerSignalWebViewTracking`; renamed `dd*` types to
+// `TowerSignal*`; renamed the `_dd` attribute prefix to `_towersignal`; renamed the `ddsource` / `ddtags` query
+// parameters to `towersignal_source` / `towersignaltags`; rebranded the licence header.
 
 import XCTest
 
 #if !os(tvOS) && !os(watchOS)
 
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 import WebKit
 
-@testable import AtatusRUM
-@testable import AtatusWebViewTracking
+@testable import TowerSignalRUM
+@testable import TowerSignalWebViewTracking
 
 @MainActor
 class WebEventIntegrationTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
     private var controller: WKUserContentControllerMock! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUpWithError() throws {
-        core = AtatusCoreProxy(
+        core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.1.1",
@@ -111,7 +111,7 @@ class WebEventIntegrationTests: XCTestCase {
               "time_spent": 3120000000,
               "url": "http://localhost:8080/test.html",
             },
-            "_atatus": {
+            "_towersignal": {
               "document_version": 2,
               "drift": 0,
               "format_version": 2,
@@ -178,7 +178,7 @@ class WebEventIntegrationTests: XCTestCase {
               "time_spent": 3120000000,
               "url": "http://localhost:8080/test.html"
             },
-            "_atatus": {
+            "_towersignal": {
               "document_version": 2,
               "drift": 0,
               "format_version": 2
@@ -186,7 +186,7 @@ class WebEventIntegrationTests: XCTestCase {
             "usr": {
               "anonymous_id": "\(expectedUUID)"
             },
-            "atatusTags": "service:abc,version:1.1.1,sdk_version:abc,env:test"
+            "towersignalTags": "service:abc,version:1.1.1,sdk_version:abc,env:test"
         }
         """
         )
@@ -211,7 +211,7 @@ class WebEventIntegrationTests: XCTestCase {
               "service": "browser-rum-sdk",
               "version": "5.2.0-b93ed472a4f14fbf2bcd1bc2c9faacb4abbeed82",
               "source": "browser",
-              "_atatus": { "format_version": 2 },
+              "_towersignal": { "format_version": 2 },
               "telemetry":
                 {
                   "type": "configuration",
@@ -261,7 +261,7 @@ class WebEventIntegrationTests: XCTestCase {
           "service": "browser-rum-sdk",
           "version": "5.2.0-b93ed472a4f14fbf2bcd1bc2c9faacb4abbeed82",
           "source": "browser",
-          "_atatus": { "format_version": 2 },
+          "_towersignal": { "format_version": 2 },
           "telemetry":
             {
               "type": "configuration",

@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddProfiling` -> `AtatusProfiling`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol
-// prefix to `AT`; renamed `clientToken` to `licenseKey`; renamed the `DD-*` intake headers to their Atatus
-// equivalents; repointed the intake host at the Atatus site; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddProfiling` -> `TowerSignalProfiling`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol
+// prefix to `AT`; renamed `clientToken` to `licenseKey`; renamed the `DD-*` intake headers to their TowerSignal
+// equivalents; repointed the intake host at the TowerSignal site; rebranded the licence header.
 
 #if !os(watchOS)
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 
-@testable import AtatusProfiling
+@testable import TowerSignalProfiling
 
 final class ProfilingQuotaCheckerTests: XCTestCase {
     func testBuildsQuotaURLAndHeaders() throws {
@@ -28,8 +28,8 @@ final class ProfilingQuotaCheckerTests: XCTestCase {
         )
         let checker = ProfilingQuotaChecker(urlSession: server.getInterceptedURLSession())
         let sessionID: UUID = .mockAny()
-        let context = AtatusContext.mockWith(
-            site: .atatus,
+        let context = TowerSignalContext.mockWith(
+            site: .towersignal,
             licenseKey: "test-client-token",
             trackingConsent: .granted,
             additionalContext: [RUMCoreContext.mockWith(sessionID: sessionID, sessionSampleRate: .maxSampleRate)]
@@ -42,10 +42,10 @@ final class ProfilingQuotaCheckerTests: XCTestCase {
         // Then
         XCTAssertEqual(
             request.url?.absoluteString,
-            "https://www.atatus.com/))"
+            "https://www.towersignal.com/))"
         )
         XCTAssertEqual(request.httpMethod, "GET")
-        XCTAssertEqual(request.value(forHTTPHeaderField: "atatus-client-token"), "test-client-token")
+        XCTAssertEqual(request.value(forHTTPHeaderField: "towersignal-client-token"), "test-client-token")
         XCTAssertEqual(request.value(forHTTPHeaderField: "Accept"), "application/vnd.api+json")
         XCTAssertFalse(request.httpShouldHandleCookies)
     }
@@ -62,7 +62,7 @@ final class ProfilingQuotaCheckerTests: XCTestCase {
 
         // When
         _ = checker.receive(
-            message: FeatureMessage.context(AtatusContext.mockWith(trackingConsent: .granted, additionalContext: [])),
+            message: FeatureMessage.context(TowerSignalContext.mockWith(trackingConsent: .granted, additionalContext: [])),
             from: PassthroughCoreMock()
         )
 
@@ -83,7 +83,7 @@ final class ProfilingQuotaCheckerTests: XCTestCase {
 
         // When
         [TrackingConsent.pending, .notGranted].forEach { trackingConsent in
-            let context = AtatusContext.mockWith(
+            let context = TowerSignalContext.mockWith(
                 trackingConsent: trackingConsent,
                 additionalContext: [RUMCoreContext.mockWith(sessionSampleRate: .maxSampleRate)]
             )
@@ -105,7 +105,7 @@ final class ProfilingQuotaCheckerTests: XCTestCase {
             )
         )
         let checker = ProfilingQuotaChecker(urlSession: server.getInterceptedURLSession())
-        let context = AtatusContext.mockWith(
+        let context = TowerSignalContext.mockWith(
             trackingConsent: .granted,
             additionalContext: [RUMCoreContext.mockWith(sessionSampleRate: 0)]
         )
@@ -128,11 +128,11 @@ final class ProfilingQuotaCheckerTests: XCTestCase {
         )
         let checker = ProfilingQuotaChecker(urlSession: server.getInterceptedURLSession())
         let rumContext = RUMCoreContext.mockWith(sessionSampleRate: .maxSampleRate)
-        let pendingConsentContext = AtatusContext.mockWith(
+        let pendingConsentContext = TowerSignalContext.mockWith(
             trackingConsent: .pending,
             additionalContext: [rumContext]
         )
-        let grantedConsentContext = AtatusContext.mockWith(
+        let grantedConsentContext = TowerSignalContext.mockWith(
             trackingConsent: .granted,
             additionalContext: [rumContext]
         )
@@ -238,8 +238,8 @@ final class ProfilingQuotaCheckerTests: XCTestCase {
             )
         )
         let checker = ProfilingQuotaChecker(urlSession: server.getInterceptedURLSession())
-        let context = AtatusContext.mockWith(
-            site: .atatus,
+        let context = TowerSignalContext.mockWith(
+            site: .towersignal,
             licenseKey: "test-client-token",
             trackingConsent: .granted,
             additionalContext: [RUMCoreContext.mockWith(sessionSampleRate: .maxSampleRate)]
@@ -262,14 +262,14 @@ final class ProfilingQuotaCheckerTests: XCTestCase {
             )
         )
         let checker = ProfilingQuotaChecker(urlSession: server.getInterceptedURLSession())
-        let firstContext = AtatusContext.mockWith(
-            site: .atatus,
+        let firstContext = TowerSignalContext.mockWith(
+            site: .towersignal,
             licenseKey: "test-client-token",
             trackingConsent: .granted,
             additionalContext: [RUMCoreContext.mockWith(sessionID: .mockAny(), sessionSampleRate: .maxSampleRate)]
         )
-        let secondContext = AtatusContext.mockWith(
-            site: .atatus,
+        let secondContext = TowerSignalContext.mockWith(
+            site: .towersignal,
             licenseKey: "test-client-token",
             trackingConsent: .granted,
             additionalContext: [RUMCoreContext.mockWith(sessionID: .mockAny(), sessionSampleRate: .maxSampleRate)]
@@ -293,7 +293,7 @@ final class ProfilingQuotaCheckerTests: XCTestCase {
         )
         let checker = ProfilingQuotaChecker(urlSession: server.getInterceptedURLSession())
         let core = PassthroughCoreMock()
-        let context = AtatusContext.mockWith(
+        let context = TowerSignalContext.mockWith(
             trackingConsent: .granted,
             additionalContext: [RUMCoreContext.mockWith(sessionSampleRate: .maxSampleRate)]
         )
@@ -330,13 +330,13 @@ private extension ProfilingQuotaCheckerTests {
 }
 
 final class ProfilingQuotaCheckerMock: ProfilingQuotaChecking {
-    private(set) var receivedContexts: [AtatusContext] = []
+    private(set) var receivedContexts: [TowerSignalContext] = []
     var quotaResult: ProfilingQuotaResult?
     var onQuotaResultUpdate: ((ProfilingQuotaResult?) -> Void)?
-    var receiveHandler: ((AtatusContext) -> ProfilingQuotaResult?)?
+    var receiveHandler: ((TowerSignalContext) -> ProfilingQuotaResult?)?
     private var currentSessionID: String?
 
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         guard case let .context(context) = message,
               let rumContext = context.additionalContext(ofType: RUMCoreContext.self) else {
             return false

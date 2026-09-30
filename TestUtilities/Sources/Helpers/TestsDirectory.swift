@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the
 // licence header.
 
 import Foundation
@@ -14,7 +14,7 @@ import XCTest
 /// Does not create the subfolder - it must be later created with `.create()`.
 /// It returns different `Directory` each time it is called.
 public func obtainUniqueTemporaryDirectory(uuid: UUID = UUID()) -> URL {
-    let subdirectoryName = "com.atatus.ios-sdk-tests-\(uuid.uuidString)"
+    let subdirectoryName = "com.towersignal.ios-sdk-tests-\(uuid.uuidString)"
     let osTemporaryDirectoryURL = URL(
         fileURLWithPath: NSTemporaryDirectory(),
         isDirectory: true

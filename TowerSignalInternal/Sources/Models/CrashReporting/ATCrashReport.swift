@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
-/// Crash Report format supported by Atatus SDK.
+/// Crash Report format supported by TowerSignal SDK.
 public struct ATCrashReport {
     /// Meta information about the process.
     /// Ref.: https://developer.apple.com/documentation/xcode/examining-the-fields-in-a-crash-report
@@ -61,13 +61,13 @@ public struct ATCrashReport {
     /// The date of the crash occurrence.
     public let date: Date?
     /// Crash report type - used to group similar crash reports.
-    /// In Atatus Error Tracking this corresponds to `error.type`.
+    /// In TowerSignal Error Tracking this corresponds to `error.type`.
     public let type: String
     /// Crash report message - if possible, it should provide additional troubleshooting information in addition to the crash type.
-    /// In Atatus Error Tracking this corresponds to `error.message`.
+    /// In TowerSignal Error Tracking this corresponds to `error.message`.
     public let message: String
     /// Unsymbolicated stack trace related to the crash (this can be either uncaugh exception backtrace or stack trace of the halted thread).
-    /// In Atatus Error Tracking this corresponds to `error.stack`.
+    /// In TowerSignal Error Tracking this corresponds to `error.stack`.
     public let stack: String
     /// All threads running in the process.
     public let threads: [ATThread]

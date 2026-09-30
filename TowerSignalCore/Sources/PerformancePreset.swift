@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal protocol StoragePerformancePreset {
     /// Maximum size of a single file (in bytes).
@@ -74,10 +74,10 @@ internal struct PerformancePreset: Equatable, StoragePerformancePreset, UploadPe
 
 internal extension PerformancePreset {
     init(
-        batchSize: Atatus.Configuration.BatchSize,
-        uploadFrequency: Atatus.Configuration.UploadFrequency,
+        batchSize: TowerSignal.Configuration.BatchSize,
+        uploadFrequency: TowerSignal.Configuration.UploadFrequency,
         bundleType: BundleType,
-        batchProcessingLevel: Atatus.Configuration.BatchProcessingLevel
+        batchProcessingLevel: TowerSignal.Configuration.BatchProcessingLevel
     ) {
         let meanFileAgeInSeconds: TimeInterval = {
             switch (bundleType, batchSize) {

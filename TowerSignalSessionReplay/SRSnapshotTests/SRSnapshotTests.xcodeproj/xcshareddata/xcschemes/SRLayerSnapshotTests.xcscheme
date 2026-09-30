@@ -140,9 +140,9 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AtatusSessionReplay"
-            BuildableName = "AtatusSessionReplay"
-            BlueprintName = "AtatusSessionReplay"
+            BlueprintIdentifier = "TowerSignalSessionReplay"
+            BuildableName = "TowerSignalSessionReplay"
+            BlueprintName = "TowerSignalSessionReplay"
             ReferencedContainer = "container:..">
          </BuildableReference>
       </CodeCoverageTargets>

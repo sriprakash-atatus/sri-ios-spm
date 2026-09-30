@@ -1,16 +1,16 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddTrace` ->
-// `AtatusTrace`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddTrace` ->
+// `TowerSignalTrace`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 #import <XCTest/XCTest.h>
 #include <sys/wait.h>
-@import AtatusCore;
-@import AtatusTrace;
+@import TowerSignalCore;
+@import TowerSignalTrace;
 
 #import <Foundation/Foundation.h>
 
@@ -32,7 +32,7 @@
     [super setUp];
 
     ATConfiguration *configuration = [[ATConfiguration alloc] initWithClientToken:@"abc" env:@"def"];
-    [ATAtatus initializeWithConfiguration:configuration trackingConsent:[ATTrackingConsent notGranted]];
+    [ATTowerSignal initializeWithConfiguration:configuration trackingConsent:[ATTrackingConsent notGranted]];
 
     ATTraceConfiguration *config = [[ATTraceConfiguration alloc] init];
     ATTraceFirstPartyHostsTracing *tracing = [[ATTraceFirstPartyHostsTracing alloc] initWithHosts:[NSSet new] sampleRate:20];
@@ -44,8 +44,8 @@
 - (void)tearDown {
     [super tearDown];
 
-    [ATAtatus clearAllData];
-    [ATAtatus flushAndDeinitialize];
+    [ATTowerSignal clearAllData];
+    [ATTowerSignal flushAndDeinitialize];
 }
 
 - (void)testWorkflow {
@@ -55,7 +55,7 @@
 
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                                           delegate:[MockDelegate new] delegateQueue:nil];
-    NSURLSessionTask *task = [session dataTaskWithURL:[NSURL URLWithString:@"https://www.atatus.com/"]
+    NSURLSessionTask *task = [session dataTaskWithURL:[NSURL URLWithString:@"https://www.towersignal.com/"]
                                     completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         [expectation fulfill];
     }];

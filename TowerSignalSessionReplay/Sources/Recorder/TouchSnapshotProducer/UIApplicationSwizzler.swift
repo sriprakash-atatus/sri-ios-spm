@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 #if os(iOS)
 import UIKit
-import AtatusInternal
+import TowerSignalInternal
 
-// MARK: - Copy & Paste from Atatus SDK
+// MARK: - Copy & Paste from TowerSignal SDK
 
 internal protocol UIEventHandler: AnyObject {
     func notify_sendEvent(application: UIApplication, event: UIEvent)

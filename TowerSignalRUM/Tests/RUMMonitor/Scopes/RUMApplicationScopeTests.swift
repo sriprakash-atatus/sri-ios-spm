@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 @testable import TestUtilities
 
 class RUMApplicationScopeTests: XCTestCase {
@@ -62,7 +62,7 @@ class RUMApplicationScopeTests: XCTestCase {
     /// TODO: RUM-1649 Move this configuration to `RUMApplicationScope.init()`, so we can remove this setup in tests.
     private func createRUMApplicationScope(
         dependencies: RUMScopeDependencies,
-        sdkContext: AtatusContext = .mockWith(sdkInitDate: Date())
+        sdkContext: TowerSignalContext = .mockWith(sdkInitDate: Date())
     ) -> RUMApplicationScope {
         let modifiedDependencies = dependencies.replacing(
             onSessionUpdate: { [recorder] sessionScope in
@@ -375,7 +375,7 @@ class RUMApplicationScopeTests: XCTestCase {
 
     func testGivenAppLaunchInForegroundAndNoPrewarming_whenInitialSessionIsStarted() throws {
         // Given
-        let sdkContext: AtatusContext = .mockWith(
+        let sdkContext: TowerSignalContext = .mockWith(
             launchInfo: .mockWith(
                 launchReason: .userLaunch,
                 processLaunchDate: .mockDecember15th2019At10AMUTC()
@@ -406,7 +406,7 @@ class RUMApplicationScopeTests: XCTestCase {
 
     func testGivenAppLaunchInBackgroundAndNoPrewarming_whenInitialSessionIsStarted() throws {
         // Given
-        let sdkContext: AtatusContext = .mockWith(
+        let sdkContext: TowerSignalContext = .mockWith(
             launchInfo: .mockWith(
                 launchReason: .backgroundLaunch,
                 processLaunchDate: .mockDecember15th2019At10AMUTC()
@@ -435,7 +435,7 @@ class RUMApplicationScopeTests: XCTestCase {
 
     func testGivenLaunchWithPrewarming_whenInitialSessionIsStarted() throws {
         // Given
-        let sdkContext: AtatusContext = .mockWith(
+        let sdkContext: TowerSignalContext = .mockWith(
             launchInfo: .mockWith(
                 launchReason: .prewarming,
                 processLaunchDate: .mockDecember15th2019At10AMUTC()
@@ -465,7 +465,7 @@ class RUMApplicationScopeTests: XCTestCase {
     func testGivenInactiveSession_whenNewOneIsStarted_itSetsInactivityTimeoutPrecondition() {
         // Given
         var currentTime: Date = .mockDecember15th2019At10AMUTC()
-        let sdkContext: AtatusContext = .mockWith(sdkInitDate: currentTime)
+        let sdkContext: TowerSignalContext = .mockWith(sdkInitDate: currentTime)
         let scope = createRUMApplicationScope(
             dependencies: .mockWith(samplingRate: 100),
             sdkContext: sdkContext
@@ -487,7 +487,7 @@ class RUMApplicationScopeTests: XCTestCase {
         // Given
         let initialTime: Date = .mockDecember15th2019At10AMUTC()
         var currentTime: Date = initialTime
-        let sdkContext: AtatusContext = .mockWith(sdkInitDate: currentTime)
+        let sdkContext: TowerSignalContext = .mockWith(sdkInitDate: currentTime)
         let scope = createRUMApplicationScope(
             dependencies: .mockWith(samplingRate: 100),
             sdkContext: sdkContext
@@ -517,7 +517,7 @@ class RUMApplicationScopeTests: XCTestCase {
     func testGivenStoppedSession_whenNewOneIsStarted_itSetsExplicitStopPrecondition() {
         // Given
         var currentTime: Date = .mockDecember15th2019At10AMUTC()
-        let sdkContext: AtatusContext = .mockWith(sdkInitDate: currentTime)
+        let sdkContext: TowerSignalContext = .mockWith(sdkInitDate: currentTime)
         let scope = createRUMApplicationScope(
             dependencies: .mockWith(samplingRate: 100),
             sdkContext: sdkContext
@@ -541,7 +541,7 @@ class RUMApplicationScopeTests: XCTestCase {
     func testGivenInactiveSession_whenNewOneIsStartedInBackground_itSetsBackgroundLaunchPrecondition() {
         // Given
         var currentTime: Date = .mockDecember15th2019At10AMUTC()
-        let sdkContext: AtatusContext = .mockWith(sdkInitDate: currentTime)
+        let sdkContext: TowerSignalContext = .mockWith(sdkInitDate: currentTime)
         let scope = createRUMApplicationScope(
             dependencies: .mockWith(samplingRate: 100),
             sdkContext: sdkContext
@@ -549,7 +549,7 @@ class RUMApplicationScopeTests: XCTestCase {
 
         // When
         currentTime.addTimeInterval(RUMSessionScope.Constants.sessionTimeoutDuration)
-        let backgroundContext: AtatusContext = .mockWith(
+        let backgroundContext: TowerSignalContext = .mockWith(
             sdkInitDate: .mockDecember15th2019At10AMUTC(),
             launchInfo: .mockWith(
                 launchReason: .backgroundLaunch,
@@ -571,7 +571,7 @@ class RUMApplicationScopeTests: XCTestCase {
         // Given
         let initialTime: Date = .mockDecember15th2019At10AMUTC()
         var currentTime: Date = initialTime
-        let sdkContext: AtatusContext = .mockWith(sdkInitDate: currentTime)
+        let sdkContext: TowerSignalContext = .mockWith(sdkInitDate: currentTime)
         let scope = createRUMApplicationScope(
             dependencies: .mockWith(samplingRate: 100),
             sdkContext: sdkContext
@@ -589,7 +589,7 @@ class RUMApplicationScopeTests: XCTestCase {
 
         // When - advance past maxDuration without triggering inactivity timeout, then send in background
         currentTime.addTimeInterval(RUMSessionScope.Constants.sessionTimeoutDuration - 1)
-        let backgroundContext: AtatusContext = .mockWith(
+        let backgroundContext: TowerSignalContext = .mockWith(
             sdkInitDate: .mockDecember15th2019At10AMUTC(),
             launchInfo: .mockWith(
                 launchReason: .backgroundLaunch,
@@ -610,7 +610,7 @@ class RUMApplicationScopeTests: XCTestCase {
     func testGivenStoppedSession_whenNewOneIsStartedInBackground_itSetsBackgroundLaunchPrecondition() {
         // Given
         var currentTime: Date = .mockDecember15th2019At10AMUTC()
-        let sdkContext: AtatusContext = .mockWith(sdkInitDate: currentTime)
+        let sdkContext: TowerSignalContext = .mockWith(sdkInitDate: currentTime)
         let scope = createRUMApplicationScope(
             dependencies: .mockWith(samplingRate: 100),
             sdkContext: sdkContext
@@ -621,7 +621,7 @@ class RUMApplicationScopeTests: XCTestCase {
 
         // When
         currentTime.addTimeInterval(1)
-        let backgroundContext: AtatusContext = .mockWith(
+        let backgroundContext: TowerSignalContext = .mockWith(
             sdkInitDate: .mockDecember15th2019At10AMUTC(),
             launchInfo: .mockWith(
                 launchReason: .backgroundLaunch,
@@ -642,7 +642,7 @@ class RUMApplicationScopeTests: XCTestCase {
     func testGivenInactiveSession_whenNewOneIsStartedInBackgroundWithPrewarming_itSetsPrewarmPrecondition() {
         // Given
         var currentTime: Date = .mockDecember15th2019At10AMUTC()
-        let sdkContext: AtatusContext = .mockWith(sdkInitDate: currentTime)
+        let sdkContext: TowerSignalContext = .mockWith(sdkInitDate: currentTime)
         let scope = createRUMApplicationScope(
             dependencies: .mockWith(samplingRate: 100),
             sdkContext: sdkContext
@@ -650,7 +650,7 @@ class RUMApplicationScopeTests: XCTestCase {
 
         // When
         currentTime.addTimeInterval(RUMSessionScope.Constants.sessionTimeoutDuration)
-        let backgroundContext: AtatusContext = .mockWith(
+        let backgroundContext: TowerSignalContext = .mockWith(
             sdkInitDate: .mockDecember15th2019At10AMUTC(),
             launchInfo: .mockWith(
                 launchReason: .prewarming,
@@ -671,7 +671,7 @@ class RUMApplicationScopeTests: XCTestCase {
     func testGivenStoppedSession_whenNewOneIsStartedInBackgroundWithPrewarming_itSetsPrewarmPrecondition() {
         // Given
         var currentTime: Date = .mockDecember15th2019At10AMUTC()
-        let sdkContext: AtatusContext = .mockWith(sdkInitDate: currentTime)
+        let sdkContext: TowerSignalContext = .mockWith(sdkInitDate: currentTime)
         let scope = createRUMApplicationScope(
             dependencies: .mockWith(samplingRate: 100),
             sdkContext: sdkContext
@@ -682,7 +682,7 @@ class RUMApplicationScopeTests: XCTestCase {
 
         // When
         currentTime.addTimeInterval(1)
-        let backgroundContext: AtatusContext = .mockWith(
+        let backgroundContext: TowerSignalContext = .mockWith(
             sdkInitDate: .mockDecember15th2019At10AMUTC(),
             launchInfo: .mockWith(
                 launchReason: .prewarming,
@@ -703,7 +703,7 @@ class RUMApplicationScopeTests: XCTestCase {
     func testGivenUserLaunchedApp_whenSessionTimesOutInBackground_itSetsInactivityTimeoutPrecondition() {
         // Given - app launched by user, session becomes inactive
         var currentTime: Date = .mockDecember15th2019At10AMUTC()
-        let sdkContext: AtatusContext = .mockWith(
+        let sdkContext: TowerSignalContext = .mockWith(
             sdkInitDate: currentTime,
             launchInfo: .mockWith(launchReason: .userLaunch)
         )
@@ -715,7 +715,7 @@ class RUMApplicationScopeTests: XCTestCase {
 
         // When - session times out while app is in background
         currentTime.addTimeInterval(RUMSessionScope.Constants.sessionTimeoutDuration)
-        let backgroundContext: AtatusContext = .mockWith(
+        let backgroundContext: TowerSignalContext = .mockWith(
             sdkInitDate: .mockDecember15th2019At10AMUTC(),
             launchInfo: .mockWith(
                 launchReason: .userLaunch,

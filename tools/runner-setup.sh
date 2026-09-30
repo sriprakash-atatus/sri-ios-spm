@@ -11,7 +11,7 @@
 #   --visionOS: Install the visionOS platform with the latest simulator if not already installed. Default: disabled.
 #   --watchOS: Install the watchOS platform with the latest simulator if not already installed. Default: disabled.
 #   --ssh: Configure SSH for GitHub repository access. Default: disabled.
-#   --atatus-ci: Install 'atatus-ci' on the runner. Default: disabled.
+#   --towersignal-ci: Install 'towersignal-ci' on the runner. Default: disabled.
 #   --python: Ensure Python 3 and pip are available. Default: disabled.
 
 set -eo pipefail
@@ -26,7 +26,7 @@ define_arg "tvOS" "false" "Install the tvOS platform with the latest simulator i
 define_arg "visionOS" "false" "Install the visionOS platform with the latest simulator if not already installed. Default: disabled." "store_true"
 define_arg "watchOS" "false" "Install the watchOS platform with the latest simulator if not already installed. Default: disabled." "store_true"
 define_arg "ssh" "false" "Configure SSH for GitHub repository access. Default: disabled." "store_true"
-define_arg "atatus-ci" "false" "Install 'atatus-ci' on the runner. Default: disabled." "store_true"
+define_arg "towersignal-ci" "false" "Install 'towersignal-ci' on the runner. Default: disabled." "store_true"
 define_arg "python" "false" "Ensure Python 3 and pip are available. Default: disabled." "store_true"
 
 check_for_help "$@"
@@ -126,16 +126,16 @@ EOF
     fi
 fi
 
-if [ "$atatus_ci" = "true" ]; then
-    echo_subtitle "Supply atatus-ci"
-    echo "Check current runner for existing 'atatus-ci' installation:"
-    if ! command -v atatus-ci >/dev/null 2>&1; then
-        echo_warn "Found no 'atatus-ci'. Installing..."
-        npm install -g @atatus/atatus-ci
+if [ "$towersignal_ci" = "true" ]; then
+    echo_subtitle "Supply towersignal-ci"
+    echo "Check current runner for existing 'towersignal-ci' installation:"
+    if ! command -v towersignal-ci >/dev/null 2>&1; then
+        echo_warn "Found no 'towersignal-ci'. Installing..."
+        npm install -g @towersignal/towersignal-ci
     else
-        echo_succ "'atatus-ci' already installed. Skipping..."
-        echo "atatus-ci version:"
-        atatus-ci version
+        echo_succ "'towersignal-ci' already installed. Skipping..."
+        echo "towersignal-ci version:"
+        towersignal-ci version
     fi
 fi
 

@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; removed the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; removed the
 // `dd` name from comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Provides interfaces for accessing common properties and operations for a file.
 internal protocol FileProtocol {
@@ -72,7 +72,7 @@ internal struct File: WritableFile, ReadableFile, FileProtocol, Equatable {
         let fileHandle = try FileHandle(forWritingTo: url)
 
         // NOTE: RUMM-669
-        // https://github.com/atatus/atatus-sdk-ios/issues/214
+        // https://github.com/towersignal/towersignal-sdk-ios/issues/214
         // https://en.wikipedia.org/wiki/Xcode#11.x_series
         // compiler version needs to have iOS 13.4+ as base SDK
         #if compiler(>=5.2)

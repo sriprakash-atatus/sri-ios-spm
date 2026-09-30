@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; repointed the
-// intake host at the Atatus site; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; repointed the
+// intake host at the TowerSignal site; rebranded the licence header.
 
 import XCTest
 
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 
 /// Tests for `URLSessionTaskStateSwizzler` which intercepts `setState:` on `URLSessionTask`.
 ///
@@ -75,7 +75,7 @@ class URLSessionTaskStateSwizzlerTests: XCTestCase {
         // When - Cancel task to trigger cancellation
         // Use a real remote URL: the task must be in-flight when cancel() is called
         let session = URLSession(configuration: .ephemeral)
-        let url = URL(string: "https://www.atatus.com/")!
+        let url = URL(string: "https://www.towersignal.com/")!
         let task = session.dataTask(with: url) { _, _, _ in }
         task.resume()
         Thread.sleep(forTimeInterval: 0.1) // Let task start

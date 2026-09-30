@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
@@ -53,14 +53,14 @@ public extension BacktraceReporting {
 
 internal struct CoreBacktraceReporter: BacktraceReporting, @unchecked Sendable {
     /// A weak core reference.
-    private weak var core: AtatusCoreProtocol?
+    private weak var core: TowerSignalCoreProtocol?
 
     /// Creates backtrace reporter associated with a core instance.
     ///
     /// The `CoreBacktraceReporter` keeps a weak reference to the provided core.
     ///
     /// - Parameter core: The core instance.
-    init(core: AtatusCoreProtocol) {
+    init(core: TowerSignalCoreProtocol) {
         self.core = core
     }
 
@@ -73,7 +73,7 @@ internal struct CoreBacktraceReporter: BacktraceReporting, @unchecked Sendable {
             AT.logger.warn(
                 """
                 Backtrace will not be generated as this capability is not available.
-                Enable `AtatusCrashReporting` to leverage backtrace generation.
+                Enable `TowerSignalCrashReporting` to leverage backtrace generation.
                 """
             )
             return nil
@@ -87,7 +87,7 @@ internal struct CoreBacktraceReporter: BacktraceReporting, @unchecked Sendable {
 }
 
 /// Adds capability of reporting backtraces.
-extension AtatusCoreProtocol {
+extension TowerSignalCoreProtocol {
     /// Registers backtrace reporter in Core.
     /// - Parameter backtraceReporter: the implementation of backtrace reporter.
     public func register(backtraceReporter: BacktraceReporting) throws {
@@ -102,6 +102,6 @@ extension AtatusCoreProtocol {
 
     /// Backtrace reporter. Use it to snapshot all running threads in the current process.
     ///
-    /// It requires `BacktraceReportingFeature` registered to Atatus core. Otherwise reported backtraces will be `nil`.
+    /// It requires `BacktraceReportingFeature` registered to TowerSignal core. Otherwise reported backtraces will be `nil`.
     public var backtraceReporter: BacktraceReporting { CoreBacktraceReporter(core: self) }
 }

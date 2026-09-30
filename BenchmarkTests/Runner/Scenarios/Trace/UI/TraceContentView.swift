@@ -1,13 +1,13 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddTrace` -> `AtatusTrace`; renamed
-// `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddTrace` -> `TowerSignalTrace`; renamed
+// `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the licence header.
 
-import AtatusTrace
+import TowerSignalTrace
 import SwiftUI
 
 struct TraceContentView: View {
@@ -22,7 +22,7 @@ struct TraceContentView: View {
 
     var tracer: OTTracer { Tracer.shared() }
 
-    private let queue1 = DispatchQueue(label: "com.atatus.benchmark-tracing1")
+    private let queue1 = DispatchQueue(label: "com.towersignal.benchmark-tracing1")
 
     init() {
         operationName = "iOS Benchmark span operation"

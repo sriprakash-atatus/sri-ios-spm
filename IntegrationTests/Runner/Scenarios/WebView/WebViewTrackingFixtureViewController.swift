@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`,
-// `ddWebViewTracking` -> `AtatusWebViewTracking`; renamed `dd*` types to `Atatus*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`,
+// `ddWebViewTracking` -> `TowerSignalWebViewTracking`; renamed `dd*` types to `TowerSignal*`; rebranded the
 // licence header.
 
 import UIKit
 import WebKit
-import AtatusCore
-import AtatusWebViewTracking
-import class AtatusInternal.CoreRegistry
+import TowerSignalCore
+import TowerSignalWebViewTracking
+import class TowerSignalInternal.CoreRegistry
 
 class WebViewTrackingFixtureViewController: UIViewController, WKNavigationDelegate {
     override func viewDidAppear(_ animated: Bool) {

@@ -60,7 +60,7 @@ TEST_ARTIFACTS_PATH="$REPO_ROOT/$artifacts_path/$TEST_ARTIFACTS_SUBPATH"
 
 # On CI, get GitHub token for accessing snapshots repository
 if [ "$CI" = "true" ]; then
-    export GH_TOKEN=$(dd-octo-sts --disable-tracing token --scope dd/dd-mobile-session-replay-snapshots --policy atatus-sdk-ios)
+    export GH_TOKEN=$(dd-octo-sts --disable-tracing token --scope dd/dd-mobile-session-replay-snapshots --policy towersignal-sdk-ios)
     # Set up trap to always revoke token on script exit (success, failure, or interruption)
     trap 'dd-octo-sts --disable-tracing revoke --token $GH_TOKEN' EXIT
 fi
@@ -92,7 +92,7 @@ test_snapshots() {
     rm -rf "$TEST_ARTIFACTS_PATH"
     mkdir -p "$TEST_ARTIFACTS_PATH"
 
-    export AT_TEST_UTILITIES_ENABLED=1 # it is used in `atatus-sdk-ios/Package.swift` to enable `TestUtilities` module
+    export AT_TEST_UTILITIES_ENABLED=1 # it is used in `towersignal-sdk-ios/Package.swift` to enable `TestUtilities` module
     xcodebuild -version
     # Tee the raw xcodebuild log to disk (flushed line-by-line) so it survives even if the
     # process gets killed mid-run, e.g. by RUNNER_SCRIPT_TIMEOUT on a hung test.

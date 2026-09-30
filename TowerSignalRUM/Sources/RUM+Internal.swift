@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
 @_spi(Internal)
-import AtatusInternal
+import TowerSignalInternal
 
 extension RUM: InternalExtended {}
 
-/// NOTE: Methods in this extension are NOT considered part of the public of the Atatus SDK, and
-/// may change or be removed in minor updates of the Atatus SDK.
+/// NOTE: Methods in this extension are NOT considered part of the public of the TowerSignal SDK, and
+/// may change or be removed in minor updates of the TowerSignal SDK.
 extension InternalExtension where ExtendedType == RUM {
     /// Check whether `RUM` has been enabled for a specific SDK instance.
     ///
@@ -23,7 +23,7 @@ extension InternalExtension where ExtendedType == RUM {
     ///    - in: the core to check
     ///
     /// - Returns: true if `RUM` has been enabled for the supplied core.
-    public static func isEnabled(in core: AtatusCoreProtocol = CoreRegistry.default) -> Bool {
+    public static func isEnabled(in core: TowerSignalCoreProtocol = CoreRegistry.default) -> Bool {
         return core.get(feature: RUMFeature.self) != nil
     }
 
@@ -36,10 +36,10 @@ extension InternalExtension where ExtendedType == RUM {
     ///    - in: the core to enable URL session in
     public static func enableURLSessionTracking(
         with configuration: RUM.Configuration.URLSessionTracking,
-        in core: AtatusCoreProtocol = CoreRegistry.default) throws {
-        guard !(core is NOPAtatusCore) else {
+        in core: TowerSignalCoreProtocol = CoreRegistry.default) throws {
+        guard !(core is NOPTowerSignalCore) else {
             throw ProgrammerError(
-                description: "Atatus SDK and RUM must be initialized before calling `RUM.enableUrlSessionTracking`."
+                description: "TowerSignal SDK and RUM must be initialized before calling `RUM.enableUrlSessionTracking`."
             )
         }
 

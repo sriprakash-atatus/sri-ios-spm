@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
-// renamed the `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; rebranded the
 // licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import Foundation
 
 /*
@@ -52,7 +52,7 @@ internal class RUMFeatureOperationManager {
 
     // MARK: - Public Interface
 
-    func process(_ command: RUMOperationStepVitalCommand, context: AtatusContext, writer: Writer, activeView: RUMViewScope?) {
+    func process(_ command: RUMOperationStepVitalCommand, context: TowerSignalContext, writer: Writer, activeView: RUMViewScope?) {
         // Validate command parameters
         guard validateCommand(command) else {
             return
@@ -84,7 +84,7 @@ internal class RUMFeatureOperationManager {
 
     // MARK: - Private Methods
 
-    private func writeVitalEvent(from command: RUMOperationStepVitalCommand, context: AtatusContext, writer: Writer, activeView: RUMViewScope?) {
+    private func writeVitalEvent(from command: RUMOperationStepVitalCommand, context: TowerSignalContext, writer: Writer, activeView: RUMViewScope?) {
         let vital = RUMVitalOperationStepEvent.Vital(
             failureReason: command.failureReason,
             id: command.vitalId,
@@ -118,7 +118,7 @@ internal class RUMFeatureOperationManager {
         let vitalEvent = RUMVitalOperationStepEvent(
             dd: .init(profiling: profiling),
             account: .init(context: context),
-            // ATCHG: application_id removed -- Atatus events do not carry a RUM application ID
+            // ATCHG: application_id removed -- TowerSignal events do not carry a RUM application ID
             application: .init(id: ""),
             buildId: context.buildId,
             buildVersion: context.buildNumber,
@@ -127,7 +127,7 @@ internal class RUMFeatureOperationManager {
             container: nil,
             context: .init(contextInfo: mergedAttributes),
             date: command.time.addingTimeInterval(context.serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: context.normalizedDevice(),
             display: nil,
             os: context.os,

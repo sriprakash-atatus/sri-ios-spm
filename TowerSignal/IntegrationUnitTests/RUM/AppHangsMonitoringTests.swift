@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`,
-// `ddInternal` -> `AtatusInternal`, `ddRUM` -> `AtatusRUM`; renamed `dd*` types to
-// `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`,
+// `ddInternal` -> `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`; renamed `dd*` types to
+// `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-import AtatusCrashReporting
-@testable import AtatusRUM
+import TowerSignalInternal
+import TowerSignalCrashReporting
+@testable import TowerSignalRUM
 
 /// Test case covering scenarios of App Hangs monitoring in RUM.
 class AppHangsMonitoringTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
     private var rumConfig = RUM.Configuration(applicationID: .mockAny())
     private var hangDuration: TimeInterval! // swiftlint:disable:this implicitly_unwrapped_optional
     /// Use main queue mock, otherwise any `waitForExpectations(timeout:)` would be considered an app hang and may cause dead locks.
@@ -32,7 +32,7 @@ class AppHangsMonitoringTests: XCTestCase {
         rumConfig.mainQueue = mainQueue
         rumConfig.appHangThreshold = 0.4
         hangDuration = rumConfig.appHangThreshold! * 1.25
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
     }
 
     override func tearDownWithError() throws {

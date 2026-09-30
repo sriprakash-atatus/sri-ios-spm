@@ -4,7 +4,7 @@
 
 ## Usage
 
-To update the data models to the latest version, call this in the root directory of the `atatus-sdk-ios`.
+To update the data models to the latest version, call this in the root directory of the `towersignal-sdk-ios`.
 ```
 # make rum-models-generate
 # make sr-models-generate

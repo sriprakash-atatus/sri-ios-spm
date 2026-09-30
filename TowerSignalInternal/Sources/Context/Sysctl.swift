@@ -1,9 +1,9 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  *
- * This file includes software created by Matt Gallagher on 2016/02/03 and modified by Atatus.
+ * This file includes software created by Matt Gallagher on 2016/02/03 and modified by TowerSignal.
  * Copyright © 2016 Matt Gallagher ( https://www.cocoawithlove.com ).
  *
  * Permission to use, copy, modify, and/or distribute this software for any
@@ -13,7 +13,7 @@
  * Use of this source code is governed by ISC license: https://github.com/mattgallagher/CwlUtils/blob/master/LICENSE.txt
  */
 
-// ATCHG: Atatus SDK migration - rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - rebranded the licence header.
 
 import Foundation
 

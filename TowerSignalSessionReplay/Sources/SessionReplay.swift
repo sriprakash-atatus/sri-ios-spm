@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `dd*` members to `at*`; rebranded the `dd` name to `Atatus`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `dd*` members to `at*`; rebranded the `dd` name to `TowerSignal`
 // in comments and docs; rebranded the licence header.
 
 #if os(iOS)
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// An entry point to Atatus Session Replay feature.
+/// An entry point to TowerSignal Session Replay feature.
 public enum SessionReplay {
-    /// Enables Atatus Session Replay feature.
+    /// Enables TowerSignal Session Replay feature.
     ///
     /// Recording will start automatically after enabling Session Replay.
     ///
@@ -22,10 +22,10 @@ public enum SessionReplay {
     ///
     /// - Parameters:
     ///   - configuration: Configuration of the feature.
-    ///   - core: The instance of Atatus SDK to enable Session Replay in (global instance by default).
+    ///   - core: The instance of TowerSignal SDK to enable Session Replay in (global instance by default).
     public static func enable(
         with configuration: SessionReplay.Configuration,
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
         do {
             // To ensure the correct registration order between Core and Features,
@@ -40,9 +40,9 @@ public enum SessionReplay {
 
     /// Starts the recording manually.
     /// - Parameters:
-    ///   - core: The instance of Atatus SDK to start Session Replay in (global instance by default).
+    ///   - core: The instance of TowerSignal SDK to start Session Replay in (global instance by default).
     public static func startRecording(
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
         do {
             try startRecording(core: core)
@@ -53,9 +53,9 @@ public enum SessionReplay {
 
     /// Stops the recording manually.
     /// - Parameters:
-    ///   - core: The instance of Atatus SDK to start Session Replay in (global instance by default).
+    ///   - core: The instance of TowerSignal SDK to start Session Replay in (global instance by default).
     public static func stopRecording(
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
         do {
             try stopRecording(core: core)
@@ -70,11 +70,11 @@ public enum SessionReplay {
 
     internal static func enableOrThrow(
         with configuration: SessionReplay.Configuration,
-        in core: AtatusCoreProtocol
+        in core: TowerSignalCoreProtocol
     ) throws {
-        guard !(core is NOPAtatusCore) else {
+        guard !(core is NOPTowerSignalCore) else {
             throw ProgrammerError(
-                description: "Atatus SDK must be initialized before calling `SessionReplay.enable(with:)`."
+                description: "TowerSignal SDK must be initialized before calling `SessionReplay.enable(with:)`."
             )
         }
 
@@ -111,7 +111,7 @@ public enum SessionReplay {
         )
     }
 
-    internal static func startRecording(core: AtatusCoreProtocol) throws {
+    internal static func startRecording(core: TowerSignalCoreProtocol) throws {
         guard let sr = core.get(feature: SessionReplayFeature.self) else {
             throw ProgrammerError(
                 description: "Session Replay must be initialized before calling `SessionReplay.startRecording()`."
@@ -121,7 +121,7 @@ public enum SessionReplay {
         sr.startRecording()
     }
 
-    internal static func stopRecording(core: AtatusCoreProtocol) throws {
+    internal static func stopRecording(core: TowerSignalCoreProtocol) throws {
         let sr = core.get(feature: SessionReplayFeature.self)
         sr?.stopRecording()
     }

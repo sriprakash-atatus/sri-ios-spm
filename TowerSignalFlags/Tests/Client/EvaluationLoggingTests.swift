@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/)
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/)
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddInternal`
-// -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`;
-// repointed the intake host at the Atatus site; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddInternal`
+// -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`;
+// repointed the intake host at the TowerSignal site; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 
 @_spi(Internal)
-@testable import AtatusFlags
+@testable import TowerSignalFlags
 
 /// Validates compliance with the evaluation logging (EVALLOG) specifications,
 /// which define how flag evaluations are tracked, aggregated, and sent to the backend.
@@ -80,18 +80,18 @@ class EvaluationLoggingTests: XCTestCase {
         )
 
         // When
-        func url(for site: AtatusSite) -> String {
+        func url(for site: TowerSignalSite) -> String {
             // swiftlint:disable:next force_try
             let request = try! builder.request(for: events, with: .mockWith(site: site), execution: .mockAny())
             return request.url!.absoluteStringWithoutQuery!
         }
 
         // Then - Verify EVP intake endpoint
-        // ATCHG: single Atatus intake host replaces the nine dd region endpoints
-        XCTAssertEqual(url(for: .atatus), "https://mo-rx.atatus.com/api/v2/flagevaluation")
+        // ATCHG: single TowerSignal intake host replaces the nine dd region endpoints
+        XCTAssertEqual(url(for: .towersignal), "https://mo-rx.towersignal.com/api/v2/flagevaluation")
 
         // Then - Verify Content-Type and batched schema
-        let contextWithRUM = AtatusContext.mockWith(
+        let contextWithRUM = TowerSignalContext.mockWith(
             additionalContext: [RUMCoreContext.mockWith(applicationID: "rum-app-123")]
         )
         let request = try builder.request(for: events, with: contextWithRUM, execution: .mockAny())

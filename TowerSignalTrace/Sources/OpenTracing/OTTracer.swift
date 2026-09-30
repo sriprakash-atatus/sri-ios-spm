@@ -1,7 +1,7 @@
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Tracer is the starting point for all OpenTracing instrumentation. Use it
 /// to create OTSpans, inject/extract them between processes, and so on.

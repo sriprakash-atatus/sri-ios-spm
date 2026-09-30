@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the
 // licence header.
 
 import Foundation
@@ -37,7 +37,7 @@ internal final class ValuePublisher<Value> {
     /// The queue used to synchronize the access to the `unsafeValue`.
     /// Concurrent queue is used for performant reads, `.barrier` must be used to make writes exclusive.
     private let concurrentQueue = DispatchQueue(
-        label: "com.atatus.value-publisher-\(type(of: Value.self))",
+        label: "com.towersignal.value-publisher-\(type(of: Value.self))",
         attributes: .concurrent
     )
     /// The array of value observers - must be accessed from the `queue`.

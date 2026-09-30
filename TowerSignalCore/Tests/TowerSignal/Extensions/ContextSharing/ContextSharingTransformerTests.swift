@@ -1,24 +1,24 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 @_spi(Internal)
-@testable import AtatusCore
+@testable import TowerSignalCore
 
 class ContextSharingTransformerTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
     }
 
     override func tearDownWithError() throws {
@@ -80,7 +80,7 @@ class ContextSharingTransformerTests: XCTestCase {
         // When
         let userInfo = UserInfo(id: "user-456")
         let accountInfo = AccountInfo(id: "account-789")
-        let context = AtatusContext.mockWith(userInfo: userInfo, accountInfo: accountInfo)
+        let context = TowerSignalContext.mockWith(userInfo: userInfo, accountInfo: accountInfo)
         let message = FeatureMessage.context(context)
         _ = transformer.receive(message: message, from: core)
 
@@ -103,7 +103,7 @@ class ContextSharingTransformerTests: XCTestCase {
         // When
         transformer.cancel()
 
-        let context = AtatusContext.mockWith(userInfo: UserInfo(id: "user-789"))
+        let context = TowerSignalContext.mockWith(userInfo: UserInfo(id: "user-789"))
         let message = FeatureMessage.context(context)
         _ = transformer.receive(message: message, from: core)
 

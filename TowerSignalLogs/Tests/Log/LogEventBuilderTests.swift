@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded
 // the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusLogs
+import TowerSignalInternal
+@testable import TowerSignalLogs
 
 class LogEventBuilderTests: XCTestCase {
     func testItBuildsLogEventWithLogInformation() throws {
@@ -120,7 +120,7 @@ class LogEventBuilderTests: XCTestCase {
         let randomProcessorCount: Double = .mockRandom()
         let randomTotalRam: Double = .mockRandom()
 
-        let randomSDKContext: AtatusContext = .mockWith(
+        let randomSDKContext: TowerSignalContext = .mockWith(
             env: randomEnvironment,
             version: randomApplicationVersion,
             buildNumber: randomApplicationBuildNumber,
@@ -191,7 +191,7 @@ class LogEventBuilderTests: XCTestCase {
     func testGivenContextWithBuildID_whenBuildingLog_itSetsBuildId() throws {
         // Given
         let buildId: String = .mockRandom()
-        let randomSDKContext: AtatusContext = .mockWith(
+        let randomSDKContext: TowerSignalContext = .mockWith(
             buildId: buildId
         )
 

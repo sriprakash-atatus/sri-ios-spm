@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; rebranded the licence header.
 
 #if os(iOS)
 import Foundation
 import Testing
 import TestUtilities
 
-@testable import AtatusInternal
-@testable import AtatusSessionReplay
+@testable import TowerSignalInternal
+@testable import TowerSignalSessionReplay
 
-@Suite(.atatusTesting)
+@Suite(.towersignalTesting)
 struct EmbeddedContentReceiverTests {
     @available(iOS 13.0, *)
     @Test("Writes embedded records using native session context and embedded view ID")
@@ -31,7 +31,7 @@ struct EmbeddedContentReceiverTests {
         let receiver = EmbeddedContentReceiver(
             scope: scope,
             resourcesWriter: resourcesWriter,
-            srContextPublisher: SRContextPublisher(core: NOPAtatusCore())
+            srContextPublisher: SRContextPublisher(core: NOPTowerSignalCore())
         )
         let message = EmbeddedContentMessage.records(
             .init(
@@ -45,7 +45,7 @@ struct EmbeddedContentReceiverTests {
         )
 
         // When
-        let result = receiver.receive(message: .embeddedContent(message), from: NOPAtatusCore())
+        let result = receiver.receive(message: .embeddedContent(message), from: NOPTowerSignalCore())
 
         // Then
         let expectedSegment: [String: Any] = [
@@ -124,7 +124,7 @@ struct EmbeddedContentReceiverTests {
         let receiver = EmbeddedContentReceiver(
             scope: scope,
             resourcesWriter: resourcesWriter,
-            srContextPublisher: SRContextPublisher(core: NOPAtatusCore())
+            srContextPublisher: SRContextPublisher(core: NOPTowerSignalCore())
         )
         let data = Data([0x01, 0x02, 0x03])
         let message = EmbeddedContentMessage.resource(
@@ -136,7 +136,7 @@ struct EmbeddedContentReceiverTests {
         )
 
         // When
-        let result = receiver.receive(message: .embeddedContent(message), from: NOPAtatusCore())
+        let result = receiver.receive(message: .embeddedContent(message), from: NOPTowerSignalCore())
 
         // Then
         let resourceBatch = try #require(resourcesWriter.resources.first)
@@ -160,7 +160,7 @@ struct EmbeddedContentReceiverTests {
         let receiver = EmbeddedContentReceiver(
             scope: scope,
             resourcesWriter: resourcesWriter,
-            srContextPublisher: SRContextPublisher(core: NOPAtatusCore())
+            srContextPublisher: SRContextPublisher(core: NOPTowerSignalCore())
         )
         let message = EmbeddedContentMessage.records(
             .init(
@@ -171,7 +171,7 @@ struct EmbeddedContentReceiverTests {
         )
 
         // When
-        let result = receiver.receive(message: .embeddedContent(message), from: NOPAtatusCore())
+        let result = receiver.receive(message: .embeddedContent(message), from: NOPTowerSignalCore())
 
         // Then
         #expect(result)
@@ -191,7 +191,7 @@ struct EmbeddedContentReceiverTests {
         let receiver = EmbeddedContentReceiver(
             scope: scope,
             resourcesWriter: resourcesWriter,
-            srContextPublisher: SRContextPublisher(core: NOPAtatusCore())
+            srContextPublisher: SRContextPublisher(core: NOPTowerSignalCore())
         )
         let message = EmbeddedContentMessage.resource(
             .init(
@@ -202,7 +202,7 @@ struct EmbeddedContentReceiverTests {
         )
 
         // When
-        let result = receiver.receive(message: .embeddedContent(message), from: NOPAtatusCore())
+        let result = receiver.receive(message: .embeddedContent(message), from: NOPTowerSignalCore())
 
         // Then
         #expect(result)
@@ -219,11 +219,11 @@ struct EmbeddedContentReceiverTests {
         let receiver = EmbeddedContentReceiver(
             scope: scope,
             resourcesWriter: resourcesWriter,
-            srContextPublisher: SRContextPublisher(core: NOPAtatusCore())
+            srContextPublisher: SRContextPublisher(core: NOPTowerSignalCore())
         )
 
         // When
-        let result = receiver.receive(message: .payload("value"), from: NOPAtatusCore())
+        let result = receiver.receive(message: .payload("value"), from: NOPTowerSignalCore())
 
         // Then
         #expect(!result)

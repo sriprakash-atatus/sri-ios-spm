@@ -2,11 +2,11 @@
 
 # Usage:
 # $ ./tools/dogfooding/dogfood.sh -h                                                                                   
-# Updates the 'atatus-sdk-ios' version in a dependent project and creates a dogfooding PR in its repository.
+# Updates the 'towersignal-sdk-ios' version in a dependent project and creates a dogfooding PR in its repository.
 
 # Options:
 #   --shopist       Dogfood in the Shopist iOS project.
-#   --atatus-app   Dogfood in the Atatus iOS app.
+#   --towersignal-app   Dogfood in the TowerSignal iOS app.
 
 set -eo pipefail
 source ./tools/utils/argparse.sh
@@ -14,9 +14,9 @@ source ./tools/utils/echo-color.sh
 source ./tools/utils/current-git.sh
 source ./tools/secrets/get-secret.sh
 
-set_description "Updates 'atatus-sdk-ios' version in dependent project and opens dogfooding PR to its repo."
+set_description "Updates 'towersignal-sdk-ios' version in dependent project and opens dogfooding PR to its repo."
 define_arg "shopist" "false" "Dogfood in Shopist iOS." "store_true"
-define_arg "atatus-app" "false" "Dogfood in Atatus iOS app." "store_true"
+define_arg "towersignal-app" "false" "Dogfood in TowerSignal iOS app." "store_true"
 
 check_for_help "$@"
 parse_args "$@"
@@ -80,7 +80,7 @@ commit_repo() {
     BASE_SHA=$(git rev-parse HEAD)
     git checkout -b "$DOGFOODING_BRANCH_NAME"
     git add .
-    git commit -m "Dogfooding atatus-sdk-ios commit: $DOGFOODED_COMMIT"
+    git commit -m "Dogfooding towersignal-sdk-ios commit: $DOGFOODED_COMMIT"
     cd -
 }
 
@@ -109,10 +109,10 @@ create_pr() {
     local target_branch="$3"
     echo_subtitle "Create PR in '$REPO_NAME' repo"
 
-    PR_TITLE="[Dogfooding] Upgrade atatus-sdk-ios to \`$DOGFOODED_SDK_VERSION\`"
+    PR_TITLE="[Dogfooding] Upgrade towersignal-sdk-ios to \`$DOGFOODED_SDK_VERSION\`"
     PR_DESCRIPTION="$(cat <<EOF
-⚙️ This is an automated PR upgrading the version of 'atatus-sdk-ios' to:
-- https://github.com/atatus/atatus-sdk-ios/commit/$DOGFOODED_COMMIT
+⚙️ This is an automated PR upgrading the version of 'towersignal-sdk-ios' to:
+- https://github.com/towersignal/towersignal-sdk-ios/commit/$DOGFOODED_COMMIT
 
 ### 🎁 What's new:
 $changelog
@@ -131,15 +131,15 @@ EOF
     cd -
 }
 
-# Resolves dependencies version in `atatus-sdk-ios`.
+# Resolves dependencies version in `towersignal-sdk-ios`.
 resolve_dd_sdk_ios_package() {
-    echo_subtitle "Resolve atatus-sdk-ios package in '$SDK_PACKAGE_PATH'"
+    echo_subtitle "Resolve towersignal-sdk-ios package in '$SDK_PACKAGE_PATH'"
     swift package --package-path "$SDK_PACKAGE_PATH" resolve
-    echo "atatus-sdk-ios dependencies:"
+    echo "towersignal-sdk-ios dependencies:"
     swift package --package-path "$SDK_PACKAGE_PATH" show-dependencies
 }
 
-# Reads sdk_version from current `atatus-sdk-ios` commit and stores it in DOGFOODED_SDK_VERSION variable.
+# Reads sdk_version from current `towersignal-sdk-ios` commit and stores it in DOGFOODED_SDK_VERSION variable.
 read_dogfooded_version() {
     echo_subtitle "Read sdk_version from '$SDK_VERSION_FILE_PATH'"
     sdk_version=$(grep 'internal let __sdkVersion' "$SDK_VERSION_FILE_PATH" | awk -F'"' '{print $2}')
@@ -186,9 +186,9 @@ print_changelog() {
     echo_info "<<< git log end" >&2
 
     # Extract only merge commits:
-    CHANGELOG=$(echo "$git_log" | grep -o 'Merge pull request #[0-9]\+' | awk -F'#' '{print "- https://github.com/atatus/atatus-sdk-ios/pull/"$2}' || true)
+    CHANGELOG=$(echo "$git_log" | grep -o 'Merge pull request #[0-9]\+' | awk -F'#' '{print "- https://github.com/towersignal/towersignal-sdk-ios/pull/"$2}' || true)
     if [ -z "$CHANGELOG" ]; then
-        CHANGELOG="- Empty (no PRs merged since https://github.com/atatus/atatus-sdk-ios/commit/$from_commit)"
+        CHANGELOG="- Empty (no PRs merged since https://github.com/towersignal/towersignal-sdk-ios/commit/$from_commit)"
     fi
 
     echo_info "▸ Changelog:" >&2
@@ -199,10 +199,10 @@ print_changelog() {
     echo "$CHANGELOG"
 }
 
-# Updates atatus-sdk-ios version in dependent project to DOGFOODED_COMMIT.
+# Updates towersignal-sdk-ios version in dependent project to DOGFOODED_COMMIT.
 update_dependent_package_resolved() {
     local package_resolved_path="$1"
-    echo_subtitle "Update atatus-sdk-ios version in '$package_resolved_path'"
+    echo_subtitle "Update towersignal-sdk-ios version in '$package_resolved_path'"
     make run PARAMS="update-dependency.py \
         --repo-package-resolved-path '$package_resolved_path' \
         --dogfooded-package-resolved-path '$SDK_PACKAGE_PATH/Package.resolved' \
@@ -210,10 +210,10 @@ update_dependent_package_resolved() {
         --dogfooded-commit '$DOGFOODED_COMMIT'"
 }
 
-# Updates atatus-sdk-ios branch requirement in dependent project's project.pbxproj.
+# Updates towersignal-sdk-ios branch requirement in dependent project's project.pbxproj.
 update_dependent_pbxproj_branch() {
     local pbxproj_path="$1"
-    echo_subtitle "Update atatus-sdk-ios branch to '$DOGFOODED_BRANCH' in '$pbxproj_path'"
+    echo_subtitle "Update towersignal-sdk-ios branch to '$DOGFOODED_BRANCH' in '$pbxproj_path'"
     sed -i '' -E "s/(branch = )develop(;)/\1$DOGFOODED_BRANCH\2/" "$pbxproj_path"
 }
 # Updates 'sdk_version' in dependent project to DOGFOODED_SDK_VERSION.
@@ -255,13 +255,13 @@ if [ "$shopist" = "true" ]; then
     LAST_DOGFOODED_COMMIT=$(read_dogfooded_commit "$CLONE_PATH/Shopist/Shopist/DogfoodingConfig.swift")
     CHANGELOG=$(print_changelog "$LAST_DOGFOODED_COMMIT")
     
-    # Update atatus-sdk-ios version:
+    # Update towersignal-sdk-ios version:
     update_dependent_package_resolved "$CLONE_PATH/Shopist/Shopist.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
     update_dependent_sdk_version "$CLONE_PATH/Shopist/Shopist/DogfoodingConfig.swift"
     update_dependent_pbxproj_branch "$CLONE_PATH/Shopist/Shopist.xcodeproj/project.pbxproj"
 
     echo_info "▸ Exporting 'GITHUB_TOKEN' for CI"
-    export GITHUB_TOKEN=$(dd-octo-sts --disable-tracing token --scope dd/shopist-ios --policy atatus-sdk-ios.gitlab.pr)
+    export GITHUB_TOKEN=$(dd-octo-sts --disable-tracing token --scope dd/shopist-ios --policy towersignal-sdk-ios.gitlab.pr)
     verify_gh_auth
 
     # Push & create PR:
@@ -272,23 +272,23 @@ if [ "$shopist" = "true" ]; then
     dd-octo-sts --disable-tracing revoke
 fi
 
-if [ "$atatus_app" = "true" ]; then
-    REPO_NAME="atatus-ios"
+if [ "$towersignal_app" = "true" ]; then
+    REPO_NAME="towersignal-ios"
     CLONE_PATH="$DEPENDENT_REPO_CLONE_DIR/$REPO_NAME"
     DEFAULT_BRANCH="develop"
 
-    clone_repo "git@github.com:atatus/atatus-ios.git" $DEFAULT_BRANCH $CLONE_PATH
+    clone_repo "git@github.com:towersignal/towersignal-ios.git" $DEFAULT_BRANCH $CLONE_PATH
 
     # Generate CHANGELOG:
-    LAST_DOGFOODED_COMMIT=$(read_dogfooded_commit "$CLONE_PATH/Targets/Platform/AtatusObservability/DogfoodingConfig.swift")
+    LAST_DOGFOODED_COMMIT=$(read_dogfooded_commit "$CLONE_PATH/Targets/Platform/TowerSignalObservability/DogfoodingConfig.swift")
     CHANGELOG=$(print_changelog "$LAST_DOGFOODED_COMMIT")
     
-    # Update atatus-sdk-ios version:
+    # Update towersignal-sdk-ios version:
     update_dependent_package_resolved "$CLONE_PATH/Tuist/Package.resolved"
-    update_dependent_sdk_version "$CLONE_PATH/Targets/Platform/AtatusObservability/DogfoodingConfig.swift"
+    update_dependent_sdk_version "$CLONE_PATH/Targets/Platform/TowerSignalObservability/DogfoodingConfig.swift"
 
     echo_info "▸ Exporting 'GITHUB_TOKEN' for CI"
-    export GITHUB_TOKEN=$(dd-octo-sts --disable-tracing token --scope atatus/atatus-ios --policy atatus-sdk-ios.gitlab.pr)
+    export GITHUB_TOKEN=$(dd-octo-sts --disable-tracing token --scope towersignal/towersignal-ios --policy towersignal-sdk-ios.gitlab.pr)
     verify_gh_auth
 
     # Push & create PR:

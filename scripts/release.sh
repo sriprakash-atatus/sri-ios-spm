@@ -31,7 +31,7 @@ fi
 
 # 3. Print the release version.
 echo "════════════════════════════════════════"
-echo " Atatus iOS Agent release: $TAG"
+echo " TowerSignal iOS Agent release: $TAG"
 echo " Commit: $(git rev-parse HEAD)"
 echo "════════════════════════════════════════"
 

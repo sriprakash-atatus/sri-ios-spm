@@ -5,7 +5,7 @@
 # Builds XCFrameworks from the specified repository and exports them to the designated output directory.
 
 # Options:
-#   --repo-path: The path to the root of the 'atatus-sdk-ios' repository.
+#   --repo-path: The path to the root of the 'towersignal-sdk-ios' repository.
 #   --ios: Includes iOS platform slices in the exported XCFrameworks.
 #   --tvos: Includes tvOS platform slices in the exported XCFrameworks.
 #   --output-path: The path to the output directory where XCFrameworks will be stored.
@@ -15,7 +15,7 @@ source ./tools/utils/argparse.sh
 source ./tools/utils/echo-color.sh
 
 set_description "Builds XCFrameworks from the specified repository and exports them to the designated output directory."
-define_arg "repo-path" "" "The path to the root of the 'atatus-sdk-ios' repository." "string" "true"
+define_arg "repo-path" "" "The path to the root of the 'towersignal-sdk-ios' repository." "string" "true"
 define_arg "ios" "false" "Includes iOS platform slices in the exported XCFrameworks." "store_true"
 define_arg "tvos" "false" "Includes tvOS platform slices in the exported XCFrameworks." "store_true"
 define_arg "output-path" "" "The path to the output directory where XCFrameworks will be stored." "string" "true"
@@ -108,20 +108,20 @@ export REPO_ROOT=$(realpath "$SCRIPT_DIR/../..")
 $REPO_ROOT/tools/carthage-shim.sh bootstrap --platform $PLATFORMS --use-xcframeworks
 cp -r "Carthage/Build/OpenTelemetryApi.xcframework" "$XCFRAMEWORKS_OUTPUT"
 
-# Build Atatus XCFrameworks
-build_xcframework AtatusInternal "$PLATFORMS"
-build_xcframework AtatusCore "$PLATFORMS"
-build_xcframework AtatusLogs "$PLATFORMS"
-build_xcframework AtatusTrace "$PLATFORMS"
-build_xcframework AtatusRUM "$PLATFORMS"
-build_xcframework AtatusCrashReporting "$PLATFORMS"
-build_xcframework AtatusFlags "$PLATFORMS"
-build_xcframework AtatusProfiling "$PLATFORMS"
+# Build TowerSignal XCFrameworks
+build_xcframework TowerSignalInternal "$PLATFORMS"
+build_xcframework TowerSignalCore "$PLATFORMS"
+build_xcframework TowerSignalLogs "$PLATFORMS"
+build_xcframework TowerSignalTrace "$PLATFORMS"
+build_xcframework TowerSignalRUM "$PLATFORMS"
+build_xcframework TowerSignalCrashReporting "$PLATFORMS"
+build_xcframework TowerSignalFlags "$PLATFORMS"
+build_xcframework TowerSignalProfiling "$PLATFORMS"
 
-# Build iOS-only Atatus XCFrameworks
+# Build iOS-only TowerSignal XCFrameworks
 if [[ "$ios" == "true" ]]; then
-    build_xcframework AtatusWebViewTracking "iOS"
-    build_xcframework AtatusSessionReplay "iOS"
+    build_xcframework TowerSignalWebViewTracking "iOS"
+    build_xcframework TowerSignalSessionReplay "iOS"
 fi
 
 rm -rf "$ARCHIVES_TEMP_OUTPUT"

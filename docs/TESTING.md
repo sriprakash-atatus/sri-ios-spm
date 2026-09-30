@@ -6,14 +6,14 @@
 - Use `TestUtilities` for mocks and helpers
 - Do not test Apple frameworks
 - Do not test purely generated code
-- Do not mock AtatusCore incorrectly (use provided helpers)
+- Do not mock TowerSignalCore incorrectly (use provided helpers)
 - No `sleep()` in unit tests — use expectations or synchronous test queues
 
 ## Mock Infrastructure
 
 | Convention | Usage | Example |
 |------------|-------|---------|
-| `.mockAny()` | Deterministic default — use when specific value doesn't matter | `AtatusContext.mockAny()` |
+| `.mockAny()` | Deterministic default — use when specific value doesn't matter | `TowerSignalContext.mockAny()` |
 | `.mockRandom()` | Randomized value — use for fuzz/property testing | `String.mockRandom()` |
 | `.mockWith(...)` | Customizable mock with named parameters for specific fields | `.mockWith(service: "test")` |
 
@@ -21,17 +21,17 @@
 
 | Type | Purpose | Location |
 |------|---------|----------|
-| `AtatusCoreProxy` | In-memory SDK instance that intercepts all events for assertions | `TestUtilities/Sources/Proxies/TowerSignalCoreProxy.swift` |
+| `TowerSignalCoreProxy` | In-memory SDK instance that intercepts all events for assertions | `TestUtilities/Sources/Proxies/TowerSignalCoreProxy.swift` |
 | `ServerMock` | HTTP mock server for network tests | `TestUtilities/Sources/Proxies/ServerMock.swift` |
 | `HTTPClientMock` | Mock HTTP client | `TestUtilities/Sources/Mocks/TowerSignalCore/` |
 | `PassthroughCoreMock` | Lightweight core mock that passes events through | `TestUtilities/Sources/Mocks/TowerSignalInternal/` |
 | `FeatureScopeMock` | Mock feature scope for isolated testing | `TestUtilities/Sources/Mocks/TowerSignalInternal/` |
 | `RUMSessionMatcher` | Groups RUM events by session, validates consistency | `TestUtilities/Sources/Matchers/` |
 
-## AtatusCoreProxy Usage Pattern
+## TowerSignalCoreProxy Usage Pattern
 
 ```swift
-let core = AtatusCoreProxy(context: .mockWith(service: "test-service"))
+let core = TowerSignalCoreProxy(context: .mockWith(service: "test-service"))
 defer { core.flushAndTearDown() }  // MUST be in defer
 
 RUM.enable(with: config, in: core)
@@ -62,7 +62,7 @@ let userViews = Array(session.views.dropFirst())
 ```
 
 Related helpers on `RUMSessionMatcher.View`:
-- `isApplicationLaunchView()` — checks `name == "ApplicationLaunch"` and `path == "com/atatus/application-launch/view"`
+- `isApplicationLaunchView()` — checks `name == "ApplicationLaunch"` and `path == "com/towersignal/application-launch/view"`
 - `isBackgroundView()` — checks for the synthetic "Background" view
 
 ## SwiftLint for Tests

@@ -89,8 +89,8 @@
                   <BuildableReference
                      BuildableIdentifier = "primary"
                      BlueprintIdentifier = "61441C2924616F1D003D8BB8"
-                     BuildableName = "AtatusIntegrationTests.xctest"
-                     BlueprintName = "AtatusIntegrationTests"
+                     BuildableName = "TowerSignalIntegrationTests.xctest"
+                     BlueprintName = "TowerSignalIntegrationTests"
                      ReferencedContainer = "container:TowerSignal.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
@@ -104,7 +104,7 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "ATATUS_CLIENT_TOKEN"
+            key = "TOWERSIGNAL_CLIENT_TOKEN"
             value = "$(DD_SDK_SWIFT_TESTING_CLIENT_TOKEN)"
             isEnabled = "YES">
          </EnvironmentVariable>
@@ -163,8 +163,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "61133B81242393DE00786299"
-            BuildableName = "Atatus.framework"
-            BlueprintName = "Atatus iOS"
+            BuildableName = "TowerSignal.framework"
+            BlueprintName = "TowerSignal iOS"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>

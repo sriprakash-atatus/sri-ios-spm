@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D29A9F3329DD84AA005C54A4"
-               BuildableName = "AtatusRUM.framework"
-               BlueprintName = "AtatusRUM"
+               BlueprintIdentifier = "D23039A4298D513C001A1FA3"
+               BuildableName = "TowerSignalInternal.framework"
+               BlueprintName = "TowerSignalInternal"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D29A9F3329DD84AA005C54A4"
-            BuildableName = "AtatusRUM.framework"
-            BlueprintName = "AtatusRUM"
+            BlueprintIdentifier = "D23039A4298D513C001A1FA3"
+            BuildableName = "TowerSignalInternal.framework"
+            BlueprintName = "TowerSignalInternal"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -183,9 +183,9 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D29A9F3329DD84AA005C54A4"
-            BuildableName = "AtatusRUM.framework"
-            BlueprintName = "AtatusRUM"
+            BlueprintIdentifier = "D23039A4298D513C001A1FA3"
+            BuildableName = "TowerSignalInternal.framework"
+            BlueprintName = "TowerSignalInternal"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
@@ -194,9 +194,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D29A9F3A29DD84AB005C54A4"
-               BuildableName = "AtatusRUMTests.xctest"
-               BlueprintName = "AtatusRUMTests"
+               BlueprintIdentifier = "D2DA2389298D588800C6C7E6"
+               BuildableName = "TowerSignalInternalTests.xctest"
+               BlueprintName = "TowerSignalInternalTests"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -222,9 +222,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D29A9F3329DD84AA005C54A4"
-            BuildableName = "AtatusRUM.framework"
-            BlueprintName = "AtatusRUM"
+            BlueprintIdentifier = "D23039A4298D513C001A1FA3"
+            BuildableName = "TowerSignalInternal.framework"
+            BlueprintName = "TowerSignalInternal"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

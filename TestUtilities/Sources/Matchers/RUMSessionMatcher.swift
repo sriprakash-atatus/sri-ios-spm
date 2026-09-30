@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 #if !AT_COMPILED_FOR_INTEGRATION_TESTS
 /// This file is compiled both for Unit and Integration tests.
-/// * The Unit Tests target can see `Atatus` by `@testable import AtatusCore`.
-/// * In Integration Tests target we want to compile `Atatus` in "Release" configuration, so testability is not possible.
+/// * The Unit Tests target can see `TowerSignal` by `@testable import TowerSignalCore`.
+/// * In Integration Tests target we want to compile `TowerSignal` in "Release" configuration, so testability is not possible.
 /// This compiler statement gives both targets the visibility of `RUMDataModels.swift` either by import or direct compilation.
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 #endif
 
 /// An error thrown by the `RUMSessionMatcher` if it spots an inconsistency in tracked RUM Session, e.g. when
@@ -540,12 +540,12 @@ extension Array where Element == RUMSessionMatcher.View {
 extension RUMSessionMatcher.View {
     /// Whether this is "application launch" view.
     public func isApplicationLaunchView() -> Bool {
-        return name == "ApplicationLaunch" && path == "com/atatus/application-launch/view"
+        return name == "ApplicationLaunch" && path == "com/towersignal/application-launch/view"
     }
 
     /// Whether this is "background" view.
     public func isBackgroundView() -> Bool {
-        return name == "Background" && path == "com/atatus/background/view"
+        return name == "Background" && path == "com/towersignal/background/view"
     }
 }
 

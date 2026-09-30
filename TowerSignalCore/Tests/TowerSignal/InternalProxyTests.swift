@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import Foundation
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusCore
+import TowerSignalInternal
+@testable import TowerSignalCore
 
 class InternalProxyTests: XCTestCase {
     let telemetry = TelemetryReceiverMock()
@@ -38,7 +38,7 @@ class InternalProxyTests: XCTestCase {
         let message: String = .mockAny()
 
         // When
-        Atatus._internal.telemetry.debug(id: id, message: message)
+        TowerSignal._internal.telemetry.debug(id: id, message: message)
 
         // Then
         XCTAssertEqual(telemetry.messages.count, 1)
@@ -58,7 +58,7 @@ class InternalProxyTests: XCTestCase {
         let kind: String = .mockAny()
 
         // When
-        Atatus._internal.telemetry.error(id: id, message: message, kind: kind, stack: stack)
+        TowerSignal._internal.telemetry.error(id: id, message: message, kind: kind, stack: stack)
 
         // Then
         XCTAssertEqual(telemetry.messages.count, 1)
@@ -77,8 +77,8 @@ class InternalProxyTests: XCTestCase {
         // When
         let randomDebugMessage: String = .mockRandom()
         let randomErrorMessage: String = .mockRandom()
-        Atatus._internal.telemetry.debug(id: .mockAny(), message: randomDebugMessage)
-        Atatus._internal.telemetry.error(id: .mockAny(), message: randomErrorMessage, kind: .mockAny(), stack: .mockAny())
+        TowerSignal._internal.telemetry.debug(id: .mockAny(), message: randomDebugMessage)
+        TowerSignal._internal.telemetry.error(id: .mockAny(), message: randomErrorMessage, kind: .mockAny(), stack: .mockAny())
 
         // Then
         XCTAssertEqual(telemetry.messages.count, 2)
@@ -92,18 +92,18 @@ class InternalProxyTests: XCTestCase {
 
     func testWhenNewVersionIsSetInConfigurationProxy_thenItChangesAppVersionInCore() throws {
         // Given
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: .mockAny(),
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
         // When
         let randomVersion: String = .mockRandom()
-        Atatus._internal.set(customVersion: randomVersion)
+        TowerSignal._internal.set(customVersion: randomVersion)
 
         // Then
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         XCTAssertEqual(core.applicationVersionPublisher.version, randomVersion)
     }
 }

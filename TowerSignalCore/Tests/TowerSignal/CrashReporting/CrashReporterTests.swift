@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`,
-// `ddCrashReporting` -> `AtatusCrashReporting`, `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded
-// the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`,
+// `ddCrashReporting` -> `TowerSignalCrashReporting`, `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded
+// the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-import AtatusLogs
+import TowerSignalInternal
+import TowerSignalLogs
 
-@testable import AtatusCore
-@testable import AtatusCrashReporting
+@testable import TowerSignalCore
+@testable import TowerSignalCrashReporting
 
 class CrashReporterTests: XCTestCase {
     // MARK: - Sending Crash Report
@@ -243,7 +243,7 @@ class CrashReporterTests: XCTestCase {
         expectation.expectedFulfillmentCount = 100
         expectation.assertForOverFulfill = false // to mitigate the call for initial context injection
 
-        // State mutated by the mock plugin implementation - `AtatusCrashReporter` ensures its thread safety
+        // State mutated by the mock plugin implementation - `TowerSignalCrashReporter` ensures its thread safety
         var mutableState: Bool = .random()
 
         let plugin = CrashReportingPluginMock()
@@ -309,7 +309,7 @@ class CrashReporterTests: XCTestCase {
 
         XCTAssert(logs.contains(where: { $0.message == """
             In order to use Crash Reporting, RUM feature must be enabled.
-            Make sure `RUM.enable(with:)` is called when initializing Atatus SDK.
+            Make sure `RUM.enable(with:)` is called when initializing TowerSignal SDK.
             """
         }))
     }

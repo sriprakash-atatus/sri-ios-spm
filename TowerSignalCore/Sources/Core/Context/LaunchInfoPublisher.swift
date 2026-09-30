@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddPrivate` -> `AtatusPrivate`; renamed the `__dd_private_*` ObjC symbols to `__atatus_private_*`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddPrivate` -> `TowerSignalPrivate`; renamed the `__dd_private_*` ObjC symbols to `__towersignal_private_*`;
 // rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 // swiftlint:disable duplicate_imports
 #if SPM_BUILD
     #if swift(>=6.0)
-    internal import AtatusPrivate
+    internal import TowerSignalPrivate
     #else
-    @_implementationOnly import AtatusPrivate
+    @_implementationOnly import TowerSignalPrivate
     #endif
 #endif
 // swiftlint:enable duplicate_imports
@@ -26,9 +26,9 @@ internal protocol AppLaunchHandling {
     /// The current process’s task policy role (`task_role_t`), indicating how the process was started (e.g., user vs background launch).
     /// On success, the property contains the raw [`policy.role`](https://developer.apple.com/documentation/kernel/task_role_t) value
     /// defined in `MachO`; otherwise, it returns one of the special constants defined in `ObjcAppLaunchHandler.h`:
-    /// - `__atatus_private_TASK_POLICY_KERN_FAILURE`
-    /// - `__atatus_private_TASK_POLICY_DEFAULTED`
-    /// - `__atatus_private_TASK_POLICY_UNAVAILABLE`
+    /// - `__towersignal_private_TASK_POLICY_KERN_FAILURE`
+    /// - `__towersignal_private_TASK_POLICY_DEFAULTED`
+    /// - `__towersignal_private_TASK_POLICY_UNAVAILABLE`
     var taskPolicyRole: Int { get }
 
     /// The date when the application process was launched.
@@ -46,10 +46,10 @@ internal protocol AppLaunchHandling {
     func setApplicationNotificationCallback(_ callback: @escaping UIApplicationNotificationCallback)
 }
 
-/// Conforms `__atatus_private_AppLaunchHandler` (objc) to `AppLaunchHandling` (Swift).
-extension __atatus_private_AppLaunchHandler: AppLaunchHandling {}
+/// Conforms `__towersignal_private_AppLaunchHandler` (objc) to `AppLaunchHandling` (Swift).
+extension __towersignal_private_AppLaunchHandler: AppLaunchHandling {}
 
-internal typealias AppLaunchHandler = __atatus_private_AppLaunchHandler
+internal typealias AppLaunchHandler = __towersignal_private_AppLaunchHandler
 
 extension AppLaunchHandling {
     /// Resolves the current launch information using internal state and provided `ProcessInfo`.
@@ -68,7 +68,7 @@ extension AppLaunchHandling {
 
     private func resolveLaunchReason(using processInfo: ProcessInfo) -> LaunchReason {
         let isUserLaunch = taskPolicyRole == TASK_FOREGROUND_APPLICATION.rawValue
-        let isUnavailable = taskPolicyRole == __atatus_private_TASK_POLICY_UNAVAILABLE
+        let isUnavailable = taskPolicyRole == __towersignal_private_TASK_POLICY_UNAVAILABLE
 
         guard !isUnavailable else {
             return .uncertain
@@ -99,9 +99,9 @@ extension AppLaunchHandling {
         case Int(TASK_RENICED.rawValue):                    return "TASK_RENICED"
         case Int(TASK_THROTTLE_APPLICATION.rawValue):       return "TASK_THROTTLE_APPLICATION"
         case Int(TASK_UNSPECIFIED.rawValue):                return "TASK_UNSPECIFIED"
-        case __atatus_private_TASK_POLICY_UNAVAILABLE:          return "__atatus_private_TASK_POLICY_UNAVAILABLE"
-        case __atatus_private_TASK_POLICY_DEFAULTED:            return "__atatus_private_TASK_POLICY_DEFAULTED"
-        case __atatus_private_TASK_POLICY_KERN_FAILURE:         return "__atatus_private_TASK_POLICY_KERN_FAILURE"
+        case __towersignal_private_TASK_POLICY_UNAVAILABLE:          return "__towersignal_private_TASK_POLICY_UNAVAILABLE"
+        case __towersignal_private_TASK_POLICY_DEFAULTED:            return "__towersignal_private_TASK_POLICY_DEFAULTED"
+        case __towersignal_private_TASK_POLICY_KERN_FAILURE:         return "__towersignal_private_TASK_POLICY_KERN_FAILURE"
         default:
             return "unknown (\(taskPolicyRole))"
         }

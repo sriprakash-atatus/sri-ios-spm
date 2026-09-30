@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal final class AppHangsMonitor {
     enum Constants {
@@ -17,7 +17,7 @@ internal final class AppHangsMonitor {
         /// The standardized `error.type` for RUM errors describing an app hang.
         static let appHangErrorType = "AppHang"
         /// The standardized `error.stack` when backtrace generation was not available.
-        static let appHangStackNotAvailableErrorMessage = "Stack trace was not collected because `AtatusCrashReporting` had not been enabled."
+        static let appHangStackNotAvailableErrorMessage = "Stack trace was not collected because `TowerSignalCrashReporting` had not been enabled."
         /// The standardized `error.stack` when backtrace generation failed due to an internal error.
         static let appHangStackGenerationFailedErrorMessage = "Failed to collect the stack trace."
     }

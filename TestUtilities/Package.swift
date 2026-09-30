@@ -1,5 +1,5 @@
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the `dd` name to
-// `Atatus` in comments and docs.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs.
 
 // swift-tools-version: 5.10
 
@@ -21,19 +21,19 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(name: "Atatus", path: ".."),
+        .package(name: "TowerSignal", path: ".."),
     ],
     targets: [
         .target(
             name: "TestUtilities",
             dependencies: [
-                .product(name: "AtatusCore", package: "Atatus"),
-                .product(name: "AtatusRUM", package: "Atatus"),
-                .product(name: "AtatusLogs",package: "Atatus"),
-                .product(name: "AtatusTrace",package: "Atatus"),
-                .product(name: "AtatusCrashReporting",package: "Atatus"),
-                .product(name: "AtatusSessionReplay", package: "Atatus"),
-                .product(name: "AtatusWebViewTracking",package: "Atatus")
+                .product(name: "TowerSignalCore", package: "TowerSignal"),
+                .product(name: "TowerSignalRUM", package: "TowerSignal"),
+                .product(name: "TowerSignalLogs",package: "TowerSignal"),
+                .product(name: "TowerSignalTrace",package: "TowerSignal"),
+                .product(name: "TowerSignalCrashReporting",package: "TowerSignal"),
+                .product(name: "TowerSignalSessionReplay", package: "TowerSignal"),
+                .product(name: "TowerSignalWebViewTracking",package: "TowerSignal")
             ],
             path: ".",
             sources: ["Sources"],

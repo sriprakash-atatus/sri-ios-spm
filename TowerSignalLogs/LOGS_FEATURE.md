@@ -15,19 +15,19 @@ tracked_files:
 
 ## Overview
 
-Logs sends structured log events to Atatus. Loggers are created per-component and support log levels, tags, custom attributes, and optional console output. Logs requires initialization via `Atatus.initialize()` before enabling.
+Logs sends structured log events to TowerSignal. Loggers are created per-component and support log levels, tags, custom attributes, and optional console output. Logs requires initialization via `TowerSignal.initialize()` before enabling.
 
 **Platform**: iOS, tvOS, watchOS, visionOS
 
 ## Quick Start Example
 
 ```swift
-import AtatusCore
-import AtatusLogs
+import TowerSignalCore
+import TowerSignalLogs
 
 // 1. Initialize Core SDK first
-Atatus.initialize(
-    with: Atatus.Configuration(
+TowerSignal.initialize(
+    with: TowerSignal.Configuration(
         licenseKey: "<client_token>",
         env: "<environment>"
     ),
@@ -50,8 +50,8 @@ Logs.enable(
         },
 
         // Custom intake endpoint for log data. Expects a full URL and takes
-        // precedence over the core-level `Atatus.Configuration.serverUrl`.
-        // Default: nil (uses Atatus intake, `<serverUrl or site>/v1/ios/logs`)
+        // precedence over the core-level `TowerSignal.Configuration.serverUrl`.
+        // Default: nil (uses TowerSignal intake, `<serverUrl or site>/v1/ios/logs`)
         customEndpoint: nil
     )
 )
@@ -164,7 +164,7 @@ logger.error(
 - **Logger name**: `name` — reported as `logger.name` on log events.
 - **Network info**: `networkInfoEnabled` (default: `false`) — attaches reachability, connection type, mobile carrier to every log.
 - **RUM bundling**: `bundleWithRumEnabled` (default: `true`) — attaches `application_id`, `session_id`, `view.id`, `user_action.id` when a sampled-in RUM session is active.
-- **Trace bundling**: `bundleWithTraceEnabled` (default: `true`) — attaches `dd.trace_id` and `dd.span_id` when a Atatus span is active (via `span.setActive()` from `Tracer.shared()`). OTel spans activated through `withActiveSpan` do not propagate through this path.
+- **Trace bundling**: `bundleWithTraceEnabled` (default: `true`) — attaches `dd.trace_id` and `dd.span_id` when a TowerSignal span is active (via `span.setActive()` from `Tracer.shared()`). OTel spans activated through `withActiveSpan` do not propagate through this path.
 
 ### Console Output
 - `consoleLogFormat: nil` (default) — no console output.
@@ -187,8 +187,8 @@ logger.addAttribute(forKey: "user.plan", value: "pro") // searchable attribute
 
 ## Common Troubleshooting Patterns
 
-### "No logs appearing in Atatus"
-1. Check `Atatus.initialize()` and `Logs.enable()` were called before creating loggers.
+### "No logs appearing in TowerSignal"
+1. Check `TowerSignal.initialize()` and `Logs.enable()` were called before creating loggers.
 2. Verify `remoteSampleRate` is > 0.
 3. Verify `remoteLogThreshold` — logs below the threshold are silently dropped before upload.
 4. Check if `eventMapper` is returning `nil` for those events.
@@ -207,11 +207,11 @@ logger.addAttribute(forKey: "user.plan", value: "pro") // searchable attribute
 2. Confirm `bundleWithTraceEnabled: true` (default) on the logger.
 
 ### "Logger.create() returns a no-op logger"
-Returned when `Atatus.initialize()` was not called or `Logs.enable()` was not called. Check the console for `ProgrammerError` messages via `consolePrint`.
+Returned when `TowerSignal.initialize()` was not called or `Logs.enable()` was not called. Check the console for `ProgrammerError` messages via `consolePrint`.
 
 ## Feature Interactions
 
-- **RUM**: When `bundleWithRumEnabled` is `true` and the current RUM session is sampled in, logs are enriched with the current RUM view / session / action IDs for correlation in Atatus.
+- **RUM**: When `bundleWithRumEnabled` is `true` and the current RUM session is sampled in, logs are enriched with the current RUM view / session / action IDs for correlation in TowerSignal.
 - **Trace**: When `bundleWithTraceEnabled` is `true` and an active span is present (via `Tracer.shared()` or `OTelTracerProvider`), logs are enriched with `dd.trace_id` and `dd.span_id`. Span logs written via `OTSpan.log(...)` also flow through the Logs feature — if Logs is not enabled, those span logs are dropped.
 
 ## Additional Context

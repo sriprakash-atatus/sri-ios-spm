@@ -1,20 +1,20 @@
 abstract_target 'Common' do
   pod 'OpenTelemetry-Swift-Api', '2.5.0'
-  pod 'AtatusInternal', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
-  pod 'AtatusCore', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
-  pod 'AtatusLogs', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
-  pod 'AtatusTrace', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
-  pod 'AtatusRUM', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
-  pod 'AtatusCore', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
-  pod 'AtatusSessionReplay', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
-  pod 'AtatusCrashReporting', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
-  pod 'AtatusFlags', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
-  pod 'AtatusProfiling', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalInternal', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalCore', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalLogs', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalTrace', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalRUM', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalCore', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalSessionReplay', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalCrashReporting', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalFlags', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
+  pod 'TowerSignalProfiling', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
 
   target 'App Dynamic iOS' do
     platform :ios, '13.0'
     use_frameworks!
-    pod 'AtatusWebViewTracking', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
+    pod 'TowerSignalWebViewTracking', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
 
     target 'App Dynamic iOS Tests' do
       inherit! :search_paths
@@ -23,7 +23,7 @@ abstract_target 'Common' do
 
   target 'App Static iOS' do
     platform :ios, '13.0'
-    pod 'AtatusWebViewTracking', :git => 'https://github.com/Atatus/atatus-sdk-ios.git', :GIT_REFERENCE
+    pod 'TowerSignalWebViewTracking', :git => 'https://github.com/TowerSignal/towersignal-sdk-ios.git', :GIT_REFERENCE
 
     target 'App Static iOS Tests' do
       inherit! :search_paths

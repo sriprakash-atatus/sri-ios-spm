@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; rebranded the
 // licence header.
 
 #if os(iOS)
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Session Replay Telemetry forwards telemetry events on a dedicated queue
 /// and deduplicate debug and error messages based on their ids.
@@ -28,7 +28,7 @@ internal final class SessionReplayTelemetry {
 }
 
 extension SessionReplayTelemetry: Telemetry {
-    func send(telemetry: AtatusInternal.TelemetryMessage) {
+    func send(telemetry: TowerSignalInternal.TelemetryMessage) {
         queue.run { [weak self] in
             guard let self else {
                 return

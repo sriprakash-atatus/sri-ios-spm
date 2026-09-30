@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D207317B29A5226A00ECBF94"
-               BuildableName = "AtatusLogs.framework"
-               BlueprintName = "AtatusLogs"
+               BuildableName = "TowerSignalLogs.framework"
+               BlueprintName = "TowerSignalLogs"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D207317B29A5226A00ECBF94"
-            BuildableName = "AtatusLogs.framework"
-            BlueprintName = "AtatusLogs"
+            BuildableName = "TowerSignalLogs.framework"
+            BlueprintName = "TowerSignalLogs"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -184,8 +184,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D207317B29A5226A00ECBF94"
-            BuildableName = "AtatusLogs.framework"
-            BlueprintName = "AtatusLogs"
+            BuildableName = "TowerSignalLogs.framework"
+            BlueprintName = "TowerSignalLogs"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
@@ -195,8 +195,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D207318229A5226A00ECBF94"
-               BuildableName = "AtatusLogsTests.xctest"
-               BlueprintName = "AtatusLogsTests"
+               BuildableName = "TowerSignalLogsTests.xctest"
+               BlueprintName = "TowerSignalLogsTests"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -223,8 +223,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D207317B29A5226A00ECBF94"
-            BuildableName = "AtatusLogs.framework"
-            BlueprintName = "AtatusLogs"
+            BuildableName = "TowerSignalLogs.framework"
+            BlueprintName = "TowerSignalLogs"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

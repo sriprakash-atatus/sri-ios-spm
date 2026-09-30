@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 import OpenTelemetryApi
 
-@testable import AtatusTrace
+@testable import TowerSignalTrace
 
-final class OTelAttributeValueAtatusTests: XCTestCase {
+final class OTelAttributeValueTowerSignalTests: XCTestCase {
     func testTags_givenMultipleLevelsAttributes() {
         // Given
         let attributes = makeAttributes(level: 3)

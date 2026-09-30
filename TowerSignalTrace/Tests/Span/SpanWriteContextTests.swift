@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
 // `AT`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusTrace
+import TowerSignalInternal
+@testable import TowerSignalTrace
 
 class SpanWriteContextTests: XCTestCase {
     private let featureScope = FeatureScopeMock()
@@ -20,7 +20,7 @@ class SpanWriteContextTests: XCTestCase {
     func testWhenRequestingSpanWriteContext_itProvidesInitialCoreContext() {
         let retrieveContext = expectation(description: "provide core context")
 
-        let initialContext: AtatusContext = .mockRandom()
+        let initialContext: TowerSignalContext = .mockRandom()
         featureScope.contextMock = initialContext
 
         // Given

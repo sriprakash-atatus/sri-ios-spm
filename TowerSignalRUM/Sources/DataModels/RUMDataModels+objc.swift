@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `DD` symbol prefix to `AT`; renamed the `ddsource` / `ddtags` query parameters to `atatus_source` /
-// `atatustags`; scrubbed the remaining `dd` name to `dd` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `DD` symbol prefix to `AT`; renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` /
+// `towersignaltags`; scrubbed the remaining `dd` name to `dd` in comments and docs; rebranded the licence
 // header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 // This file was generated from JSON Schema. Do not modify it directly.
 
@@ -71,8 +71,8 @@ public class objc_RUMActionEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMActionEventDevice? {
@@ -1335,8 +1335,8 @@ public class objc_RUMErrorEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMErrorEventDevice? {
@@ -3284,8 +3284,8 @@ public class objc_RUMLongTaskEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMLongTaskEventDevice? {
@@ -4591,8 +4591,8 @@ public class objc_RUMResourceEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMResourceEventDevice? {
@@ -6269,8 +6269,8 @@ public class objc_RUMTimeseriesCpuEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMTimeseriesCpuEventDevice? {
@@ -7194,8 +7194,8 @@ public class objc_RUMTimeseriesMemoryEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMTimeseriesMemoryEventDevice? {
@@ -8127,8 +8127,8 @@ public class objc_RUMViewEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMViewEventDevice? {
@@ -10288,8 +10288,8 @@ public class objc_RUMViewUpdateEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMViewUpdateEventDevice? {
@@ -12449,8 +12449,8 @@ public class objc_RUMVitalAppLaunchEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMVitalAppLaunchEventDevice? {
@@ -13609,8 +13609,8 @@ public class objc_RUMVitalDurationEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMVitalDurationEventDevice? {
@@ -14708,8 +14708,8 @@ public class objc_RUMVitalOperationStepEvent: NSObject {
         root.swiftModel.date as NSNumber
     }
 
-    public var atatusTags: String? {
-        root.swiftModel.atatusTags
+    public var towersignalTags: String? {
+        root.swiftModel.towersignalTags
     }
 
     public var device: objc_RUMVitalOperationStepEventDevice? {
@@ -16591,7 +16591,7 @@ public enum objc_TelemetryConfigurationEventTelemetryConfigurationSelectedTracin
     internal init(swift: TelemetryConfigurationEvent.Telemetry.Configuration.SelectedTracingPropagators?) {
         switch swift {
         case nil: self = .none
-        case .atatus?: self = .atatus
+        case .towersignal?: self = .towersignal
         case .b3?: self = .b3
         case .b3multi?: self = .b3multi
         case .tracecontext?: self = .tracecontext
@@ -16601,7 +16601,7 @@ public enum objc_TelemetryConfigurationEventTelemetryConfigurationSelectedTracin
     internal var toSwift: TelemetryConfigurationEvent.Telemetry.Configuration.SelectedTracingPropagators? {
         switch self {
         case .none: return nil
-        case .atatus: return .atatus
+        case .towersignal: return .towersignal
         case .b3: return .b3
         case .b3multi: return .b3multi
         case .tracecontext: return .tracecontext
@@ -16609,7 +16609,7 @@ public enum objc_TelemetryConfigurationEventTelemetryConfigurationSelectedTracin
     }
 
     case none
-    case atatus
+    case towersignal
     case b3
     case b3multi
     case tracecontext

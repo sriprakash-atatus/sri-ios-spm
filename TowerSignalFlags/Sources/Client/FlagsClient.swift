@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// A client for evaluating feature flags in your application.
 ///
@@ -95,7 +95,7 @@ public final class FlagsClient {
     ///
     /// - Parameters:
     ///   - name: A unique name for this client. Defaults to ``defaultName``.
-    ///   - core: The Atatus SDK core instance. Defaults to the global shared instance.
+    ///   - core: The TowerSignal SDK core instance. Defaults to the global shared instance.
     ///
     /// - Returns: A `FlagsClientProtocol` instance for evaluating flags.
     ///
@@ -105,7 +105,7 @@ public final class FlagsClient {
     @discardableResult
     public static func create(
         name: String = FlagsClient.defaultName,
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) -> FlagsClientProtocol {
         // To ensure the correct registration order between Core and Features,
         // the entire initialization flow is synchronized on the main thread.
@@ -129,14 +129,14 @@ public final class FlagsClient {
     ///
     /// - Parameters:
     ///   - name: The name of the client to retrieve. Defaults to ``defaultName``.
-    ///   - core: The Atatus SDK core instance. Defaults to the global shared instance.
+    ///   - core: The TowerSignal SDK core instance. Defaults to the global shared instance.
     ///
     /// - Returns: A `FlagsClientProtocol` instance. Returns a no-op client if the requested client doesn't exist.
     ///
     /// - Important: The client must first be created with ``create(name:in:)``.
     public static func shared(
         named name: String = FlagsClient.defaultName,
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) -> FlagsClientProtocol {
         guard
             let clientRegistry = core.get(feature: FlagsFeature.self)?.clientRegistry,
@@ -158,7 +158,7 @@ public final class FlagsClient {
 
     internal static func doCreate(
         name: String,
-        in core: AtatusCoreProtocol
+        in core: TowerSignalCoreProtocol
     ) -> FlagsClientProtocol {
         guard let feature = core.get(feature: FlagsFeature.self) else {
             reportIssue(

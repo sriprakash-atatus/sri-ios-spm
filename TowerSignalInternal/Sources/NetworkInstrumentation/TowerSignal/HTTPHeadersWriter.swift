@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `_dd` attribute prefix to `_atatus`; renamed the `x-dd-*`
-// trace headers to `x-atatus-*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed the `_dd` attribute prefix to `_towersignal`; renamed the `x-dd-*`
+// trace headers to `x-towersignal-*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
 
 /// The `HTTPHeadersWriter` class facilitates the injection of trace propagation headers into network requests
-/// targeted at a backend instrumented with Atatus and expecting `x-atatus-*` headers.
+/// targeted at a backend instrumented with TowerSignal and expecting `x-towersignal-*` headers.
 ///
 /// Usage:
 ///
@@ -71,9 +71,9 @@ public class HTTPHeadersWriter: TracePropagationHeadersWriter {
         ]
         traceHeaderFields[TracingHTTPHeaders.traceIDField] = String(traceContext.traceID.idLo)
         traceHeaderFields[TracingHTTPHeaders.parentSpanIDField] = String(traceContext.spanID, representation: .decimal)
-        var tags = ["_atatus.p.tid=\(traceContext.traceID.idHiHex)"]
+        var tags = ["_towersignal.p.tid=\(traceContext.traceID.idHiHex)"]
         if traceContext.samplingPriority.isKept {
-            tags.append("_atatus.p.dm=-\(traceContext.samplingDecisionMaker.rawValue)")
+            tags.append("_towersignal.p.dm=-\(traceContext.samplingDecisionMaker.rawValue)")
         }
         traceHeaderFields[TracingHTTPHeaders.tagsField] = tags.joined(separator: ",")
         var baggageItems: [String] = []

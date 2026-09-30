@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddRUM` ->
-// `AtatusRUM`, `ddTrace` -> `AtatusTrace`; repointed the intake host at the Atatus site; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddRUM` ->
+// `TowerSignalRUM`, `ddTrace` -> `TowerSignalTrace`; repointed the intake host at the TowerSignal site; rebranded the
 // licence header.
 
 import Foundation
-import AtatusCore
-import AtatusTrace
-import AtatusRUM
+import TowerSignalCore
+import TowerSignalTrace
+import TowerSignalRUM
 
 /// Base scenario for `URLSession` and `NSURLSession` instrumentation.  It makes
 /// both Swift and Objective-C tests share the same endpoints and SDK configuration.
@@ -75,9 +75,9 @@ class URLSessionBaseScenario: NSObject {
                 return request
             }()
         } else {
-            customGETResourceURL = URL(string: "https://www.atatus.com/")!
+            customGETResourceURL = URL(string: "https://www.towersignal.com/")!
             customPOSTRequest = {
-                var request = URLRequest(url: URL(string: "https://www.atatus.com/")!)
+                var request = URLRequest(url: URL(string: "https://www.towersignal.com/")!)
                 request.httpMethod = "POST"
                 request.addValue("dataTaskWithRequest", forHTTPHeaderField: "creation-method")
                 return request

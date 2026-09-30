@@ -1,26 +1,26 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddRUM` ->
-// `AtatusRUM`; renamed the `DD` symbol prefix to `AT`; renamed `clientToken` to `licenseKey`; rebranded the
-// `dd` name to `Atatus` in comments and docs; scrubbed the remaining `dd` name to `dd` in
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddRUM` ->
+// `TowerSignalRUM`; renamed the `DD` symbol prefix to `AT`; renamed `clientToken` to `licenseKey`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; scrubbed the remaining `dd` name to `dd` in
 // comments and docs; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusRUM
+import TowerSignalRUM
 @_spi(objc)
-@testable import AtatusCore
+@testable import TowerSignalCore
 
-/// These tests verify that Objc APIs properly interact with`Atatus` public API (swift).
+/// These tests verify that Objc APIs properly interact with`TowerSignal` public API (swift).
 class ATConfigurationTests: XCTestCase {
     func testDefaultBuilderForwardsInitializationToSwift() throws {
         let objcConfig = objc_Configuration(licenseKey: "abc-123", env: "tests")
         XCTAssertEqual(objcConfig.sdkConfiguration.licenseKey, "abc-123")
-        XCTAssertEqual(objcConfig.sdkConfiguration.site, .atatus) // ATCHG: default site is the Atatus intake
+        XCTAssertEqual(objcConfig.sdkConfiguration.site, .towersignal) // ATCHG: default site is the TowerSignal intake
         XCTAssertEqual(objcConfig.sdkConfiguration.env, "tests")
         XCTAssertNil(objcConfig.sdkConfiguration.service)
         XCTAssertEqual(objcConfig.sdkConfiguration.batchSize, .medium)
@@ -34,9 +34,9 @@ class ATConfigurationTests: XCTestCase {
     func testCustomizedBuilderForwardsInitializationToSwift() throws {
         let objcConfig = objc_Configuration(licenseKey: "abc-123", env: "tests")
 
-        // ATCHG: only the Atatus site remains, replacing the nine dd region accessors
-        objcConfig.site = .atatus()
-        XCTAssertEqual(objcConfig.sdkConfiguration.site, .atatus)
+        // ATCHG: only the TowerSignal site remains, replacing the nine dd region accessors
+        objcConfig.site = .towersignal()
+        XCTAssertEqual(objcConfig.sdkConfiguration.site, .towersignal)
         // ATCHG: End
 
         objcConfig.service = "service-name"

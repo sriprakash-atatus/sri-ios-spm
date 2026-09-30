@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal struct WebViewRecordReceiver: FeatureMessageReceiver {
     internal struct WebRecord: Encodable {
@@ -25,7 +25,7 @@ internal struct WebViewRecordReceiver: FeatureMessageReceiver {
     /// Session Replay feature scope.
     let scope: FeatureScope
 
-    func receive(message: AtatusInternal.FeatureMessage, from core: AtatusInternal.AtatusCoreProtocol) -> Bool {
+    func receive(message: TowerSignalInternal.FeatureMessage, from core: TowerSignalInternal.TowerSignalCoreProtocol) -> Bool {
         guard case let .webview(.record(event, view)) = message else {
             return false
         }

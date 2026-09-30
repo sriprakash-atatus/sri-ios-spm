@@ -96,7 +96,7 @@ custom_rules:
     excluded_match_kinds: 
       - comment
       - doccomment
-    message: "`URLRequest.allHTTPHeaderFields` is considered unsafe. Prefer using `URLRequest.value(forHTTPHeaderField:)`. See full context in https://github.com/atatus/atatus-sdk-ios/pull/1843"
+    message: "`URLRequest.allHTTPHeaderFields` is considered unsafe. Prefer using `URLRequest.value(forHTTPHeaderField:)`. See full context in https://github.com/towersignal/towersignal-sdk-ios/pull/1843"
     severity: error
   required_reason_api_name: # prevents from declaring symbols that may conflict with Apple's Required Reason APIs
     included: Sources

@@ -30,7 +30,7 @@
 		61B3BC652993BEAF0032C78A /* SRSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B3BC642993BEAF0032C78A /* SRSnapshotTests.swift */; };
 		61BB975F2A5D675400AFFF86 /* ImageComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BB975E2A5D675400AFFF86 /* ImageComposition.swift */; };
 		61C06D6029D487E7007521D8 /* Framer in Frameworks */ = {isa = PBXBuildFile; productRef = 61C06D5F29D487E7007521D8 /* Framer */; };
-		61E4305A2A6FE3B000B71899 /* AtatusSessionReplay in Frameworks */ = {isa = PBXBuildFile; productRef = 61E430592A6FE3B000B71899 /* AtatusSessionReplay */; };
+		61E4305A2A6FE3B000B71899 /* TowerSignalSessionReplay in Frameworks */ = {isa = PBXBuildFile; productRef = 61E430592A6FE3B000B71899 /* TowerSignalSessionReplay */; };
 		61E7DFB7299A57A9001D7A3A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E7DFB6299A57A9001D7A3A /* MenuViewController.swift */; };
 		6B9225BBC49B4ED5A8DF83B8 /* CompositionTreeRendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7BB74178C964F7494FD694D /* CompositionTreeRendering.swift */; };
 		71178A2E51724DE08237F169 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA0067C2E49F8B3000148DB /* UIColor+Hex.swift */; };
@@ -114,7 +114,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61C06D6029D487E7007521D8 /* Framer in Frameworks */,
-				61E4305A2A6FE3B000B71899 /* AtatusSessionReplay in Frameworks */,
+				61E4305A2A6FE3B000B71899 /* TowerSignalSessionReplay in Frameworks */,
 				619CFC482A8F7AA5004CF2DF /* SRFixtures in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,7 +283,7 @@
 			name = SRHost;
 			packageProductDependencies = (
 				61C06D5F29D487E7007521D8 /* Framer */,
-				61E430592A6FE3B000B71899 /* AtatusSessionReplay */,
+				61E430592A6FE3B000B71899 /* TowerSignalSessionReplay */,
 				619CFC472A8F7AA5004CF2DF /* SRFixtures */,
 			);
 			productName = SRHost;
@@ -625,7 +625,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatus.SRSnapshotTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignal.SRSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -652,7 +652,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatus.SRSnapshotTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignal.SRSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -672,7 +672,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatus.SRSnapshotTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignal.SRSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SRHost.app/SRHost";
@@ -689,7 +689,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatus.SRSnapshotTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignal.SRSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SRHost.app/SRHost";
@@ -706,7 +706,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatus.SRLayerSnapshotTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignal.SRLayerSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SRHost.app/SRHost";
@@ -723,7 +723,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatus.SRLayerSnapshotTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignal.SRLayerSnapshotTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SRHost.app/SRHost";
@@ -792,9 +792,9 @@
 			package = 61C06D5E29D487E7007521D8 /* XCRemoteSwiftPackageReference "Framer" */;
 			productName = Framer;
 		};
-		61E430592A6FE3B000B71899 /* AtatusSessionReplay */ = {
+		61E430592A6FE3B000B71899 /* TowerSignalSessionReplay */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AtatusSessionReplay;
+			productName = TowerSignalSessionReplay;
 		};
 		D2F37BFA2A40A2CF004A28A4 /* TestUtilities */ = {
 			isa = XCSwiftPackageProductDependency;

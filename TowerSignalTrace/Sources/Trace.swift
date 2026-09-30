@@ -1,28 +1,28 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
 @_spi(Internal)
-@preconcurrency import AtatusInternal
+@preconcurrency import TowerSignalInternal
 
-/// An entry point to Atatus Trace feature.
+/// An entry point to TowerSignal Trace feature.
 public enum Trace {
-    /// Enables Atatus Trace feature.
+    /// Enables TowerSignal Trace feature.
     ///
     /// After Trace is enabled, use `Tracer.shared(in:)` to collect spans.
     ///
     /// - Parameters:
     ///   - configuration: Configuration of the feature.
-    ///   - core: The instance of Atatus SDK to enable Trace in (global instance by default).
+    ///   - core: The instance of TowerSignal SDK to enable Trace in (global instance by default).
     public static func enable(
-        with configuration: Trace.Configuration = .init(), in core: AtatusCoreProtocol = CoreRegistry.default
+        with configuration: Trace.Configuration = .init(), in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
         do {
             // To ensure the correct registration order between Core and Features,
@@ -36,11 +36,11 @@ public enum Trace {
     }
 
     internal static func enableOrThrow(
-        with configuration: Trace.Configuration, in core: AtatusCoreProtocol
+        with configuration: Trace.Configuration, in core: TowerSignalCoreProtocol
     ) throws {
-        guard !(core is NOPAtatusCore) else {
+        guard !(core is NOPTowerSignalCore) else {
             throw ProgrammerError(
-                description: "Atatus SDK must be initialized before calling `Trace.enable(with:)`."
+                description: "TowerSignal SDK must be initialized before calling `Trace.enable(with:)`."
             )
         }
 

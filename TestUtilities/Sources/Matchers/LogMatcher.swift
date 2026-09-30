@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` members to `at*`; renamed the `_dd` attribute prefix to
-// `_atatus`; renamed the `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`;
+// ATCHG: TowerSignal SDK migration - renamed `dd*` members to `at*`; renamed the `_dd` attribute prefix to
+// `_towersignal`; renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`;
 // rebranded the licence header.
 
 import XCTest
@@ -19,7 +19,7 @@ public class LogMatcher: JSONDataMatcher {
         static let status = "status"
         static let message = "message"
         static let service = "service"
-        static let tags = "atatusTags"
+        static let tags = "towersignalTags"
 
         // MARK: - Application info
 
@@ -67,7 +67,7 @@ public class LogMatcher: JSONDataMatcher {
         public static let errorFingerprint = "error.fingerprint"
 
         // MARK: - Dd info
-        static let dd = "_atatus"
+        static let dd = "_towersignal"
         static let atDevice = "device"
         static let atDeviceArchitecture = "architecture"
     }

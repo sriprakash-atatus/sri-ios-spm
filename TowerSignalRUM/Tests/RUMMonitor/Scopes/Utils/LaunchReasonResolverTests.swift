@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded
 // the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 
 class LaunchReasonResolverTests: XCTestCase {
     private let threshold = LaunchReasonResolver.Constants.launchWindowThreshold
@@ -27,12 +27,12 @@ class LaunchReasonResolverTests: XCTestCase {
     /// Sends each command through the resolver, collects the contexts when `onReady` is called,
     /// and asserts that the launch reason is the same for all. Returns that reason.
     private func resolveAndValidate(
-        context: AtatusContext,
+        context: TowerSignalContext,
         commands: [RUMCommand],
         file: StaticString = #file,
         line: UInt = #line
     ) throws -> LaunchReason {
-        var received: [(RUMCommand, AtatusContext)] = []
+        var received: [(RUMCommand, TowerSignalContext)] = []
 
         for command in commands {
             resolver.deferUntilLaunchReasonResolved(command: command,context: context, writer: writer) { cmd, ctx, _ in
@@ -52,7 +52,7 @@ class LaunchReasonResolverTests: XCTestCase {
     // MARK: - User Launch
 
     func testUserLaunch_resolvesUserLaunchForSceneDelegateFlow() throws {
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             launchInfo: baseLaunchInfo,
             applicationStateHistory: .mockWith(
                 initialState: .background,
@@ -74,7 +74,7 @@ class LaunchReasonResolverTests: XCTestCase {
     }
 
     func testUserLaunch_resolvesImmediately_whenInitialStateInactiveOrActive() throws {
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             launchInfo: baseLaunchInfo,
             applicationStateHistory: .mockWith(
                 initialState: [.inactive, .active].randomElement()!,
@@ -93,7 +93,7 @@ class LaunchReasonResolverTests: XCTestCase {
     // MARK: - Background Launch
 
     func testBackgroundLaunch_resolvesAfterThreshold() throws {
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             launchInfo: baseLaunchInfo,
             applicationStateHistory: .mockWith(
                 initialState: .background,
@@ -118,7 +118,7 @@ class LaunchReasonResolverTests: XCTestCase {
             launchReason: .prewarming,
             processLaunchDate: baseLaunchInfo.processLaunchDate
         )
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             launchInfo: prewarmInfo,
             applicationStateHistory: .mockWith(
                 initialState: .background,

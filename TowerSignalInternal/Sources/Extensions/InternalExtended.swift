@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
@@ -38,7 +38,7 @@ public protocol InternalExtended {
 }
 
 extension InternalExtended {
-    /// Grants access to an internal interface utilized only by other Atatus SDKs.
+    /// Grants access to an internal interface utilized only by other TowerSignal SDKs.
     /// **It is not meant for public use** and it might change without prior notice.
     public static var _internal: InternalExtension<Self>.Type {
         InternalExtension<Self>.self

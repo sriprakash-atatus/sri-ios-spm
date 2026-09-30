@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; rebranded the
 // licence header.
 
 import XCTest
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 
 class FirstPartyHostsTests: XCTestCase {
     let hostsDictionary: [String: Set<TracingHeaderType>] = [
@@ -58,13 +58,13 @@ class FirstPartyHostsTests: XCTestCase {
     func testGivenValidDictionary_itReturnsTracingHeaderTypes_forSubdomainURL() {
         let firstPartyHosts = FirstPartyHosts([
             "first-party.com": .init([.b3multi]),
-            "example.com": [.atatus, .b3multi],
+            "example.com": [.towersignal, .b3multi],
             "subdomain.example.com": [.tracecontext],
             "otherdomain.com": [.b3]
         ])
 
-        XCTAssertEqual(firstPartyHosts.tracingHeaderTypes(for: URL(string: "http://example.com/path1")), [.atatus, .b3multi])
-        XCTAssertEqual(firstPartyHosts.tracingHeaderTypes(for: URL(string: "https://subdomain.example.com/path2")), [.tracecontext, .atatus, .b3multi])
+        XCTAssertEqual(firstPartyHosts.tracingHeaderTypes(for: URL(string: "http://example.com/path1")), [.towersignal, .b3multi])
+        XCTAssertEqual(firstPartyHosts.tracingHeaderTypes(for: URL(string: "https://subdomain.example.com/path2")), [.tracecontext, .towersignal, .b3multi])
         XCTAssertEqual(firstPartyHosts.tracingHeaderTypes(for: URL(string: "http://otherdomain.com/path3")), [.b3])
         XCTAssertEqual(firstPartyHosts.tracingHeaderTypes(for: URL(string: "https://somedomain.com/path4")), [])
         XCTAssertEqual(firstPartyHosts.tracingHeaderTypes(for: URL(string: "http://api.first-party.com")), [.b3multi])
@@ -84,17 +84,17 @@ class FirstPartyHostsTests: XCTestCase {
         }
     }
 
-    func testGivenValidSet_itAssignsAtatusAndTracecontextHeaderType() {
+    func testGivenValidSet_itAssignsTowerSignalAndTracecontextHeaderType() {
         let hosts = FirstPartyHosts(Set(otherHosts))
         otherHosts.forEach {
             let url = URL(string: $0)
-            XCTAssertEqual(hosts.tracingHeaderTypes(for: url), [.atatus, .tracecontext])
+            XCTAssertEqual(hosts.tracingHeaderTypes(for: url), [.towersignal, .tracecontext])
         }
     }
 
     func testFalsePositiveURL_itReturnsEmptyTracingHeaderTypes() {
         let filter = FirstPartyHosts(
-            hostsWithTracingHeaderTypes: ["example.com": [.atatus, .b3multi]]
+            hostsWithTracingHeaderTypes: ["example.com": [.towersignal, .b3multi]]
         )
         let url = URL(string: "http://foo.com/something.example.com")
 
@@ -114,7 +114,7 @@ class FirstPartyHostsTests: XCTestCase {
 
     func testGivenURLHostIsSubdomain_itIsConsideredFirstParty() {
         let filter = FirstPartyHosts([
-            "first-party.com": .init([.atatus])
+            "first-party.com": .init([.towersignal])
         ])
         let url = URL(string: "https://api.first-party.com")!
         XCTAssertTrue(
@@ -125,7 +125,7 @@ class FirstPartyHostsTests: XCTestCase {
 
     func testGivenURLHostIsNotSubdomain_itIsNotConsideredFirstParty() {
         let filter = FirstPartyHosts([
-            "first-party.com": .init([.atatus])
+            "first-party.com": .init([.towersignal])
         ])
         let urlString = "https://apifirst-party.com"
         let url = URL(string: urlString)!
@@ -141,7 +141,7 @@ class FirstPartyHostsTests: XCTestCase {
 
     func testGivenWRongURL_itIsNotConsideredFirstParty() {
         let filter = FirstPartyHosts([
-            "first-party.com": .init([.atatus])
+            "first-party.com": .init([.towersignal])
         ])
         let badUrlString = ""
         let badUrl = URL(string: badUrlString)
@@ -158,20 +158,20 @@ class FirstPartyHostsTests: XCTestCase {
     // MARK: - Wildcard Pattern Matching
 
     func testWildcardPattern_matchesSubdomains() {
-        let hosts = FirstPartyHosts(["*.example.com": [.atatus, .tracecontext]])
+        let hosts = FirstPartyHosts(["*.example.com": [.towersignal, .tracecontext]])
 
-        XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://api.example.com/path")), [.atatus, .tracecontext])
-        XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://staging.example.com")), [.atatus, .tracecontext])
+        XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://api.example.com/path")), [.towersignal, .tracecontext])
+        XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://staging.example.com")), [.towersignal, .tracecontext])
     }
 
     func testWildcardPattern_doesNotMatchApex() {
-        let hosts = FirstPartyHosts(["*.example.com": [.atatus]])
+        let hosts = FirstPartyHosts(["*.example.com": [.towersignal]])
 
         XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://example.com")), [])
     }
 
     func testWildcardPattern_doesNotMatchUnrelatedHosts() {
-        let hosts = FirstPartyHosts(["*.example.com": [.atatus]])
+        let hosts = FirstPartyHosts(["*.example.com": [.towersignal]])
 
         XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://evil.com")), [])
         XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://notexample.com")), [])
@@ -186,36 +186,36 @@ class FirstPartyHostsTests: XCTestCase {
 
     func testWildcardPattern_multiplePatterns_returnsUnion() {
         let hosts = FirstPartyHosts([
-            "*.example.com": [.atatus],
+            "*.example.com": [.towersignal],
             "*.shopist.io": [.tracecontext]
         ])
 
-        XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://api.example.com")), [.atatus])
+        XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://api.example.com")), [.towersignal])
         XCTAssertEqual(hosts.tracingHeaderTypes(for: URL(string: "https://api.shopist.io")), [.tracecontext])
     }
 
     func testWildcardAndPlainHosts_bothMatch() {
         var hosts: FirstPartyHosts? = FirstPartyHosts(["example.com": [.b3]])
-        hosts += FirstPartyHosts(["*.staging.shopist.io": [.atatus]])
+        hosts += FirstPartyHosts(["*.staging.shopist.io": [.towersignal]])
 
         XCTAssertEqual(hosts?.tracingHeaderTypes(for: URL(string: "https://example.com")), [.b3])
-        XCTAssertEqual(hosts?.tracingHeaderTypes(for: URL(string: "https://api.staging.shopist.io")), [.atatus])
+        XCTAssertEqual(hosts?.tracingHeaderTypes(for: URL(string: "https://api.staging.shopist.io")), [.towersignal])
         XCTAssertEqual(hosts?.tracingHeaderTypes(for: URL(string: "https://shopist.io")), [])
     }
 
     func testPlusOperator_preservesPatterns() {
-        let a = FirstPartyHosts(["*.example.com": [.atatus]])
+        let a = FirstPartyHosts(["*.example.com": [.towersignal]])
         let b = FirstPartyHosts(["other.com": [.tracecontext]])
         let merged = a + b
 
-        XCTAssertEqual(merged.tracingHeaderTypes(for: URL(string: "https://api.example.com")), [.atatus])
+        XCTAssertEqual(merged.tracingHeaderTypes(for: URL(string: "https://api.example.com")), [.towersignal])
         XCTAssertEqual(merged.tracingHeaderTypes(for: URL(string: "https://other.com")), [.tracecontext])
     }
 
     func testInitFromFirstPartyHostsTracing_traceWithHeaders_matchesWildcardSubdomains() {
-        let hosts = FirstPartyHosts(firstPartyHosts: .traceWithHeaders(hostsWithHeaders: ["*.example.com": [.atatus, .tracecontext]]))
+        let hosts = FirstPartyHosts(firstPartyHosts: .traceWithHeaders(hostsWithHeaders: ["*.example.com": [.towersignal, .tracecontext]]))
 
-        XCTAssertEqual(hosts?.tracingHeaderTypes(for: URL(string: "https://api.example.com")), [.atatus, .tracecontext])
+        XCTAssertEqual(hosts?.tracingHeaderTypes(for: URL(string: "https://api.example.com")), [.towersignal, .tracecontext])
         XCTAssertEqual(hosts?.tracingHeaderTypes(for: URL(string: "https://example.com")), [])
     }
 }

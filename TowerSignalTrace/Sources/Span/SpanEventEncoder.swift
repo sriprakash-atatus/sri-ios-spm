@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix to `_atatus`; rebranded the `dd` name
-// to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix to `_towersignal`; rebranded the `dd` name
+// to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// `SpanEnvelope` allows encoding multiple spans sharing the same `traceID` to a single payload.
 internal struct SpanEventsEnvelope: Encodable {
@@ -34,7 +34,7 @@ internal struct SpanEventsEnvelope: Encodable {
     }
 }
 
-/// Individual span event sent do Atatus.
+/// Individual span event sent do TowerSignal.
 public struct SpanEvent: Encodable {
     /// The id of the trace this span belongs to.
     internal let traceID: TraceID
@@ -140,22 +140,22 @@ internal struct SpanEventEncoder {
 
         case isRootSpan = "metrics._top_level"
         case samplingPriority = "metrics._sampling_priority_v1"
-        case samplingRate = "metrics._atatus.agent_psr"
+        case samplingRate = "metrics._towersignal.agent_psr"
 
         // MARK: - Meta
 
-        case source = "meta._atatus.source"
+        case source = "meta._towersignal.source"
         case applicationVersion = "meta.version"
         case tracerVersion = "meta.tracer.version"
 
-        case origin = "meta._atatus.origin"
+        case origin = "meta._towersignal.origin"
 
-        // ATCHG: Renamed from `meta._atatus.p.tid` to `meta._atatus.p.id` to match `TRACE_ID_META_KEY` in the
-        // Atatus Android agent. Only the span payload key changes: the `x-atatus-tags` propagation header keeps
-        // `_atatus.p.tid` (`TracingHTTPHeaders.traceIDHi`), as Android does.
-        case ptid = "meta._atatus.p.id"
+        // ATCHG: Renamed from `meta._towersignal.p.tid` to `meta._towersignal.p.id` to match `TRACE_ID_META_KEY` in the
+        // TowerSignal Android agent. Only the span payload key changes: the `x-towersignal-tags` propagation header keeps
+        // `_towersignal.p.tid` (`TracingHTTPHeaders.traceIDHi`), as Android does.
+        case ptid = "meta._towersignal.p.id"
 
-        case decisionMaker = "meta._atatus.p.dm"
+        case decisionMaker = "meta._towersignal.p.dm"
 
         case userId = "meta.usr.id"
         case userName = "meta.usr.name"
@@ -193,7 +193,7 @@ internal struct SpanEventEncoder {
         // byte-for-byte what `W3CHTTPHeadersWriter` puts in `traceparent` and what backend agents
         // report for the same trace. Encoding only `idLoHex` here made the mobile span and the
         // backend span carry different `trace_id` strings, so they were indexed as two traces.
-        // The high 64 bits stay in `meta._atatus.p.id` for backwards compatibility.
+        // The high 64 bits stay in `meta._towersignal.p.id` for backwards compatibility.
         try container.encode(String(span.traceID, representation: .hexadecimal32Chars), forKey: .traceID)
         // ATCHG: Zero-pad the span IDs to 16 characters for the same reason as the trace ID above.
         // `.hexadecimal` drops leading zeros, so a span whose ID is below 2^60 - one in eight, given

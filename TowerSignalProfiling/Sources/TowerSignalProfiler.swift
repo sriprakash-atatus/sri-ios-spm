@@ -1,27 +1,27 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddMachProfiler` -> `AtatusMachProfiler`; renamed `dd*` types to `Atatus*`; renamed
-// `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddMachProfiler` -> `TowerSignalMachProfiler`; renamed `dd*` types to `TowerSignal*`; renamed
+// `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 #if !os(watchOS)
 
 // swiftlint:disable duplicate_imports
 #if swift(>=6.0)
-internal import AtatusMachProfiler
+internal import TowerSignalMachProfiler
 #else
-@_implementationOnly import AtatusMachProfiler
+@_implementationOnly import TowerSignalMachProfiler
 #endif
 // swiftlint:enable duplicate_imports
 
-internal final class AtatusProfiler: ProfilingHandler {
+internal final class TowerSignalProfiler: ProfilingHandler {
     enum Constants {
         /// Default profile duration during continuous profiling.
         static let maxProfileDuration: TimeInterval = 60 // 1 minute profiles
@@ -32,7 +32,7 @@ internal final class AtatusProfiler: ProfilingHandler {
     }
 
     static let defaultQueue = DispatchQueue(
-        label: "com.atatus.atatus-profiler",
+        label: "com.towersignal.towersignal-profiler",
         qos: .utility
     )
 
@@ -81,10 +81,10 @@ internal final class AtatusProfiler: ProfilingHandler {
     private var isStoppedByQuota = false
 
     init?(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         profilingSamplerProvider: ProfilingSamplerProvider,
         quotaChecker: ProfilingQuotaChecking,
-        queue: DispatchQueue = AtatusProfiler.defaultQueue,
+        queue: DispatchQueue = TowerSignalProfiler.defaultQueue,
         telemetryController: ProfilingTelemetryController = .init(),
         profilingConditions: ProfilingConditions = .init(),
         profilingInterval: TimeInterval = Constants.maxProfileDuration,
@@ -157,8 +157,8 @@ internal final class AtatusProfiler: ProfilingHandler {
 
 // MARK: - FeatureMessageReceiver
 
-extension AtatusProfiler: FeatureMessageReceiver {
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+extension TowerSignalProfiler: FeatureMessageReceiver {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         switch message {
         case .context(let context):
             handle(context: context)
@@ -189,7 +189,7 @@ extension AtatusProfiler: FeatureMessageReceiver {
 
 // MARK: - Timer
 
-private extension AtatusProfiler {
+private extension TowerSignalProfiler {
     func startTimer() {
         guard self.timer == nil else {
             // reset timer
@@ -219,8 +219,8 @@ private extension AtatusProfiler {
 
 // MARK: - Handle Messages and context
 
-private extension AtatusProfiler {
-    func handle(context: AtatusContext) {
+private extension TowerSignalProfiler {
+    func handle(context: TowerSignalContext) {
         dd_profiler_set_server_time_offset_ns(context.serverTimeOffset.dd.toInt64Nanoseconds)
 
         queue.async { [weak self] in
@@ -483,7 +483,7 @@ private extension AtatusProfiler {
 
 // MARK: - Testing funcs
 
-extension AtatusProfiler {
+extension TowerSignalProfiler {
     /// Whether a `ContinuousProfiler` instance is currently active.
     static var isInstantiated: Bool {
         lock.lock()

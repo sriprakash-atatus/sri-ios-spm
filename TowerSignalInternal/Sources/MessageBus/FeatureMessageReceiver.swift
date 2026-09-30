@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
 
@@ -28,7 +28,7 @@ public protocol FeatureMessageReceiver {
     ///   - core: An instance of the core from which the message is transmitted.
     /// - Returns: `true` if the message was processed by the receiver;`false` if it was ignored.
     @discardableResult
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool
     // ^ TODO: RUM-3717
     // Remove `core:` parameter from this API once all features are migrated to depend on `FeatureScope` interface
     // instead of depending on directly on `core`.
@@ -38,7 +38,7 @@ public struct NOPFeatureMessageReceiver: FeatureMessageReceiver {
     public init() { }
 
     /// no-op: returns `false`
-    public func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    public func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         return false
     }
 }
@@ -65,7 +65,7 @@ public struct CombinedFeatureMessageReceiver: FeatureMessageReceiver {
     ///   - message: The message.
     ///   - core: An instance of the core from which the message is transmitted.
     /// - Returns: `true` if the message was processed by one of the receiver; `false` if it was ignored.
-    public func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    public func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         receivers.contains(where: { $0.receive(message: message, from: core) })
     }
 }

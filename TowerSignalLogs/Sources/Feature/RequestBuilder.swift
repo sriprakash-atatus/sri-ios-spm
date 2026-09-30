@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// The Logging URL Request Builder for formatting and configuring the `URLRequest`
 /// to upload logs data.
@@ -29,7 +29,7 @@ internal struct RequestBuilder: FeatureRequestBuilder {
 
     func request(
         for events: [Event],
-        with context: AtatusContext,
+        with context: TowerSignalContext,
         execution: ExecutionContext
     ) throws -> URLRequest {
         // ATCHG: Skip the batch while the logs heartbeat has not enabled logs, matching the
@@ -42,10 +42,10 @@ internal struct RequestBuilder: FeatureRequestBuilder {
 
         let builder = URLRequestBuilder(
             url: url(with: context),
-            // ATCHG: Added the Atatus identification query items (license key, agent name,
+            // ATCHG: Added the TowerSignal identification query items (license key, agent name,
             // agent version, app name), matching `buildUrl()` in Android's `LogsRequestFactory`.
             queryItems: [
-                .atatusSource(source: context.source),
+                .towersignalSource(source: context.source),
                 .licenseKey(licenseKey: context.licenseKey),
                 .agentName(agentName: AgentInfo.agentName),
                 .agentVersion(agentVersion: AgentInfo.agentVersion),
@@ -66,9 +66,9 @@ internal struct RequestBuilder: FeatureRequestBuilder {
                 .atRequestIDHeader(),
                 // ATCHG: Added the agent identification headers, matching `buildHeaders()` in
                 // Android's `LogsRequestFactory`.
-                .atatusAgentNameHeader(),
-                .atatusAgentVersionHeader(),
-                .atatusAppNameHeader(appName: context.appName ?? "")
+                .towersignalAgentNameHeader(),
+                .towersignalAgentVersionHeader(),
+                .towersignalAppNameHeader(appName: context.appName ?? "")
                 // ATCHG: End
             ],
             telemetry: telemetry
@@ -78,8 +78,8 @@ internal struct RequestBuilder: FeatureRequestBuilder {
         return builder.uploadRequest(with: data)
     }
 
-    private func url(with context: AtatusContext) -> URL {
-        // ATCHG: Atatus logs intake path, matching `/v1/android/logs` in Android's `LogsRequestFactory`.
+    private func url(with context: TowerSignalContext) -> URL {
+        // ATCHG: TowerSignal logs intake path, matching `/v1/android/logs` in Android's `LogsRequestFactory`.
         // ATCHG: Built from `intakeEndpoint` so a custom `serverUrl` is honoured, as on Android.
         customIntakeURL ?? context.intakeEndpoint.appendingPathComponent("v1/android/logs")
         // ATCHG: End
@@ -90,6 +90,6 @@ internal struct RequestBuilder: FeatureRequestBuilder {
 // ATCHG: Signals that the logs heartbeat has not (yet) enabled log uploads. Thrown instead of
 // returning `nil`, which is how Android's `LogsRequestFactory.create` skips the batch.
 internal struct LogsDisabledByHeartbeatError: Error, CustomStringConvertible {
-    let description = "Logs upload skipped: the Atatus logs heartbeat has not enabled logs."
+    let description = "Logs upload skipped: the TowerSignal logs heartbeat has not enabled logs."
 }
 // ATCHG: End

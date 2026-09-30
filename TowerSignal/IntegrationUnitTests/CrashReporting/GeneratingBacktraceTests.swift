@@ -1,25 +1,25 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`,
-// `ddInternal` -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`,
+// `ddInternal` -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; rebranded the licence
 // header.
 
 import XCTest
 import TestUtilities
-import AtatusCrashReporting
-@testable import AtatusInternal
+import TowerSignalCrashReporting
+@testable import TowerSignalInternal
 
-/// Tests integration of `AtatusCore` and `AtatusCrashReporting` for backtrace generation.
+/// Tests integration of `TowerSignalCore` and `TowerSignalCrashReporting` for backtrace generation.
 class GeneratingBacktraceTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy(context: .mockWith(trackingConsent: .granted))
+        core = TowerSignalCoreProxy(context: .mockWith(trackingConsent: .granted))
     }
 
     override func tearDownWithError() throws {
@@ -45,16 +45,16 @@ class GeneratingBacktraceTests: XCTestCase {
         XCTAssertFalse(backtrace.threads.contains(where: { $0.crashed }), "No thread should be marked as crashed")
 
         XCTAssertTrue(
-            backtrace.stack.contains("AtatusIntegrationTests"),
-            "Backtrace stack should include at least one frame from `AtatusCoreTests` image"
+            backtrace.stack.contains("TowerSignalIntegrationTests"),
+            "Backtrace stack should include at least one frame from `TowerSignalCoreTests` image"
         )
         XCTAssertTrue(
             backtrace.stack.contains("XCTest"),
             "Backtrace stack should include at least one frame from `XCTest` image"
         )
         XCTAssertTrue(
-            backtrace.binaryImages.contains(where: { $0.libraryName == "AtatusIntegrationTests" }),
-            "Backtrace should include the image for `AtatusCoreTests`"
+            backtrace.binaryImages.contains(where: { $0.libraryName == "TowerSignalIntegrationTests" }),
+            "Backtrace should include the image for `TowerSignalCoreTests`"
         )
         XCTAssertTrue(
             // Assert on prefix as it is `XCTestCore` on iOS 15+ and `XCTest` earlier:

@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
@@ -20,8 +20,8 @@ public enum URLSessionInstrumentation {
     ///
     /// - Parameters:
     ///   - configuration: Configuration of the feature.
-    ///   - core: The instance of Atatus SDK to enable URLSession instrumentation in (global instance by default).
-    public static func enableDurationBreakdown(with configuration: URLSessionInstrumentation.Configuration, in core: AtatusCoreProtocol = CoreRegistry.default) {
+    ///   - core: The instance of TowerSignal SDK to enable URLSession instrumentation in (global instance by default).
+    public static func enableDurationBreakdown(with configuration: URLSessionInstrumentation.Configuration, in core: TowerSignalCoreProtocol = CoreRegistry.default) {
         do {
             try enableOrThrow(with: configuration, in: core)
 
@@ -42,9 +42,9 @@ public enum URLSessionInstrumentation {
     ///
     /// - Parameters:
     ///   - configuration: Configuration of the feature.
-    ///   - core: The instance of Atatus SDK to enable URLSession instrumentation in (global instance by default).
+    ///   - core: The instance of TowerSignal SDK to enable URLSession instrumentation in (global instance by default).
     @available(*, deprecated, renamed: "enableDurationBreakdown(with:in:)", message: "Use enableDurationBreakdown(with:in:) instead.")
-    public static func enable(with configuration: URLSessionInstrumentation.Configuration, in core: AtatusCoreProtocol = CoreRegistry.default) {
+    public static func enable(with configuration: URLSessionInstrumentation.Configuration, in core: TowerSignalCoreProtocol = CoreRegistry.default) {
         do {
             try enableOrThrow(with: configuration, in: core)
 
@@ -62,7 +62,7 @@ public enum URLSessionInstrumentation {
     }
 
     @_spi(Internal)
-    public static func enableOrThrow(with configuration: URLSessionInstrumentation.Configuration?, in core: AtatusCoreProtocol) throws {
+    public static func enableOrThrow(with configuration: URLSessionInstrumentation.Configuration?, in core: TowerSignalCoreProtocol) throws {
         guard let feature = core.get(feature: NetworkInstrumentationFeature.self) else {
             throw ProgrammerError(description: "URLSession tracking must be enabled before enabling URLSessionInstrumentation using either RUM or Trace feature.")
         }
@@ -73,8 +73,8 @@ public enum URLSessionInstrumentation {
     /// Disables URLSession instrumentation.
     /// - Parameters:
     ///   - delegateClass: The delegate class to unbind.
-    ///   - core: The instance of Atatus SDK to disable URLSession instrumentation in (global instance by default).
-    public static func disable(delegateClass: URLSessionDataDelegate.Type, in core: AtatusCoreProtocol = CoreRegistry.default) {
+    ///   - core: The instance of TowerSignal SDK to disable URLSession instrumentation in (global instance by default).
+    public static func disable(delegateClass: URLSessionDataDelegate.Type, in core: TowerSignalCoreProtocol = CoreRegistry.default) {
         do {
             try disableOrThrow(delegateClass: delegateClass, in: core)
         } catch let error {
@@ -86,7 +86,7 @@ public enum URLSessionInstrumentation {
         }
     }
 
-    internal static func disableOrThrow(delegateClass: URLSessionDataDelegate.Type, in core: AtatusCoreProtocol) throws {
+    internal static func disableOrThrow(delegateClass: URLSessionDataDelegate.Type, in core: TowerSignalCoreProtocol) throws {
         guard let feature = core.get(feature: NetworkInstrumentationFeature.self) else {
             throw ProgrammerError(description: "URLSession tracking must be enabled before enabling URLSessionInstrumentation using either RUM or Trace feature.")
         }
@@ -126,7 +126,7 @@ extension URLSessionInstrumentation {
 
     /// Defines configuration for first-party hosts in distributed tracing.
     public enum FirstPartyHostsTracing {
-        /// Trace the specified hosts using Atatus and W3C `tracecontext` tracing headers.
+        /// Trace the specified hosts using TowerSignal and W3C `tracecontext` tracing headers.
         ///
         /// Wildcard patterns using `*` are supported (e.g. `"*.example.com"`).
         ///

@@ -1,24 +1,24 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`; renamed the `DD` symbol prefix to `AT`; renamed `dd.trace_id` / `dd.span_id` to
-// `atatus.trace_id` / `atatus.span_id`; renamed the `ddsource` / `ddtags` query parameters to
-// `atatus_source` / `atatustags`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`; renamed the `DD` symbol prefix to `AT`; renamed `dd.trace_id` / `dd.span_id` to
+// `towersignal.trace_id` / `towersignal.span_id`; renamed the `ddsource` / `ddtags` query parameters to
+// `towersignal_source` / `towersignaltags`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusLogs
+import TowerSignalInternal
+@testable import TowerSignalLogs
 
 class LogSanitizerTests: XCTestCase {
     /// Tracer Attributes shared with other Feature registered in core.
     struct TracerAttributes {
-        static let traceID = "atatus.trace_id"
-        static let spanID = "atatus.span_id"
+        static let traceID = "towersignal.trace_id"
+        static let spanID = "towersignal.span_id"
     }
 
     /// RUM Attributes shared with other Feature registered in core.
@@ -49,7 +49,7 @@ class LogSanitizerTests: XCTestCase {
                     "service": mockValue(),
                     "build_id": mockValue(),
                     "source": mockValue(),
-                    "atatusTags": mockValue(),
+                    "towersignalTags": mockValue(),
 
                     // valid attributes:
                     "error.kind": mockValue(),

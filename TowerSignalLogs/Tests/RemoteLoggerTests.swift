@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`; renamed the `DD` symbol prefix to `AT`; renamed `dd.trace_id` / `dd.span_id` to
-// `atatus.trace_id` / `atatus.span_id`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`; renamed the `DD` symbol prefix to `AT`; renamed `dd.trace_id` / `dd.span_id` to
+// `towersignal.trace_id` / `towersignal.span_id`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusLogs
+import TowerSignalInternal
+@testable import TowerSignalLogs
 
 class RemoteLoggerTests: XCTestCase {
     private let featureScope = FeatureScopeMock()
@@ -619,8 +619,8 @@ class RemoteLoggerTests: XCTestCase {
         XCTAssertEqual(logs.count, 1)
 
         let log = try XCTUnwrap(logs.first)
-        XCTAssertEqual(log.attributes.internalAttributes?["atatus.trace_id"] as? String, traceID.toString(representation: .hexadecimal))
-        XCTAssertEqual(log.attributes.internalAttributes?["atatus.span_id"] as? String, spanID.toString(representation: .decimal))
+        XCTAssertEqual(log.attributes.internalAttributes?["towersignal.trace_id"] as? String, traceID.toString(representation: .hexadecimal))
+        XCTAssertEqual(log.attributes.internalAttributes?["towersignal.span_id"] as? String, spanID.toString(representation: .decimal))
     }
 
     func testWhenActiveSpanIntegrationIsEnabled_withNoActiveSpan_itDoesNotSendTelemetryError() throws {
@@ -643,8 +643,8 @@ class RemoteLoggerTests: XCTestCase {
         XCTAssertEqual(logs.count, 1)
 
         let log = try XCTUnwrap(logs.first)
-        XCTAssertNil(log.attributes.internalAttributes?["atatus.trace_id"])
-        XCTAssertNil(log.attributes.internalAttributes?["atatus.span_id"])
+        XCTAssertNil(log.attributes.internalAttributes?["towersignal.trace_id"])
+        XCTAssertNil(log.attributes.internalAttributes?["towersignal.span_id"])
         XCTAssertTrue(featureScope.telemetryMock.messages.isEmpty)
     }
 

@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
-// renamed the `_dd` attribute prefix to `_atatus`; renamed the `ddsource` / `ddtags` query parameters to
-// `atatus_source` / `atatustags`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// renamed the `_dd` attribute prefix to `_towersignal`; renamed the `ddsource` / `ddtags` query parameters to
+// `towersignal_source` / `towersignaltags`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal class RUMResourceScope: RUMScope {
     // MARK: - Initialization
@@ -99,7 +99,7 @@ internal class RUMResourceScope: RUMScope {
 
     // MARK: - RUMScope
 
-    func process(command: RUMCommand, context: AtatusContext, writer: Writer) -> Bool {
+    func process(command: RUMCommand, context: TowerSignalContext, writer: Writer) -> Bool {
         self.attributes = self.attributes.merging(command.attributes, uniquingKeysWith: { $1 })
 
         switch command {
@@ -120,7 +120,7 @@ internal class RUMResourceScope: RUMScope {
 
     // MARK: - Sending RUM Events
 
-    private func sendResourceEvent(on command: RUMStopResourceCommand, context: AtatusContext, writer: Writer) {
+    private func sendResourceEvent(on command: RUMStopResourceCommand, context: TowerSignalContext, writer: Writer) {
         let resourceStartTime: Date
         let resourceDuration: TimeInterval
         let size: Int64?
@@ -201,7 +201,7 @@ internal class RUMResourceScope: RUMScope {
             action: parent.context.activeUserActionID.map { rumUUID in
                 .init(id: .string(value: rumUUID.toRUMDataFormat))
             },
-            // ATCHG: application_id removed -- Atatus events do not carry a RUM application ID
+            // ATCHG: application_id removed -- TowerSignal events do not carry a RUM application ID
             application: .init(id: ""),
             buildId: context.buildId,
             buildVersion: context.buildNumber,
@@ -210,7 +210,7 @@ internal class RUMResourceScope: RUMScope {
             container: nil,
             context: .init(contextInfo: command.globalAttributes.merging(parent.attributes) { $1 }.merging(attributes) { $1 }),
             date: resourceStartTime.addingTimeInterval(serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: context.normalizedDevice(),
             display: nil,
             os: context.os,
@@ -303,7 +303,7 @@ internal class RUMResourceScope: RUMScope {
         }
     }
 
-    private func sendErrorEvent(on command: RUMStopResourceWithErrorCommand, context: AtatusContext, writer: Writer) {
+    private func sendErrorEvent(on command: RUMStopResourceWithErrorCommand, context: TowerSignalContext, writer: Writer) {
         let errorFingerprint: String? = attributes.removeValue(forKey: RUM.Attributes.errorFingerprint)?.dd.decode()
         // Never leak the internal cache-hit marker into arbitrary error context.
         attributes.removeValue(forKey: CrossPlatformAttributes.localCacheHit)
@@ -333,7 +333,7 @@ internal class RUMResourceScope: RUMScope {
             action: parent.context.activeUserActionID.map { rumUUID in
                 .init(id: .string(value: rumUUID.toRUMDataFormat))
             },
-            // ATCHG: application_id removed -- Atatus events do not carry a RUM application ID
+            // ATCHG: application_id removed -- TowerSignal events do not carry a RUM application ID
             application: .init(id: ""),
             buildId: context.buildId,
             buildVersion: context.buildNumber,
@@ -342,7 +342,7 @@ internal class RUMResourceScope: RUMScope {
             container: nil,
             context: .init(contextInfo: command.globalAttributes.merging(parent.attributes) { $1 }.merging(attributes) { $1 }),
             date: command.time.addingTimeInterval(serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: context.normalizedDevice(),
             display: nil,
             error: .init(
@@ -451,7 +451,7 @@ internal class RUMResourceScope: RUMScope {
 
     /// Decodes GraphQL errors JSON string into intermediate response error models.
     ///
-    /// Note: The cross-platform attribute `_atatus.graphql.errors` contains a JSON array of error objects
+    /// Note: The cross-platform attribute `_towersignal.graphql.errors` contains a JSON array of error objects
     /// (e.g. `[{"message": "...", "locations": [...]}]`), not a full GraphQL response body.
     /// This is why we decode `[GraphQLResponseError]` directly rather than using the `GraphQLResponse`
     /// wrapper struct, which is used elsewhere for full response body parsing.
@@ -509,15 +509,15 @@ internal class RUMResourceScope: RUMScope {
         SpanID(string, representation: .hexadecimal) ?? SpanID(string, representation: .decimal)
     }
 
-    /// The flat tag name Atatus uses for a span's kind.
+    /// The flat tag name TowerSignal uses for a span's kind.
     ///
-    /// Spelled out here rather than referenced from `AtatusTrace`'s `Tracer.Tags.kind`, which holds the same string:
+    /// Spelled out here rather than referenced from `TowerSignalTrace`'s `Tracer.Tags.kind`, which holds the same string:
     /// RUM does not link the Trace module, and an app can enable RUM without it.
     private static let spanKindTag = "span.kind"
 
     /// Re-publishes the cross-platform span kind on `self.attributes` under the flat `span.kind` key the rest of
-    /// Atatus uses (`Tracer.Tags.kind` / `OTTags.spanKind`), so it reaches the event as the canonical kind instead of
-    /// as an `_atatus.`-prefixed custom attribute. Without this the kind is never set and the span falls back to
+    /// TowerSignal uses (`Tracer.Tags.kind` / `OTTags.spanKind`), so it reaches the event as the canonical kind instead of
+    /// as an `_towersignal.`-prefixed custom attribute. Without this the kind is never set and the span falls back to
     /// `server` in the trace view, even though every resource the agent reports is an outgoing `client` call.
     private func promoteSpanKind() {
         guard let spanKind: String = attributes.removeValue(forKey: CrossPlatformAttributes.spanKind)?.dd.decode() else {

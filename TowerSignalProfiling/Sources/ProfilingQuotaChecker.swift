@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
 // renamed `clientToken` to `licenseKey`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 #if !os(watchOS)
 
@@ -75,7 +75,7 @@ internal final class ProfilingQuotaChecker: ProfilingQuotaChecking {
 }
 
 extension ProfilingQuotaChecker: FeatureMessageReceiver {
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         guard case let .context(context) = message,
               context.trackingConsent == .granted,
               let rumContext = context.additionalContext(ofType: RUMCoreContext.self),
@@ -88,7 +88,7 @@ extension ProfilingQuotaChecker: FeatureMessageReceiver {
         return false
     }
 
-    private func checkIfNeeded(sessionID: String, context: AtatusContext) {
+    private func checkIfNeeded(sessionID: String, context: TowerSignalContext) {
         var shouldStartRequest = false
 
         _state.mutate {
@@ -127,7 +127,7 @@ extension ProfilingQuotaChecker: FeatureMessageReceiver {
         .resume()
     }
 
-    private func request(sessionID: String, context: AtatusContext) -> URLRequest {
+    private func request(sessionID: String, context: TowerSignalContext) -> URLRequest {
         var request = URLRequest(url: quotaURL(for: context.site, sessionID: sessionID))
         request.httpMethod = "GET"
         request.httpShouldHandleCookies = false
@@ -138,7 +138,7 @@ extension ProfilingQuotaChecker: FeatureMessageReceiver {
         return request
     }
 
-    private func quotaURL(for site: AtatusSite, sessionID: String) -> URL {
+    private func quotaURL(for site: TowerSignalSite, sessionID: String) -> URL {
         var components = URLComponents(url: site.endpoint, resolvingAgainstBaseURL: false)
         let quotaHost = components?.host.map { "quota.\($0)" }
         components?.host = quotaHost

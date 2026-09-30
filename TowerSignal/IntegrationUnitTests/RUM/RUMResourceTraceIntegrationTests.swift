@@ -1,27 +1,27 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddRUM` -> `AtatusRUM`, `ddTrace` -> `AtatusTrace`; renamed `dd*` types
-// to `Atatus*`; renamed the `_dd` attribute prefix to `_atatus`; renamed the `x-dd-*` trace headers to
-// `x-atatus-*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`, `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types
+// to `TowerSignal*`; renamed the `_dd` attribute prefix to `_towersignal`; renamed the `x-dd-*` trace headers to
+// `x-towersignal-*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusCore
-@testable import AtatusRUM
-@testable import AtatusTrace
+@testable import TowerSignalCore
+@testable import TowerSignalRUM
+@testable import TowerSignalTrace
 
 class RUMResourceTraceIntegrationTests: RUMSessionTestsBase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
     }
 
     override func tearDownWithError() throws {
@@ -160,36 +160,36 @@ class RUMResourceTraceIntegrationTests: RUMSessionTestsBase {
         let resourceMatcher = try XCTUnwrap(possibleResourceMatcher)
 
         if expectation == .sessionSampledRequestNotSampled {
-            XCTAssertNil(request.value(forHTTPHeaderField: "x-atatus-parent-id"))
-            XCTAssertNil(request.value(forHTTPHeaderField: "x-atatus-trace-id"))
-            XCTAssertNil(request.value(forHTTPHeaderField: "x-atatus-sampling-priority"))
+            XCTAssertNil(request.value(forHTTPHeaderField: "x-towersignal-parent-id"))
+            XCTAssertNil(request.value(forHTTPHeaderField: "x-towersignal-trace-id"))
+            XCTAssertNil(request.value(forHTTPHeaderField: "x-towersignal-sampling-priority"))
             XCTAssertNil(request.value(forHTTPHeaderField: "traceparent"))
             return
         }
 
-        let spanIDString: String = try XCTUnwrap(resourceMatcher.attribute(forKeyPath: "_atatus.span_id"))
+        let spanIDString: String = try XCTUnwrap(resourceMatcher.attribute(forKeyPath: "_towersignal.span_id"))
         let spanID = SpanID(spanIDString, representation: .decimal)
-        let traceIDString: String = try XCTUnwrap(resourceMatcher.attribute(forKeyPath: "_atatus.trace_id"))
+        let traceIDString: String = try XCTUnwrap(resourceMatcher.attribute(forKeyPath: "_towersignal.trace_id"))
         let traceID = TraceID(traceIDString, representation: .hexadecimal)
-        let sessionSampleRate: Float = try XCTUnwrap(resourceMatcher.attribute(forKeyPath: "_atatus.configuration.session_sample_rate"))
+        let sessionSampleRate: Float = try XCTUnwrap(resourceMatcher.attribute(forKeyPath: "_towersignal.configuration.session_sample_rate"))
         let spanDD = try XCTUnwrap(span.context.dd)
 
         XCTAssertNotEqual(spanID, spanDD.spanID)
-        XCTAssertNotEqual(request.value(forHTTPHeaderField: "x-atatus-parent-id"), spanDD.spanID.toString(representation: .decimal))
-        XCTAssertEqual(request.value(forHTTPHeaderField: "x-atatus-sampling-priority"), "1")
+        XCTAssertNotEqual(request.value(forHTTPHeaderField: "x-towersignal-parent-id"), spanDD.spanID.toString(representation: .decimal))
+        XCTAssertEqual(request.value(forHTTPHeaderField: "x-towersignal-sampling-priority"), "1")
 
         if expectation == .rum {
             XCTAssertNotEqual(traceID, span.context.dd?.traceID)
-            XCTAssertNotEqual(request.value(forHTTPHeaderField: "x-atatus-trace-id"), spanDD.traceID.toString(representation: .decimal))
-            XCTAssertNotNil(request.value(forHTTPHeaderField: "x-atatus-sampling-priority"))
+            XCTAssertNotEqual(request.value(forHTTPHeaderField: "x-towersignal-trace-id"), spanDD.traceID.toString(representation: .decimal))
+            XCTAssertNotNil(request.value(forHTTPHeaderField: "x-towersignal-sampling-priority"))
             XCTAssertNotNil(request.value(forHTTPHeaderField: "traceparent"))
             XCTAssertEqual(sessionSampleRate, 80)
         } else { // expectation == .activeSpan
-            let parentSpanIDString: String = try XCTUnwrap(resourceMatcher.attribute(forKeyPath: "_atatus.parent_span_id"))
+            let parentSpanIDString: String = try XCTUnwrap(resourceMatcher.attribute(forKeyPath: "_towersignal.parent_span_id"))
             let parentSpanID = SpanID(parentSpanIDString, representation: .decimal)
             XCTAssertEqual(traceID, spanDD.traceID)
             XCTAssertEqual(parentSpanID, spanDD.spanID)
-            XCTAssertEqual(request.value(forHTTPHeaderField: "x-atatus-trace-id"), spanDD.traceID.toString(representation: .decimal))
+            XCTAssertEqual(request.value(forHTTPHeaderField: "x-towersignal-trace-id"), spanDD.traceID.toString(representation: .decimal))
             XCTAssertNotNil(request.value(forHTTPHeaderField: "traceparent"))
             XCTAssertEqual(sessionSampleRate, 80)
         }

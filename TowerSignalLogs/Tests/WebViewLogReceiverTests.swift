@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`; renamed the `DD` symbol prefix to `AT`; renamed the `ddsource` / `ddtags` query
-// parameters to `atatus_source` / `atatustags`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`; renamed the `DD` symbol prefix to `AT`; renamed the `ddsource` / `ddtags` query
+// parameters to `towersignal_source` / `towersignaltags`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusLogs
+@testable import TowerSignalLogs
 
 class WebViewLogReceiverTests: XCTestCase {
     func testParsingLogEvent() throws {
@@ -30,7 +30,7 @@ class WebViewLogReceiverTests: XCTestCase {
             "status": "error",
             "view": {
               "referrer": "",
-              "url": "https://atatus.dev/browser-sdk-test-playground"
+              "url": "https://towersignal.dev/browser-sdk-test-playground"
             }
           },
           "tags": [
@@ -55,7 +55,7 @@ class WebViewLogReceiverTests: XCTestCase {
         XCTAssertEqual(try json.value("session_id"), "0110cab4-7471-480e-aa4e-7ce039ced355")
         XCTAssertEqual(try json.value("status"), "error")
         XCTAssertEqual(try json.value("view.referrer"), "")
-        XCTAssertEqual(try json.value("view.url"), "https://atatus.dev/browser-sdk-test-playground")
+        XCTAssertEqual(try json.value("view.url"), "https://towersignal.dev/browser-sdk-test-playground")
     }
 
     func testReceiveEvent() throws {
@@ -80,7 +80,7 @@ class WebViewLogReceiverTests: XCTestCase {
         waitForExpectations(timeout: 0.5, handler: nil)
         let received: AnyEncodable = try XCTUnwrap(core.events().last, "It should send event")
         let expected: [String: Any] = [
-            "atatusTags": "service:abc,version:abc,sdk_version:abc,env:abc",
+            "towersignalTags": "service:abc,version:abc,sdk_version:abc,env:abc",
             "test": value
         ]
 
@@ -117,7 +117,7 @@ class WebViewLogReceiverTests: XCTestCase {
             "message": "console error: error",
             "session_id": "0110cab4-7471-480e-aa4e-7ce039ced355",
             "status": "error",
-            "view": ["referrer": "", "url": "https://atatus.dev/browser-sdk-test-playground"]
+            "view": ["referrer": "", "url": "https://towersignal.dev/browser-sdk-test-playground"]
         ]
 
         // When
@@ -136,8 +136,8 @@ class WebViewLogReceiverTests: XCTestCase {
             "application_id": "123456",
             "session_id": mockSessionID.uuidString.lowercased(),
             "status": "error",
-            "atatusTags": "service:abc,version:\(applicationVersion),sdk_version:abc,env:\(environment)",
-            "view": ["referrer": "", "url": "https://atatus.dev/browser-sdk-test-playground"]
+            "towersignalTags": "service:abc,version:\(applicationVersion),sdk_version:abc,env:\(environment)",
+            "view": ["referrer": "", "url": "https://towersignal.dev/browser-sdk-test-playground"]
         ]
 
         let received: AnyEncodable = try XCTUnwrap(core.events().first, "It should send event")

@@ -2,17 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AtatusLicenseKey</key>
+	<key>TowerSignalLicenseKey</key>
 	<string>lic_apm_3c890780dd3a4acd97fab9ce6eb5b917</string>
-	<key>AtatusEnvironment</key>
+	<key>TowerSignalEnvironment</key>
 	<string>demo</string>
-	<key>AtatusServerURL</key>
+	<key>TowerSignalServerURL</key>
 	<string>http://127.0.0.1:8088</string>
-	<key>AtatusAppName</key>
+	<key>TowerSignalAppName</key>
 	<string>FlipShop</string>
-	<key>AtatusServiceName</key>
+	<key>TowerSignalServiceName</key>
 	<string>FlipShop</string>
-	<key>AtatusApplicationID</key>
+	<key>TowerSignalApplicationID</key>
 	<string>FlipShop</string>
 </dict>
 </plist>

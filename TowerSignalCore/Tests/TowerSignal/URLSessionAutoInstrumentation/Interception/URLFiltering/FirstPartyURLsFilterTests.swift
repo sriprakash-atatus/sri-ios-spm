@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`; removed the `dd`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`; removed the `dd`
 // name from comments and docs; rebranded the licence header.
 
 import XCTest
-@testable import AtatusCore
+@testable import TowerSignalCore
 
 class FirstPartyURLsFilterTests: XCTestCase {
     let fixtures1stParty = [
@@ -51,7 +51,7 @@ class FirstPartyURLsFilterTests: XCTestCase {
     }
 
     func testWhenURLHostEndingMatchesAnyUserDefinedHost_itIsConsideredFirstParty() {
-        // NOTE: RUMM-722 why that for loop here? https://github.com/dd/atatus-sdk-ios/pull/384
+        // NOTE: RUMM-722 why that for loop here? https://github.com/dd/towersignal-sdk-ios/pull/384
         for _ in 0...5 {
             let filter = FirstPartyURLsFilter(
                 hosts: ["first-party.com": .init(.dd), "eu": .init(.dd)]
@@ -67,7 +67,7 @@ class FirstPartyURLsFilterTests: XCTestCase {
     }
 
     func testWhenURLHostDoesNotMatchEndingOfAnyOfUserDefinedHosts_itIsNotConsideredFirstParty() {
-        // NOTE: RUMM-722 why that for loop here? https://github.com/dd/atatus-sdk-ios/pull/384
+        // NOTE: RUMM-722 why that for loop here? https://github.com/dd/towersignal-sdk-ios/pull/384
         for _ in 0...5 {
             let filter = FirstPartyURLsFilter(
                 hosts: ["first-party.com": .init(.dd), "eu": .init(.b3m)]

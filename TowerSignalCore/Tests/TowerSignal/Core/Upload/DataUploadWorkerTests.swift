@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusCore
+import TowerSignalInternal
+@testable import TowerSignalCore
 
 class DataUploadWorkerTests: XCTestCase {
     private let uploaderQueue = DispatchQueue(label: "dd-tests-uploader", target: .global(qos: .utility))
@@ -525,7 +525,7 @@ class DataUploadWorkerTests: XCTestCase {
         // Then
         XCTAssertEqual(
             dd.logger.errorLog?.message,
-            "⚠️ Make sure that the provided token still exists and you're targeting the relevant Atatus site.",
+            "⚠️ Make sure that the provided token still exists and you're targeting the relevant TowerSignal site.",
             "An error should be printed to `userLogger`. All captured logs:\n\(dd.logger.recordedLogs)"
         )
     }

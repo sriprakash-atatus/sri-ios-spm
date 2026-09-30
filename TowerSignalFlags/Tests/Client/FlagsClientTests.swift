@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddInternal`
-// -> `AtatusInternal`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddInternal`
+// -> `TowerSignalInternal`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
 @_spi(Internal)
-@testable import AtatusFlags
+@testable import TowerSignalFlags
 
 final class FlagsClientTests: XCTestCase {
     func testCreate() {
@@ -39,8 +39,8 @@ final class FlagsClientTests: XCTestCase {
         XCTAssertEqual(
             printFunction.printedMessages,
             [
-                "🔥 Atatus SDK usage error: Attempted to create a `FlagsClient` named 'default', but one already exists. The existing client will be used, and new configuration will be ignored.",
-                "🔥 Atatus SDK usage error: Attempted to create a `FlagsClient` named 'test', but one already exists. The existing client will be used, and new configuration will be ignored."
+                "🔥 TowerSignal SDK usage error: Attempted to create a `FlagsClient` named 'default', but one already exists. The existing client will be used, and new configuration will be ignored.",
+                "🔥 TowerSignal SDK usage error: Attempted to create a `FlagsClient` named 'test', but one already exists. The existing client will be used, and new configuration will be ignored."
             ]
         )
     }
@@ -60,7 +60,7 @@ final class FlagsClientTests: XCTestCase {
         XCTAssertTrue(client is FallbackFlagsClient)
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Failed to create `FlagsClient` named 'default': Flags feature must be enabled first. Call `Flags.enable()` before creating clients. Operating in no-op mode."
+            "🔥 TowerSignal SDK usage error: Failed to create `FlagsClient` named 'default': Flags feature must be enabled first. Call `Flags.enable()` before creating clients. Operating in no-op mode."
         )
     }
 
@@ -96,7 +96,7 @@ final class FlagsClientTests: XCTestCase {
         XCTAssertTrue(notFoundClient is FallbackFlagsClient)
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Attempted to use a `FlagsClient` named 'foo', but no such client exists. Create the client with `FlagsClient.create(name:in:)` before using it. Operating in no-op mode."
+            "🔥 TowerSignal SDK usage error: Attempted to use a `FlagsClient` named 'foo', but no such client exists. Create the client with `FlagsClient.create(name:in:)` before using it. Operating in no-op mode."
         )
     }
 
@@ -115,7 +115,7 @@ final class FlagsClientTests: XCTestCase {
         XCTAssertTrue(client is FallbackFlagsClient)
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Attempted to use a `FlagsClient` named 'default', but no such client exists. Create the client with `FlagsClient.create(name:in:)` before using it. Operating in no-op mode."
+            "🔥 TowerSignal SDK usage error: Attempted to use a `FlagsClient` named 'default', but no such client exists. Create the client with `FlagsClient.create(name:in:)` before using it. Operating in no-op mode."
         )
     }
 

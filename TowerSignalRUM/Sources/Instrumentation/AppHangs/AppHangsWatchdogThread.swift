@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `DD` symbol prefix to `AT`; renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `DD` symbol prefix to `AT`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the
 // licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal protocol AppHangsObservingThread: Flushable {
     /// Starts the thread with given delegate.
@@ -104,7 +104,7 @@ internal final class AppHangsWatchdogThread: Thread, AppHangsObservingThread {
         self.telemetry = telemetry
 
         super.init()
-        self.name = "com.atatus.app-hang-watchdog"
+        self.name = "com.towersignal.app-hang-watchdog"
 
         if Thread.isMainThread {
             // When initialization happens on the main thread, we can get its `ThreadID` right away, so startup hangs are covered

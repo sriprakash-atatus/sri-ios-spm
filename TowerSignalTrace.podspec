@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
-  s.name         = "AtatusTrace"
+  s.name         = "TowerSignalTrace"
   s.version      = "3.15.0"
-  s.summary      = "Atatus Trace Module."
+  s.summary      = "TowerSignal Trace Module."
 
-  s.homepage     = "https://www.atatus.com"
+  s.homepage     = "https://www.towersignal.com"
 
   s.license            = { :type => "Apache", :file => 'LICENSE' }
-  s.authors            = { "Atatus" => "info@atatus.com" }
+  s.authors            = { "TowerSignal" => "info@towersignal.com" }
 
   s.swift_version = '6.0'
   s.ios.deployment_target = '12.0'
@@ -14,10 +14,10 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '7.0'
   s.visionos.deployment_target = '1.0'
 
-  s.source = { :git => "https://github.com/Atatus/atatus-sdk-ios.git", :tag => s.version.to_s }
+  s.source = { :git => "https://github.com/TowerSignal/towersignal-sdk-ios.git", :tag => s.version.to_s }
 
   s.source_files = ["TowerSignalTrace/Sources/**/*.swift"]
 
-  s.dependency 'AtatusInternal', s.version.to_s
+  s.dependency 'TowerSignalInternal', s.version.to_s
   s.dependency 'OpenTelemetry-Swift-Api', '~> 2.5.0'
 end

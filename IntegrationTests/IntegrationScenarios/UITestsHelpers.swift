@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
 // `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`; renamed the `DD-*` intake headers to their
-// Atatus equivalents; rebranded the licence header.
+// TowerSignal equivalents; rebranded the licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import HTTPServerMock
 import TestUtilities
 import XCTest
@@ -19,7 +19,7 @@ let semverRegex = "^\(semverPattern)$"
 
 /// Regex for matching the value of UA header, e.g.: "User-Agent: Example/1.0 CFNetwork (iPhone; iOS/14.5)"
 let userAgentRegex = #"^.*/\d+[.\d]* CFNetwork \([a-zA-Z ]+; iOS/[0-9.]+\)$"#
-/// Regex for matching the value of `ATATUS-REQUEST-ID` header, e.g. "ATATUS-REQUEST-ID: 524A2616-D2AA-4FE5-BBD9-898D173BE658"
+/// Regex for matching the value of `TOWERSIGNAL-REQUEST-ID` header, e.g. "TOWERSIGNAL-REQUEST-ID: 524A2616-D2AA-4FE5-BBD9-898D173BE658"
 let atRequestIDRegex = #"^[0-9A-F]{8}(-[0-9A-F]{4}){3}-[0-9A-F]{12}$"#
 let numberPattern = "[0-9]+$"
 let sha1Regex = "^[0-9a-f]{40}$"
@@ -54,12 +54,12 @@ class ExampleApplication: XCUIApplication {
 
         // ATCHG: Point the agent's intake at the mock server. `customEndpoint` only redirects
         // feature uploads; the logs heartbeat the SDK polls on start is built from
-        // `AtatusSite.serverUrl`, which it reads from this variable. Left unset, that heartbeat
+        // `TowerSignalSite.serverUrl`, which it reads from this variable. Left unset, that heartbeat
         // goes to the production intake, answers `allowAgent: false` for the UI-test placeholder
         // license key, and the Logs feature holds every batch back.
         if let address = Bundle(for: IntegrationTests.self)
             .object(forInfoDictionaryKey: "MockServerAddress") as? String {
-            variables["ATATUS_SERVER_URL"] = "http://\(address)"
+            variables["TOWERSIGNAL_SERVER_URL"] = "http://\(address)"
         }
 
         launchEnvironment = variables
@@ -138,10 +138,10 @@ func sendCIAppLog(_ value: CustomStringConvertible) {
     print(value)
 }
 
-// ATCHG: Every intake upload carries the Atatus identification query items added by
-// `URLRequestBuilder.QueryItem`, matching the Atatus Android agent's request factories.
+// ATCHG: Every intake upload carries the TowerSignal identification query items added by
+// `URLRequestBuilder.QueryItem`, matching the TowerSignal Android agent's request factories.
 /// Asserts the identification query items that the agent puts on every intake request.
-func assertAtatusIdentificationQueryItems(
+func assertTowerSignalIdentificationQueryItems(
     in request: HTTPServerMock.Request,
     file: StaticString = #file,
     line: UInt = #line
@@ -151,10 +151,10 @@ func assertAtatusIdentificationQueryItems(
         return
     }
 
-    XCTAssertEqual(queryItems.count, 5, "Expected the 5 Atatus identification query items", file: file, line: line)
-    XCTAssertEqual(queryItems.value(name: "atatus_source"), "ios", file: file, line: line)
+    XCTAssertEqual(queryItems.count, 5, "Expected the 5 TowerSignal identification query items", file: file, line: line)
+    XCTAssertEqual(queryItems.value(name: "towersignal_source"), "ios", file: file, line: line)
     XCTAssertEqual(queryItems.value(name: "license_key"), "ui-tests-client-token", file: file, line: line)
-    XCTAssertEqual(queryItems.value(name: "agent_name"), "Atatus iOS Agent", file: file, line: line)
+    XCTAssertEqual(queryItems.value(name: "agent_name"), "TowerSignal iOS Agent", file: file, line: line)
     XCTAssertEqual(queryItems.value(name: "agent_version")?.matches(regex: semverRegex), true, file: file, line: line)
     XCTAssertNotNil(queryItems.value(name: "app_name"), "`app_name` must be sent, even when empty", file: file, line: line)
 }

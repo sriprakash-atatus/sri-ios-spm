@@ -1,32 +1,32 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddMachProfiler` -> `AtatusMachProfiler`, `ddProfiling` -> `AtatusProfiling`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddMachProfiler` -> `TowerSignalMachProfiler`, `ddProfiling` -> `TowerSignalProfiling`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 #if !os(watchOS)
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusProfiling
+@testable import TowerSignalProfiling
 //swiftlint:disable duplicate_imports
-import AtatusMachProfiler
-import AtatusMachProfiler.Testing
+import TowerSignalMachProfiler
+import TowerSignalMachProfiler.Testing
 //swiftlint:enable duplicate_imports
 
-final class AtatusProfilerTests: XCTestCase {
+final class TowerSignalProfilerTests: XCTestCase {
     private var core: PassthroughCoreMock!  // swiftlint:disable:this implicitly_unwrapped_optional
     private let profilerQueue = DispatchQueue(label: "test.profiler")
 
     override func setUp() {
         super.setUp()
         core = PassthroughCoreMock(context: .mockWith(applicationStateHistory: .mockAppInForeground()))
-        AtatusProfiler.resetActiveInstance()
+        TowerSignalProfiler.resetActiveInstance()
         dd_profiler_stop()
         dd_profiler_destroy()
     }
@@ -34,7 +34,7 @@ final class AtatusProfilerTests: XCTestCase {
     override func tearDown() {
         profilerQueue.sync {}
         core.messageReceiver = NOPFeatureMessageReceiver()
-        AtatusProfiler.resetActiveInstance()
+        TowerSignalProfiler.resetActiveInstance()
         dd_profiler_stop()
         dd_profiler_destroy()
         dd_delete_profiling_defaults()
@@ -204,7 +204,7 @@ final class AtatusProfilerTests: XCTestCase {
 
 // MARK: - Notifications
 
-extension AtatusProfilerTests {
+extension TowerSignalProfilerTests {
     func testApplicationDidEnterBackground_stopsProfiler() {
         // Given
         let dateProvider = DateProviderMock()
@@ -454,7 +454,7 @@ extension AtatusProfilerTests {
 
 // MARK: - Sampling Decisions
 
-extension AtatusProfilerTests {
+extension TowerSignalProfilerTests {
     func testContinuousProfiler_doesNotStartProfilerAtInit_whenWaitingForInitialContext() {
         // Given
         XCTAssertEqual(dd_profiler_get_status(), AT_PROFILER_STATUS_NOT_CREATED)
@@ -712,7 +712,7 @@ extension AtatusProfilerTests {
 
     func testWritesProfileOnTimer_whenContinuousProfileIsNotSampled_andOperationsComplete() {
         // Given
-        let initialDate = Date().addingTimeInterval(-(AtatusProfiler.Constants.minProfileDuration + 3))
+        let initialDate = Date().addingTimeInterval(-(TowerSignalProfiler.Constants.minProfileDuration + 3))
         let dateProvider = DateProviderMock(now: initialDate)
         core.context = .mockWith(applicationStateHistory: .mockAppInForeground(since: initialDate.addingTimeInterval(-1)))
 
@@ -740,7 +740,7 @@ extension AtatusProfilerTests {
         flushQueue()
         XCTAssertEqual(dd_profiler_get_status(), AT_PROFILER_STATUS_RUNNING)
 
-        dateProvider.now = dateProvider.now.addingTimeInterval(AtatusProfiler.Constants.minProfileDuration + 1)
+        dateProvider.now = dateProvider.now.addingTimeInterval(TowerSignalProfiler.Constants.minProfileDuration + 1)
 
         let endOperation = Vital.mockWith(
             name: startOperation.name,
@@ -766,7 +766,7 @@ extension AtatusProfilerTests {
 
 // MARK: - Write Decisions
 
-extension AtatusProfilerTests {
+extension TowerSignalProfilerTests {
     func testDoesNotWriteProfile_whenNoEventsAccumulated() {
         // Given
         let dateProvider = DateProviderMock()
@@ -992,7 +992,7 @@ extension AtatusProfilerTests {
 
 // MARK: - Custom Profiling
 
-extension AtatusProfilerTests {
+extension TowerSignalProfilerTests {
     func testCustomProfiler_doesNotStartProfilerAtInit() {
         // Given
         XCTAssertEqual(dd_profiler_get_status(), AT_PROFILER_STATUS_NOT_CREATED)
@@ -1127,7 +1127,7 @@ extension AtatusProfilerTests {
         // Given
         // Start dateProvider 8 seconds in the past so that after advancing by minProfileDuration+1,
         // the resulting fireDate is still in the past and the timer fires immediately.
-        let initialDate = Date().addingTimeInterval(-(AtatusProfiler.Constants.minProfileDuration + 3))
+        let initialDate = Date().addingTimeInterval(-(TowerSignalProfiler.Constants.minProfileDuration + 3))
         let dateProvider = DateProviderMock(now: initialDate)
         // Ensure core.context has an active state that falls within dateProvider.now's range
         core.context = .mockWith(applicationStateHistory: .mockAppInForeground(since: initialDate.addingTimeInterval(-1)))
@@ -1143,7 +1143,7 @@ extension AtatusProfilerTests {
 
         // Advance dateProvider by minProfileDuration+1 — the result is still in the past,
         // so fireTimer(after: 0) sets a past fireDate and the timer fires immediately.
-        dateProvider.now = dateProvider.now.addingTimeInterval(AtatusProfiler.Constants.minProfileDuration + 1)
+        dateProvider.now = dateProvider.now.addingTimeInterval(TowerSignalProfiler.Constants.minProfileDuration + 1)
 
         let endOp: Vital = .mockWith(name: startOp.name, operationKey: startOp.operationKey, stepType: .end)
 
@@ -1161,7 +1161,7 @@ extension AtatusProfilerTests {
 
     func testCustomProfiler_includesVitalsInProfile_whenOperationsComplete() throws {
         // Given
-        let initialDate = Date().addingTimeInterval(-(AtatusProfiler.Constants.minProfileDuration + 3))
+        let initialDate = Date().addingTimeInterval(-(TowerSignalProfiler.Constants.minProfileDuration + 3))
         let dateProvider = DateProviderMock(now: initialDate)
         core.context = .mockWith(applicationStateHistory: .mockAppInForeground(since: initialDate.addingTimeInterval(-1)))
         let profiler = customProfiler(dateProvider: dateProvider)
@@ -1172,7 +1172,7 @@ extension AtatusProfilerTests {
         _ = profiler.receive(message: .payload(OperationMessage(attributes: mockRandomAttributes(), operation: startOp)), from: core)
         flushQueue()
 
-        dateProvider.now = dateProvider.now.addingTimeInterval(AtatusProfiler.Constants.minProfileDuration + 1)
+        dateProvider.now = dateProvider.now.addingTimeInterval(TowerSignalProfiler.Constants.minProfileDuration + 1)
 
         let endOp = Vital.mockWith(id: "end-id", name: startOp.name, operationKey: startOp.operationKey, stepType: .end)
 
@@ -1262,7 +1262,7 @@ extension AtatusProfilerTests {
         flushQueue()
 
         // Advance past the RUM event cutoff.
-        dateProvider.now = dateProvider.now.addingTimeInterval(AtatusProfiler.Constants.cutOffTime + 1)
+        dateProvider.now = dateProvider.now.addingTimeInterval(TowerSignalProfiler.Constants.cutOffTime + 1)
 
         // When - app launch vital received after cutoff
         let launchVital = Vital.mockWith()
@@ -1402,24 +1402,24 @@ extension AtatusProfilerTests {
 
 // MARK: - Singleton Guard
 
-extension AtatusProfilerTests {
+extension TowerSignalProfilerTests {
     func testSingletonGuard() {
         // When
         let profiler = continuousProfiler()
 
         // Then
-        XCTAssertTrue(AtatusProfiler.isInstantiated)
+        XCTAssertTrue(TowerSignalProfiler.isInstantiated)
         XCTAssertNotNil(profiler)
     }
 
     func testSingletonGuard_secondInstanceIsIgnored() {
         // Given
         let first = continuousProfiler()
-        XCTAssertTrue(AtatusProfiler.isInstantiated)
+        XCTAssertTrue(TowerSignalProfiler.isInstantiated)
         XCTAssertEqual(dd_profiler_get_status(), AT_PROFILER_STATUS_NOT_CREATED)
 
         // When
-        let second = AtatusProfiler(
+        let second = TowerSignalProfiler(
             core: core,
             profilingSamplerProvider: profilingSamplerProvider(isContinuousProfiling: true),
             quotaChecker: quotaChecker()
@@ -1434,17 +1434,17 @@ extension AtatusProfilerTests {
 
     func testSingletonGuard_instanceBecomesActiveAfterPreviousDeallocates() {
         // Given
-        var first: AtatusProfiler? = continuousProfiler()
-        XCTAssertTrue(AtatusProfiler.isInstantiated)
+        var first: TowerSignalProfiler? = continuousProfiler()
+        XCTAssertTrue(TowerSignalProfiler.isInstantiated)
         XCTAssertNotNil(first)
         first = nil
-        XCTAssertFalse(AtatusProfiler.isInstantiated, "Singleton guard should be released after dealloc")
+        XCTAssertFalse(TowerSignalProfiler.isInstantiated, "Singleton guard should be released after dealloc")
 
         // When
         let second = continuousProfiler()
 
         // Then
-        XCTAssertTrue(AtatusProfiler.isInstantiated)
+        XCTAssertTrue(TowerSignalProfiler.isInstantiated)
         XCTAssertEqual(dd_profiler_get_status(), AT_PROFILER_STATUS_NOT_CREATED)
         let hang = DurationEvent(id: .mockRandom(), type: .error, start: 0, duration: 500)
         XCTAssertTrue(second.receive(message: .payload(AppHangMessage(attributes: mockRandomAttributes(), hang: hang)), from: core))
@@ -1456,12 +1456,12 @@ extension AtatusProfilerTests {
         let iterations = 100
         let expectation = expectation(description: "All concurrent creations complete")
         expectation.expectedFulfillmentCount = iterations
-        var profilers: [AtatusProfiler?] = []
+        var profilers: [TowerSignalProfiler?] = []
         let lock = NSLock()
 
         // When - many instances created concurrently
         DispatchQueue.concurrentPerform(iterations: iterations) { _ in
-            let profiler = AtatusProfiler(
+            let profiler = TowerSignalProfiler(
                 core: core,
                 profilingSamplerProvider: profilingSamplerProvider(isContinuousProfiling: true),
                 quotaChecker: quotaChecker()
@@ -1475,13 +1475,13 @@ extension AtatusProfilerTests {
         // Then
         wait(for: [expectation], timeout: 1.0)
         XCTAssertEqual(profilers.compactMap { $0 }.count, 1, "Exactly one instance should have been created")
-        XCTAssertTrue(AtatusProfiler.isInstantiated)
+        XCTAssertTrue(TowerSignalProfiler.isInstantiated)
     }
 }
 
 // MARK: - Telemetry
 
-extension AtatusProfilerTests {
+extension TowerSignalProfilerTests {
     func testContinuousProfiler_sendsProfilingSessionMetric_whenProfileIsWritten() throws {
         // Given
         let telemetry = TelemetryMock()
@@ -1567,7 +1567,7 @@ extension AtatusProfilerTests {
         // Given
         let telemetry = TelemetryMock()
         let telemetryController = ProfilingTelemetryController(telemetry: telemetry)
-        let initialDate = Date().addingTimeInterval(-(AtatusProfiler.Constants.minProfileDuration + 3))
+        let initialDate = Date().addingTimeInterval(-(TowerSignalProfiler.Constants.minProfileDuration + 3))
         let dateProvider = DateProviderMock(now: initialDate)
         core.context = .mockWith(applicationStateHistory: .mockAppInForeground(since: initialDate.addingTimeInterval(-1)))
         let profiler = customProfiler(telemetryController: telemetryController, dateProvider: dateProvider)
@@ -1578,7 +1578,7 @@ extension AtatusProfilerTests {
         _ = profiler.receive(message: .payload(OperationMessage(attributes: mockRandomAttributes(), operation: startOperation)), from: core)
         flushQueue()
 
-        dateProvider.now = dateProvider.now.addingTimeInterval(AtatusProfiler.Constants.minProfileDuration + 1)
+        dateProvider.now = dateProvider.now.addingTimeInterval(TowerSignalProfiler.Constants.minProfileDuration + 1)
         let endOperation = Vital.mockWith(
             name: startOperation.name,
             operationKey: startOperation.operationKey,
@@ -1606,7 +1606,7 @@ extension AtatusProfilerTests {
 
 // MARK: - Profiling Quota
 
-extension AtatusProfilerTests {
+extension TowerSignalProfilerTests {
     func testQuotaIsCheckedAsSoonAsContextIsShared() {
         // Given
         let quotaChecker = ProfilingQuotaCheckerMock()
@@ -1964,7 +1964,7 @@ extension AtatusProfilerTests {
     func testCustomProfiler_stopsAndDoesNotWriteProfile_whenQuotaIsRejected() throws {
         // Given
         let quotaChecker = ProfilingQuotaCheckerMock()
-        let initialDate = Date().addingTimeInterval(-(AtatusProfiler.Constants.minProfileDuration + 3))
+        let initialDate = Date().addingTimeInterval(-(TowerSignalProfiler.Constants.minProfileDuration + 3))
         let dateProvider = DateProviderMock(now: initialDate)
         let profilingSamplerProvider = profilingSamplerProvider(isContinuousProfiling: false)
         core.context = .mockWith(
@@ -2016,7 +2016,7 @@ extension AtatusProfilerTests {
 
 // MARK: - Private
 
-private extension AtatusProfilerTests {
+private extension TowerSignalProfilerTests {
     func waitForProfileWrite(
         expectingWrite: Bool = true,
         timeout: TimeInterval = 0.1,
@@ -2055,8 +2055,8 @@ private extension AtatusProfilerTests {
         telemetryController: ProfilingTelemetryController = .init(),
         dateProvider: DateProvider = DateProviderMock(),
         quotaChecker: ProfilingQuotaChecking = ProfilingQuotaCheckerMock()
-    ) -> AtatusProfiler {
-        return AtatusProfiler(
+    ) -> TowerSignalProfiler {
+        return TowerSignalProfiler(
             core: core,
             profilingSamplerProvider: profilingSamplerProvider,
             quotaChecker: quotaChecker,
@@ -2074,8 +2074,8 @@ private extension AtatusProfilerTests {
         telemetryController: ProfilingTelemetryController = .init(),
         dateProvider: DateProvider = DateProviderMock(),
         quotaChecker: ProfilingQuotaChecking = ProfilingQuotaCheckerMock()
-    ) -> AtatusProfiler {
-        AtatusProfiler(
+    ) -> TowerSignalProfiler {
+        TowerSignalProfiler(
             core: core,
             profilingSamplerProvider: profilingSamplerProvider(isContinuousProfiling: false),
             quotaChecker: quotaChecker,
@@ -2099,7 +2099,7 @@ private extension AtatusProfilerTests {
         return quotaChecker
     }
 
-    func shareCurrentContext(with profiler: AtatusProfiler) {
+    func shareCurrentContext(with profiler: TowerSignalProfiler) {
         _ = profiler.receive(message: .context(core.context), from: core)
         flushQueue()
     }
@@ -2115,7 +2115,7 @@ private extension AtatusProfilerTests {
     }
 
     func connectMessageReceiver(
-        to profiler: AtatusProfiler,
+        to profiler: TowerSignalProfiler,
         profilingSamplerProvider: ProfilingSamplerProvider,
         quotaChecker: ProfilingQuotaChecking? = nil
     ) {

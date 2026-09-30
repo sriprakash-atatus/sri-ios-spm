@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `com.ddhq.*`
-// identifiers to `com.atatus.*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `com.ddhq.*`
+// identifiers to `com.towersignal.*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 // swiftlint:disable duplicate_imports
 #if COCOAPODS
@@ -25,7 +25,7 @@ internal import KSCrashFilters
 // swiftlint:enable duplicate_imports
 
 /// The implementation of `CrashReportingPlugin`.
-/// Pass its instance as the crash reporting plugin for Atatus SDK to enable crash reporting feature.
+/// Pass its instance as the crash reporting plugin for TowerSignal SDK to enable crash reporting feature.
 @objc
 internal class KSCrashPlugin: NSObject, CrashReportingPlugin {
     private let store: CrashReportStore
@@ -33,17 +33,17 @@ internal class KSCrashPlugin: NSObject, CrashReportingPlugin {
 
     init(_ kscrash: KSCrash = .shared, telemetry: Telemetry = NOPTelemetry()) throws {
         do {
-            try kscrash.install(with: .atatus())
+            try kscrash.install(with: .towersignal())
             kscrash.reportStore?.sink = CrashReportFilterPipeline(
                 filters: [
-                    AtatusTypeSafeFilter(),
-                    AtatusMinifyFilter(),
-                    AtatusDiagnosticFilter(),
-                    AtatusCrashReportFilter(telemetry: telemetry)
+                    TowerSignalTypeSafeFilter(),
+                    TowerSignalMinifyFilter(),
+                    TowerSignalDiagnosticFilter(),
+                    TowerSignalCrashReportFilter(telemetry: telemetry)
                 ]
             )
         } catch KSCrashInstallError.alreadyInstalled {
-            consolePrint("AtatusCrashReporting error: crash reporting is already installed", .warn)
+            consolePrint("TowerSignalCrashReporting error: crash reporting is already installed", .warn)
             telemetry.debug("[KSCrash] already installed")
         } catch {
             telemetry.error("[KSCrash] Fails installation", error: error)
@@ -83,7 +83,7 @@ internal class KSCrashPlugin: NSObject, CrashReportingPlugin {
             } catch {
                 _ = completion(nil)
                 self.store.deleteAllReports()
-                consolePrint("🔥 AtatusCrashReporting error: failed to load crash report: \(error)", .error)
+                consolePrint("🔥 TowerSignalCrashReporting error: failed to load crash report: \(error)", .error)
                 self.telemetry.error("[KSCrash] Fails to load crash report", error: error)
             }
         }
@@ -100,14 +100,14 @@ internal class KSCrashPlugin: NSObject, CrashReportingPlugin {
 }
 
 extension KSCrashConfiguration {
-    static func atatus() throws -> KSCrashConfiguration {
+    static func towersignal() throws -> KSCrashConfiguration {
         let version = "v2"
 
         guard let cache = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
             throw CrashReportException(description: "Cannot obtain `/Library/Caches/` url.")
         }
 
-        let directory = cache.appendingPathComponent("com.atatus.crash-reporting/\(version)", isDirectory: true)
+        let directory = cache.appendingPathComponent("com.towersignal.crash-reporting/\(version)", isDirectory: true)
 
         let config = KSCrashConfiguration()
         config.installPath = directory.path
@@ -118,7 +118,7 @@ extension KSCrashConfiguration {
         config.reportStoreConfiguration.reportCleanupPolicy = .never
         // Disable swapping the `__cxa_throw` function as it can cause process termination
         // in some setups when C++ exceptions are thrown.
-        // See https://github.com/dd/atatus-sdk-ios/issues/2659
+        // See https://github.com/dd/towersignal-sdk-ios/issues/2659
         config.enableSwapCxaThrow = false
         return config
     }

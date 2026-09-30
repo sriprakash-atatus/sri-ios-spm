@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; rebranded the licence header.
 
 #if os(iOS)
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import CoreGraphics
 import SwiftUI
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 
 @available(iOS 13.0, tvOS 13.0, *)
 class TextReflectionTests: XCTestCase {

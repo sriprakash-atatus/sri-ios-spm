@@ -1,32 +1,32 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `clientToken` to
-// `licenseKey`; rebranded the `dd` name to `Atatus` in comments and docs; scrubbed the remaining
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `clientToken` to
+// `licenseKey`; rebranded the `dd` name to `TowerSignal` in comments and docs; scrubbed the remaining
 // `dd` name to `dd` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 @objc(ATSite)
 @objcMembers
 @_spi(objc)
-public final class objc_AtatusSite: NSObject {
-    internal let sdkSite: AtatusSite
+public final class objc_TowerSignalSite: NSObject {
+    internal let sdkSite: TowerSignalSite
 
-    internal init(sdkSite: AtatusSite) {
+    internal init(sdkSite: TowerSignalSite) {
         self.sdkSite = sdkSite
     }
 
     // MARK: - Public
 
-    // ATCHG: Replaced the nine dd region accessors with the single Atatus site,
-    // matching the single `ATATUS` entry in Android's `AtatusSite` enum.
-    public static func atatus() -> objc_AtatusSite { .init(sdkSite: .atatus) }
+    // ATCHG: Replaced the nine dd region accessors with the single TowerSignal site,
+    // matching the single `TOWERSIGNAL` entry in Android's `TowerSignalSite` enum.
+    public static func towersignal() -> objc_TowerSignalSite { .init(sdkSite: .towersignal) }
     // ATCHG: End
 }
 
@@ -37,7 +37,7 @@ public enum objc_BatchSize: Int {
     case medium
     case large
 
-    internal var swiftType: Atatus.Configuration.BatchSize {
+    internal var swiftType: TowerSignal.Configuration.BatchSize {
         switch self {
         case .small: return .small
         case .medium: return .medium
@@ -45,7 +45,7 @@ public enum objc_BatchSize: Int {
         }
     }
 
-    internal init(swiftType: Atatus.Configuration.BatchSize) {
+    internal init(swiftType: TowerSignal.Configuration.BatchSize) {
         switch swiftType {
         case .small: self = .small
         case .medium: self = .medium
@@ -61,7 +61,7 @@ public enum objc_UploadFrequency: Int {
     case average
     case rare
 
-    internal var swiftType: Atatus.Configuration.UploadFrequency {
+    internal var swiftType: TowerSignal.Configuration.UploadFrequency {
         switch self {
         case .frequent: return .frequent
         case .average: return .average
@@ -69,7 +69,7 @@ public enum objc_UploadFrequency: Int {
         }
     }
 
-    internal init(swiftType: Atatus.Configuration.UploadFrequency) {
+    internal init(swiftType: TowerSignal.Configuration.UploadFrequency) {
         switch swiftType {
         case .frequent: self = .frequent
         case .average: self = .average
@@ -85,7 +85,7 @@ public enum objc_BatchProcessingLevel: Int {
     case medium
     case high
 
-    internal var swiftType: Atatus.Configuration.BatchProcessingLevel {
+    internal var swiftType: TowerSignal.Configuration.BatchProcessingLevel {
         switch self {
         case .low: return .low
         case .medium: return .medium
@@ -93,7 +93,7 @@ public enum objc_BatchProcessingLevel: Int {
         }
     }
 
-    internal init(swiftType: Atatus.Configuration.BatchProcessingLevel) {
+    internal init(swiftType: TowerSignal.Configuration.BatchProcessingLevel) {
         switch swiftType {
         case .low: self = .low
         case .medium: self = .medium
@@ -156,7 +156,7 @@ internal struct ATServerDateProviderBridge: ServerDateProvider {
 @objcMembers
 @_spi(objc)
 public final class objc_Configuration: NSObject {
-    internal var sdkConfiguration: Atatus.Configuration
+    internal var sdkConfiguration: TowerSignal.Configuration
 
     /// Either the RUM client token (which supports RUM, Logging and APM) or regular client token, only for Logging and APM.
     public var licenseKey: String {
@@ -164,18 +164,18 @@ public final class objc_Configuration: NSObject {
         set { sdkConfiguration.licenseKey = newValue }
     }
 
-    /// The environment name which will be sent to Atatus. This can be used
+    /// The environment name which will be sent to TowerSignal. This can be used
     /// To filter events on different environments (e.g. "staging" or "production").
     public var env: String {
         get { sdkConfiguration.env }
         set { sdkConfiguration.env = newValue }
     }
 
-    /// The Atatus server site where data is sent.
+    /// The TowerSignal server site where data is sent.
     ///
-    /// Default value is `.atatus`.
-    public var site: objc_AtatusSite {
-        get { objc_AtatusSite(sdkSite: sdkConfiguration.site) }
+    /// Default value is `.towersignal`.
+    public var site: objc_TowerSignalSite {
+        get { objc_TowerSignalSite(sdkSite: sdkConfiguration.site) }
         set { sdkConfiguration.site = newValue.sdkSite }
     }
 
@@ -191,7 +191,7 @@ public final class objc_Configuration: NSObject {
     }
     // ATCHG: End
 
-    /// The service name associated with data send to Atatus.
+    /// The service name associated with data send to TowerSignal.
     ///
     /// Default value is set to application bundle identifier.
     public var service: String? {
@@ -208,7 +208,7 @@ public final class objc_Configuration: NSObject {
         set { sdkConfiguration.version = newValue }
     }
 
-    /// The preferred size of batched data uploaded to Atatus servers.
+    /// The preferred size of batched data uploaded to TowerSignal servers.
     /// This value impacts the size and number of requests performed by the SDK.
     ///
     /// `.medium` by default.
@@ -217,7 +217,7 @@ public final class objc_Configuration: NSObject {
         set { sdkConfiguration.batchSize = newValue.swiftType }
     }
 
-    /// The preferred frequency of uploading data to Atatus servers.
+    /// The preferred frequency of uploading data to TowerSignal servers.
     /// This value impacts the frequency of performing network requests by the SDK.
     ///
     /// `.average` by default.
@@ -233,7 +233,7 @@ public final class objc_Configuration: NSObject {
     }
 
     /// Proxy configuration attributes.
-    /// This can be used to a enable a custom proxy for uploading tracked data to Atatus's intake.
+    /// This can be used to a enable a custom proxy for uploading tracked data to TowerSignal's intake.
     public var proxyConfiguration: [AnyHashable: Any]? {
         get { sdkConfiguration.proxyConfiguration }
         set { sdkConfiguration.proxyConfiguration = newValue }
@@ -247,9 +247,9 @@ public final class objc_Configuration: NSObject {
 
     /// A custom NTP synchronization interface.
     ///
-    /// By default, the Atatus SDK synchronizes with dedicated NTP pools provided by the
+    /// By default, the TowerSignal SDK synchronizes with dedicated NTP pools provided by the
     /// https://www.ntppool.org/ . Using different pools or setting a no-op `ServerDateProvider`
-    /// implementation will result in desynchronization of the SDK instance and the Atatus servers.
+    /// implementation will result in desynchronization of the SDK instance and the TowerSignal servers.
     /// This can lead to significant time shift in RUM sessions or distributed traces.
     public func setServerDateProvider(_ serverDateProvider: objc_ServerDateProvider) {
         sdkConfiguration.serverDateProvider = ATServerDateProviderBridge(objcProvider: serverDateProvider)
@@ -279,13 +279,13 @@ public final class objc_Configuration: NSObject {
         set { sdkConfiguration.backgroundTasksEnabled = newValue }
     }
 
-    /// Creates a Atatus SDK Configuration object.
+    /// Creates a TowerSignal SDK Configuration object.
     ///
     /// - Parameters:
     ///   - licenseKey:    Either the RUM client token (which supports RUM, Logging and APM) or regular client token,
     ///                     only for Logging and APM.
     ///
-    ///   - env:    The environment name which will be sent to Atatus. This can be used
+    ///   - env:    The environment name which will be sent to TowerSignal. This can be used
     ///             To filter events on different environments (e.g. "staging" or "production").
     public init(licenseKey: String, env: String) {
         sdkConfiguration = .init(licenseKey: licenseKey, env: env)

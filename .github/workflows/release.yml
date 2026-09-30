@@ -1,4 +1,4 @@
-# Release for the Atatus iOS Agent as a source-based Swift Package.
+# Release for the TowerSignal iOS Agent as a source-based Swift Package.
 #
 # Consumers install the SDK straight from this repository's Git tags, so a release is just a tag:
 # `validate` checks that the tagged source resolves, builds and passes its tests, and only then

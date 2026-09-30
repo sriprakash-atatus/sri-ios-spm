@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import SwiftUI
-import AtatusTrace
-import AtatusInternal
+import TowerSignalTrace
+import TowerSignalInternal
 
 @available(iOS 13, tvOS 13, *)
 internal class DebugManualTraceInjectionViewController: UIHostingController<DebugManualTraceInjectionView> {
@@ -35,7 +35,7 @@ extension TraceContextInjection {
 @available(iOS 13, tvOS 13, *)
 internal struct DebugManualTraceInjectionView: View {
     enum TraceHeaderType: String, CaseIterable, Identifiable {
-        case atatus = "Atatus"
+        case towersignal = "TowerSignal"
         case w3c = "W3C"
         case b3Single = "B3-Single"
         case b3Multiple = "B3-Multiple"
@@ -45,7 +45,7 @@ internal struct DebugManualTraceInjectionView: View {
 
     @State private var spanName = "network request"
     @State private var requestURL = "http://10.40.31.91:4000/fast"
-    @State private var selectedTraceHeaderTypes: Set<TraceHeaderType> = [.atatus, .w3c]
+    @State private var selectedTraceHeaderTypes: Set<TraceHeaderType> = [.towersignal, .w3c]
     @State private var selectedTraceContextInjection: TraceContextInjection = .sampled
     @State private var isRequestPending = false
 
@@ -64,7 +64,7 @@ internal struct DebugManualTraceInjectionView: View {
                     .font(.caption.weight(.bold))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text("After tapping \"SEND REQUEST\", a POST request will be sent to the given URL. The request will be traced using the chosen tracing header type and sample rate. A span with specified name will be sent to Atatus.")
+                Text("After tapping \"SEND REQUEST\", a POST request will be sent to the given URL. The request will be traced using the chosen tracing header type and sample rate. A span with specified name will be sent to TowerSignal.")
                     .font(.caption.weight(.light))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -99,7 +99,7 @@ internal struct DebugManualTraceInjectionView: View {
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(isButtonDisabled ? Color.gray : Color.atatusPurple)
+            .background(isButtonDisabled ? Color.gray : Color.towersignalPurple)
             .cornerRadius(10)
             .disabled(isButtonDisabled)
             .padding(.horizontal, 8)
@@ -120,7 +120,7 @@ internal struct DebugManualTraceInjectionView: View {
 
         for selectedTraceHeaderType in selectedTraceHeaderTypes {
             switch selectedTraceHeaderType {
-            case .atatus:
+            case .towersignal:
                 let writer = HTTPHeadersWriter(
                     traceContextInjection: selectedTraceContextInjection
                 )

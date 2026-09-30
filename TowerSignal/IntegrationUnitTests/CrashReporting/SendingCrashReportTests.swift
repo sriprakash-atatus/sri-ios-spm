@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`,
-// `ddInternal` -> `AtatusInternal`, `ddLogs` -> `AtatusLogs`, `ddRUM` -> `AtatusRUM`;
-// renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`,
+// `ddInternal` -> `TowerSignalInternal`, `ddLogs` -> `TowerSignalLogs`, `ddRUM` -> `TowerSignalRUM`;
+// renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence
 // header.
 
 import XCTest
 import TestUtilities
-@testable import AtatusCrashReporting
-import AtatusInternal
-@testable import AtatusLogs
-@testable import AtatusRUM
+@testable import TowerSignalCrashReporting
+import TowerSignalInternal
+@testable import TowerSignalLogs
+@testable import TowerSignalRUM
 
 /// A crash reporter mock with two capabilities:
 /// - notifying a pending crash report found at SDK init,
@@ -38,11 +38,11 @@ private class CrashReporterMock: CrashReportingPlugin {
 
 /// Covers broad scenarios of sending Crash Reports.
 class SendingCrashReportTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy(context: .mockWith(trackingConsent: .granted))
+        core = TowerSignalCoreProxy(context: .mockWith(trackingConsent: .granted))
     }
 
     override func tearDownWithError() throws {

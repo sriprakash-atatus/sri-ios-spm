@@ -1,23 +1,23 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed `dd*`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed `dd*`
 // members to `at*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusTrace
-@testable import AtatusCore
+@testable import TowerSignalTrace
+@testable import TowerSignalCore
 
 @MainActor
 class ActiveSpansPoolTests: XCTestCase, Sendable {
-    private var core: AtatusCoreProtocol! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProtocol! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() async throws {
         core = PassthroughCoreMock()
@@ -28,7 +28,7 @@ class ActiveSpansPoolTests: XCTestCase, Sendable {
     }
 
     func testsWhenSpanIsStartedIsAssignedToActiveSpan() throws {
-        let tracer = AtatusTracer.mockAny(in: core)
+        let tracer = TowerSignalTracer.mockAny(in: core)
         let previousSpan = tracer.activeSpan
         XCTAssertNil(previousSpan)
 
@@ -40,7 +40,7 @@ class ActiveSpansPoolTests: XCTestCase, Sendable {
     }
 
     func testsWhenSpanIsFinishedIsRemovedFromActiveSpan() throws {
-        let tracer = AtatusTracer.mockAny(in: core)
+        let tracer = TowerSignalTracer.mockAny(in: core)
         XCTAssertNil(tracer.activeSpan)
 
         let oneSpan = tracer.startSpan(operationName: .mockAny()).setActive()
@@ -52,7 +52,7 @@ class ActiveSpansPoolTests: XCTestCase, Sendable {
     }
 
     func testsSpanWithoutParentInheritsActiveSpan() throws {
-        let tracer = AtatusTracer.mockAny(in: core)
+        let tracer = TowerSignalTracer.mockAny(in: core)
         let firstSpan = tracer.startSpan(operationName: .mockAny())
         firstSpan.setActive()
         let previousActiveSpan = tracer.activeSpan
@@ -70,7 +70,7 @@ class ActiveSpansPoolTests: XCTestCase, Sendable {
     }
 
     func testsSpanWithParentDoesntInheritActiveSpan() throws {
-        let tracer = AtatusTracer.mockAny(in: core)
+        let tracer = TowerSignalTracer.mockAny(in: core)
         let oneSpan = tracer.startSpan(operationName: .mockAny())
         let otherSpan = tracer.startSpan(operationName: .mockAny()).setActive()
 
@@ -87,7 +87,7 @@ class ActiveSpansPoolTests: XCTestCase, Sendable {
 
     @available(iOS 13.0, tvOS 13, *)
     func testActiveSpanIsKeptPerTask() async throws {
-        let tracer = AtatusTracer.mockAny(in: core)
+        let tracer = TowerSignalTracer.mockAny(in: core)
         let oneSpan = tracer.startSpan(operationName: .mockAny()).setActive()
 
         let task1 = Task {
@@ -115,7 +115,7 @@ class ActiveSpansPoolTests: XCTestCase, Sendable {
     }
 
     func testSetActiveSpanCalledMultipleTimesInSingleSpan() throws {
-        let tracer = AtatusTracer.mockAny(in: core)
+        let tracer = TowerSignalTracer.mockAny(in: core)
         defer { tracer.activeSpansPool.destroy() }
 
         let span = tracer.startSpan(operationName: "Reactivated")
@@ -132,7 +132,7 @@ class ActiveSpansPoolTests: XCTestCase, Sendable {
     }
 
     func testSetActiveSpanCalledMultipleTimesInTwoSpans() throws {
-        let tracer = AtatusTracer.mockAny(in: core)
+        let tracer = TowerSignalTracer.mockAny(in: core)
         defer { tracer.activeSpansPool.destroy() }
 
         let firstSpan = tracer.startSpan(operationName: .mockAny()).setActive()
@@ -156,7 +156,7 @@ class ActiveSpansPoolTests: XCTestCase, Sendable {
     }
 
     func testSetActive_givenParentWithMultipleChildren() throws {
-        let tracer = AtatusTracer.mockAny(in: core)
+        let tracer = TowerSignalTracer.mockAny(in: core)
         defer { tracer.activeSpansPool.destroy() }
 
         let parentSpan = tracer.startSpan(operationName: .mockAny()).setActive()
@@ -177,7 +177,7 @@ class ActiveSpansPoolTests: XCTestCase, Sendable {
     }
 
     func testSetActive_activeSpanProviderWorks() throws {
-        let core = AtatusCoreProxy()
+        let core = TowerSignalCoreProxy()
         Trace.enable(in: core)
         let tracer = Tracer.shared(in: core)
 

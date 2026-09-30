@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 /**
  * @file profile_packer.cpp
  * @brief Converts internal profile data structures to protobuf format for serialization
  * 
- * This module implements the conversion from Atatus's internal profiling data structures
+ * This module implements the conversion from TowerSignal's internal profiling data structures
  * to the standardized pprof protobuf format. The pprof format is a Google-defined format
  * for representing profiling data that can be consumed by various profiling tools.
  * 

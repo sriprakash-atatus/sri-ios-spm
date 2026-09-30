@@ -1,9 +1,9 @@
 name: iOS Agent Test
 
-# End-to-end validation of the Atatus iOS agent on a GitHub-hosted macOS runner:
+# End-to-end validation of the TowerSignal iOS agent on a GitHub-hosted macOS runner:
 #
-#   GitHub Actions → macOS runner → iOS Simulator → iOS sample app → Atatus iOS agent
-#                  → RUM + Logs + Traces → Atatus intake → screenshots + logs + test results
+#   GitHub Actions → macOS runner → iOS Simulator → iOS sample app → TowerSignal iOS agent
+#                  → RUM + Logs + Traces → TowerSignal intake → screenshots + logs + test results
 #
 # The sample app is `IntegrationTests/Runner` ("Integration Tests Runner.app"), the app the
 # repository's existing XCUITest suite drives. It integrates the agent through CocoaPods with the
@@ -12,11 +12,11 @@ name: iOS Agent Test
 #
 # Two of its scenarios exist for this job, and they test different things.
 #
-#   `AtatusDemoScenario`      calls the SDK's manual APIs — one of everything the agent can report.
-#   `AtatusEcommerceScenario` calls none of them. It runs the app's e-commerce feature, a shop that
+#   `TowerSignalDemoScenario`      calls the SDK's manual APIs — one of everything the agent can report.
+#   `TowerSignalEcommerceScenario` calls none of them. It runs the app's e-commerce feature, a shop that
 #                             walks its own funnel (catalog → product → cart → checkout → order)
 #                             making real requests to a store backend (`/api/store/*` on the Node
-#                             server, which runs the Atatus Node APM agent). Everything reported
+#                             server, which runs the TowerSignal Node APM agent). Everything reported
 #                             comes from auto-instrumentation: RUM views from the screens appearing,
 #                             resources and network spans from the shop's own requests (including a
 #                             first payment attempt the backend genuinely declines with a 502),
@@ -33,9 +33,9 @@ name: iOS Agent Test
 #   1. Verified locally — every product reports to the repository's own `http-server-mock` intake.
 #      The recorded payloads are read back and asserted by the XCUITest suite. Hermetic, and needs
 #      no credentials.
-#   2. Reported to Atatus — the same app reports to a real intake through `ATATUS_SERVER_URL`,
-#      which `AtatusSite.serverUrl` already reads. Delivery is judged on the intake's HTTP
-#      response codes, which the agent logs. Whether the data then appears in the Atatus UI is
+#   2. Reported to TowerSignal — the same app reports to a real intake through `TOWERSIGNAL_SERVER_URL`,
+#      which `TowerSignalSite.serverUrl` already reads. Delivery is judged on the intake's HTTP
+#      response codes, which the agent logs. Whether the data then appears in the TowerSignal UI is
 #      NOT verified here and must be checked by a human.
 
 on:
@@ -44,9 +44,9 @@ on:
       test_plan:
         description: "XCTest plan to run against the agent"
         type: choice
-        default: AtatusAgentValidation
+        default: TowerSignalAgentValidation
         options:
-          - AtatusAgentValidation
+          - TowerSignalAgentValidation
           - Default
           - RUM
           - NetworkInstrumentation
@@ -62,8 +62,8 @@ on:
         description: "Xcode version, e.g. 16.4 (blank = runner default)"
         type: string
         default: ""
-      send_to_atatus:
-        description: "Also report to the Atatus intake (needs the ATATUS_LICENSE_KEY secret)"
+      send_to_towersignal:
+        description: "Also report to the TowerSignal intake (needs the TOWERSIGNAL_LICENSE_KEY secret)"
         type: boolean
         default: true
       local_validation:
@@ -102,37 +102,37 @@ jobs:
     timeout-minutes: 120
 
     env:
-      TEST_PLAN: ${{ inputs.test_plan || 'AtatusAgentValidation' }}
+      TEST_PLAN: ${{ inputs.test_plan || 'TowerSignalAgentValidation' }}
       # Blank on push/PR, so local validation stays on by default there.
       RUN_LOCAL_VALIDATION: ${{ github.event_name != 'workflow_dispatch' || inputs.local_validation }}
       WORKSPACE: IntegrationTests/IntegrationTests.xcworkspace
       APP_SCHEME: Runner iOS
       TEST_SCHEME: IntegrationScenarios
-      APP_BUNDLE_ID: com.atatusqh.Example
+      APP_BUNDLE_ID: com.towersignalqh.Example
       DERIVED_DATA: ${{ github.workspace }}/.build/DerivedData
       BUNDLE_PATH: ${{ github.workspace }}/.build/bundle
       ARTIFACTS_DIR: ${{ github.workspace }}/artifacts/ios-agent-test
-      # The intake the Atatus phase reports to. `AtatusSite.serverUrl` already reads this variable,
-      # so no endpoint is hardcoded in app or agent code. Override with an `ATATUS_SERVER_URL`
+      # The intake the TowerSignal phase reports to. `TowerSignalSite.serverUrl` already reads this variable,
+      # so no endpoint is hardcoded in app or agent code. Override with an `TOWERSIGNAL_SERVER_URL`
       # repository variable to point somewhere else.
-      ATATUS_SERVER_URL: ${{ vars.ATATUS_SERVER_URL || 'https://demo.atatus.com' }}
-      AT_TEST_SERVICE: ${{ vars.ATATUS_SERVICE || 'ios-agent-test' }}
-      AT_TEST_ENV: ${{ vars.ATATUS_ENV || 'session-replay' }}
+      TOWERSIGNAL_SERVER_URL: ${{ vars.TOWERSIGNAL_SERVER_URL || 'https://demo.towersignal.com' }}
+      AT_TEST_SERVICE: ${{ vars.TOWERSIGNAL_SERVICE || 'ios-agent-test' }}
+      AT_TEST_ENV: ${{ vars.TOWERSIGNAL_ENV || 'session-replay' }}
       # Optional first party URL the demo scenario requests once, to exercise network tracing and
       # traceparent propagation against a real backend. Left blank, that request is skipped.
-      AT_TEST_TRACED_REQUEST_URL: ${{ vars.ATATUS_TRACED_REQUEST_URL }}
+      AT_TEST_TRACED_REQUEST_URL: ${{ vars.TOWERSIGNAL_TRACED_REQUEST_URL }}
       # Backend the e-commerce scenario's store calls — NOT an intake, and deliberately not
-      # `ATATUS_SERVER_URL`. This is the local Node server (`local server/server.js`), which serves
-      # `/api/store/*` and runs the Atatus Node APM agent under the same license key. The app's calls
+      # `TOWERSIGNAL_SERVER_URL`. This is the local Node server (`local server/server.js`), which serves
+      # `/api/store/*` and runs the TowerSignal Node APM agent under the same license key. The app's calls
       # to it are what produce the mobile → backend distributed trace: the iOS agent records each as
       # a RUM resource and client span and propagates `traceparent`, the Node agent records the same
-      # request as a server transaction, and both land in the install `ATATUS_SERVER_URL` points at.
+      # request as a server transaction, and both land in the install `TOWERSIGNAL_SERVER_URL` points at.
       #
       # A GitHub-hosted runner cannot reach a laptop, so this has to be a public address for the
-      # local server — an ngrok tunnel to port 3000. Set the `ATATUS_STORE_API_URL` repository
+      # local server — an ngrok tunnel to port 3000. Set the `TOWERSIGNAL_STORE_API_URL` repository
       # variable to it. Left unset, the store calls fail and the funnel still reports everything
       # except the backend half of the trace; the step below says so rather than failing the run.
-      AT_TEST_STORE_API_URL: ${{ vars.ATATUS_STORE_API_URL || 'https://wrought-author-whinny.ngrok-free.dev' }}
+      AT_TEST_STORE_API_URL: ${{ vars.TOWERSIGNAL_STORE_API_URL || 'https://wrought-author-whinny.ngrok-free.dev' }}
 
     steps:
       - name: Checkout
@@ -199,28 +199,28 @@ jobs:
           set -euo pipefail
           make clean repo-setup ENV=ci
 
-      - name: Configure Atatus credentials
+      - name: Configure TowerSignal credentials
         env:
-          ATATUS_LICENSE_KEY: ${{ secrets.ATATUS_LICENSE_KEY }}
+          TOWERSIGNAL_LICENSE_KEY: ${{ secrets.TOWERSIGNAL_LICENSE_KEY }}
         run: |
           set -euo pipefail
           # Phase 1 runs against the local mock intake and needs no credentials. Phase 2 needs a
           # real license key. When configured, the values are written to the git-ignored
           # `TowerSignal.local.xcconfig` that `xcconfigs/TowerSignal.xcconfig` already includes, which is the
           # repository's own mechanism for supplying them. Nothing is ever hardcoded.
-          if [ -n "${ATATUS_LICENSE_KEY:-}" ]; then
-            echo "HAS_ATATUS_CREDENTIALS=true" >> "$GITHUB_ENV"
+          if [ -n "${TOWERSIGNAL_LICENSE_KEY:-}" ]; then
+            echo "HAS_TOWERSIGNAL_CREDENTIALS=true" >> "$GITHUB_ENV"
           else
-            echo "HAS_ATATUS_CREDENTIALS=false" >> "$GITHUB_ENV"
-            echo "::warning::ATATUS_LICENSE_KEY is not configured, so the phase that reports to $ATATUS_SERVER_URL will be skipped. Local validation against the mock intake still runs."
+            echo "HAS_TOWERSIGNAL_CREDENTIALS=false" >> "$GITHUB_ENV"
+            echo "::warning::TOWERSIGNAL_LICENSE_KEY is not configured, so the phase that reports to $TOWERSIGNAL_SERVER_URL will be skipped. Local validation against the mock intake still runs."
           fi
 
-          if [ -z "${ATATUS_LICENSE_KEY:-}" ]; then
-            echo "No Atatus license key configured — running fully against the local mock intake."
+          if [ -z "${TOWERSIGNAL_LICENSE_KEY:-}" ]; then
+            echo "No TowerSignal license key configured — running fully against the local mock intake."
             exit 0
           fi
 
-          case "$ATATUS_LICENSE_KEY" in
+          case "$TOWERSIGNAL_LICENSE_KEY" in
             *//*)
               echo "::error::The license key must not contain '//' — xcconfig treats it as a comment."
               exit 1
@@ -228,8 +228,8 @@ jobs:
           esac
 
           config="// Generated by .github/workflows/ios-agent-test.yml — do not commit.
-          ATATUS_LICENSE_KEY=${ATATUS_LICENSE_KEY}
-          ATATUS_CLIENT_TOKEN=${ATATUS_LICENSE_KEY}"
+          TOWERSIGNAL_LICENSE_KEY=${TOWERSIGNAL_LICENSE_KEY}
+          TOWERSIGNAL_CLIENT_TOKEN=${TOWERSIGNAL_LICENSE_KEY}"
           printf '%s\n' "$config" | sed 's/^ *//' > xcconfigs/TowerSignal.local.xcconfig
           echo "Wrote xcconfigs/TowerSignal.local.xcconfig ($(wc -l < xcconfigs/TowerSignal.local.xcconfig) lines, values masked)."
 
@@ -241,7 +241,7 @@ jobs:
         run: |
           set -uo pipefail
           if [ -z "${AT_TEST_STORE_API_URL:-}" ]; then
-            echo "::warning::ATATUS_STORE_API_URL is not set, so the e-commerce app has no backend to call. It will still report RUM, Traces and Session Replay, but no mobile → backend distributed trace is produced. Point it at a public address for 'local server/server.js' (an ngrok tunnel to port 3000)."
+            echo "::warning::TOWERSIGNAL_STORE_API_URL is not set, so the e-commerce app has no backend to call. It will still report RUM, Traces and Session Replay, but no mobile → backend distributed trace is produced. Point it at a public address for 'local server/server.js' (an ngrok tunnel to port 3000)."
             exit 0
           fi
 
@@ -347,14 +347,14 @@ jobs:
 
       # Neither `--expect logs` nor `--expect traces`: the e-commerce app calls no SDK method by
       # hand, Logs has no auto-capture, and a first-party request becomes a RUM resource carrying
-      # the trace ids rather than a standalone span. See the Atatus e-commerce step for the detail.
+      # the trace ids rather than a standalone span. See the TowerSignal e-commerce step for the detail.
       - name: Launch app — verify the e-commerce app reports auto-captured data
         if: env.RUN_LOCAL_VALIDATION == 'true'
         run: |
           .github/scripts/simulator-agent-run.sh \
             --mode mock \
             --label ecommerce \
-            --scenario AtatusEcommerceScenario \
+            --scenario TowerSignalEcommerceScenario \
             --expect rum --expect replay
 
       # Proves the two halves of the distributed trace carry the *same* ids.
@@ -363,7 +363,7 @@ jobs:
       # mock intake, so its RUM resources can be read back, while the shop's own requests still go to
       # the real backend, which records the `traceparent` it received. If a resource's trace id is
       # not among the ones the backend saw, the two sides are describing different traces and the
-      # Atatus UI will show them separately no matter how healthy each half looks on its own.
+      # TowerSignal UI will show them separately no matter how healthy each half looks on its own.
       - name: Correlate RUM resource trace ids with the backend
         if: env.RUN_LOCAL_VALIDATION == 'true'
         run: |
@@ -399,10 +399,10 @@ jobs:
               print("::warning::No RUM resource events in the dump — nothing to correlate.")
               sys.exit(0)
 
-          # The ids live under `_atatus`, not on the resource object itself.
+          # The ids live under `_towersignal`, not on the resource object itself.
           mobile = {}
           for event in resources:
-              at = event.get("_atatus") or {}
+              at = event.get("_towersignal") or {}
               trace_id, span_id = at.get("trace_id"), at.get("span_id")
               url = str(event["resource"].get("url", "?"))
               print(f"  {event['resource'].get('method','?'):6} {url[:56]:56} "
@@ -443,7 +443,7 @@ jobs:
 
       # Phase 1b: the XCUITest suite. Real taps and real requests drive the app, and every
       # assertion runs against the payloads the agent actually uploaded.
-      - name: Run Atatus agent XCUITest suite
+      - name: Run TowerSignal agent XCUITest suite
         if: env.RUN_LOCAL_VALIDATION == 'true'
         run: |
           set -euo pipefail
@@ -458,16 +458,16 @@ jobs:
             -resultBundlePath "$result_bundle" \
             2>&1 | tee "$ARTIFACTS_DIR/logs/xcodebuild-test.log" | { command -v xcbeautify >/dev/null && xcbeautify || cat; }
 
-      # Phase 2: report to a real Atatus intake. The payloads cannot be read back from CI, so
+      # Phase 2: report to a real TowerSignal intake. The payloads cannot be read back from CI, so
       # delivery is judged on the intake's HTTP response codes, which the agent logs at .debug
-      # verbosity. Whether the data then appears in the Atatus UI is NOT verified here.
+      # verbosity. Whether the data then appears in the TowerSignal UI is NOT verified here.
       # Runs even when the XCUITest suite failed: reporting to a real intake is a separate
       # question from whether every payload assertion holds, and a single failing assertion should
       # not stop the intake from being exercised. Skipped if the build never produced an app.
-      - name: Report RUM, Logs and Traces to Atatus
-        if: ${{ !cancelled() && env.APP_PATH != '' && env.HAS_ATATUS_CREDENTIALS == 'true' && (github.event_name != 'workflow_dispatch' || inputs.send_to_atatus) }}
+      - name: Report RUM, Logs and Traces to TowerSignal
+        if: ${{ !cancelled() && env.APP_PATH != '' && env.HAS_TOWERSIGNAL_CREDENTIALS == 'true' && (github.event_name != 'workflow_dispatch' || inputs.send_to_towersignal) }}
         env:
-          AT_TEST_LICENSE_KEY: ${{ secrets.ATATUS_LICENSE_KEY }}
+          AT_TEST_LICENSE_KEY: ${{ secrets.TOWERSIGNAL_LICENSE_KEY }}
         run: |
           set -euo pipefail
           # Fresh install, so this run reports a new session rather than resuming the mock one.
@@ -476,13 +476,13 @@ jobs:
 
           .github/scripts/simulator-agent-run.sh \
             --mode demo \
-            --label atatus-demo \
-            --scenario AtatusDemoScenario \
+            --label towersignal-demo \
+            --scenario TowerSignalDemoScenario \
             --expect rum --expect logs --expect traces --expect replay
 
       # The same real intake, driven by the e-commerce app rather than by one-of-everything calls.
       # Installed fresh again so the funnel reports its own RUM session, which is what makes the
-      # run readable as a shopping journey in the Atatus UI.
+      # run readable as a shopping journey in the TowerSignal UI.
       #
       # No `--expect traces`, for the same kind of reason as `--expect logs`. With RUM enabled, a
       # first-party request is reported as a RUM resource carrying the trace and span ids — the
@@ -490,10 +490,10 @@ jobs:
       # product only produces its own payloads from manual `Tracer` calls, which this app makes
       # none of. Trace stays enabled (a real app would have it), and the distributed trace is
       # verified directly by the step below instead.
-      - name: Report the e-commerce funnel to Atatus
-        if: ${{ !cancelled() && env.APP_PATH != '' && env.HAS_ATATUS_CREDENTIALS == 'true' && (github.event_name != 'workflow_dispatch' || inputs.send_to_atatus) }}
+      - name: Report the e-commerce funnel to TowerSignal
+        if: ${{ !cancelled() && env.APP_PATH != '' && env.HAS_TOWERSIGNAL_CREDENTIALS == 'true' && (github.event_name != 'workflow_dispatch' || inputs.send_to_towersignal) }}
         env:
-          AT_TEST_LICENSE_KEY: ${{ secrets.ATATUS_LICENSE_KEY }}
+          AT_TEST_LICENSE_KEY: ${{ secrets.TOWERSIGNAL_LICENSE_KEY }}
         run: |
           set -euo pipefail
           xcrun simctl uninstall "$SIMULATOR_UDID" "$APP_BUNDLE_ID" || true
@@ -507,15 +507,15 @@ jobs:
 
           .github/scripts/simulator-agent-run.sh \
             --mode demo \
-            --label atatus-ecommerce \
-            --scenario AtatusEcommerceScenario \
+            --label towersignal-ecommerce \
+            --scenario TowerSignalEcommerceScenario \
             --expect rum --expect replay
 
       # The mobile half of a distributed trace is invisible from the app side: the agent reports a
       # resource whether or not it actually put `traceparent` on the wire. This asks the backend
       # that received the shop's requests, which is the only place propagation can be observed.
       - name: Verify the app propagated trace headers to the backend
-        if: ${{ !cancelled() && env.APP_PATH != '' && env.AT_TEST_STORE_API_URL != '' && env.HAS_ATATUS_CREDENTIALS == 'true' && (github.event_name != 'workflow_dispatch' || inputs.send_to_atatus) }}
+        if: ${{ !cancelled() && env.APP_PATH != '' && env.AT_TEST_STORE_API_URL != '' && env.HAS_TOWERSIGNAL_CREDENTIALS == 'true' && (github.event_name != 'workflow_dispatch' || inputs.send_to_towersignal) }}
         run: |
           set -uo pipefail
           report="$ARTIFACTS_DIR/intake/store-traceparents.json"
@@ -576,7 +576,7 @@ jobs:
           set -uo pipefail
           if [ -n "${SIMULATOR_UDID:-}" ]; then
             xcrun simctl spawn "$SIMULATOR_UDID" log show --last 60m --style syslog \
-              --predicate 'subsystem == "atatus-sdk-ios"' \
+              --predicate 'subsystem == "towersignal-sdk-ios"' \
               > "$ARTIFACTS_DIR/logs/agent-oslog-full.log" 2>&1 || true
             xcrun simctl spawn "$SIMULATOR_UDID" log show --last 60m --style syslog \
               --predicate 'processImagePath CONTAINS "Integration Tests Runner"' \
@@ -605,19 +605,19 @@ jobs:
             echo "| Item | Value |"
             echo "| --- | --- |"
             echo "| Sample app | Integration Tests Runner.app (\`$APP_BUNDLE_ID\`) |"
-            echo "| Scenarios | \`AtatusDemoScenario\`, \`AtatusEcommerceScenario\` (e-commerce funnel) |"
+            echo "| Scenarios | \`TowerSignalDemoScenario\`, \`TowerSignalEcommerceScenario\` (e-commerce funnel) |"
             echo "| Simulator | ${SIMULATOR_NAME:-unknown} (iOS ${SIMULATOR_OS:-unknown}) |"
             echo "| Xcode | $(xcodebuild -version | head -1) |"
             echo "| Test plan | \`$TEST_PLAN\` |"
-            echo "| Atatus intake | \`${ATATUS_SERVER_URL}\` |"
-            echo "| Reported to Atatus | ${HAS_ATATUS_CREDENTIALS:-false} |"
+            echo "| TowerSignal intake | \`${TOWERSIGNAL_SERVER_URL}\` |"
+            echo "| Reported to TowerSignal | ${HAS_TOWERSIGNAL_CREDENTIALS:-false} |"
             echo "| Service / env | \`${AT_TEST_SERVICE}\` / \`${AT_TEST_ENV}\` |"
             echo ""
             echo "**Verified locally** — RUM, Logs and Traces payloads were read back from the mock"
             echo "intake and asserted by the XCUITest suite."
             echo ""
-            echo "**Reported to Atatus** — judged on intake HTTP response codes only. Visibility in"
-            echo "the Atatus UI is not verified by this workflow and must be checked by a human."
+            echo "**Reported to TowerSignal** — judged on intake HTTP response codes only. Visibility in"
+            echo "the TowerSignal UI is not verified by this workflow and must be checked by a human."
             echo ""
             echo "Screenshots, logs and results are attached as the \`ios-agent-test\` artifact."
           } >> "$GITHUB_STEP_SUMMARY"

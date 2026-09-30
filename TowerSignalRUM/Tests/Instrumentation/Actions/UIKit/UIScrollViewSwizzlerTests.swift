@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddRUM` -> `AtatusRUM`; renamed the `DD` symbol
-// prefix to `AT`; renamed `dd*` members to `at*`; rebranded the `dd` name to `Atatus` in comments and
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddRUM` -> `TowerSignalRUM`; renamed the `DD` symbol
+// prefix to `AT`; renamed `dd*` members to `at*`; rebranded the `dd` name to `TowerSignal` in comments and
 // docs; rebranded the licence header.
 
 #if os(iOS) || os(visionOS)
 
 import XCTest
 import TestUtilities
-@testable import AtatusRUM
+@testable import TowerSignalRUM
 
 class UIScrollViewSwizzlerTests: XCTestCase {
     private var handler: MockScrollViewHandler?
@@ -53,9 +53,9 @@ class UIScrollViewSwizzlerTests: XCTestCase {
     // MARK: - Delegate getter transparency
 
     func testSwizzle_whenReadingDelegate_returnsOriginalDelegateNotProxy() throws {
-        // Regression test for: https://github.com/dd/atatus-sdk-ios/issues/2760
+        // Regression test for: https://github.com/dd/towersignal-sdk-ios/issues/2760
         // When customers set their own delegate and our is swizzler active, the
-        // getter should not return Atatus's internal UIScrollViewDelegateProxy.
+        // getter should not return TowerSignal's internal UIScrollViewDelegateProxy.
 
         // Given
         guard let handler else {
@@ -71,15 +71,15 @@ class UIScrollViewSwizzlerTests: XCTestCase {
         // When
         scrollView.delegate = originalDelegate
 
-        // Then - getter must return the original delegate, not Atatus's proxy
+        // Then - getter must return the original delegate, not TowerSignal's proxy
         XCTAssertTrue(scrollView.delegate === originalDelegate)
         XCTAssertFalse(scrollView.delegate is UIScrollViewDelegateProxy)
     }
 
     // MARK: - Third-party proxy conflict (regression for RxSwift-style delegate proxy crash)
 
-    func testSwizzle_whenThirdPartyProxyCapturesAtatusProxy_doesNotCreateCircularRespondsToRecursion() throws {
-        // Regression test for stack overflow crash when Atatus's UIScrollViewSwizzler is active
+    func testSwizzle_whenThirdPartyProxyCapturesTowerSignalProxy_doesNotCreateCircularRespondsToRecursion() throws {
+        // Regression test for stack overflow crash when TowerSignal's UIScrollViewSwizzler is active
         // alongside a third-party delegate proxy (e.g. RxSwift's DelegateProxy).
         //
         // Without the getter swizzle, a third-party proxy reading `scrollView.delegate` would get
@@ -121,22 +121,22 @@ class UIScrollViewSwizzlerTests: XCTestCase {
 
     func testSetterReentrancyGuard_whenThirdPartySwizzleReCallsSetterViaDispatch_doesNotCauseStackOverflow() throws {
         // Regression test for infinite recursion when a third-party library swizzles
-        // UIScrollView.delegate setter (installed before Atatus) and, from within
-        // Atatus's `previousImplementation` call, re-calls `scrollView.delegate = itsProxy`
-        // via full ObjC dispatch — re-entering Atatus's swizzle before it has returned.
+        // UIScrollView.delegate setter (installed before TowerSignal) and, from within
+        // TowerSignal's `previousImplementation` call, re-calls `scrollView.delegate = itsProxy`
+        // via full ObjC dispatch — re-entering TowerSignal's swizzle before it has returned.
         //
-        // Swizzle chain (Atatus last = first to fire):
-        //   [Atatus.SetDelegate] → [ThirdParty swizzle] → [original UIScrollView setter]
+        // Swizzle chain (TowerSignal last = first to fire):
+        //   [TowerSignal.SetDelegate] → [ThirdParty swizzle] → [original UIScrollView setter]
         //
         // Without the scrollViewsBeingSet guard (would crash with stack overflow):
-        //   1. App sets delegate → Atatus fires → creates ATProxy → calls previousImpl (ThirdParty)
+        //   1. App sets delegate → TowerSignal fires → creates ATProxy → calls previousImpl (ThirdParty)
         //   2. ThirdParty wraps ATProxy in txProxy → dispatch: scrollView.delegate = txProxy
-        //   3. Atatus fires again → creates ATProxy2 → calls previousImpl (ThirdParty) → … ∞
+        //   3. TowerSignal fires again → creates ATProxy2 → calls previousImpl (ThirdParty) → … ∞
         //
         // With the guard (correct):
-        //   1. App sets delegate → Atatus fires → inserts scrollView in set → creates ATProxy → calls previousImpl
+        //   1. App sets delegate → TowerSignal fires → inserts scrollView in set → creates ATProxy → calls previousImpl
         //   2. ThirdParty wraps ATProxy → dispatch: scrollView.delegate = txProxy
-        //   3. Atatus fires → scrollView IS in set → guard fires → passes txProxy through directly
+        //   3. TowerSignal fires → scrollView IS in set → guard fires → passes txProxy through directly
         //   4. Chain resolves; defer removes scrollView from set
 
         guard let handler else {
@@ -180,7 +180,7 @@ class UIScrollViewSwizzlerTests: XCTestCase {
                 return
             }
             // Simulate RxSwift DelegateProxy: wrap the delegate and re-call via ObjC dispatch.
-            // This call goes through the full swizzle chain from the top (re-enters Atatus's swizzle).
+            // This call goes through the full swizzle chain from the top (re-enters TowerSignal's swizzle).
             let thirdPartyProxy = ThirdPartyDelegateProxy()
             thirdPartyProxy.forwardToDelegate = delegate as? (NSObject & UIScrollViewDelegate)
             proxyHolder.proxy = thirdPartyProxy  // Retain so the weak scrollView.delegate stays alive
@@ -190,13 +190,13 @@ class UIScrollViewSwizzlerTests: XCTestCase {
         // Install the third-party swizzle; record the IMP it replaces for pass-through
         prevHolder.imp = method_setImplementation(setterMethod, thirdPartyIMP)
 
-        // Now install Atatus's swizzle (it captures thirdPartyIMP as its previousImplementation)
+        // Now install TowerSignal's swizzle (it captures thirdPartyIMP as its previousImplementation)
         swizzler = try UIScrollViewSwizzler(handler: handler)
         swizzler?.swizzle()
 
         defer {
             // Cleanup in reverse installation order:
-            // 1. Remove Atatus's swizzle (restores method IMP to thirdPartyIMP)
+            // 1. Remove TowerSignal's swizzle (restores method IMP to thirdPartyIMP)
             swizzler?.unswizzle()
             swizzler = nil  // Prevent double-unswizzle in tearDown
             // 2. Restore the IMP that was in place before the third-party test swizzle

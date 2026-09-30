@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `DD` symbol prefix to `AT`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `DD` symbol prefix to `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the
 // licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// Reports Watchdog Termination events to Atatus.
+/// Reports Watchdog Termination events to TowerSignal.
 internal protocol WatchdogTerminationReporting {
-    /// Sends the Watchdog Termination event to Atatus.
+    /// Sends the Watchdog Termination event to TowerSignal.
     func send(date: Date?, state: AppStateInfo, viewEvent: RUMViewEvent)
 }
 
@@ -44,7 +44,7 @@ internal final class WatchdogTerminationReporter: WatchdogTerminationReporting {
         self.uuidGenerator = uuidGenerator
     }
 
-    /// Sends the Watchdog Termination event to Atatus.
+    /// Sends the Watchdog Termination event to TowerSignal.
     func send(date: Date?, state: AppStateInfo, viewEvent: RUMViewEvent) {
         guard state.trackingConsent == .granted else { // consider the user consent from previous session
             AT.logger.debug("Skipped sending Watchdog Termination as it was recorded with \(state.trackingConsent) consent")

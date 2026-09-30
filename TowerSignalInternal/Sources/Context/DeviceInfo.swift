@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
 
@@ -226,8 +226,8 @@ import WatchKit
 
 public typealias _UIDevice = WKInterfaceDevice
 
-extension _UIDevice: AtatusExtended {}
-extension AtatusExtension where ExtendedType == _UIDevice {
+extension _UIDevice: TowerSignalExtended {}
+extension TowerSignalExtension where ExtendedType == _UIDevice {
     /// Returns the shared device object.
     public static var current: ExtendedType { .current() }
 }
@@ -236,14 +236,14 @@ import UIKit
 
 public typealias _UIDevice = UIDevice
 
-extension _UIDevice: AtatusExtended {}
-extension AtatusExtension where ExtendedType == _UIDevice {
+extension _UIDevice: TowerSignalExtended {}
+extension TowerSignalExtension where ExtendedType == _UIDevice {
     /// Returns the shared device object.
     public static var current: ExtendedType { .current }
 }
 #endif
 
-extension AtatusContext {
+extension TowerSignalContext {
     /// Current device information to send in the events.
     ///
     /// - Parameter addLocales: Temporary boolean to remove locales from events that don't support array parameters.

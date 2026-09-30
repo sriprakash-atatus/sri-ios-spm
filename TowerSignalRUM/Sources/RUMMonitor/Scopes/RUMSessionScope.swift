@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal class RUMSessionScope: RUMScope, RUMContextProvider {
     struct Constants {
@@ -116,7 +116,7 @@ internal class RUMSessionScope: RUMScope, RUMContextProvider {
         parent: RUMContextProvider,
         startTime: Date,
         startPrecondition: RUMSessionPrecondition?,
-        context: AtatusContext,
+        context: TowerSignalContext,
         dependencies: RUMScopeDependencies,
         applicationState: RUMApplicationState,
         resumingViewScope: RUMViewScope? = nil
@@ -178,7 +178,7 @@ internal class RUMSessionScope: RUMScope, RUMContextProvider {
         from expiredSession: RUMSessionScope,
         startTime: Date,
         startPrecondition: RUMSessionPrecondition?,
-        context: AtatusContext,
+        context: TowerSignalContext,
         transferActiveView: Bool,
         applicationState: RUMApplicationState
     ) {
@@ -234,7 +234,7 @@ internal class RUMSessionScope: RUMScope, RUMContextProvider {
 
     // MARK: - RUMScope
 
-    func process(command: RUMCommand, context: AtatusContext, writer: Writer) -> Bool {
+    func process(command: RUMCommand, context: TowerSignalContext, writer: Writer) -> Bool {
         if hasTimedOut(currentTime: command.time) {
             endReason = .timeOut
             return false // end this session (no longer keep the session scope)
@@ -333,7 +333,7 @@ internal class RUMSessionScope: RUMScope, RUMContextProvider {
 
     // MARK: - RUMCommands Processing
 
-    private func startView(on command: RUMStartViewCommand, context: AtatusContext) {
+    private func startView(on command: RUMStartViewCommand, context: TowerSignalContext) {
         let isStartingInitialView = isInitialSession && !state.hasTrackedAnyView
         startView(
             isInitialView: isStartingInitialView,
@@ -390,7 +390,7 @@ internal class RUMSessionScope: RUMScope, RUMContextProvider {
         )
     }
 
-    private func startApplicationLaunchView(on command: RUMCommand, context: AtatusContext, writer: Writer) {
+    private func startApplicationLaunchView(on command: RUMCommand, context: TowerSignalContext, writer: Writer) {
         let isActivePrewarm = context.launchInfo.launchReason == .prewarming
         let startTime: Date
 
@@ -427,7 +427,7 @@ internal class RUMSessionScope: RUMScope, RUMContextProvider {
         )
     }
 
-    private func handleOffViewCommand(command: RUMCommand, context: AtatusContext, writer: Writer) {
+    private func handleOffViewCommand(command: RUMCommand, context: TowerSignalContext, writer: Writer) {
         let handlingRule = RUMOffViewEventsHandlingRule(
             applicationState: applicationState,
             sessionState: state,
@@ -467,7 +467,7 @@ internal class RUMSessionScope: RUMScope, RUMContextProvider {
         return command is RUMKeepSessionAliveCommand || command is RUMUpdatePerformanceMetric || command is RUMHandleAppLifecycleEventCommand
     }
 
-    private func startBackgroundView(on command: RUMCommand, context: AtatusContext) {
+    private func startBackgroundView(on command: RUMCommand, context: TowerSignalContext) {
         let isStartingInitialView = isInitialSession && !state.hasTrackedAnyView
 
         startView(

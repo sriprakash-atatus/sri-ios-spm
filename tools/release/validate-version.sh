@@ -19,7 +19,7 @@ define_arg "artifacts-path" "" "The path to build artifacts." "string" "true"
 check_for_help "$@"
 parse_args "$@"
 
-REPO_PATH="$artifacts_path/atatus-sdk-ios"
+REPO_PATH="$artifacts_path/towersignal-sdk-ios"
 SDK_VERSION_FILE="$REPO_PATH/TowerSignalCore/Sources/Versioning.swift"
 
 check_sdk_version () {

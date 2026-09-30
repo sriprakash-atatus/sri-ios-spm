@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import SwiftUI
 
@@ -25,7 +25,7 @@ import SwiftUI
     case hide
 }
 
-public protocol AtatusMonitor {
+public protocol TowerSignalMonitor {
     func viewModifier(name: String) -> AnyViewModifier
     func actionModifier(name: String) -> AnyViewModifier
     func privacyView<Content: View>(
@@ -37,7 +37,7 @@ public protocol AtatusMonitor {
     ) -> AnyView
 }
 
-struct NOPAtatusMonitor: AtatusMonitor {
+struct NOPTowerSignalMonitor: TowerSignalMonitor {
     func viewModifier(name: String) -> AnyViewModifier { AnyViewModifier() }
     func actionModifier(name: String) -> AnyViewModifier { AnyViewModifier() }
     func privacyView<Content: View>(
@@ -52,11 +52,11 @@ struct NOPAtatusMonitor: AtatusMonitor {
 }
 
 extension EnvironmentValues {
-  @Entry public var atatusMonitor: any AtatusMonitor = NOPAtatusMonitor()
+  @Entry public var towersignalMonitor: any TowerSignalMonitor = NOPTowerSignalMonitor()
 }
 
 struct PrivacyView<Content: View>: View {
-    @Environment(\.atatusMonitor) private var monitor
+    @Environment(\.towersignalMonitor) private var monitor
     
     private var text: TextPrivacyLevel?
     private var image: ImagePrivacyLevel?
@@ -96,7 +96,7 @@ extension View {
 }
 
 private struct TrackViewModifier: ViewModifier {
-    @Environment(\.atatusMonitor) private var monitor
+    @Environment(\.towersignalMonitor) private var monitor
     
     var name: String
     

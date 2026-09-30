@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 import UIKit
 @_spi(objc)
-import AtatusInternal
+import TowerSignalInternal
 
 #if !os(watchOS)
 internal struct UIKitRUMViewsPredicateBridge: UIKitRUMViewsPredicate {
@@ -427,7 +427,7 @@ public enum objc_VitalsFrequency: Int {
     case rare
     case never
 
-    internal init(swiftType: AtatusRUM.RUM.Configuration.VitalsFrequency?) {
+    internal init(swiftType: TowerSignalRUM.RUM.Configuration.VitalsFrequency?) {
         switch swiftType {
         case .frequent: self = .frequent
         case .average: self = .average
@@ -436,7 +436,7 @@ public enum objc_VitalsFrequency: Int {
         }
     }
 
-    internal var swiftType: AtatusRUM.RUM.Configuration.VitalsFrequency? {
+    internal var swiftType: TowerSignalRUM.RUM.Configuration.VitalsFrequency? {
         switch self {
         case .frequent: return .frequent
         case .average: return .average
@@ -578,7 +578,7 @@ public final class objc_TrackResourceHeaders: NSObject {
 @objcMembers
 @_spi(objc)
 public class objc_RUMConfiguration: NSObject {
-    internal var swiftConfig: AtatusRUM.RUM.Configuration
+    internal var swiftConfig: TowerSignalRUM.RUM.Configuration
 
     public override init() {
         swiftConfig = .init(
@@ -757,9 +757,9 @@ public class objc_RUM: NSObject {
 public class objc_RUMMonitor: NSObject {
     // MARK: - Internal
 
-    internal let swiftRUMMonitor: AtatusRUM.RUMMonitorProtocol
+    internal let swiftRUMMonitor: TowerSignalRUM.RUMMonitorProtocol
 
-    internal init(swiftRUMMonitor: AtatusRUM.RUMMonitorProtocol) {
+    internal init(swiftRUMMonitor: TowerSignalRUM.RUMMonitorProtocol) {
         self.swiftRUMMonitor = swiftRUMMonitor
     }
 
@@ -1053,7 +1053,7 @@ public class objc_RUMMonitor: NSObject {
 }
 
 extension objc_RUMMonitor {
-    /// **For Atatus internal use only. Subject to changes.**
+    /// **For TowerSignal internal use only. Subject to changes.**
     ///
     /// Adds RUM error to current RUM view in sync.
     ///

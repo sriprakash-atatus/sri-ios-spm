@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 // swiftlint:disable duplicate_imports
 #if COCOAPODS
@@ -21,10 +21,10 @@ internal import KSCrashRecording
 #endif
 // swiftlint:enable duplicate_imports
 
-/// A KSCrash filter that converts crash reports into Atatus's internal format.
+/// A KSCrash filter that converts crash reports into TowerSignal's internal format.
 ///
 /// This filter implements KSCrash's `CrashReportFilter` protocol and serves as a
-/// transformation layer between KSCrash's raw crash data and Atatus's structured
+/// transformation layer between KSCrash's raw crash data and TowerSignal's structured
 /// crash report format. It processes crash reports by extracting and restructuring
 /// information such as threads, stack traces, binary images, system metadata, and
 /// user context.
@@ -33,14 +33,14 @@ internal import KSCrashRecording
 ///
 /// 1. Receives raw KSCrash reports
 /// 2. Validates report structure
-/// 3. Converts to Atatus's `ATCrashReport` format
-/// 4. Wraps in `CrashReportAtatus` for further processing
+/// 3. Converts to TowerSignal's `ATCrashReport` format
+/// 4. Wraps in `CrashReportTowerSignal` for further processing
 ///
 /// ## Error Handling
 ///
 /// If a report cannot be converted (invalid format, missing required fields),
 /// the original report is passed through and an error is provided to the completion handler.
-internal final class AtatusCrashReportFilter: NSObject, CrashReportFilter {
+internal final class TowerSignalCrashReportFilter: NSObject, CrashReportFilter {
     /// Parse timestamp with fractional seconds support
     /// KSCrash timestamps use ISO8601 format with microsecond precision (e.g., "2025-10-22T14:14:12.007336Z")
     let dateFormatter = {
@@ -55,10 +55,10 @@ internal final class AtatusCrashReportFilter: NSObject, CrashReportFilter {
         self.telemetry = telemetry
     }
 
-    /// Filters and converts crash reports to Atatus's format.
+    /// Filters and converts crash reports to TowerSignal's format.
     ///
     /// This method processes each report by converting it from KSCrash's format
-    /// to Atatus's internal representation. If conversion fails for any report,
+    /// to TowerSignal's internal representation. If conversion fails for any report,
     /// the error is reported but processing continues for remaining reports.
     ///
     /// - Parameters:
@@ -78,9 +78,9 @@ internal final class AtatusCrashReportFilter: NSObject, CrashReportFilter {
         }
     }
 
-    /// Creates a Atatus crash report from a KSCrash report.
+    /// Creates a TowerSignal crash report from a KSCrash report.
     ///
-    /// This initializer converts a KSCrash `CrashReport` into Atatus's internal format,
+    /// This initializer converts a KSCrash `CrashReport` into TowerSignal's internal format,
     /// extracting and structuring crash information including threads, binary images,
     /// system metadata, and user context.
     ///

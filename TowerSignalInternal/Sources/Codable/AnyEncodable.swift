@@ -1,9 +1,9 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  *
- * This file includes software developed by Flight School, https://flight.school/ and altered by Atatus.
+ * This file includes software developed by Flight School, https://flight.school/ and altered by TowerSignal.
  * Use of this source code is governed by MIT license:
  *
  * Copyright 2018 Read Evaluate Press, LLC
@@ -23,7 +23,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-// ATCHG: Atatus SDK migration - rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - rebranded the licence header.
 
 #if canImport(Foundation)
 import Foundation

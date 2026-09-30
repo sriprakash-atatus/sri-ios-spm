@@ -17,7 +17,7 @@ Profiling captures pprof wall-time samples from Apple application processes and 
 - **Application launch profiling**: captures process startup and writes the launch profile when RUM emits the TTID app-launch vital.
 - **Continuous Profiling**: periodically records profiles for sampled-in RUM sessions and links long tasks and app hangs.
 
-Profiling requires `Atatus.initialize()` before `Profiling.enable()`. RUM is not a compile-time module dependency, but the feature depends on RUM context and RUM payload messages for session-linked sampling, quota checks, and profile correlation.
+Profiling requires `TowerSignal.initialize()` before `Profiling.enable()`. RUM is not a compile-time module dependency, but the feature depends on RUM context and RUM payload messages for session-linked sampling, quota checks, and profile correlation.
 
 **Platform**: iOS, tvOS, visionOS. The Swift sources and Mach profiler are compiled out on watchOS with `#if !os(watchOS)`.
 
@@ -27,13 +27,13 @@ Profiling requires `Atatus.initialize()` before `Profiling.enable()`. RUM is not
 
 ```swift
 import Foundation
-import AtatusCore
-import AtatusRUM
-import AtatusProfiling
+import TowerSignalCore
+import TowerSignalRUM
+import TowerSignalProfiling
 
 // 1. Initialize Core SDK first
-Atatus.initialize(
-    with: Atatus.Configuration(
+TowerSignal.initialize(
+    with: TowerSignal.Configuration(
         licenseKey: "<client_token>",
         env: "<environment>"
     ),
@@ -60,8 +60,8 @@ RUM.enable(
 Profiling.enable(
     with: Profiling.Configuration(
         // Custom intake endpoint for profile uploads. Expects a full URL and takes
-        // precedence over the core-level `Atatus.Configuration.serverUrl`.
-        // Default: nil (uses Atatus intake at /api/v2/profile)
+        // precedence over the core-level `TowerSignal.Configuration.serverUrl`.
+        // Default: nil (uses TowerSignal intake at /api/v2/profile)
         customEndpoint: nil,
 
         // Application launch profiling sample rate.
@@ -103,7 +103,7 @@ monitor.succeedOperation(
 
 ## Architecture Overview
 
-Profiling is a `AtatusRemoteFeature` named `profiler`. `Profiling.enable(with:in:)` registers `ProfilerFeature`, which builds a request builder, session sampler provider, quota checker, app-launch profiler, and the main `AtatusProfiler` message receiver.
+Profiling is a `TowerSignalRemoteFeature` named `profiler`. `Profiling.enable(with:in:)` registers `ProfilerFeature`, which builds a request builder, session sampler provider, quota checker, app-launch profiler, and the main `TowerSignalProfiler` message receiver.
 
 The low-level sampler lives in `TowerSignalProfiling/Mach`. It samples application threads with Mach APIs, aggregates stack traces into a pprof profile, and exposes the native profiler to Swift through a C interface.
 
@@ -114,7 +114,7 @@ flowchart TD
     Enable["Profiling.enable(with:)"] --> Feature["ProfilerFeature"]
     Feature --> Native["Mach sampler / pprof aggregator"]
     Feature --> Receivers["CombinedFeatureMessageReceiver"]
-    Receivers --> Context["RUMCoreContext + AtatusContext"]
+    Receivers --> Context["RUMCoreContext + TowerSignalContext"]
     Receivers --> RUMPayloads["TTID, TTFD/operation, app hang, long task messages"]
     Context --> Sampling["RUM-composed sampling + quota"]
     RUMPayloads --> Correlation["RUM event correlation"]
@@ -155,7 +155,7 @@ flowchart TD
 ## Configuration Categories
 
 ### Upload
-- **`customEndpoint`**: Optional replacement URL for profile uploads. Default: `nil`, which uses the core-level intake endpoint (`Atatus.Configuration.serverUrl` when set, the Atatus site endpoint otherwise) plus `/api/v2/profile`.
+- **`customEndpoint`**: Optional replacement URL for profile uploads. Default: `nil`, which uses the core-level intake endpoint (`TowerSignal.Configuration.serverUrl` when set, the TowerSignal site endpoint otherwise) plus `/api/v2/profile`.
 
 ### Sampling
 - **Application launch**: `applicationLaunchSampleRate` default is `5.0`. The value is stored in the profiling UserDefaults suite for the native app-launch path and takes effect on the next process launch. If multiple SDK instances set it, the native side uses the lowest sample rate.
@@ -179,7 +179,7 @@ Profile uploads are multipart/form-data requests that include profile metadata, 
 ## Common Troubleshooting Patterns
 
 ### "No profiles appear"
-1. Verify `Atatus.initialize()` and `Profiling.enable()` were called.
+1. Verify `TowerSignal.initialize()` and `Profiling.enable()` were called.
 2. Verify RUM is enabled and tracking consent is `.granted`; Profiling relies on RUM context for session-linked sampling and quota.
 3. Check `applicationLaunchSampleRate` or `continuousSampleRate` are greater than zero.
 4. Confirm the app is not on watchOS, in Low Power Mode, below the battery threshold, or running only in background.
@@ -206,6 +206,6 @@ This is expected. Background state is a profiling blocker, and the profiler flus
 
 ## Additional Context
 
-- Only one `AtatusProfiler` instance can be active in a process. The initializer returns `nil` if another instance is already active.
+- Only one `TowerSignalProfiler` instance can be active in a process. The initializer returns `nil` if another instance is already active.
 - Profiling can stop when runtime conditions block sampling and restart when conditions become valid again, such as after the app returns to foreground.
 - Profile uploads include pprof data, correlated RUM events, and profile metadata.

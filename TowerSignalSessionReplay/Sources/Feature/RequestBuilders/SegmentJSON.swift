@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; scrubbed the remaining `dd`
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; scrubbed the remaining `dd`
 // name to `dd` in comments and docs; rebranded the licence header.
 
 #if os(iOS)
@@ -14,7 +14,7 @@ internal typealias JSONObject = [String: Any]
 
 /// A counterpart of `SRSegment`. Unlike codable `SRSegment` it can be encoded to JSON data
 /// with using anonymous `records: [JSONObject]` (the original `SRSegment` requires
-/// typed `[SRRecords]` which isn't possible to read unambiguously from event data stored in `AtatusCore`).
+/// typed `[SRRecords]` which isn't possible to read unambiguously from event data stored in `TowerSignalCore`).
 ///
 /// Can be considered a temporary solution until we find a way to decode `[SRRecords]` unambiguously
 /// through `Codable` interface.

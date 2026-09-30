@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddInternal`
-// -> `AtatusInternal`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddInternal`
+// -> `TowerSignalInternal`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 
 @_spi(Internal)
-@testable import AtatusFlags
+@testable import TowerSignalFlags
 
 extension FlagsEvaluationContext: AnyMockable, RandomMockable {
     public static func mockAny() -> FlagsEvaluationContext {
@@ -170,11 +170,11 @@ final class FlagsRepositoryMock: FlagsRepositoryProtocol {
         setEvaluationContextStub?(context, completion)
     }
 
-    func flagAssignment(for key: String) -> AtatusFlags.FlagAssignment? {
+    func flagAssignment(for key: String) -> TowerSignalFlags.FlagAssignment? {
         flagsData?.flags[key]
     }
 
-    func flagAssignments() -> [String: AtatusFlags.FlagAssignment]? {
+    func flagAssignments() -> [String: TowerSignalFlags.FlagAssignment]? {
         flagsData?.flags
     }
 

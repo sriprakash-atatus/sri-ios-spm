@@ -1,27 +1,27 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 import Foundation
 
-// ATCHG: New file, porting the heartbeat infrastructure from the Atatus Android agent
-// (`atatus-sdk-android-core/src/main/kotlin/com/atatus/android/AgentInfo.kt`, which declares
+// ATCHG: New file, porting the heartbeat infrastructure from the TowerSignal Android agent
+// (`towersignal-sdk-android-core/src/main/kotlin/com/towersignal/android/AgentInfo.kt`, which declares
 // `AgentHeartbeat`, `AgentHeartbeatScheduler`, `LogsHeartbeat` and `LogsHeartbeatScheduler`).
 //
-// The heartbeat lets the Atatus backend switch the agent — and the Logs feature specifically —
+// The heartbeat lets the TowerSignal backend switch the agent — and the Logs feature specifically —
 // on and off remotely. Both endpoints answer with `{"allowAgent": <bool>}`.
 //
-// `AgentHeartbeatScheduler` lives in `AtatusCore` because it drives SDK initialisation and
-// tracking consent; the pieces here are the ones the Logs feature also needs, and `AtatusLogs`
-// only depends on `AtatusInternal`.
+// `AgentHeartbeatScheduler` lives in `TowerSignalCore` because it drives SDK initialisation and
+// tracking consent; the pieces here are the ones the Logs feature also needs, and `TowerSignalLogs`
+// only depends on `TowerSignalInternal`.
 
 /// The inputs a heartbeat request needs.
 public struct HeartbeatConfiguration {
     /// The intake endpoint of the configured site.
     public let endpoint: URL
-    /// The license key allowing data uploads to Atatus.
+    /// The license key allowing data uploads to TowerSignal.
     public let licenseKey: String
     /// The name of the instrumented application.
     public let appName: String
@@ -42,7 +42,7 @@ public enum AgentHeartbeat {
     // the iOS ones answer 401, which the agent reads as `allowAgent: false` and responds to by
     // disabling itself seconds after launch — so every product then looks like it produced no data.
     // Revert both to `v1/ios/*` once the backend serves them, together with the feature intake paths
-    // in each product's `RequestBuilder` and `atatusSessionReplayIntakePath`.
+    // in each product's `RequestBuilder` and `towersignalSessionReplayIntakePath`.
 
     /// The path of the agent heartbeat, matching `/v1/android/agent-heartbeat` on Android.
     public static let agentHeartbeatPath = "v1/android/agent-heartbeat"
@@ -114,7 +114,7 @@ public enum AgentHeartbeat {
         let url = configuration.endpoint.appendingPathComponent(path)
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         components?.queryItems = [
-            URLQueryItem(name: "atatus_source", value: configuration.source),
+            URLQueryItem(name: "towersignal_source", value: configuration.source),
             URLQueryItem(name: "license_key", value: configuration.licenseKey),
             URLQueryItem(name: "agent_name", value: AgentInfo.agentName),
             URLQueryItem(name: "agent_version", value: AgentInfo.agentVersion),
@@ -154,7 +154,7 @@ public final class LogsHeartbeatScheduler {
     @ReadWriteLock
     private var isRunning = false
 
-    private let queue = DispatchQueue(label: "com.atatus.logs-heartbeat", qos: .utility)
+    private let queue = DispatchQueue(label: "com.towersignal.logs-heartbeat", qos: .utility)
     private var timer: DispatchSourceTimer?
 
     internal init() { }

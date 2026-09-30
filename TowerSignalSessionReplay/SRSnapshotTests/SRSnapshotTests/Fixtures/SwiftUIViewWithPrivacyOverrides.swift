@@ -1,23 +1,23 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; renamed `dd*` types to `Atatus*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; renamed `dd*` types to `TowerSignal*`; rebranded the
 // licence header.
 
 import SwiftUI
-import AtatusSessionReplay
-import AtatusInternal
+import TowerSignalSessionReplay
+import TowerSignalInternal
 import SRFixtures
 
 @available(iOS 16.0, *)
 struct SwiftUIViewWithPrivacyOverrides: View {
-    private let core: AtatusCoreProtocol
+    private let core: TowerSignalCoreProtocol
 
-    init(core: AtatusCoreProtocol) {
+    init(core: TowerSignalCoreProtocol) {
         self.core = core
     }
 
@@ -54,7 +54,7 @@ struct SwiftUIViewWithPrivacyOverrides: View {
                     .padding(.vertical, 6)
 
                 // "Bundled" image
-                Image.atatusLogo
+                Image.towersignalLogo
                     .resizable()
                     .scaledToFit()
                     .background(Color.purple)

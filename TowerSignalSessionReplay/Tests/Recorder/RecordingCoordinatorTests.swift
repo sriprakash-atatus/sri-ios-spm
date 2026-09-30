@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; rebranded the licence header.
 
 #if os(iOS)
 import XCTest
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 @_spi(Internal)
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 @testable import TestUtilities
 
 class RecordingCoordinatorTests: XCTestCase {
@@ -137,7 +137,7 @@ class RecordingCoordinatorTests: XCTestCase {
         let error = telemetry.messages.firstError()
         XCTAssertEqual(error?.message, "[SR] Failed to take snapshot - ErrorMock does not conform to TelemetrySanitizableError — reporting type name only")
         XCTAssertEqual(error?.kind, "ErrorMock")
-        XCTAssertEqual(error?.stack, "AtatusSessionReplay/RecordingCoordinator.swift:176\nImplement TelemetrySanitizableError on ErrorMock to report richer, safe context.")
+        XCTAssertEqual(error?.stack, "TowerSignalSessionReplay/RecordingCoordinator.swift:176\nImplement TelemetrySanitizableError on ErrorMock to report richer, safe context.")
     }
 
     func test_whenCapturingSnapshotFails_withObjCRuntimeException_itSendsErrorTelemetry() {
@@ -157,7 +157,7 @@ class RecordingCoordinatorTests: XCTestCase {
         let error = telemetry.messages.firstError()
         XCTAssertEqual(error?.message, "[SR] Failed to take snapshot due to Objective-C runtime exception - ErrorMock does not conform to TelemetrySanitizableError — reporting type name only")
         XCTAssertEqual(error?.kind, "ErrorMock")
-        XCTAssertEqual(error?.stack, "AtatusSessionReplay/RecordingCoordinator.swift:169\nImplement TelemetrySanitizableError on ErrorMock to report richer, safe context.")
+        XCTAssertEqual(error?.stack, "TowerSignalSessionReplay/RecordingCoordinator.swift:169\nImplement TelemetrySanitizableError on ErrorMock to report richer, safe context.")
         XCTAssertFalse(scheduler.isRunning)
     }
 

@@ -2,14 +2,14 @@
 
 AT_VAULT_ADDR=https://vault.us1.ddbuild.io
 
-# The common path prefix for all atatus-sdk-ios secrets in Vault.
+# The common path prefix for all towersignal-sdk-ios secrets in Vault.
 #
 # When using `vault kv put` to write secrets to a specific path, Vault overwrites the entire set of secrets
 # at that path with the new data. This means that any existing secrets at that path are replaced by the new
 # secrets. For simplicity, we store each secret independently by writing each to a unique path.
-AT_IOS_SECRETS_PATH_PREFIX='kv/aws/arn:aws:iam::486234852809:role/ci-atatus-sdk-ios/'
+AT_IOS_SECRETS_PATH_PREFIX='kv/aws/arn:aws:iam::486234852809:role/ci-towersignal-sdk-ios/'
 
-# Full description of secrets is available at https://atatus.atlassian.net/wiki/x/cIEB4w (internal)
+# Full description of secrets is available at https://towersignal.atlassian.net/wiki/x/cIEB4w (internal)
 # Keep this list and Confluence page up-to-date with every secret that is added to the list.
 AT_IOS_SECRET__TEST_SECRET="test.secret"
 AT_IOS_SECRET__CP_TRUNK_TOKEN="cocoapods.trunk.token"
@@ -34,11 +34,11 @@ declare -A AT_IOS_SECRETS
 AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__TEST_SECRET | test secret to see if things work, free to change but not delete"
 AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__CP_TRUNK_TOKEN | Cocoapods token to authenticate 'pod trunk' operations (https://guides.cocoapods.org/terminal/commands.html)"
 AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__SSH_KEY | SSH key to authenticate 'git clone git@github.com:...' operations"
-AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__TEST_VISIBILITY_API_KEY | The Atatus API key used to upload the test results to Test Visibility product (https://docs.atatus.com/tests/setup/swift)."
+AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__TEST_VISIBILITY_API_KEY | The TowerSignal API key used to upload the test results to Test Visibility product (https://docs.towersignal.com/tests/setup/swift)."
 AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__DEV_CERTIFICATE_P12_BASE64 | Base64-encoded '.p12' developer certificate file for signing apps"
 AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__DEV_CERTIFICATE_P12_PASSWORD | Password to '$AT_IOS_SECRET__DEV_CERTIFICATE_P12_PASSWORD' certificate"
-AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__MI_S8S_API_KEY | ATATUS_API_KEY for uploading app to synthetics in Mobile - Integration org"
-AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__MI_S8S_APP_KEY | ATATUS_APP_KEY for uploading app to synthetics in Mobile - Integration org"
+AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__MI_S8S_API_KEY | TOWERSIGNAL_API_KEY for uploading app to synthetics in Mobile - Integration org"
+AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__MI_S8S_APP_KEY | TOWERSIGNAL_APP_KEY for uploading app to synthetics in Mobile - Integration org"
 AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__E2E_PROVISIONING_PROFILE_BASE64 | Base64-encoded provisioning profile file for signing E2E app"
 AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__E2E_XCCONFIG_BASE64 | Base64-encoded xcconfig file for E2E app"
 AT_IOS_SECRETS[$((idx++))]="$AT_IOS_SECRET__E2E_S8S_APPLICATION_ID | Synthetics app ID for E2E tests"

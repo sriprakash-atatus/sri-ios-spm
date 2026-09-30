@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddRUM` ->
-// `AtatusRUM`, `ddSessionReplay` -> `AtatusSessionReplay`; renamed `dd*` types to `Atatus*`;
-// rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddRUM` ->
+// `TowerSignalRUM`, `ddSessionReplay` -> `TowerSignalSessionReplay`; renamed `dd*` types to `TowerSignal*`;
+// rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 import UIKit
 import SwiftUI
 
-import AtatusCore
-import AtatusRUM
-import AtatusSessionReplay
+import TowerSignalCore
+import TowerSignalRUM
+import TowerSignalSessionReplay
 
 import CatalogSwiftUI
 
@@ -22,12 +22,12 @@ struct SessionReplaySwiftUIScenario: Scenario {
     var initialViewController: UIViewController {
         UIHostingController(
             rootView: CatalogSwiftUI.ContentView()
-                .environment(\.atatusMonitor, AtatusMonitor())
+                .environment(\.towersignalMonitor, TowerSignalMonitor())
         )
     }
 
     func instrument(with info: AppInfo) {
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: .benchmark(info: info),
             trackingConsent: .granted
         )
@@ -52,7 +52,7 @@ struct SessionReplaySwiftUIScenario: Scenario {
     }
 }
 
-private struct AtatusMonitor: CatalogSwiftUI.AtatusMonitor {
+private struct TowerSignalMonitor: CatalogSwiftUI.TowerSignalMonitor {
     func viewModifier(name: String) -> AnyViewModifier {
         AnyViewModifier { content in
             content.trackRUMView(name: name)

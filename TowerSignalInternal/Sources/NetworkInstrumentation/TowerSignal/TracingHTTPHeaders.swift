@@ -1,42 +1,42 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `_dd` attribute prefix to `_atatus`; renamed the `x-dd-*`
-// trace headers to `x-atatus-*`; repointed the intake host at the Atatus site; rebranded the `dd` name
-// to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed the `_dd` attribute prefix to `_towersignal`; renamed the `x-dd-*`
+// trace headers to `x-towersignal-*`; repointed the intake host at the TowerSignal site; rebranded the `dd` name
+// to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
 /// Trace propagation headers as explained in
-/// https://www.atatus.com/docs/
+/// https://www.towersignal.com/docs/
 public enum TracingHTTPHeaders {
     /// Trace propagation header.
     /// It is used both in Tracing and RUM features.
-    public static let traceIDField = "x-atatus-trace-id"
+    public static let traceIDField = "x-towersignal-trace-id"
 
     /// Trace propagation header.
-    /// In RUM - it allows Atatus to generate the first span from the trace.
+    /// In RUM - it allows TowerSignal to generate the first span from the trace.
     /// In Tracing - it injects the `spanID` of mobile span so downstream spans can be properly linked in distributed tracing.
-    public static let parentSpanIDField = "x-atatus-parent-id"
+    public static let parentSpanIDField = "x-towersignal-parent-id"
 
     /// To make sure that the Agent keeps the trace.
     /// It is used both in Tracing and RUM features.
-    public static let samplingPriorityField = "x-atatus-sampling-priority"
+    public static let samplingPriorityField = "x-towersignal-sampling-priority"
 
-    /// The Atatus origin of the Trace.
+    /// The TowerSignal origin of the Trace.
     ///
     /// Setting the value to 'rum' will indicate that the span is reported as a RUM Resource.
-    public static let originField = "x-atatus-origin"
+    public static let originField = "x-towersignal-origin"
 
-    /// The Atatus tags of the Trace.
-    public static let tagsField = "x-atatus-tags"
+    /// The TowerSignal tags of the Trace.
+    public static let tagsField = "x-towersignal-tags"
 
-    /// Keys for Atatus tags.
+    /// Keys for TowerSignal tags.
     public enum TagKeys {
-        /// The Atatus tag key for the higher order 64 bits of the trace ID.
-        public static let traceIDHi = "_atatus.p.tid"
+        /// The TowerSignal tag key for the higher order 64 bits of the trace ID.
+        public static let traceIDHi = "_towersignal.p.tid"
     }
 }

@@ -21,13 +21,13 @@ Session Replay records and replays user sessions as video-like reproductions. It
 ## Quick Start Example
 
 ```swift
-import AtatusCore
-import AtatusRUM
-import AtatusSessionReplay
+import TowerSignalCore
+import TowerSignalRUM
+import TowerSignalSessionReplay
 
 // 1. Initialize Core SDK first
-Atatus.initialize(
-    with: Atatus.Configuration(
+TowerSignal.initialize(
+    with: TowerSignal.Configuration(
         licenseKey: "<client_token>",
         env: "<environment>"
     ),
@@ -85,8 +85,8 @@ SessionReplay.enable(
         startRecordingImmediately: true,
         
         // Custom endpoint for replay data. Expects a full URL and takes
-        // precedence over the core-level `Atatus.Configuration.serverUrl`.
-        // Default: nil (uses Atatus intake, `<serverUrl or site>/v1/ios/replay`)
+        // precedence over the core-level `TowerSignal.Configuration.serverUrl`.
+        // Default: nil (uses TowerSignal intake, `<serverUrl or site>/v1/ios/replay`)
         customEndpoint: nil,
         
         // Feature flags for experimental features
@@ -242,7 +242,7 @@ SessionReplayPrivacyView(
 - **RUM**: Required - Session Replay cannot work without RUM enabled. View and action tracking must be configured.
 - **WebView Tracking**: Enables Session Replay in web views. Requires:
   - `WebViewTracking.enable(webView:hosts:)` called on the native side
-  - Web page instrumented with Atatus Browser SDK
+  - Web page instrumented with TowerSignal Browser SDK
   - See `TowerSignalWebViewTracking/Sources/WebViewTracking.swift`
 - **Tracking Consent**: Respects user consent settings from Core SDK
 

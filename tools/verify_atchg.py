@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """Verify that every changed code hunk carries an `// ATCHG` marker.
 
-Ported from the Atatus Flutter agent's `tools/verify_atchg.py`, which enforces the same
-convention there. Every Atatus-specific modification to the forked dd sources must be
-annotated with an `// ATCHG` comment so the Atatus delta stays reviewable against upstream.
+Ported from the TowerSignal Flutter agent's `tools/verify_atchg.py`, which enforces the same
+convention there. Every TowerSignal-specific modification to the forked dd sources must be
+annotated with an `// ATCHG` comment so the TowerSignal delta stays reviewable against upstream.
 
 Usage:
     tools/verify_atchg.py                 # check all local (unstaged + staged) changes
     tools/verify_atchg.py <file> [...]    # check only the given files
     tools/verify_atchg.py --base <ref>    # check the diff against a base revision
 
-Intended for changes made *on top of* the Atatus baseline. Running it with `--base` against the
-pre-rebrand history also reports the mechanical `dd` -> `Atatus` rename, which is documented
+Intended for changes made *on top of* the TowerSignal baseline. Running it with `--base` against the
+pre-rebrand history also reports the mechanical `dd` -> `TowerSignal` rename, which is documented
 as a single class of change in CHANGE.md rather than annotated file by file.
 """
 import argparse

@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusCore
-import AtatusLogs
-import AtatusRUM
-import AtatusTrace
-import AtatusSessionReplay
+import TowerSignalCore
+import TowerSignalLogs
+import TowerSignalRUM
+import TowerSignalTrace
+import TowerSignalSessionReplay
 
 protocol TestScenario: AnyObject {
     /// The name of the storyboard containing this scenario.
@@ -24,7 +24,7 @@ protocol TestScenario: AnyObject {
 
     /// Applies additional SDK configuration for running this scenario.
     /// Defaults to no-op.
-    func override(configuration: inout Atatus.Configuration)
+    func override(configuration: inout TowerSignal.Configuration)
 
     /// Applies additional Feature configuration for running this scenario.
     /// Defaults to no-op.
@@ -36,7 +36,7 @@ protocol TestScenario: AnyObject {
 /// Defaults.
 extension TestScenario {
     var initialTrackingConsent: TrackingConsent { .granted }
-    func override(configuration: inout Atatus.Configuration) { /* no-op */ }
+    func override(configuration: inout TowerSignal.Configuration) { /* no-op */ }
     func configureFeatures() { /* no-op */ }
 }
 
@@ -51,18 +51,18 @@ internal func initializeTestScenario(with className: String) -> TestScenario {
     return scenario
 }
 
-// MARK: - Atatus Demo
+// MARK: - TowerSignal Demo
 
 // ATCHG: Scenario used by `.github/workflows/ios-agent-test.yml` to exercise the whole agent —
-// RUM, Logs and Traces — against a real Atatus intake.
+// RUM, Logs and Traces — against a real TowerSignal intake.
 //
 // No feature sets a `customEndpoint` here on purpose: that makes every intake request fall back to
-// `AtatusSite.serverUrl`, which the agent already reads from the `ATATUS_SERVER_URL` environment
+// `TowerSignalSite.serverUrl`, which the agent already reads from the `TOWERSIGNAL_SERVER_URL` environment
 // variable. Credentials come from the environment for the same reason, so nothing is committed.
 //
 // Everything is generated from code rather than from taps, so a plain `simctl launch` produces the
 // full set of signals without a test runner driving the UI.
-final class AtatusDemoScenario: TestScenario {
+final class TowerSignalDemoScenario: TestScenario {
     /// Reuses the manual RUM storyboard, so the app shows a real screen and its first RUM view is
     /// started by `SendRUMFixture1ViewController`, exactly as in the RUM integration tests.
     static let storyboardName = "RUMManualInstrumentationScenario"
@@ -140,7 +140,7 @@ final class AtatusDemoScenario: TestScenario {
 
         let rootSpan = tracer.startRootSpan(operationName: "demo.scenario").setActive()
         rootSpan.setTag(key: "test.suite", value: "ios-agent-test")
-        rootSpan.setBaggageItem(key: "scenario", value: "AtatusDemoScenario")
+        rootSpan.setBaggageItem(key: "scenario", value: "TowerSignalDemoScenario")
 
         let childSpan = tracer.startSpan(operationName: "demo.child.work")
         childSpan.setTag(key: "work.kind", value: "compute")
@@ -186,7 +186,7 @@ final class AtatusDemoScenario: TestScenario {
 
         session.dataTask(with: url) { _, response, error in
             let status = (response as? HTTPURLResponse).map { "\($0.statusCode)" } ?? "no response"
-            print("⭐️ [AtatusDemoScenario] traced request to \(url) finished: \(status), error: \(String(describing: error))")
+            print("⭐️ [TowerSignalDemoScenario] traced request to \(url) finished: \(status), error: \(String(describing: error))")
         }
         .resume()
     }

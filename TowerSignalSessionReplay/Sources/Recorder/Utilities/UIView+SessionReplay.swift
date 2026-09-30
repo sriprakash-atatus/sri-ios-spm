@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 #if os(iOS)
 import UIKit
-import AtatusInternal
+import TowerSignalInternal
 
 /// Sensitive text content types as defined in Session Replay.
 private let UITextContentSensitiveTypes: Set<UITextContentType> = [
@@ -24,7 +24,7 @@ private let UITextContentSensitiveTypes: Set<UITextContentType> = [
 
 private var UITextInputTraitsIsSensitiveTextKey: UInt8 = 0
 
-internal extension AtatusExtension where ExtendedType: UITextInputTraits {
+internal extension TowerSignalExtension where ExtendedType: UITextInputTraits {
     /// Sensitive text content types as defined in Session Replay.
     static var sensitiveTypes: Set<UITextContentType> {
         UITextContentSensitiveTypes
@@ -61,7 +61,7 @@ internal extension AtatusExtension where ExtendedType: UITextInputTraits {
     }
 }
 
-internal extension AtatusExtension where ExtendedType: UITraitEnvironment {
+internal extension TowerSignalExtension where ExtendedType: UITraitEnvironment {
     var usesDarkMode: Bool { type.traitCollection.userInterfaceStyle == .dark }
 }
 

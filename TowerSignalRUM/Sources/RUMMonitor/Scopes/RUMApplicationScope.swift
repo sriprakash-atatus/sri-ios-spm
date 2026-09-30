@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; removed the `dd` name from comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; removed the `dd` name from comments and docs; rebranded the licence
 // header.
 
-import AtatusInternal
+import TowerSignalInternal
 import Foundation
 
 internal class RUMApplicationScope: RUMScope, RUMContextProvider {
@@ -78,7 +78,7 @@ internal class RUMApplicationScope: RUMScope, RUMContextProvider {
     /// `task_role` or prewarming signals.
     ///
     /// - Returns: `true` to indicate that the Application Scope should remain active.
-    func process(command: RUMCommand, context: AtatusContext, writer: Writer) -> Bool {
+    func process(command: RUMCommand, context: TowerSignalContext, writer: Writer) -> Bool {
         #if !os(tvOS) && !os(watchOS)
         guard context.launchInfo.launchReason != .uncertain else {
             if !didLogFallbackToResolver {
@@ -98,9 +98,9 @@ internal class RUMApplicationScope: RUMScope, RUMContextProvider {
         return true
     }
 
-    private func _process(command: RUMCommand, context: AtatusContext, writer: Writer) {
+    private func _process(command: RUMCommand, context: TowerSignalContext, writer: Writer) {
         // `RUMSDKInitCommand` forces the creation of the initial session
-        // Added in https://github.com/dd/atatus-sdk-ios/pull/1278 to ensure that logs and traces
+        // Added in https://github.com/dd/towersignal-sdk-ios/pull/1278 to ensure that logs and traces
         // can be correlated with valid RUM session id (even if occurring before any user interaction).
         if command is RUMSDKInitCommand {
             createInitialSession(with: context, on: command)
@@ -128,7 +128,7 @@ internal class RUMApplicationScope: RUMScope, RUMContextProvider {
         }
 
         // If the application has not been yet activated and no sessions exist -> create the initial session
-        // Added in https://github.com/dd/atatus-sdk-ios/pull/1219 to start new session automatically when
+        // Added in https://github.com/dd/towersignal-sdk-ios/pull/1219 to start new session automatically when
         // a user action is sent (startView or addUserAction).
         if sessionScopes.isEmpty && !applicationActive {
             // This flow is likely stale code as`RUMSDKInitCommand` should already start the session before reaching this point
@@ -217,7 +217,7 @@ internal class RUMApplicationScope: RUMScope, RUMContextProvider {
     private var didCreateInitialSessionCount = 0
 
     /// Starts initial RUM Session.
-    private func createInitialSession(with context: AtatusContext, on command: RUMCommand) {
+    private func createInitialSession(with context: TowerSignalContext, on command: RUMCommand) {
         if didCreateInitialSessionCount > 0 { // Sanity check
             dependencies.telemetry.error("Creating initial session \(didCreateInitialSessionCount) extra time(s) due to \(type(of: command)) (previous end reason: \(lastSessionEndReason?.rawValue ?? "unknown"))")
         }
@@ -254,7 +254,7 @@ internal class RUMApplicationScope: RUMScope, RUMContextProvider {
     }
 
     /// Starts new RUM Session immediately after previous one expires or time outs. It transfers some of the state from the expired session to the new one.
-    private func refresh(expiredSession: RUMSessionScope, on command: RUMCommand, context: AtatusContext, writer: Writer) -> RUMSessionScope {
+    private func refresh(expiredSession: RUMSessionScope, on command: RUMCommand, context: TowerSignalContext, writer: Writer) -> RUMSessionScope {
         var startPrecondition: RUMSessionPrecondition? = nil
 
         // If the app is in background, use the background-aware precondition; otherwise fall through to the end-reason logic.
@@ -290,7 +290,7 @@ internal class RUMApplicationScope: RUMScope, RUMContextProvider {
         return refreshedSession
     }
 
-    private func startNewSession(on command: RUMCommand, context: AtatusContext, writer: Writer) {
+    private func startNewSession(on command: RUMCommand, context: TowerSignalContext, writer: Writer) {
         var startPrecondition: RUMSessionPrecondition? = nil
 
         // If the app is in background, use the background-aware precondition; otherwise fall through to the end-reason logic.
@@ -342,11 +342,11 @@ internal class RUMApplicationScope: RUMScope, RUMContextProvider {
     }
 
     /// Forces the `ApplicationLaunchView` to be started.
-    /// Added as part of https://github.com/dd/atatus-sdk-ios/pull/1290 to separate creation of first view
+    /// Added as part of https://github.com/dd/towersignal-sdk-ios/pull/1290 to separate creation of first view
     /// from creation of initial session due to receiving `RUMSDKInitCommand`. Starting from RUM-1649 the "application launch" view
     /// is started on SDK init only when the app is launched by user with no prewarming or when app was prewarmed but SDK was initialized
     /// after it became active.
-    private func startApplicationLaunchView(on command: RUMCommand, context: AtatusContext, writer: Writer) {
+    private func startApplicationLaunchView(on command: RUMCommand, context: TowerSignalContext, writer: Writer) {
         applicationActive = true
 
         let isUserLaunch = context.launchInfo.launchReason == .userLaunch
@@ -369,7 +369,7 @@ internal class RUMApplicationScope: RUMScope, RUMContextProvider {
         )
     }
 
-    private func preconditionForNewBackgroundSession(context: AtatusContext) -> RUMSessionPrecondition? {
+    private func preconditionForNewBackgroundSession(context: TowerSignalContext) -> RUMSessionPrecondition? {
         switch context.launchInfo.launchReason {
         case .backgroundLaunch:
             return .backgroundLaunch

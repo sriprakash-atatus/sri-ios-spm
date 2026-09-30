@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed `dd*` members to `at*`;
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed `dd*` members to `at*`;
 // rebranded the licence header.
 
 import Foundation
 import OpenTelemetryApi
 
 internal class OTelSpanBuilder: OpenTelemetryApi.SpanBuilder {
-    var tracer: AtatusTracer
+    var tracer: TowerSignalTracer
     var spanName: String
     var spanKind = SpanKind.client
     var attributes: [String: OpenTelemetryApi.AttributeValue]
@@ -47,7 +47,7 @@ internal class OTelSpanBuilder: OpenTelemetryApi.SpanBuilder {
         spanKind: SpanKind,
         spanName: String,
         startTime: Date?,
-        tracer: AtatusTracer
+        tracer: TowerSignalTracer
     ) {
         self.tracer = tracer
         self.spanName = spanName

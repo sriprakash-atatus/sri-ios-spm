@@ -24,9 +24,9 @@
 	<string>$(CUSTOM_RUM_URL)</string>
 	<key>CustomTraceURL</key>
 	<string>$(CUSTOM_TRACE_URL)</string>
-	<key>AtatusClientToken</key>
-	<string>$(ATATUS_CLIENT_TOKEN)</string>
-	<key>AtatusProfiling</key>
+	<key>TowerSignalClientToken</key>
+	<string>$(TOWERSIGNAL_CLIENT_TOKEN)</string>
+	<key>TowerSignalProfiling</key>
 	<dict>
 		<key>AppLaunchProfileSampleRate</key>
 		<integer>100</integer>

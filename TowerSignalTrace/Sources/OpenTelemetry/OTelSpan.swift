@@ -1,23 +1,23 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
-// renamed the `_dd` attribute prefix to `_atatus`; rebranded the `dd` name to `Atatus` in comments and
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// renamed the `_dd` attribute prefix to `_towersignal`; rebranded the `dd` name to `TowerSignal` in comments and
 // docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 import OpenTelemetryApi
 
-internal enum AtatusTagKeys: String {
+internal enum TowerSignalTagKeys: String {
     case spanKind = "span.kind"
     case errorType = "error.type"
     case errorMessage = "error.message"
-    case spanLinks = "_atatus.span_links"
+    case spanLinks = "_towersignal.span_links"
 }
 
 extension OpenTelemetryApi.TraceId {
@@ -57,7 +57,7 @@ internal class OTelSpan: OpenTelemetryApi.Span {
     @ReadWriteLock
     var kind: OpenTelemetryApi.SpanKind
     let atSpan: ATSpan
-    let tracer: AtatusTracer
+    let tracer: TowerSignalTracer
     @ReadWriteLock
     var spanLinks: [OTelSpanLink]
 
@@ -89,7 +89,7 @@ internal class OTelSpan: OpenTelemetryApi.Span {
         }
     }
 
-    /// `name` of the span is akin to operation name in Atatus
+    /// `name` of the span is akin to operation name in TowerSignal
     var name: String {
         get {
             _name
@@ -114,7 +114,7 @@ internal class OTelSpan: OpenTelemetryApi.Span {
         spanKind: OpenTelemetryApi.SpanKind,
         spanLinks: [OTelSpanLink],
         startTime: Date,
-        tracer: AtatusTracer,
+        tracer: TowerSignalTracer,
         eventBuilder: SpanEventBuilder,
         eventWriter: SpanWriteContext
     ) {
@@ -130,9 +130,9 @@ internal class OTelSpan: OpenTelemetryApi.Span {
         self.atSpan = .init(
             tracer: tracer,
             context: .init(
-                traceID: context.traceId.toAtatus(),
-                spanID: context.spanId.toAtatus(),
-                parentSpanID: parentSpanID?.toAtatus(),
+                traceID: context.traceId.toTowerSignal(),
+                spanID: context.spanId.toTowerSignal(),
+                parentSpanID: parentSpanID?.toTowerSignal(),
                 baggageItems: .init(),
                 sampleRate: sampler.samplingRate,
                 samplingDecision: SamplingDecision(sampling: sampler)
@@ -146,37 +146,37 @@ internal class OTelSpan: OpenTelemetryApi.Span {
     }
 
     func addEvent(name: String) {
-        AT.logger.warn("\(#function) is not yet supported in `AtatusTrace`")
+        AT.logger.warn("\(#function) is not yet supported in `TowerSignalTrace`")
     }
 
     func addEvent(name: String, timestamp: Date) {
-        AT.logger.warn("\(#function) is not yet supported in `AtatusTrace`")
+        AT.logger.warn("\(#function) is not yet supported in `TowerSignalTrace`")
     }
 
     func addEvent(name: String, attributes: [String: OpenTelemetryApi.AttributeValue]) {
-        AT.logger.warn("\(#function) is not yet supported in `AtatusTrace`")
+        AT.logger.warn("\(#function) is not yet supported in `TowerSignalTrace`")
     }
 
     func addEvent(name: String, attributes: [String: OpenTelemetryApi.AttributeValue], timestamp: Date) {
-        AT.logger.warn("\(#function) is not yet supported in `AtatusTrace`")
+        AT.logger.warn("\(#function) is not yet supported in `TowerSignalTrace`")
     }
 
     func recordException(_ exception: any OpenTelemetryApi.SpanException, attributes: [String: OpenTelemetryApi.AttributeValue], timestamp: Date) {
         // RUM-8558: `recordException()` should be based on `addEvent()` which we currently don't support.
         // Ref.: https://github.com/open-telemetry/opentelemetry-swift/blob/1.13.0/Sources/OpenTelemetrySdk/Trace/RecordEventsReadableSpan.swift#L356
-        AT.logger.warn("\(#function) is not yet supported in `AtatusTrace`")
+        AT.logger.warn("\(#function) is not yet supported in `TowerSignalTrace`")
     }
 
     func recordException(_ exception: any OpenTelemetryApi.SpanException, attributes: [String: OpenTelemetryApi.AttributeValue]) {
-        AT.logger.warn("\(#function) is not yet supported in `AtatusTrace`")
+        AT.logger.warn("\(#function) is not yet supported in `TowerSignalTrace`")
     }
 
     func recordException(_ exception: any OpenTelemetryApi.SpanException, timestamp: Date) {
-        AT.logger.warn("\(#function) is not yet supported in `AtatusTrace`")
+        AT.logger.warn("\(#function) is not yet supported in `TowerSignalTrace`")
     }
 
     func recordException(_ exception: any OpenTelemetryApi.SpanException) {
-        AT.logger.warn("\(#function) is not yet supported in `AtatusTrace`")
+        AT.logger.warn("\(#function) is not yet supported in `TowerSignalTrace`")
     }
 
     func end() {
@@ -208,21 +208,21 @@ internal class OTelSpan: OpenTelemetryApi.Span {
             break
         case .error(description: let description):
             // set error tags on the span
-            tags[AtatusTagKeys.errorMessage.rawValue] = description
+            tags[TowerSignalTagKeys.errorMessage.rawValue] = description
 
-            // send error log to Atatus
+            // send error log to TowerSignal
             // Empty kind or description is equivalent to not present
             atSpan.setError(kind: "", message: description)
         @unknown default:
             break
         }
 
-        // SpanKind maps to the `span.kind` tag in Atatus
-        atSpan.setTag(key: AtatusTagKeys.spanKind.rawValue, value: kind.rawValue)
+        // SpanKind maps to the `span.kind` tag in TowerSignal
+        atSpan.setTag(key: TowerSignalTagKeys.spanKind.rawValue, value: kind.rawValue)
 
-        // Atatus uses `_atatus.span_links` tag to send span links
+        // TowerSignal uses `_towersignal.span_links` tag to send span links
         if !spanLinks.isEmpty {
-            atSpan.setTag(key: AtatusTagKeys.spanLinks.rawValue, value: spanLinks)
+            atSpan.setTag(key: TowerSignalTagKeys.spanLinks.rawValue, value: spanLinks)
         }
 
         atSpan.finish(at: time)

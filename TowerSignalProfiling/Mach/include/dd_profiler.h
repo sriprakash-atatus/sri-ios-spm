@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `DD` symbol prefix to `AT`; renamed `com.ddhq.*`
-// identifiers to `com.atatus.*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed the `DD` symbol prefix to `AT`; renamed `com.ddhq.*`
+// identifiers to `com.towersignal.*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 #ifndef AT_PROFILER_PROFILER_H_
@@ -123,7 +123,7 @@ static const sampling_config_t SAMPLING_CONFIG_DEFAULT = {
 typedef void (*stack_trace_callback_t)(stack_trace_t* traces, size_t count, void* ctx);
 
 // UserDefaults constants centralized for Profiling
-#define AT_PROFILING_USER_DEFAULTS_SUITE_NAME "com.atatus.ios-sdk.profiling"
+#define AT_PROFILING_USER_DEFAULTS_SUITE_NAME "com.towersignal.ios-sdk.profiling"
 #define AT_PROFILING_IS_ENABLED_KEY "is_profiling_enabled"
 #define AT_PROFILING_APP_LAUNCH_SAMPLE_RATE_KEY "profiling_app_launch_sample_rate"
 
@@ -155,9 +155,9 @@ typedef struct profiler profiler_t;
 #endif
 
 /**
- * Starts the global Atatus profiler.
+ * Starts the global TowerSignal profiler.
  *
- * If `g_atatus_profiler` does not exist, it is created with a 100% sample rate.
+ * If `g_towersignal_profiler` does not exist, it is created with a 100% sample rate.
  *
  * @return 1 if successfully started (or already running), 0 otherwise.
  */

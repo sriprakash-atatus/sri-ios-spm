@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 extension SpanID: AnyMockable, RandomMockable {
     public static func mockAny() -> SpanID {
@@ -131,7 +131,7 @@ extension URLSession {
     }
 }
 
-public final class URLSessionHandlerMock: AtatusURLSessionHandler {
+public final class URLSessionHandlerMock: TowerSignalURLSessionHandler {
     public var firstPartyHosts: FirstPartyHosts
 
     public var modifiedRequest: URLRequest?
@@ -245,11 +245,11 @@ extension ResourceMetrics: AnyMockable {
 }
 
 extension TrackingMode: AnyMockable, RandomMockable {
-    public static func mockAny() -> AtatusInternal.TrackingMode {
+    public static func mockAny() -> TowerSignalInternal.TrackingMode {
         return .automatic
     }
 
-    public static func mockRandom() -> AtatusInternal.TrackingMode {
+    public static func mockRandom() -> TowerSignalInternal.TrackingMode {
         return [.automatic, .registeredDelegate].randomElement()!
     }
 }

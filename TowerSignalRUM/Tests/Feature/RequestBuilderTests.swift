@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed
-// `clientToken` to `licenseKey`; renamed the `ddsource` / `ddtags` query parameters to `atatus_source` /
-// `atatustags`; renamed the `DD-*` intake headers to their Atatus equivalents; repointed the intake host at
-// the Atatus site; moved the intake path to `/v1/ios/*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed
+// `clientToken` to `licenseKey`; renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` /
+// `towersignaltags`; renamed the `DD-*` intake headers to their TowerSignal equivalents; repointed the intake host at
+// the TowerSignal site; moved the intake path to `/v1/ios/*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 
 class RequestBuilderTests: XCTestCase {
     private let mockEvents: [Event] = [
@@ -46,14 +46,14 @@ class RequestBuilderTests: XCTestCase {
         )
 
         // When
-        func url(for site: AtatusSite) -> String {
+        func url(for site: TowerSignalSite) -> String {
             let request = try! builder.request(for: mockEvents, with: .mockWith(site: site), execution: .mockAny())
             return request.url!.absoluteStringWithoutQuery!
         }
 
         // Then
-        // ATCHG: single Atatus intake host replaces the nine dd region endpoints
-        XCTAssertEqual(url(for: .atatus), "https://mo-rx.atatus.com/v1/android/rum")
+        // ATCHG: single TowerSignal intake host replaces the nine dd region endpoints
+        XCTAssertEqual(url(for: .towersignal), "https://mo-rx.towersignal.com/v1/android/rum")
     }
 
     func testItSetsCustomIntakeURL() throws {
@@ -66,15 +66,15 @@ class RequestBuilderTests: XCTestCase {
         )
 
         // When
-        func url(for site: AtatusSite) -> String {
+        func url(for site: TowerSignalSite) -> String {
             let request = try! builder.request(for: mockEvents, with: .mockWith(site: site), execution: .mockAny())
             return request.url!.absoluteStringWithoutQuery!
         }
 
         // Then
         let expectedURL = randomURL.absoluteStringWithoutQuery
-        // ATCHG: single Atatus site replaces the nine dd regions
-        XCTAssertEqual(url(for: .atatus), expectedURL)
+        // ATCHG: single TowerSignal site replaces the nine dd regions
+        XCTAssertEqual(url(for: .towersignal), expectedURL)
     }
 
     func testItSetsRUMQueryParameters() throws {
@@ -94,7 +94,7 @@ class RequestBuilderTests: XCTestCase {
         )
         let randomLicenseKey: String = .mockRandom(among: .alphanumerics)
         let randomAppName: String = .mockRandom(among: .alphanumerics)
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             licenseKey: randomLicenseKey,
             service: randomService,
             env: randomEnv,
@@ -109,17 +109,17 @@ class RequestBuilderTests: XCTestCase {
         let request = try builder.request(for: mockEvents, with: context, execution: execution)
 
         // Then
-        // ATCHG: The RUM intake now receives the Atatus query parameters (renamed `atatus_source`
-        // and `atatustags`, plus `license_key`, `agent_name`, `agent_version` and `app_name`),
+        // ATCHG: The RUM intake now receives the TowerSignal query parameters (renamed `towersignal_source`
+        // and `towersignaltags`, plus `license_key`, `agent_name`, `agent_version` and `app_name`),
         // matching `buildUrl()` in Android's `RumRequestFactory`.
         let components = try XCTUnwrap(URLComponents(url: try XCTUnwrap(request.url), resolvingAgainstBaseURL: false))
         let query = (components.queryItems ?? []).reduce(into: [String: String]()) { $0[$1.name] = $1.value }
-        XCTAssertEqual(query["atatus_source"], randomSource)
+        XCTAssertEqual(query["towersignal_source"], randomSource)
         XCTAssertEqual(query["license_key"], randomLicenseKey)
         XCTAssertEqual(query["agent_name"], AgentInfo.agentName)
         XCTAssertEqual(query["agent_version"], AgentInfo.agentVersion)
         XCTAssertEqual(query["app_name"], randomAppName)
-        XCTAssertEqual(query["atatustags"], "retry_count:\(randomAttempt),retry_after:\(randomStatus)")
+        XCTAssertEqual(query["towersignaltags"], "retry_count:\(randomAttempt),retry_after:\(randomStatus)")
         // ATCHG: End
     }
 
@@ -142,7 +142,7 @@ class RequestBuilderTests: XCTestCase {
             eventsFilter: .init(telemetry: TelemetryMock()),
             telemetry: NOPTelemetry()
         )
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             licenseKey: randomClientToken,
             service: randomService,
             env: randomEnv,
@@ -171,9 +171,9 @@ class RequestBuilderTests: XCTestCase {
         XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"], "text/plain;charset=UTF-8")
         XCTAssertEqual(request.allHTTPHeaderFields?["Content-Encoding"], "deflate")
         XCTAssertEqual(request.allHTTPHeaderFields?["api-key"], randomClientToken)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN"], randomOrigin)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN-VERSION"], randomSDKVersion)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN"], randomOrigin)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN-VERSION"], randomSDKVersion)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
     }
 
     func testItSetsHTTPBodyInExpectedFormat() throws {
@@ -202,33 +202,33 @@ class RequestBuilderTests: XCTestCase {
         // Given
         let randomSource: String = .mockRandom(among: .alphanumerics)
         let builder = RequestBuilder(customIntakeURL: nil, eventsFilter: .init(telemetry: TelemetryMock()), telemetry: NOPTelemetry())
-        let context: AtatusContext = .mockWith(source: randomSource)
+        let context: TowerSignalContext = .mockWith(source: randomSource)
         let execution: ExecutionContext = .mockWith(previousResponseCode: nil, attempt: 0)
 
         // When
         let request = try builder.request(for: mockEvents, with: context, execution: execution)
 
         // Then
-        // ATCHG: the Atatus identification parameters are always present; assert only that no retry tags are added
+        // ATCHG: the TowerSignal identification parameters are always present; assert only that no retry tags are added
         let query = try XCTUnwrap(URLComponents(url: try XCTUnwrap(request.url), resolvingAgainstBaseURL: false)).queryItems ?? []
-        XCTAssertEqual(query.first { $0.name == "atatus_source" }?.value, randomSource)
-        XCTAssertNil(query.first { $0.name == "atatustags" }, "no atatustags on first request")
+        XCTAssertEqual(query.first { $0.name == "towersignal_source" }?.value, randomSource)
+        XCTAssertNil(query.first { $0.name == "towersignaltags" }, "no towersignaltags on first request")
     }
 
     func testItSetsRetryQueryParametersOnNetworkErrorRetry() throws {
         // Given
         let randomSource: String = .mockRandom(among: .alphanumerics)
         let builder = RequestBuilder(customIntakeURL: nil, eventsFilter: .init(telemetry: TelemetryMock()), telemetry: NOPTelemetry())
-        let context: AtatusContext = .mockWith(source: randomSource)
+        let context: TowerSignalContext = .mockWith(source: randomSource)
         let execution: ExecutionContext = .mockWith(previousResponseCode: nil, attempt: 1) // network error retry has no response code
 
         // When
         let request = try builder.request(for: mockEvents, with: context, execution: execution)
 
         // Then
-        // ATCHG: the Atatus identification parameters are always present; assert the retry tags only
+        // ATCHG: the TowerSignal identification parameters are always present; assert the retry tags only
         let query = try XCTUnwrap(URLComponents(url: try XCTUnwrap(request.url), resolvingAgainstBaseURL: false)).queryItems ?? []
-        XCTAssertEqual(query.first { $0.name == "atatus_source" }?.value, randomSource)
-        XCTAssertEqual(query.first { $0.name == "atatustags" }?.value, "retry_count:1", "no retry_after without response code")
+        XCTAssertEqual(query.first { $0.name == "towersignal_source" }?.value, randomSource)
+        XCTAssertEqual(query.first { $0.name == "towersignaltags" }?.value, "retry_count:1", "no retry_after without response code")
     }
 }

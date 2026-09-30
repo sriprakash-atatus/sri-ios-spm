@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; removed the `dd` name from
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; removed the `dd` name from
 // comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 // swiftlint:disable duplicate_imports
 #if COCOAPODS
@@ -55,7 +55,7 @@ internal struct KSCrashBacktrace: BacktraceReporting {
 
         // Capture backtrace for the thread. Initialize count with the maximum number of frames
         // we want to capture, which will be updated with the actual number of frames captured.
-        var count = AtatusMinifyFilter.Constants.maxNumberOfStackFrames
+        var count = TowerSignalMinifyFilter.Constants.maxNumberOfStackFrames
         var addresses = [uintptr_t](repeating: 0, count: count)
         count = Int(captureBacktrace(thread: pthread, addresses: &addresses, count: Int32(count)))
 
@@ -166,7 +166,7 @@ private func symbolicate(address: uintptr_t) -> KSBinaryImage? {
     // instruction offset.
     //
     // This was fixed in KSCrash and is currently pending release.
-    // See: https://github.com/dd/atatus-sdk-ios/issues/2645
+    // See: https://github.com/dd/towersignal-sdk-ios/issues/2645
     var info = Dl_info()
     guard
         dladdr(instructionPointer, &info) != 0,

@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `dd*` members to `at*`; renamed `clientToken` to `licenseKey`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `dd*` members to `at*`; renamed `clientToken` to `licenseKey`;
 // rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal struct RequestBuilder: FeatureRequestBuilder {
     /// Builds multipart form for request's body.
@@ -31,7 +31,7 @@ internal struct RequestBuilder: FeatureRequestBuilder {
         self.telemetry = telemetry
     }
 
-    func request(for events: [Event], with context: AtatusContext, execution: ExecutionContext) throws -> URLRequest {
+    func request(for events: [Event], with context: TowerSignalContext, execution: ExecutionContext) throws -> URLRequest {
         guard events.count == 1, let event = events.first else {
             throw ProgrammerError(description: "Invalid event count: \(events.count)")
         }
@@ -90,7 +90,7 @@ internal struct RequestBuilder: FeatureRequestBuilder {
         return builder.uploadRequest(with: multipart.build(), compress: true)
     }
 
-    private func url(with context: AtatusContext) -> URL {
+    private func url(with context: TowerSignalContext) -> URL {
         // ATCHG: Built from `intakeEndpoint` so a custom `serverUrl` is honoured, matching
         // `ProfilingRequestFactory.buildUrl` on Android.
         customUploadURL ?? context.intakeEndpoint.appendingPathComponent("api/v2/profile")

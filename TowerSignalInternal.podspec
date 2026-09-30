@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
-  s.name         = "AtatusInternal"
+  s.name         = "TowerSignalInternal"
   s.version      = "3.15.0"
-  s.summary      = "Atatus Internal Package. This module is not for public use."
+  s.summary      = "TowerSignal Internal Package. This module is not for public use."
 
-  s.homepage     = "https://www.atatus.com"
+  s.homepage     = "https://www.towersignal.com"
 
   s.license            = { :type => "Apache", :file => 'LICENSE' }
-  s.authors            = { "Atatus" => "info@atatus.com" }
+  s.authors            = { "TowerSignal" => "info@towersignal.com" }
 
   s.swift_version = '5.9'
   s.ios.deployment_target = '12.0'
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '7.0'
   s.visionos.deployment_target = '1.0'
 
-  s.source = { :git => "https://github.com/Atatus/atatus-sdk-ios.git", :tag => s.version.to_s }
+  s.source = { :git => "https://github.com/TowerSignal/towersignal-sdk-ios.git", :tag => s.version.to_s }
 
   s.source_files = ["TowerSignalInternal/Sources/**/*.swift"]
 

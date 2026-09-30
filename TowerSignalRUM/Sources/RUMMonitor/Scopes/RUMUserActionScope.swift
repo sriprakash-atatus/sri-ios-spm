@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
-// renamed the `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; rebranded the
 // licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal class RUMUserActionScope: RUMScope, RUMContextProvider {
     struct Constants {
@@ -114,7 +114,7 @@ internal class RUMUserActionScope: RUMScope, RUMContextProvider {
 
     // MARK: - RUMScope
 
-    func process(command: RUMCommand, context: AtatusContext, writer: Writer) -> Bool {
+    func process(command: RUMCommand, context: TowerSignalContext, writer: Writer) -> Bool {
         if let expirationTime = possibleExpirationTime(currentTime: command.time), allResourcesCompletedLoading() {
             // Stop user action due to timeout
             sendActionEvent(completionTime: expirationTime, on: command, context: context, writer: writer)
@@ -152,7 +152,7 @@ internal class RUMUserActionScope: RUMScope, RUMContextProvider {
 
     // MARK: - Sending RUM Events
 
-    private func sendActionEvent(completionTime: Date, on command: RUMCommand, context: AtatusContext, writer: Writer) {
+    private func sendActionEvent(completionTime: Date, on command: RUMCommand, context: TowerSignalContext, writer: Writer) {
         if command is RUMUserActionCommand {
             attributes.merge(command.attributes) { $1 }
         }
@@ -184,7 +184,7 @@ internal class RUMUserActionScope: RUMScope, RUMContextProvider {
                 target: .init(name: name),
                 type: actionType.toRUMDataFormat
             ),
-            // ATCHG: application_id removed -- Atatus events do not carry a RUM application ID
+            // ATCHG: application_id removed -- TowerSignal events do not carry a RUM application ID
             application: .init(id: ""),
             buildId: context.buildId,
             buildVersion: context.buildNumber,
@@ -193,7 +193,7 @@ internal class RUMUserActionScope: RUMScope, RUMContextProvider {
             container: nil,
             context: .init(contextInfo: command.globalAttributes.merging(parent.attributes) { $1 }.merging(attributes) { $1 }),
             date: actionStartTime.addingTimeInterval(serverTimeOffset).timeIntervalSince1970.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: context.normalizedDevice(),
             display: nil,
             os: context.os,

@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `_dd` attribute prefix to `_atatus`; renamed the `x-dd-*` trace headers to `x-atatus-*`; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `_dd` attribute prefix to `_towersignal`; renamed the `x-dd-*` trace headers to `x-towersignal-*`; rebranded
 // the licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import HTTPServerMock
 import TestUtilities
 import XCTest
@@ -65,7 +65,7 @@ class TracingURLSessionScenarioTests: IntegrationTests, TracingCommonAsserts {
     ///
     /// Regression coverage: spans used to be encoded with only the low 64 bits of the trace ID, so the
     /// mobile span and the backend span for the same request carried different `trace_id` values and were
-    /// indexed as two unrelated traces. The high 64 bits were only recoverable from `meta._atatus.p.id`.
+    /// indexed as two unrelated traces. The high 64 bits were only recoverable from `meta._towersignal.p.id`.
     ///
     /// This test asserts the reported ID only. Propagation itself is unchanged and is pinned below, so a
     /// regression in either direction fails here.
@@ -120,19 +120,19 @@ class TracingURLSessionScenarioTests: IntegrationTests, TracingCommonAsserts {
             "`trace_id` must be the 128-bit ID as 32 lowercase hex characters, got '\(reportedTraceID)'"
         )
 
-        // 2. The high 64 bits must survive. A truncated ID zeroes them out here while `meta._atatus.p.id`
+        // 2. The high 64 bits must survive. A truncated ID zeroes them out here while `meta._towersignal.p.id`
         // still carries them, which is exactly the split that broke backend correlation.
         let traceID = try XCTUnwrap(span.traceID(), "`trace_id` should be parsable as `TraceID`")
         XCTAssertNotEqual(traceID.idHi, TraceID.invalidId, "The high 64 bits of the trace ID must not be truncated away")
         XCTAssertEqual(String(reportedTraceID.prefix(16)), String(format: "%016llx", traceID.idHi))
         XCTAssertEqual(String(reportedTraceID.suffix(16)), String(format: "%016llx", traceID.idLo))
 
-        // 3. `meta._atatus.p.id` keeps carrying the same high 64 bits, for backwards compatibility.
+        // 3. `meta._towersignal.p.id` keeps carrying the same high 64 bits, for backwards compatibility.
         let tid = try span.meta.tid()
         XCTAssertEqual(
             UInt64(tid, radix: 16),
             traceID.idHi,
-            "`meta._atatus.p.id` must stay consistent with the high 64 bits of `trace_id`"
+            "`meta._towersignal.p.id` must stay consistent with the high 64 bits of `trace_id`"
         )
 
         // 4. The ID the agent reports must equal the ID it propagated to the backend, so the mobile
@@ -156,11 +156,11 @@ class TracingURLSessionScenarioTests: IntegrationTests, TracingCommonAsserts {
         XCTAssertEqual(traceparentFields[2], spanID.toString(representation: .hexadecimal16Chars))
         XCTAssertEqual(traceparentFields[3], "01", "The sampled first party request must propagate a sampled `traceparent`")
 
-        // 5. Pin the legacy Atatus headers: propagation must be unchanged by the reporting fix.
-        XCTAssertEqual(firstPartyRequest.httpHeaders["x-atatus-trace-id"], String(traceID.idLo))
-        XCTAssertEqual(firstPartyRequest.httpHeaders["x-atatus-parent-id"], spanID.toString(representation: .decimal))
-        XCTAssertEqual(firstPartyRequest.httpHeaders["x-atatus-sampling-priority"], "1")
-        XCTAssertEqual(firstPartyRequest.httpHeaders["x-atatus-tags"], "_atatus.p.tid=\(tid),_atatus.p.dm=-1")
+        // 5. Pin the legacy TowerSignal headers: propagation must be unchanged by the reporting fix.
+        XCTAssertEqual(firstPartyRequest.httpHeaders["x-towersignal-trace-id"], String(traceID.idLo))
+        XCTAssertEqual(firstPartyRequest.httpHeaders["x-towersignal-parent-id"], spanID.toString(representation: .decimal))
+        XCTAssertEqual(firstPartyRequest.httpHeaders["x-towersignal-sampling-priority"], "1")
+        XCTAssertEqual(firstPartyRequest.httpHeaders["x-towersignal-tags"], "_towersignal.p.tid=\(tid),_towersignal.p.dm=-1")
     }
 
     /// Both, `URLSession` (Swift) and `NSURLSession` (Objective-C) scenarios fetch exactly the same
@@ -267,11 +267,11 @@ class TracingURLSessionScenarioTests: IntegrationTests, TracingCommonAsserts {
 
         let firstPartyRequest = firstPartyRequests[0]
         let traceId = try taskWithRequest.traceID() ?? .invalid
-        XCTAssertEqual(firstPartyRequest.httpHeaders["x-atatus-trace-id"], String(traceId.idLo))
-        XCTAssertEqual(firstPartyRequest.httpHeaders["x-atatus-parent-id"], try taskWithRequest.spanID()?.toString(representation: .decimal))
-        XCTAssertEqual(firstPartyRequest.httpHeaders["x-atatus-sampling-priority"], "1")
-        XCTAssertNil(firstPartyRequest.httpHeaders["x-atatus-origin"])
+        XCTAssertEqual(firstPartyRequest.httpHeaders["x-towersignal-trace-id"], String(traceId.idLo))
+        XCTAssertEqual(firstPartyRequest.httpHeaders["x-towersignal-parent-id"], try taskWithRequest.spanID()?.toString(representation: .decimal))
+        XCTAssertEqual(firstPartyRequest.httpHeaders["x-towersignal-sampling-priority"], "1")
+        XCTAssertNil(firstPartyRequest.httpHeaders["x-towersignal-origin"])
         let tid = try taskWithRequest.meta.tid()
-        XCTAssertEqual(firstPartyRequest.httpHeaders["x-atatus-tags"], "_atatus.p.tid=\(tid),_atatus.p.dm=-1")
+        XCTAssertEqual(firstPartyRequest.httpHeaders["x-towersignal-tags"], "_towersignal.p.tid=\(tid),_towersignal.p.dm=-1")
     }
 }

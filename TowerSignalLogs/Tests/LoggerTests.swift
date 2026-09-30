@@ -1,24 +1,24 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 
-@testable import AtatusLogs
+@testable import TowerSignalLogs
 
 class LoggerTests: XCTestCase {
     private var core: SingleFeatureCoreMock<LogsFeature>! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = SingleFeatureCoreMock(context: .mockWith(applicationBundleIdentifier: "com.atatus.unit-tests"))
+        core = SingleFeatureCoreMock(context: .mockWith(applicationBundleIdentifier: "com.towersignal.unit-tests"))
         Logs.enable(in: core)
     }
 

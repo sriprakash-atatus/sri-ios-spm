@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`; renamed the `DD`
-// symbol prefix to `AT`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`; renamed the `DD`
+// symbol prefix to `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the
 // licence header.
 
 import UIKit
-import AtatusCore
+import TowerSignalCore
 
 internal class CrashReportingViewController: UIViewController {
     @IBOutlet weak var sendingCrashReportLabel: UILabel!
@@ -27,7 +27,7 @@ internal class CrashReportingViewController: UIViewController {
 
 #if AT_SDK_COMPILED_FOR_TESTING
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                Atatus.flushAndDeinitialize()
+                TowerSignal.flushAndDeinitialize()
             }
 #endif
         } else {

@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - rebranded the licence header.
 
 public struct ProfilingOptions: OperationOptions {
     // The profiling sample rate for operations. Must be a value between `0` and `100`.

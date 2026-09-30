@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 
 class SessionReplayDependencyTests: XCTestCase {
     func testWhenSessionReplayIsConfigured_itReadsReplayBeingRecorded() throws {
@@ -17,7 +17,7 @@ class SessionReplayDependencyTests: XCTestCase {
         let recordsCountByViewID: [String: Int64] = [.mockRandom(): .mockRandom()]
 
         // When
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             additionalContext: [
                 SessionReplayCoreContext.HasReplay(value: hasReplay),
                 SessionReplayCoreContext.RecordsCount(value: recordsCountByViewID)
@@ -31,7 +31,7 @@ class SessionReplayDependencyTests: XCTestCase {
 
     func testWhenSessionReplayIsNotConfigured_itReadsNoSRBaggage() {
         // When
-        let context: AtatusContext = .mockAny()
+        let context: TowerSignalContext = .mockAny()
 
         // Then
         XCTAssertNil(context.hasReplay)

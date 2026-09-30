@@ -1,24 +1,24 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`;
 // rebranded the licence header.
 
 import Foundation
-import AtatusInternal
-@testable import AtatusCore
+import TowerSignalInternal
+@testable import TowerSignalCore
 
-/// A `AtatusCoreProtocol` which proxies all calls to the real `AtatusCore` implementation. It intercepts
+/// A `TowerSignalCoreProtocol` which proxies all calls to the real `TowerSignalCore` implementation. It intercepts
 /// all events written to the actual core and provides APIs to read their values back for tests.
 ///
 /// Usage example:
 ///
 ///     ```
-///     let core = AtatusCoreProxy(context: .mockWith(service: "foo-bar"))
+///     let core = TowerSignalCoreProxy(context: .mockWith(service: "foo-bar"))
 ///     defer { core.flushAndTearDown() }
 ///     core.register(feature: LoggingFeature.mockAny())
 ///
@@ -29,27 +29,27 @@ import AtatusInternal
 ///     XCTAssertEqual(events[0].serviceName, "foo-bar")
 ///     ```
 ///
-public final class AtatusCoreProxy: AtatusCoreProtocol {
-    /// Counts references to `AtatusCoreProxy` instances, so we can prevent memory
-    /// leaks of SDK core in `AtatusTestsObserver`.
+public final class TowerSignalCoreProxy: TowerSignalCoreProtocol {
+    /// Counts references to `TowerSignalCoreProxy` instances, so we can prevent memory
+    /// leaks of SDK core in `TowerSignalTestsObserver`.
     public private(set) static var referenceCount = 0
 
     /// The SDK core managed by this proxy.
-    private let core: AtatusCore
+    private let core: TowerSignalCore
 
     @ReadWriteLock
     private var featureScopeInterceptors: [String: FeatureScopeInterceptor] = [:]
 
-    public convenience init(context: AtatusContext = .mockAny()) {
+    public convenience init(context: TowerSignalContext = .mockAny()) {
         self.init(
-            core: AtatusCore(
+            core: TowerSignalCore(
                 directory: temporaryCoreDirectory,
                 dateProvider: SystemDateProvider(),
                 initialConsent: context.trackingConsent,
                 performance: .mockAny(),
                 httpClient: HTTPClientMock(),
                 encryption: nil,
-                contextProvider: AtatusContextProvider(
+                contextProvider: TowerSignalContextProvider(
                     context: context
                 ),
                 applicationVersion: context.version,
@@ -59,20 +59,20 @@ public final class AtatusCoreProxy: AtatusCoreProtocol {
         )
     }
 
-    public init(core: AtatusCore) {
+    public init(core: TowerSignalCore) {
         self.context = core.contextProvider.read()
         self.core = core
 
         // override the message-bus's core instance
         core.bus.connect(core: self)
-        AtatusCoreProxy.referenceCount += 1
+        TowerSignalCoreProxy.referenceCount += 1
     }
 
     deinit {
-        AtatusCoreProxy.referenceCount -= 1
+        TowerSignalCoreProxy.referenceCount -= 1
     }
 
-    public var context: AtatusContext {
+    public var context: TowerSignalContext {
         didSet {
 #if AT_SDK_COMPILED_FOR_TESTING
             core.contextProvider.replace(context: context)
@@ -80,7 +80,7 @@ public final class AtatusCoreProxy: AtatusCoreProtocol {
         }
     }
 
-    public func register<T>(feature: T) throws where T: AtatusFeature {
+    public func register<T>(feature: T) throws where T: TowerSignalFeature {
         try core.register(feature: feature)
     }
 
@@ -88,7 +88,7 @@ public final class AtatusCoreProxy: AtatusCoreProtocol {
         return core.feature(named: name, type: type)
     }
 
-    public func scope<T>(for featureType: T.Type) -> FeatureScope where T: AtatusFeature {
+    public func scope<T>(for featureType: T.Type) -> FeatureScope where T: TowerSignalFeature {
         if featureScopeInterceptors[T.name] == nil {
             featureScopeInterceptors[T.name] = FeatureScopeInterceptor()
         }
@@ -138,7 +138,7 @@ public final class AtatusCoreProxy: AtatusCoreProtocol {
     }
 }
 
-extension AtatusCoreProxy {
+extension TowerSignalCoreProxy {
     public func flush() {
         core.flush()
     }
@@ -159,7 +159,7 @@ private struct FeatureScopeProxy: FeatureScope {
     let proxy: FeatureScope
     let interceptor: FeatureScopeInterceptor
 
-    func eventWriteContext(bypassConsent: Bool, _ block: @escaping (AtatusContext, Writer) -> Void) {
+    func eventWriteContext(bypassConsent: Bool, _ block: @escaping (TowerSignalContext, Writer) -> Void) {
         interceptor.enter()
         proxy.eventWriteContext(bypassConsent: bypassConsent) { context, writer in
             block(context, interceptor.intercept(writer: writer))
@@ -167,7 +167,7 @@ private struct FeatureScopeProxy: FeatureScope {
         }
     }
 
-    func context(_ block: @escaping (AtatusContext) -> Void) {
+    func context(_ block: @escaping (TowerSignalContext) -> Void) {
         interceptor.enter()
         proxy.context { context in
             block(context)
@@ -231,7 +231,7 @@ private final class FeatureScopeInterceptor: @unchecked Sendable {
     }
 }
 
-extension AtatusCoreProxy {
+extension TowerSignalCoreProxy {
     /// Returns all events of given type for certain Feature.
     /// - Parameters:
     ///   - name: The Feature to retrieve events from

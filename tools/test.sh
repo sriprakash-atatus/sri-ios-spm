@@ -29,15 +29,15 @@ WORKSPACE="TowerSignal.xcworkspace"
 DESTINATION="platform=$platform,name=$device,OS=$os"
 SCHEME=$scheme
 
-# Enables Atatus Test Visibility to trace tests execution
-# Ref.: https://docs.atatus.com/tests/setup/swift/
+# Enables TowerSignal Test Visibility to trace tests execution
+# Ref.: https://docs.towersignal.com/tests/setup/swift/
 setup_test_visibility() {
     export AT_TEST_RUNNER=1
 
     # Base:
     export AT_API_KEY=$(get_secret $AT_IOS_SECRET__TEST_VISIBILITY_API_KEY)
     export AT_ENV=$([[ "$CI" = "true" ]] && echo "ci" || echo "local")
-    export AT_SERVICE=atatus-sdk-ios
+    export AT_SERVICE=towersignal-sdk-ios
     export SRCROOT="$\(SRCROOT\)"
 
     # Auto-instrumentation:
@@ -46,7 +46,7 @@ setup_test_visibility() {
     export AT_DISABLE_NETWORK_INSTRUMENTATION=1
     export AT_DISABLE_RUM_INTEGRATION=1
     export AT_DISABLE_SOURCE_LOCATION=0
-    # Disabled: contends with some targets' own crash handler (e.g. AtatusCrashReporting's
+    # Disabled: contends with some targets' own crash handler (e.g. TowerSignalCrashReporting's
     # KSCrash instance) and breaks their tests. Needs per-target opt-in before re-enabling.
     export AT_DISABLE_CRASH_HANDLER=1
 
@@ -57,7 +57,7 @@ setup_test_visibility() {
     # Git metadata:
     # - While `dd-sdk-swift-testing` can read Git metadata from `.git` folder, following info must be overwritten
     # due to our GH → GitLab mirroring configuration (otherwise it will point to GitLab mirror not GH repo).
-    export AT_GIT_REPOSITORY_URL="git@github.com:atatus/atatus-sdk-ios.git"
+    export AT_GIT_REPOSITORY_URL="git@github.com:towersignal/towersignal-sdk-ios.git"
 
     echo_info "CI Test Visibility setup:"
     echo "▸ AT_TEST_RUNNER=$AT_TEST_RUNNER"

@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddProfiling` -> `AtatusProfiling`; renamed `dd*` types to `Atatus*`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddProfiling` -> `TowerSignalProfiling`; renamed `dd*` types to `TowerSignal*`; rebranded the licence
 // header.
 
 #if !os(watchOS)
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusProfiling
+import TowerSignalInternal
+@testable import TowerSignalProfiling
 
 final class ProfilingTelemetryControllerTests: XCTestCase {
     private let telemetry = TelemetryMock()
@@ -263,7 +263,7 @@ final class ProfilingTelemetryControllerTests: XCTestCase {
     func testSendNoProfile_usesApplicationLaunchStartReason_forAppLaunchOperation() throws {
         // Given
         let controller = ProfilingTelemetryController(telemetry: telemetry)
-        controller.register(context: AtatusContext.mockWith(launchInfo: .mockWith(launchReason: .userLaunch)))
+        controller.register(context: TowerSignalContext.mockWith(launchInfo: .mockWith(launchReason: .userLaunch)))
 
         // When
         controller.sendNoProfile(for: .appLaunch)

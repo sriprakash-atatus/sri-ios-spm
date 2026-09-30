@@ -1,33 +1,33 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`, `ddRUM` -> `AtatusRUM`, `ddWebViewTracking` -> `AtatusWebViewTracking`;
-// renamed `dd*` types to `Atatus*`; renamed the `ddsource` / `ddtags` query parameters to
-// `atatus_source` / `atatustags`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`, `ddRUM` -> `TowerSignalRUM`, `ddWebViewTracking` -> `TowerSignalWebViewTracking`;
+// renamed `dd*` types to `TowerSignal*`; renamed the `ddsource` / `ddtags` query parameters to
+// `towersignal_source` / `towersignaltags`; rebranded the licence header.
 
 import XCTest
 
 #if !os(tvOS) && !os(watchOS)
 
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 import WebKit
 
-@testable import AtatusLogs
-@testable import AtatusRUM
-@testable import AtatusWebViewTracking
+@testable import TowerSignalLogs
+@testable import TowerSignalRUM
+@testable import TowerSignalWebViewTracking
 
 @MainActor
 class WebLogIntegrationTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
     private var controller: WKUserContentControllerMock! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUpWithError() throws {
-        core = AtatusCoreProxy(
+        core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.1.1",
@@ -69,7 +69,7 @@ class WebLogIntegrationTests: XCTestCase {
                 "session_id": "0110cab4-7471-480e-aa4e-7ce039ced355",
                 "view": {
                     "referrer": "",
-                    "url": "https://atatus.dev/browser-sdk-test-playground"
+                    "url": "https://towersignal.dev/browser-sdk-test-playground"
                 }
             }
         }
@@ -85,13 +85,13 @@ class WebLogIntegrationTests: XCTestCase {
             jsonString: """
         {
             "date": \(1_635_932_927_012 + 123.dd.toInt64Milliseconds),
-            "atatusTags": "service:abc,version:1.1.1,sdk_version:abc,env:test",
+            "towersignalTags": "service:abc,version:1.1.1,sdk_version:abc,env:test",
             "message": "message",
             "session_id": "0110cab4-7471-480e-aa4e-7ce039ced355",
             "status": "debug",
             "view": {
                 "referrer": "",
-                "url": "https://atatus.dev/browser-sdk-test-playground"
+                "url": "https://towersignal.dev/browser-sdk-test-playground"
             },
         }
         """
@@ -122,7 +122,7 @@ class WebLogIntegrationTests: XCTestCase {
                 "session_id": "0110cab4-7471-480e-aa4e-7ce039ced355",
                 "view": {
                     "referrer": "",
-                    "url": "https://atatus.dev/browser-sdk-test-playground"
+                    "url": "https://towersignal.dev/browser-sdk-test-playground"
                 }
             }
         }
@@ -140,7 +140,7 @@ class WebLogIntegrationTests: XCTestCase {
             jsonString: """
         {
             "date": \(1_635_932_927_012 + 123.dd.toInt64Milliseconds),
-            "atatusTags": "service:abc,version:1.1.1,sdk_version:abc,env:test",
+            "towersignalTags": "service:abc,version:1.1.1,sdk_version:abc,env:test",
             "message": "message",
             "application_id": "\(randomApplicationID)",
             "session_id": "\(expectedUUID)",
@@ -148,7 +148,7 @@ class WebLogIntegrationTests: XCTestCase {
             "status": "debug",
             "view": {
                 "referrer": "",
-                "url": "https://atatus.dev/browser-sdk-test-playground"
+                "url": "https://towersignal.dev/browser-sdk-test-playground"
             },
             "usr": {
                 "anonymous_id": "\(expectedUUID)"

@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 public extension Array where Element == FeatureMessage {
     /// Unpacks the first "payload message" in this array.
@@ -27,7 +27,7 @@ public extension Array where Element == FeatureMessage {
     }
 
     /// Unpacks the first "context message" in this array.
-    func firstContext() -> AtatusContext? {
+    func firstContext() -> TowerSignalContext? {
         lazy.compactMap { $0.asContext }.first
     }
 
@@ -60,7 +60,7 @@ public extension FeatureMessage {
     }
 
     /// Extracts context from feature message.
-    var asContext: AtatusContext? {
+    var asContext: TowerSignalContext? {
         guard case let .context(context) = self else {
             return nil
         }

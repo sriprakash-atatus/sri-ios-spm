@@ -1,13 +1,13 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `x-dd-*` trace headers to `x-atatus-*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `x-dd-*` trace headers to `x-towersignal-*`; rebranded the licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import HTTPServerMock
 import TestUtilities
 import XCTest
@@ -145,14 +145,14 @@ class RUMResourcesScenarioTests: IntegrationTests, RUMCommonAsserts, URLSessionT
             "Tracing information should be propagated to `firstPartyPOSTResourceURL`."
         )
         XCTAssertEqual(
-            firstPartyPOSTRequest.httpHeaders["x-atatus-sampling-priority"],
+            firstPartyPOSTRequest.httpHeaders["x-towersignal-sampling-priority"],
             "1",
-            "`x-atatus-sampling-priority: 1` header must be set for `firstPartyPOSTResourceURL`"
+            "`x-towersignal-sampling-priority: 1` header must be set for `firstPartyPOSTResourceURL`"
         )
         XCTAssertEqual(
-            firstPartyPOSTRequest.httpHeaders["x-atatus-origin"],
+            firstPartyPOSTRequest.httpHeaders["x-towersignal-origin"],
             "rum",
-            "`x-atatus-origin: rum` header must be set for `firstPartyPOSTResourceURL`"
+            "`x-towersignal-origin: rum` header must be set for `firstPartyPOSTResourceURL`"
         )
 
         // Get RUM Sessions with expected number of View visits and Resources

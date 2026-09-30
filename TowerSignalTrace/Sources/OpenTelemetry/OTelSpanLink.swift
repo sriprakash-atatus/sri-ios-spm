@@ -1,10 +1,10 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - rebranded the licence header.
 
 import Foundation
 import OpenTelemetryApi
@@ -41,7 +41,7 @@ extension OTelSpanLink: Encodable {
     /// - Parameter encoder: Encoder
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        let traceId = String(context.traceId.toAtatus(), representation: .hexadecimal32Chars)
+        let traceId = String(context.traceId.toTowerSignal(), representation: .hexadecimal32Chars)
 
         try container.encode(traceId, forKey: .traceId)
         try container.encode(context.spanId.hexString, forKey: .spanId)

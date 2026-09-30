@@ -1,32 +1,32 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
 // `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusTrace
+@testable import TowerSignalTrace
 
 // MARK: - Span Mocks
 
 public struct NOPSpanWriteContext: SpanWriteContext {
     public init() {}
-    public func spanWriteContext(_ block: @escaping (AtatusContext, Writer) -> Void) {}
+    public func spanWriteContext(_ block: @escaping (TowerSignalContext, Writer) -> Void) {}
 }
 
 extension ATSpan {
-    public static func mockAny(in core: AtatusCoreProtocol) -> ATSpan {
+    public static func mockAny(in core: TowerSignalCoreProtocol) -> ATSpan {
         return mockWith(core: core)
     }
 
     public static func mockWith(
-        tracer: AtatusTracer,
+        tracer: TowerSignalTracer,
         context: ATSpanContext = .mockAny(),
         operationName: String = .mockAny(),
         startTime: Date = .mockAny(),
@@ -46,7 +46,7 @@ extension ATSpan {
     }
 
     public static func mockWith(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         context: ATSpanContext = .mockAny(),
         operationName: String = .mockAny(),
         startTime: Date = .mockAny(),
@@ -98,13 +98,13 @@ extension BaggageItems {
 
 // MARK: - Component Mocks
 
-extension AtatusTracer {
-    public static func mockAny(in core: AtatusCoreProtocol) -> AtatusTracer {
+extension TowerSignalTracer {
+    public static func mockAny(in core: TowerSignalCoreProtocol) -> TowerSignalTracer {
         return mockWith(core: core)
     }
 
     public static func mockWith(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         samplingProvider: TracerSamplerProvider = TracerSamplerProviderMock.mockKeepAll(),
         tags: [String: Encodable] = [:],
         traceIDGenerator: TraceIDGenerator = DefaultTraceIDGenerator(),
@@ -112,8 +112,8 @@ extension AtatusTracer {
         dateProvider: DateProvider = SystemDateProvider(),
         spanEventBuilder: SpanEventBuilder = .mockAny(),
         loggingIntegration: TracingWithLoggingIntegration = .mockAny()
-    ) -> AtatusTracer {
-        return AtatusTracer(
+    ) -> TowerSignalTracer {
+        return TowerSignalTracer(
             core: core,
             samplingProvider: samplingProvider,
             tags: tags,
@@ -134,8 +134,8 @@ extension AtatusTracer {
         dateProvider: DateProvider = SystemDateProvider(),
         spanEventBuilder: SpanEventBuilder = .mockAny(),
         loggingIntegration: TracingWithLoggingIntegration = .mockAny()
-    ) -> AtatusTracer {
-        return AtatusTracer(
+    ) -> TowerSignalTracer {
+        return TowerSignalTracer(
             featureScope: featureScope,
             samplingProvider: samplingProvider,
             tags: tags,
@@ -151,7 +151,7 @@ extension AtatusTracer {
 extension TracingWithLoggingIntegration {
     public static func mockAny() -> TracingWithLoggingIntegration {
         return TracingWithLoggingIntegration(
-            core: NOPAtatusCore(),
+            core: NOPTowerSignalCore(),
             service: .mockAny(),
             networkInfoEnabled: .mockAny()
         )
@@ -337,7 +337,7 @@ extension SamplingDecision: AnyMockable, RandomMockable {
         SamplingDecision(sampling: MockSampler(decision: false))
     }
 
-    public static func mockRandom() -> AtatusTrace.SamplingDecision {
+    public static func mockRandom() -> TowerSignalTrace.SamplingDecision {
         let randomPriority = (-1...2).randomElement()
 
         switch randomPriority {

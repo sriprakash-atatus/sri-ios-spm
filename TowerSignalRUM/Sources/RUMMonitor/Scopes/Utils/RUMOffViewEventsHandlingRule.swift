@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; rebranded the
 // licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Lightweight representation of current RUM application state, used to compute `RUMOffViewEventsHandlingRule`.
 internal final class RUMApplicationState {
@@ -39,11 +39,11 @@ internal enum RUMOffViewEventsHandlingRule: Equatable {
         /// The name of the view created when receiving an event while there is no active view and Background Events Tracking is enabled.
         static let backgroundViewName = "Background"
         /// The url of the view created when receiving an event while there is no active view and Background Events Tracking is enabled.
-        static let backgroundViewURL = "com/atatus/background/view"
+        static let backgroundViewURL = "com/towersignal/background/view"
         /// The name of the view created when receiving an event before any view was started in the initial session.
         static let applicationLaunchViewName = "ApplicationLaunch"
         /// The url of the view created when receiving an event before any view was started in the initial session.
-        static let applicationLaunchViewURL = "com/atatus/application-launch/view"
+        static let applicationLaunchViewURL = "com/towersignal/application-launch/view"
     }
 
     /// Start "ApplicationLaunch" view to track the event.

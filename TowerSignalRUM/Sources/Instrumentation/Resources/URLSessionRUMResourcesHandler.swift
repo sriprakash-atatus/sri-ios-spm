@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal struct DistributedTracing {
     /// The sampling rate for tracing. Value between `0.0` and `100.0`, where `0.0` means NO trace will be sent and `100.0` means ALL traces will be sent.
@@ -36,7 +36,7 @@ internal struct DistributedTracing {
     }
 }
 
-internal final class URLSessionRUMResourcesHandler: AtatusURLSessionHandlerSupportingDistributedTracing, RUMCommandPublisher {
+internal final class URLSessionRUMResourcesHandler: TowerSignalURLSessionHandlerSupportingDistributedTracing, RUMCommandPublisher {
     /// Captured state for RUM URL session handler
     struct RUMURLSessionHandlerCapturedState: URLSessionHandlerCapturedState {
         /// Whether GraphQL headers were detected in the request
@@ -84,9 +84,9 @@ internal final class URLSessionRUMResourcesHandler: AtatusURLSessionHandlerSuppo
         self.subscriber = subscriber
     }
 
-    // MARK: - AtatusURLSessionHandler
+    // MARK: - TowerSignalURLSessionHandler
 
-    func modify(request: URLRequest, headerTypes: Set<AtatusInternal.TracingHeaderType>, networkContext: NetworkContext?) -> (URLRequest, TraceContext?, URLSessionHandlerCapturedState?) {
+    func modify(request: URLRequest, headerTypes: Set<TowerSignalInternal.TracingHeaderType>, networkContext: NetworkContext?) -> (URLRequest, TraceContext?, URLSessionHandlerCapturedState?) {
         let (modifiedRequest, traceContext, _) = distributedTracing?.modify(
             request: request,
             headerTypes: headerTypes,
@@ -100,7 +100,7 @@ internal final class URLSessionRUMResourcesHandler: AtatusURLSessionHandlerSuppo
         return (modifiedRequest, traceContext, capturedState)
     }
 
-    func interceptionDidStart(interception: AtatusInternal.URLSessionTaskInterception, capturedStates: [any URLSessionHandlerCapturedState]) {
+    func interceptionDidStart(interception: TowerSignalInternal.URLSessionTaskInterception, capturedStates: [any URLSessionHandlerCapturedState]) {
         let url = interception.request.url?.absoluteString ?? "unknown_url"
         interception.register(origin: "rum")
 
@@ -123,7 +123,7 @@ internal final class URLSessionRUMResourcesHandler: AtatusURLSessionHandlerSuppo
         )
     }
 
-    func interceptionDidComplete(interception: AtatusInternal.URLSessionTaskInterception) {
+    func interceptionDidComplete(interception: TowerSignalInternal.URLSessionTaskInterception) {
         guard let subscriber = subscriber else {
             return AT.logger.warn(
                 """
@@ -257,7 +257,7 @@ internal final class URLSessionRUMResourcesHandler: AtatusURLSessionHandlerSuppo
 }
 
 extension DistributedTracing {
-    func modify(request: URLRequest, headerTypes: Set<AtatusInternal.TracingHeaderType>, networkContext: NetworkContext?) -> (URLRequest, TraceContext?, URLSessionHandlerCapturedState?) {
+    func modify(request: URLRequest, headerTypes: Set<TowerSignalInternal.TracingHeaderType>, networkContext: NetworkContext?) -> (URLRequest, TraceContext?, URLSessionHandlerCapturedState?) {
         // Per RUM-15310: If there is an active span, and that span is sampled, we use it as the parent span,
         // and set everything in the RUM resource span to be consistent with it.
         // If we don't have an active span, or if we do have one, but it's not sampled, we ignore it. The
@@ -315,7 +315,7 @@ extension DistributedTracing {
         headerTypes.forEach {
             let writer: TracePropagationHeadersWriter
             switch $0 {
-            case .atatus:
+            case .towersignal:
                 writer = HTTPHeadersWriter(traceContextInjection: traceContextInjection)
                 // To make sure the generated traces from RUM don’t affect APM Index Spans counts.
                 request.setValue("rum", forHTTPHeaderField: TracingHTTPHeaders.originField)
@@ -363,7 +363,7 @@ extension DistributedTracing {
         return (request, (hasSetAnyHeader && injectedSpanContext.samplingPriority.isKept) ? injectedSpanContext : nil, nil)
     }
 
-    fileprivate func trace(from interception: AtatusInternal.URLSessionTaskInterception) -> RUMSpanContext? {
+    fileprivate func trace(from interception: TowerSignalInternal.URLSessionTaskInterception) -> RUMSpanContext? {
         return interception.trace.map {
             .init(
                 traceID: $0.traceID,

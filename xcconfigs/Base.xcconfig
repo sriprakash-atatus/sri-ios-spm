@@ -1,8 +1,8 @@
 // Base configuration file for all targets.
 // Note: all configuration here will be applied to artifacts produced by Carthage.
 
-AT_SWIFT_SDK_PRODUCT_NAME=AtatusCore
-AT_CR_SDK_PRODUCT_NAME=AtatusCrashReporting
+AT_SWIFT_SDK_PRODUCT_NAME=TowerSignalCore
+AT_CR_SDK_PRODUCT_NAME=TowerSignalCrashReporting
 
 ARCHS[sdk=iphoneos*]=$(ARCHS_STANDARD) arm64e
 

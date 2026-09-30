@@ -1,8 +1,8 @@
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `DD` symbol prefix to `AT`; rebranded the `dd` name to `Atatus` in comments and docs.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `DD` symbol prefix to `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Represents information related to an event with a timespan
 public protocol OTSpan: Sendable {
@@ -84,7 +84,7 @@ public extension OTSpan {
     /// Set or replace the error for the given span.
     /// This is a convenience to set the proper tags with error details. Consider the `setError(message:stacktrace:file:line:)` variant for a better control over the error details.
     ///
-    /// Using this API requires to enable logging on `Atatus.Configuration` using its builder:
+    /// Using this API requires to enable logging on `TowerSignal.Configuration` using its builder:
     ///
     ///       builder
     ///         // ...
@@ -113,7 +113,7 @@ public extension OTSpan {
     /// Set or replace the error for the given span.
     /// This is a convenience to set the proper tags with error details.
     ///
-    ///  Using this API requires to enable logging on `Atatus.Configuration` using its builder:
+    ///  Using this API requires to enable logging on `TowerSignal.Configuration` using its builder:
     ///
     ///       builder
     ///         // ...

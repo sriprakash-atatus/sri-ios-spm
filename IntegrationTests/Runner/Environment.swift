@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; renamed `clientToken` to `licenseKey`; rebranded the `dd` name to `Atatus` in comments and
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; renamed `clientToken` to `licenseKey`; rebranded the `dd` name to `TowerSignal` in comments and
 // docs; rebranded the licence header.
 
 import Foundation
@@ -94,7 +94,7 @@ internal struct Environment {
         static let urlSessionSetup = "AT_TEST_URL_SESSION_SETUP"
 
         // ATCHG: Credentials read from the environment so a CI job can point this app at a real
-        // Atatus intake without any key being committed. Unset in the UI tests, which assert the
+        // TowerSignal intake without any key being committed. Unset in the UI tests, which assert the
         // placeholders in `Constants` on the recorded intake requests.
         static let licenseKey = "AT_TEST_LICENSE_KEY"
         static let rumApplicationID = "AT_TEST_RUM_APPLICATION_ID"
@@ -126,11 +126,11 @@ internal struct Environment {
         static let defaultService = "ui-tests-service-name"
         static let defaultEnv = "integration"
         /// The local Node server (`local server/server.js`) on its default port, used when neither
-        /// `AT_TEST_STORE_API_URL` nor `ATATUS_SERVER_URL` is set.
+        /// `AT_TEST_STORE_API_URL` nor `TOWERSIGNAL_SERVER_URL` is set.
         static let defaultStoreAPIURL = URL(string: "https://wrought-author-whinny.ngrok-free.dev")!
     }
     struct InfoPlistKey {
-        static let licenseKey      = "AtatusClientToken"
+        static let licenseKey      = "TowerSignalClientToken"
         static let rumApplicationID = "RUMApplicationID"
 
         static let customLogsURL    = "CustomLogsURL"
@@ -206,9 +206,9 @@ internal struct Environment {
 
     /// The backend the e-commerce scenario's store calls.
     ///
-    /// Deliberately unrelated to `ATATUS_SERVER_URL`: that is where telemetry is *reported*, while
+    /// Deliberately unrelated to `TOWERSIGNAL_SERVER_URL`: that is where telemetry is *reported*, while
     /// this is an application backend the app *calls*. They are different hosts — the agent reports
-    /// to the Atatus intake, the shop calls the Node server that serves `/api/store/*` — and it is
+    /// to the TowerSignal intake, the shop calls the Node server that serves `/api/store/*` — and it is
     /// the shop's calls to this one, traced on both sides, that make the distributed trace.
     static func storeAPIURL() -> URL {
         nonEmptyValue(of: Variable.storeAPIURL).flatMap { URL(string: $0) } ?? Constants.defaultStoreAPIURL
@@ -232,7 +232,7 @@ internal struct Environment {
             fatalError("""
             ✋⛔️ Cannot read `\(InfoPlistKey.licenseKey)` from `Info.plist` dictionary.
             Please update `TowerSignal.xcconfig` in the repository root with your own
-            client token obtained on atatus.com.
+            client token obtained on towersignal.com.
             You might need to run `Product > Clean Build Folder` before retrying.
             """)
         }
@@ -244,7 +244,7 @@ internal struct Environment {
             fatalError("""
             ✋⛔️ Cannot read `\(InfoPlistKey.rumApplicationID)` from `Info.plist` dictionary.
             Please update `TowerSignal.xcconfig` in the repository root with your own
-            RUM application id obtained on atatus.com.
+            RUM application id obtained on towersignal.com.
             You might need to run `Product > Clean Build Folder` before retrying.
             """)
         }

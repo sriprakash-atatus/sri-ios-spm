@@ -1,34 +1,34 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusCore
+@testable import TowerSignalCore
 
-private struct FeatureAMock: AtatusRemoteFeature {
+private struct FeatureAMock: TowerSignalRemoteFeature {
     static let name: String = "feature-a"
     var requestBuilder: FeatureRequestBuilder = FeatureRequestBuilderMock()
     var messageReceiver: FeatureMessageReceiver = NOPFeatureMessageReceiver()
-    var performanceOverride: AtatusInternal.PerformancePresetOverride?
+    var performanceOverride: TowerSignalInternal.PerformancePresetOverride?
 }
 
-private struct FeatureBMock: AtatusRemoteFeature {
+private struct FeatureBMock: TowerSignalRemoteFeature {
     static let name: String = "feature-b"
     var requestBuilder: FeatureRequestBuilder = FeatureRequestBuilderMock()
     var messageReceiver: FeatureMessageReceiver = NOPFeatureMessageReceiver()
-    var performanceOverride: AtatusInternal.PerformancePresetOverride?
+    var performanceOverride: TowerSignalInternal.PerformancePresetOverride?
 }
 
-class AtatusCore_FeatureDataStoreTests: XCTestCase {
+class TowerSignalCore_FeatureDataStoreTests: XCTestCase {
     func testGivenTwoFeaturesRegistered_whenWritingToTheirDataStore_eachStoreIsUnique() throws {
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory.create(),
             dateProvider: SystemDateProvider(),
             initialConsent: .mockRandom(),
@@ -73,7 +73,7 @@ class AtatusCore_FeatureDataStoreTests: XCTestCase {
     func testGivenFeatureRegisteredToTwoCoreInstances_whenWritingToDataStore_eachInstanceIsUnique() throws {
         let coreDirectory1 = temporaryUniqueCoreDirectory().create()
         let coreDirectory2 = temporaryUniqueCoreDirectory().create()
-        let core1 = AtatusCore(
+        let core1 = TowerSignalCore(
             directory: coreDirectory1,
             dateProvider: SystemDateProvider(),
             initialConsent: .mockRandom(),
@@ -85,7 +85,7 @@ class AtatusCore_FeatureDataStoreTests: XCTestCase {
             maxBatchesPerUpload: .mockAny(),
             backgroundTasksEnabled: .mockAny()
         )
-        let core2 = AtatusCore(
+        let core2 = TowerSignalCore(
             directory: coreDirectory2,
             dateProvider: SystemDateProvider(),
             initialConsent: .mockRandom(),

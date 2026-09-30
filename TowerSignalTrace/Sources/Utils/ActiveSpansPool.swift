@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
 // `AT`; renamed `dd*` members to `at*`; rebranded the licence header.
 
 import Foundation
@@ -81,7 +81,7 @@ internal final class ActiveSpansPool: @unchecked Sendable {
     /// for a scenario of incorret use of `span.setActive()` API. Until RUMM-2904 is fixed, `destroy()` is necessary to not
     /// leak the `core` object memory in tests. It should be removed after fixing the problem.
     ///
-    /// TODO: RUMM-2904 Calling `span.setActive()` multiple times introduces retain cycle and leaks `AtatusCore` object
+    /// TODO: RUMM-2904 Calling `span.setActive()` multiple times introduces retain cycle and leaks `TowerSignalCore` object
     func destroy() {
         rlock.lock()
         contextMap = [:]

@@ -1,9 +1,9 @@
 ---
-name: atatus-sdk-ios:running-tests
-description: Use when asked to run tests in the atatus-sdk-ios project — whether a full module suite, a specific test class, or a single test method. Use when choosing between make, xcodebuild, or Xcode MCP for running iOS/tvOS/visionOS tests.
+name: towersignal-sdk-ios:running-tests
+description: Use when asked to run tests in the towersignal-sdk-ios project — whether a full module suite, a specific test class, or a single test method. Use when choosing between make, xcodebuild, or Xcode MCP for running iOS/tvOS/visionOS tests.
 ---
 
-# Running Tests in atatus-sdk-ios
+# Running Tests in towersignal-sdk-ios
 
 ## Two Approaches
 
@@ -83,7 +83,7 @@ xcodebuild test \
 To find which module owns a test:
 ```
 XcodeGrep(tabIdentifier: <tabIdentifier>, pattern: "func <testName>", outputMode: "filesWithMatches")
-# path reveals the module: TowerSignalInternal/Tests/... → scheme "AtatusInternal iOS"
+# path reveals the module: TowerSignalInternal/Tests/... → scheme "TowerSignalInternal iOS"
 ```
 
 ## Decision Guide
@@ -106,4 +106,4 @@ Need to run tests?
 | Assuming `RunSomeTests` works for any module | It only sees targets in the active Xcode scheme — MCP cannot switch schemes |
 | Not knowing which scheme owns the test | Grep for the function — file path reveals the module |
 | Running full module when only one test needed | Use `RunSomeTests` or `xcodebuild -only-testing` |
-| Running integration tests under feature module scheme | Integration tests use target `AtatusIntegrationTests iOS/tvOS` |
+| Running integration tests under feature module scheme | Integration tests use target `TowerSignalIntegrationTests iOS/tvOS` |

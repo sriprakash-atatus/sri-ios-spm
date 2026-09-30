@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `dd*` members to `at*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `dd*` members to `at*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 import UIKit
 
-internal final class RUMFeature: AtatusRemoteFeature, RUMSessionSamplerProvider {
+internal final class RUMFeature: TowerSignalRemoteFeature, RUMSessionSamplerProvider {
     static var name: String { Feature.rum }
 
     let requestBuilder: FeatureRequestBuilder
@@ -36,7 +36,7 @@ internal final class RUMFeature: AtatusRemoteFeature, RUMSessionSamplerProvider 
     )
 
     init(
-        in core: AtatusCoreProtocol,
+        in core: TowerSignalCoreProtocol,
         configuration: RUM.Configuration
     ) throws {
         self.configuration = configuration

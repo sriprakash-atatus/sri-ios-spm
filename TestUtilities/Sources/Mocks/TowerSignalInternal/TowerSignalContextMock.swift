@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `clientToken` to
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `clientToken` to
 // `licenseKey`; renamed the build `variant` to `appName`; rebranded the licence header.
 
 import Foundation
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 
-extension AtatusContext: AnyMockable, RandomMockable {
-    public static func mockAny() -> AtatusContext { mockWith() }
+extension TowerSignalContext: AnyMockable, RandomMockable {
+    public static func mockAny() -> TowerSignalContext { mockWith() }
 
     public static func mockWith(
-        site: AtatusSite = .mockAny(),
+        site: TowerSignalSite = .mockAny(),
         serverUrl: String? = nil, // ATCHG: Added the custom intake base url
         licenseKey: String = .mockAny(),
         service: String = .mockAny(),
@@ -47,8 +47,8 @@ extension AtatusContext: AnyMockable, RandomMockable {
         brightnessLevel: BrightnessLevel? = .mockAny(),
         isLowPowerModeEnabled: Bool = false,
         additionalContext: [AdditionalContext] = []
-    ) -> AtatusContext {
-        var context = AtatusContext(
+    ) -> TowerSignalContext {
+        var context = TowerSignalContext(
             site: site,
             serverUrl: serverUrl, // ATCHG: Added the custom intake base url
             licenseKey: licenseKey,
@@ -86,7 +86,7 @@ extension AtatusContext: AnyMockable, RandomMockable {
         return context
     }
 
-    public static func mockRandom() -> AtatusContext {
+    public static func mockRandom() -> TowerSignalContext {
         .init(
             site: .mockRandom(),
             licenseKey: .mockRandom(),
@@ -120,13 +120,13 @@ extension AtatusContext: AnyMockable, RandomMockable {
     }
 }
 
-extension AtatusSite: AnyMockable, RandomMockable {
+extension TowerSignalSite: AnyMockable, RandomMockable {
     public static func mockAny() -> Self {
-        return .atatus
+        return .towersignal
     }
 
     public static func mockRandom() -> Self {
-        return [.atatus, .atatus, .atatus, .atatus, .atatus, .atatus, .atatus, .atatus].randomElement()!
+        return [.towersignal, .towersignal, .towersignal, .towersignal, .towersignal, .towersignal, .towersignal, .towersignal].randomElement()!
     }
 }
 

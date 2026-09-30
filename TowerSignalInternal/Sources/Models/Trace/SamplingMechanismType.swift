@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `_dd` attribute prefix to `_atatus`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed the `_dd` attribute prefix to `_towersignal`; rebranded the licence
 // header.
 
 /// The mechanism used to make a span sampling decision.
 ///
-/// The raw values are the ones used in propagation headers like `_atatus.p.dm`. They do not include the `-` character,
+/// The raw values are the ones used in propagation headers like `_towersignal.p.dm`. They do not include the `-` character,
 /// since that character is a separator and not part of the value itself.
 public enum SamplingMechanismType: String, Equatable, Comparable, Sendable {
     /// Fallback mechanism. This mechanism samples all spans. It should never be used, but it's included for completion.

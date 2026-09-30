@@ -1,23 +1,23 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddMachProfiler` -> `AtatusMachProfiler`, `ddProfiling` -> `AtatusProfiling`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddMachProfiler` -> `TowerSignalMachProfiler`, `ddProfiling` -> `TowerSignalProfiling`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 #if !os(watchOS)
 
 import XCTest
-import AtatusInternal
-import AtatusMachProfiler
+import TowerSignalInternal
+import TowerSignalMachProfiler
 import TestUtilities
-@testable import AtatusProfiling
+@testable import TowerSignalProfiling
 
 final class ProfilerFeatureTests: XCTestCase {
-    private let core: AtatusCoreProtocol = PassthroughCoreMock()
+    private let core: TowerSignalCoreProtocol = PassthroughCoreMock()
     private let requestBuilder: FeatureRequestBuilder = FeatureRequestBuilderMock()
     private let telemetryController = ProfilingTelemetryController()
 
@@ -26,7 +26,7 @@ final class ProfilerFeatureTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        AtatusProfiler.resetActiveInstance()
+        TowerSignalProfiler.resetActiveInstance()
         dd_profiler_stop()
         dd_profiler_destroy()
         userDefaults = UserDefaults(suiteName: suiteName)!
@@ -36,7 +36,7 @@ final class ProfilerFeatureTests: XCTestCase {
     override func tearDown() {
         userDefaults.removePersistentDomain(forName: suiteName)
         userDefaults = nil
-        AtatusProfiler.resetActiveInstance()
+        TowerSignalProfiler.resetActiveInstance()
         dd_profiler_stop()
         dd_profiler_destroy()
         super.tearDown()
@@ -130,7 +130,7 @@ final class ProfilerFeatureTests: XCTestCase {
             quotaChecker: quotaChecker,
             userDefaults: userDefaults
         )
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             trackingConsent: .granted,
             additionalContext: [RUMCoreContext.mockWith(sessionSampleRate: .maxSampleRate)]
         )
@@ -142,7 +142,7 @@ final class ProfilerFeatureTests: XCTestCase {
         XCTAssertEqual(quotaChecker.receivedContexts.count, 1)
     }
 
-    func testMessageReceiver_checksQuotaForAppLaunchProfiler_whenAtatusProfilerIsNotCreated() {
+    func testMessageReceiver_checksQuotaForAppLaunchProfiler_whenTowerSignalProfilerIsNotCreated() {
         // Given
         let firstFeature = ProfilerFeature(
             core: PassthroughCoreMock(),
@@ -161,7 +161,7 @@ final class ProfilerFeatureTests: XCTestCase {
             quotaChecker: quotaChecker,
             userDefaults: userDefaults
         )
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             trackingConsent: .granted,
             additionalContext: [RUMCoreContext.mockWith(sessionSampleRate: .maxSampleRate)]
         )
@@ -230,10 +230,10 @@ final class ProfilerFeatureTests: XCTestCase {
             userDefaults: userDefaults
         )
 
-        let unsampledContext: AtatusContext = .mockWith(
+        let unsampledContext: TowerSignalContext = .mockWith(
             additionalContext: [RUMCoreContext.mockWith(sessionSampleRate: 0)]
         )
-        let sampledContext: AtatusContext = .mockWith(
+        let sampledContext: TowerSignalContext = .mockWith(
             additionalContext: [RUMCoreContext.mockWith(sessionSampleRate: 100)]
         )
 
@@ -261,10 +261,10 @@ final class ProfilerFeatureTests: XCTestCase {
             userDefaults: userDefaults
         )
 
-        let unsampledContext: AtatusContext = .mockWith(
+        let unsampledContext: TowerSignalContext = .mockWith(
             additionalContext: [RUMCoreContext.mockWith(sessionSampleRate: 0)]
         )
-        let contextWithoutRUM: AtatusContext = .mockWith(additionalContext: [])
+        let contextWithoutRUM: TowerSignalContext = .mockWith(additionalContext: [])
 
         // When
         _ = feature.messageReceiver.receive(message: .context(unsampledContext), from: core)

@@ -1,23 +1,23 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the
 // licence header.
 
 #if os(iOS)
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal struct RecordingComponents {
     let recordingCoordinator: any RecordingController
     let messageReceiver: any FeatureMessageReceiver
 
     init(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         configuration: SessionReplay.Configuration,
         resourcesWriter: any ResourcesWriting,
         srContextPublisher: SRContextPublisher
@@ -51,15 +51,15 @@ internal struct RecordingComponents {
     }
 
     private static func viewTreeRecordingComponents(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         configuration: SessionReplay.Configuration,
         resourcesWriter: any ResourcesWriting,
         srContextPublisher: SRContextPublisher
     ) throws -> Self {
-        let processorsQueue = BackgroundAsyncQueue(label: "com.atatus.session-replay.processors", qos: .utility)
+        let processorsQueue = BackgroundAsyncQueue(label: "com.towersignal.session-replay.processors", qos: .utility)
         // The telemetry queue targets the processors queue with a lower qos.
         let telemetryQueue = BackgroundAsyncQueue(
-            label: "com.atatus.session-replay.telemetry",
+            label: "com.towersignal.session-replay.telemetry",
             qos: .background,
             target: processorsQueue
         )
@@ -113,15 +113,15 @@ internal struct RecordingComponents {
     @available(iOS 13.0, tvOS 13.0, *)
     @MainActor
     private static func layerTreeRecordingComponents(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         configuration: SessionReplay.Configuration,
         resourcesWriter: any ResourcesWriting,
         srContextPublisher: SRContextPublisher
     ) throws -> Self {
-        let processorsQueue = BackgroundAsyncQueue(label: "com.atatus.session-replay.processors", qos: .utility)
+        let processorsQueue = BackgroundAsyncQueue(label: "com.towersignal.session-replay.processors", qos: .utility)
         // The telemetry queue targets the processors queue with a lower qos.
         let telemetryQueue = BackgroundAsyncQueue(
-            label: "com.atatus.session-replay.telemetry",
+            label: "com.towersignal.session-replay.telemetry",
             qos: .background,
             target: processorsQueue
         )

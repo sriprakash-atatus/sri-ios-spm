@@ -1,29 +1,29 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddInternal`
-// -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; repointed the intake host at the Atatus site;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddInternal`
+// -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; repointed the intake host at the TowerSignal site;
 // rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
 @_spi(Internal)
-@testable import AtatusFlags
+@testable import TowerSignalFlags
 
 final class FlagAssignmentsFetcherTests: XCTestCase {
     private let featureScope = FeatureScopeMock()
 
-    // ATCHG: The Atatus site has no flags CDN, so without a custom endpoint no request is issued
+    // ATCHG: The TowerSignal site has no flags CDN, so without a custom endpoint no request is issued
     // and the fetch fails with `.invalidConfiguration` — the iOS equivalent of Android's
     // `PrecomputedAssignmentsRequestFactory.create` returning `null`.
     func testFlagAssignmentsWithoutCustomEndpointDoesNotSendRequest() {
         // Given
-        featureScope.contextMock = .mockWith(site: .atatus)
+        featureScope.contextMock = .mockWith(site: .towersignal)
         var capturedRequest: URLRequest?
         let fetcher = FlagAssignmentsFetcher(
             customEndpoint: nil,
@@ -55,7 +55,7 @@ final class FlagAssignmentsFetcherTests: XCTestCase {
     // reachable when the backend exposes them.
     func testFlagAssignmentsWithCustomEndpoint() throws {
         // Given
-        featureScope.contextMock = .mockWith(site: .atatus)
+        featureScope.contextMock = .mockWith(site: .towersignal)
         let customEndpoint: URL = .mockRandom()
         var capturedRequest: URLRequest?
         let fetcher = FlagAssignmentsFetcher(
@@ -159,10 +159,10 @@ final class FlagAssignmentsFetcherTests: XCTestCase {
         XCTAssertEqual(capturedRequest?.allHTTPHeaderFields?["X-Custom-Header"], "custom-value")
     }
 
-    // ATCHG: The Atatus site exposes no flags CDN host, so `flagsEndpoint()` is `nil`
-    // (Android maps `AtatusSite.ATATUS -> null` in `AtatusSiteExtensions.kt`).
-    func testFlagsEndpointIsNotAvailableForAtatusSite() {
-        XCTAssertNil(AtatusSite.atatus.flagsEndpoint())
+    // ATCHG: The TowerSignal site exposes no flags CDN host, so `flagsEndpoint()` is `nil`
+    // (Android maps `TowerSignalSite.TOWERSIGNAL -> null` in `TowerSignalSiteExtensions.kt`).
+    func testFlagsEndpointIsNotAvailableForTowerSignalSite() {
+        XCTAssertNil(TowerSignalSite.towersignal.flagsEndpoint())
     }
     // ATCHG: End
 }

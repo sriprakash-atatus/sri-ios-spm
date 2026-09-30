@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed
-// `dd*` members to `at*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed
+// `dd*` members to `at*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the
 // licence header.
 
 import XCTest
 import UIKit
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 @testable import TestUtilities
 
 class RUMViewScopeTests: XCTestCase {
-    var context: AtatusContext = .mockWith(
+    var context: TowerSignalContext = .mockWith(
         service: "test-service",
         version: "test-version",
         buildNumber: "test-build",
@@ -211,7 +211,7 @@ class RUMViewScopeTests: XCTestCase {
         let currentTime: Date = .mockDecember15th2019At10AMUTC()
         let source = String.mockAnySource()
 
-        let customContext: AtatusContext = .mockWith(source: source)
+        let customContext: TowerSignalContext = .mockWith(source: source)
 
         let scope = RUMViewScope(
             isInitialView: true,
@@ -2235,7 +2235,7 @@ class RUMViewScopeTests: XCTestCase {
         var currentTime: Date = .mockDecember15th2019At10AMUTC()
         let source = String.mockAnySource()
 
-        let customContext: AtatusContext = .mockWith(source: source)
+        let customContext: TowerSignalContext = .mockWith(source: source)
 
         let scope = RUMViewScope(
             isInitialView: .mockRandom(),
@@ -2282,7 +2282,7 @@ class RUMViewScopeTests: XCTestCase {
 
         let customSource = String.mockAnySource()
         let expectedSource = RUMErrorEvent.Source(rawValue: customSource)
-        let customContext: AtatusContext = .mockWith(
+        let customContext: TowerSignalContext = .mockWith(
             service: "test-service",
             source: customSource
         )
@@ -3199,7 +3199,7 @@ class RUMViewScopeTests: XCTestCase {
         let startViewDate: Date = .mockDecember15th2019At10AMUTC()
 
         let source = String.mockAnySource()
-        let customContext: AtatusContext = .mockWith(source: source)
+        let customContext: TowerSignalContext = .mockWith(source: source)
 
         let scope = RUMViewScope(
             isInitialView: .mockRandom(),
@@ -3405,7 +3405,7 @@ class RUMViewScopeTests: XCTestCase {
         XCTAssertEqual(
             dd.logger.warnLog?.message,
             """
-            Custom timing '\(originalTimingName)' was modified to '\(sanitizedTimingName)' to match Atatus constraints.
+            Custom timing '\(originalTimingName)' was modified to '\(sanitizedTimingName)' to match TowerSignal constraints.
             """
         )
     }

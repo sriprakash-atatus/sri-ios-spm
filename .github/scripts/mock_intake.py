@@ -5,7 +5,7 @@ The mock intake records every POST it receives, keyed by the path it was sent to
 is pointed at one path per product through the `AT_TEST_SERVER_MOCK_CONFIGURATION` environment
 variable (see `IntegrationTests/Runner/Environment.swift`), so "did the agent upload RUM events?"
 becomes "did a POST arrive under the RUM path?". That makes agent initialization observable from
-the outside, without a network call to a real Atatus intake and without a license key.
+the outside, without a network call to a real TowerSignal intake and without a license key.
 
 Subcommands:
   config  Print the base64 `AT_TEST_SERVER_MOCK_CONFIGURATION` value for the given session ids.
@@ -28,7 +28,7 @@ def fetch_recorded(server):
 
 
 def requests_for(recorded, session):
-    # The app appends query items to some intakes (RUM uses `?atatusSource=ios`), so match on
+    # The app appends query items to some intakes (RUM uses `?towersignalSource=ios`), so match on
     # the session id as a path prefix rather than on equality.
     return [entry for entry in recorded if entry["path"].startswith(f"/{session}")]
 

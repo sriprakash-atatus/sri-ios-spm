@@ -1,27 +1,27 @@
 
-# Atatus SDK for iOS and tvOS
+# TowerSignal SDK for iOS and tvOS
 
-> Swift and Objective-C libraries to interact with Atatus on iOS and tvOS.
+> Swift and Objective-C libraries to interact with TowerSignal on iOS and tvOS.
 
 ## Getting Started
 
 ### Log Collection
 
-See the dedicated [Atatus iOS Log Collection][1] documentation to learn how to send logs from your iOS application to Atatus.
+See the dedicated [TowerSignal iOS Log Collection][1] documentation to learn how to send logs from your iOS application to TowerSignal.
 
-![Atatus iOS Log Collection](docs/images/logging.png)
+![TowerSignal iOS Log Collection](docs/images/logging.png)
 
 ### Trace Collection
 
-See [Atatus iOS Trace Collection][2] documentation to try it out.
+See [TowerSignal iOS Trace Collection][2] documentation to try it out.
 
-![Atatus iOS Log Collection](docs/images/tracing.png)
+![TowerSignal iOS Log Collection](docs/images/tracing.png)
 
 ### RUM Events Collection
 
-See [Atatus iOS RUM Collection][3] documentation to try it out.
+See [TowerSignal iOS RUM Collection][3] documentation to try it out.
 
-![Atatus iOS RUM Collection](docs/images/rum.png)
+![TowerSignal iOS RUM Collection](docs/images/rum.png)
 
 #### WebView Tracking
 
@@ -43,12 +43,12 @@ Pull requests are welcome. First, open an issue to discuss what you would like t
 
 See the [Supported Versions][6] documentation for more details.
 
-[1]: https://docs.atatus.com/logs/log_collection/ios
-[2]: https://docs.atatus.com/tracing/setup_overview/setup/ios
-[3]: https://docs.atatus.com/real_user_monitoring/ios
-[4]: https://docs.atatus.com/real_user_monitoring/mobile_and_tv_monitoring/integrated_libraries/ios
-[5]: https://docs.atatus.com/real_user_monitoring/mobile_and_tv_monitoring/web_view_tracking?tab=ios
-[6]: https://docs.atatus.com/real_user_monitoring/mobile_and_tv_monitoring/supported_versions/ios/
+[1]: https://docs.towersignal.com/logs/log_collection/ios
+[2]: https://docs.towersignal.com/tracing/setup_overview/setup/ios
+[3]: https://docs.towersignal.com/real_user_monitoring/ios
+[4]: https://docs.towersignal.com/real_user_monitoring/mobile_and_tv_monitoring/integrated_libraries/ios
+[5]: https://docs.towersignal.com/real_user_monitoring/mobile_and_tv_monitoring/web_view_tracking?tab=ios
+[6]: https://docs.towersignal.com/real_user_monitoring/mobile_and_tv_monitoring/supported_versions/ios/
 [7]: https://github.com/Alamofire/Alamofire
 [8]: https://github.com/apollographql/apollo-ios
 [9]: https://github.com/SDWebImage/SDWebImage

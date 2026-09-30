@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded
 // the licence header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 @testable import TestUtilities
 
 // Extension to make Path conform to Equatable for testing
@@ -28,7 +28,7 @@ extension RUMGraphql.Errors.Path: Equatable {
 }
 
 class RUMResourceScopeTests: XCTestCase {
-    let context: AtatusContext = .mockWith(
+    let context: TowerSignalContext = .mockWith(
         service: "test-service",
         version: "test-version",
         buildNumber: "test-build",
@@ -38,7 +38,7 @@ class RUMResourceScopeTests: XCTestCase {
     )
 
     private let dependencies: RUMScopeDependencies = .mockWith(
-        firstPartyHosts: FirstPartyHosts(["firstparty.com": [.atatus]])
+        firstPartyHosts: FirstPartyHosts(["firstparty.com": [.towersignal]])
     )
 
     private let provider = RUMContextProviderMock(
@@ -391,7 +391,7 @@ class RUMResourceScopeTests: XCTestCase {
 
         // Given
         let customSource: String = .mockAnySource()
-        let customContext: AtatusContext = .mockWith(source: customSource)
+        let customContext: TowerSignalContext = .mockWith(source: customSource)
 
         let scope = RUMResourceScope.mockWith(
             parent: provider,
@@ -876,7 +876,7 @@ class RUMResourceScopeTests: XCTestCase {
         var currentTime: Date = .mockDecember15th2019At10AMUTC()
 
         let source = String.mockAnySource()
-        let customContext: AtatusContext = .mockWith(
+        let customContext: TowerSignalContext = .mockWith(
             service: "test-service",
             source: source
         )
@@ -1331,7 +1331,7 @@ class RUMResourceScopeTests: XCTestCase {
 
         // Given
         let appLauchToErrorTimeDiff = Int64.random(in: 10..<1_000_000)
-        let customContext: AtatusContext = .mockWith(
+        let customContext: TowerSignalContext = .mockWith(
             launchInfo: .mockWith(processLaunchDate: currentTime)
         )
 
@@ -2849,7 +2849,7 @@ class RUMResourceScopeTests: XCTestCase {
             )
         )
 
-        // Then - under `span.kind`, and no longer under its `_atatus.` name
+        // Then - under `span.kind`, and no longer under its `_towersignal.` name
         let event = try XCTUnwrap(writer.events(ofType: RUMResourceEvent.self).first)
         let contextInfo = try XCTUnwrap(event.context?.contextInfo)
         XCTAssertEqual(contextInfo["span.kind"] as? String, "client")

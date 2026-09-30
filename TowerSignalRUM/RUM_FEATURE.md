@@ -13,7 +13,7 @@ tracked_files:
 
 ## Overview
 
-RUM tracks user interactions, views, resources, errors, and performance metrics in iOS applications. It requires initialization via `Atatus.initialize()` before enabling.
+RUM tracks user interactions, views, resources, errors, and performance metrics in iOS applications. It requires initialization via `TowerSignal.initialize()` before enabling.
 
 **Platform**: iOS, tvOS, watchOS, visionOS — with platform-specific limitations:
 - **iOS / visionOS**: Full feature set.
@@ -23,12 +23,12 @@ RUM tracks user interactions, views, resources, errors, and performance metrics 
 ## Quick Start Example
 
 ```swift
-import AtatusCore
-import AtatusRUM
+import TowerSignalCore
+import TowerSignalRUM
 
 // 1. Initialize Core SDK first
-Atatus.initialize(
-    with: Atatus.Configuration(
+TowerSignal.initialize(
+    with: TowerSignal.Configuration(
         licenseKey: "<client_token>",
         env: "<environment>"
     ),
@@ -156,8 +156,8 @@ RUM.enable(
         },
         
         // Custom RUM intake endpoint. Expects a full URL and takes precedence
-        // over the core-level `Atatus.Configuration.serverUrl`.
-        // Default: nil (uses Atatus intake, `<serverUrl or site>/v1/ios/rum`)
+        // over the core-level `TowerSignal.Configuration.serverUrl`.
+        // Default: nil (uses TowerSignal intake, `<serverUrl or site>/v1/ios/rum`)
         customEndpoint: nil,
         
         // Track anonymous user ID across sessions
@@ -172,7 +172,7 @@ RUM.enable(
         // Default: true
         trackSlowFrames: true,
         
-        // SDK telemetry sampling rate (for Atatus internal monitoring)
+        // SDK telemetry sampling rate (for TowerSignal internal monitoring)
         // Default: 20.0
         telemetrySampleRate: 20.0,
         
@@ -273,7 +273,7 @@ Event mappers allow modifying or dropping events before upload:
 ## Common Troubleshooting Patterns
 
 ### "No RUM data appearing"
-1. Check `Atatus.initialize()` and `RUM.enable()` were called
+1. Check `TowerSignal.initialize()` and `RUM.enable()` were called
 2. Verify session wasn't sampled out (check `sessionSampleRate`)
 3. `currentSessionID(completion:)` returns `nil` when there is no active session or the active session is sampled out
 
@@ -300,7 +300,7 @@ Event mappers allow modifying or dropping events before upload:
 - **Session Replay**: RUM must be enabled for Session Replay to work
 - **WebView Tracking**: Enables RUM tracking in web views. Requires:
   - `WebViewTracking.enable(webView:hosts:)` called on the native side
-  - Web page instrumented with Atatus Browser SDK
+  - Web page instrumented with TowerSignal Browser SDK
   - See `TowerSignalWebViewTracking/Sources/WebViewTracking.swift`
 
 ## Additional Context

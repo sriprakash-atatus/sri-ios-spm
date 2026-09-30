@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`; renamed the
-// `__dd_private_*` ObjC symbols to `__atatus_private_*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`; renamed the
+// `__dd_private_*` ObjC symbols to `__towersignal_private_*`; rebranded the licence header.
 
 import XCTest
-import AtatusCore
+import TowerSignalCore
 
 class ObjcExceptionHandlerTests: XCTestCase {
     func testGivenNonThrowingCode_itDoesNotThrow() throws {
         var counter = 0
-        try __atatus_private_ObjcExceptionHandler.rethrow { counter += 1 }
+        try __towersignal_private_ObjcExceptionHandler.rethrow { counter += 1 }
         XCTAssertEqual(counter, 1)
     }
 
@@ -24,7 +24,7 @@ class ObjcExceptionHandlerTests: XCTestCase {
             userInfo: ["user-info": "some"]
         )
 
-        XCTAssertThrowsError(try __atatus_private_ObjcExceptionHandler.rethrow { nsException.raise() }) { error in
+        XCTAssertThrowsError(try __towersignal_private_ObjcExceptionHandler.rethrow { nsException.raise() }) { error in
             XCTAssertEqual((error as NSError).domain, "name")
             XCTAssertEqual((error as NSError).code, 0)
             XCTAssertEqual((error as NSError).userInfo as? [String: String], ["user-info": "some"])

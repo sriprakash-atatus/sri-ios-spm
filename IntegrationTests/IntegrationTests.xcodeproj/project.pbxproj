@@ -978,7 +978,7 @@
 			packageProductDependencies = (
 				61441C43246174CE003D8BB8 /* HTTPServerMock */,
 			);
-			productName = AtatusIntegrationTests;
+			productName = TowerSignalIntegrationTests;
 			productReference = 61441C2A24616F1D003D8BB8 /* IntegrationScenarios.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -990,7 +990,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1410;
-				ORGANIZATIONNAME = Atatus;
+				ORGANIZATIONNAME = TowerSignal;
 				TargetAttributes = {
 					61441C0124616DE9003D8BB8 = {
 						CreatedOnToolsVersion = 11.4;
@@ -1417,7 +1417,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.Example;
 				PRODUCT_MODULE_NAME = Runner;
 				PRODUCT_NAME = "Integration Tests Runner";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -1439,7 +1439,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.Example;
 				PRODUCT_MODULE_NAME = Runner;
 				PRODUCT_NAME = "Integration Tests Runner";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -1460,7 +1460,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.Example;
 				PRODUCT_MODULE_NAME = Runner;
 				PRODUCT_NAME = "Integration Tests Runner";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -1480,7 +1480,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.AtatusIntegrationTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.TowerSignalIntegrationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG AT_COMPILED_FOR_INTEGRATION_TESTS";
@@ -1500,7 +1500,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.AtatusIntegrationTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.TowerSignalIntegrationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = AT_COMPILED_FOR_INTEGRATION_TESTS;
@@ -1520,7 +1520,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.atatusqh.AtatusIntegrationTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.towersignalqh.TowerSignalIntegrationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = AT_COMPILED_FOR_INTEGRATION_TESTS;

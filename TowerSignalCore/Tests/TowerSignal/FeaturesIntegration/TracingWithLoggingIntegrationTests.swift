@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddLogs` -> `AtatusLogs`, `ddTrace` -> `AtatusTrace`; renamed the `DD` symbol
-// prefix to `AT`; renamed `dd.trace_id` / `dd.span_id` to `atatus.trace_id` / `atatus.span_id`; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddLogs` -> `TowerSignalLogs`, `ddTrace` -> `TowerSignalTrace`; renamed the `DD` symbol
+// prefix to `AT`; renamed `dd.trace_id` / `dd.span_id` to `towersignal.trace_id` / `towersignal.span_id`; rebranded
 // the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 
-@testable import AtatusLogs
-@testable import AtatusTrace
-@testable import AtatusCore
+@testable import TowerSignalLogs
+@testable import TowerSignalTrace
+@testable import TowerSignalCore
 
 class TracingWithLoggingIntegrationTests: XCTestCase {
     private var core: PassthroughCoreMock! // swiftlint:disable:this implicitly_unwrapped_optional
@@ -62,8 +62,8 @@ class TracingWithLoggingIntegrationTests: XCTestCase {
         ATAssertJSONEqual(
             AnyEncodable(log.attributes.internalAttributes),
             AnyEncodable([
-                "atatus.trace_id": "a0000000000000064",
-                "atatus.span_id": "c8"
+                "towersignal.trace_id": "a0000000000000064",
+                "towersignal.span_id": "c8"
             ])
         )
     }
@@ -138,8 +138,8 @@ class TracingWithLoggingIntegrationTests: XCTestCase {
         ATAssertJSONEqual(
             AnyEncodable(log.attributes.internalAttributes),
             AnyEncodable([
-                "atatus.trace_id": "a0000000000000064",
-                "atatus.span_id": "c8"
+                "towersignal.trace_id": "a0000000000000064",
+                "towersignal.span_id": "c8"
             ])
         )
     }

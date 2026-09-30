@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddRUM` -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed the `DD`
-// symbol prefix to `AT`; renamed `dd*` members to `at*`; renamed the `_dd` attribute prefix to `_atatus`;
-// renamed the `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed the `DD`
+// symbol prefix to `AT`; renamed `dd*` members to `at*`; renamed the `_dd` attribute prefix to `_towersignal`;
+// renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; rebranded the
 // licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusRUM
-@testable import AtatusCore
+import TowerSignalInternal
+@testable import TowerSignalRUM
+@testable import TowerSignalCore
 
 class WebViewEventReceiverTests: XCTestCase {
     private let featureScope = FeatureScopeMock()
@@ -22,7 +22,7 @@ class WebViewEventReceiverTests: XCTestCase {
     /// Both mobile and browser events conform to the same schema, so we can consider mobile events browser-compatible.
     private func randomWebEvent() -> JSON { try! randomRUMEvent().toJSONObject() }
 
-    /// Creates message sent from `AtatusWebViewTracking`.
+    /// Creates message sent from `TowerSignalWebViewTracking`.
     private func webViewTrackingMessage(with webEvent: JSON) -> FeatureMessage {
         return .webview(.rum(webEvent))
     }
@@ -74,7 +74,7 @@ class WebViewEventReceiverTests: XCTestCase {
               "time_spent": 3120000000,
               "url": "http://localhost:8080/test.html"
             },
-            "_atatus": {
+            "_towersignal": {
               "document_version": 2,
               "drift": 0,
               "format_version": 2,
@@ -124,10 +124,10 @@ class WebViewEventReceiverTests: XCTestCase {
         XCTAssertEqual(try json.value("view.resource.count"), 3)
         XCTAssertEqual(try json.value("view.time_spent"), 3_120_000_000)
         XCTAssertEqual(try json.value("view.url"), "http://localhost:8080/test.html")
-        XCTAssertEqual(try json.value("_atatus.document_version"), 2)
-        XCTAssertEqual(try json.value("_atatus.drift"), 0)
-        XCTAssertEqual(try json.value("_atatus.format_version"), 2)
-        XCTAssertEqual(try json.value("_atatus.session.plan"), 2)
+        XCTAssertEqual(try json.value("_towersignal.document_version"), 2)
+        XCTAssertEqual(try json.value("_towersignal.drift"), 0)
+        XCTAssertEqual(try json.value("_towersignal.format_version"), 2)
+        XCTAssertEqual(try json.value("_towersignal.session.plan"), 2)
     }
 
     func testParsingTelemetryEvent() throws {
@@ -142,7 +142,7 @@ class WebViewEventReceiverTests: XCTestCase {
               "service": "browser-rum-sdk",
               "version": "5.2.0-b93ed472a4f14fbf2bcd1bc2c9faacb4abbeed82",
               "source": "browser",
-              "_atatus": { "format_version": 2 },
+              "_towersignal": { "format_version": 2 },
               "telemetry":
                 {
                   "type": "configuration",
@@ -191,7 +191,7 @@ class WebViewEventReceiverTests: XCTestCase {
         XCTAssertEqual(try json.value("service"), "browser-rum-sdk")
         XCTAssertEqual(try json.value("session.id"), "00000000-aaaa-0000-aaaa-000000000000")
         XCTAssertEqual(try json.value("telemetry.type"), "configuration")
-        XCTAssertEqual(try json.value("_atatus.format_version"), 2)
+        XCTAssertEqual(try json.value("_towersignal.format_version"), 2)
     }
 
     func testWhenReceivingWebViewTrackingMessageWithValidEvent_itAcknowledgesTheMessageAndKeepsRUMSessionAlive() throws {
@@ -207,7 +207,7 @@ class WebViewEventReceiverTests: XCTestCase {
 
         // When
         let message = webViewTrackingMessage(with: randomWebEvent())
-        let result = receiver.receive(message: message, from: NOPAtatusCore())
+        let result = receiver.receive(message: message, from: NOPTowerSignalCore())
 
         // Then
         XCTAssertTrue(result, "It must acknowledge the message")
@@ -226,7 +226,7 @@ class WebViewEventReceiverTests: XCTestCase {
 
         // When
         let otherMessage: FeatureMessage = .payload(String.mockRandom())
-        let result = receiver.receive(message: otherMessage, from: NOPAtatusCore())
+        let result = receiver.receive(message: otherMessage, from: NOPTowerSignalCore())
 
         // Then
         XCTAssertFalse(result, "It must reject messages addressed to other receivers")
@@ -254,7 +254,7 @@ class WebViewEventReceiverTests: XCTestCase {
         let random = mockRandomAttributes() // because below we only mock partial web event, we use this random to make the test fuzzy
         let webEventMock: JSON = [
             // Known properties:
-            "_atatus": ["browser_sdk_version": "5.2.0"],
+            "_towersignal": ["browser_sdk_version": "5.2.0"],
             "application": ["id": String.mockRandom()],
             "session": [
                 "id": String.mockRandom(),
@@ -265,12 +265,12 @@ class WebViewEventReceiverTests: XCTestCase {
 
         // When
 
-        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPTowerSignalCore())
 
         // Then
         let expectedWebEventWritten: JSON = [
             // Known properties:
-            "_atatus": [
+            "_towersignal": [
                 "browser_sdk_version": "5.2.0"
             ] as [String: Any],
             "application": ["id": rumContext.applicationID],
@@ -279,7 +279,7 @@ class WebViewEventReceiverTests: XCTestCase {
             ],
             "view": ["id": "00000000-aaaa-0000-aaaa-000000000000"],
             "date": date + featureScope.contextMock.serverTimeOffset.dd.toInt64Milliseconds,
-            "atatusTags": featureScope.contextMock.atTags,
+            "towersignalTags": featureScope.contextMock.atTags,
         ].merging(random, uniquingKeysWith: { old, _ in old })
 
         XCTAssertTrue(result, "It must accept the message")
@@ -311,11 +311,11 @@ class WebViewEventReceiverTests: XCTestCase {
             "view": ["id": "00000000-aaaa-0000-aaaa-000000000000"],
             "date": Int(date),
             // Browser SDK sends its own tag alongside a key that collides with a native one:
-            "atatusTags": "browser_sdk_version:3.6.13,sdk_version:5.2.0"
+            "towersignalTags": "browser_sdk_version:3.6.13,sdk_version:5.2.0"
         ]
 
         // When
-        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPTowerSignalCore())
 
         // Then
         let expectedWebEventWritten: JSON = [
@@ -323,7 +323,7 @@ class WebViewEventReceiverTests: XCTestCase {
             "session": ["id": rumContext.sessionID],
             "view": ["id": "00000000-aaaa-0000-aaaa-000000000000"],
             "date": date + featureScope.contextMock.serverTimeOffset.dd.toInt64Milliseconds,
-            "atatusTags": "browser_sdk_version:3.6.13,env:abc,sdk_version:5.2.0,service:abc,version:abc"
+            "towersignalTags": "browser_sdk_version:3.6.13,env:abc,sdk_version:5.2.0,service:abc,version:abc"
         ]
 
         XCTAssertTrue(result, "It must accept the message")
@@ -357,7 +357,7 @@ class WebViewEventReceiverTests: XCTestCase {
         ]
 
         // When
-        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPTowerSignalCore())
 
         // Then
         let expectedWebEventWritten: JSON = [
@@ -365,7 +365,7 @@ class WebViewEventReceiverTests: XCTestCase {
             "session": ["id": rumContext.sessionID],
             "view": ["id": "00000000-aaaa-0000-aaaa-000000000000"],
             "date": date + featureScope.contextMock.serverTimeOffset.dd.toInt64Milliseconds,
-            "atatusTags": featureScope.contextMock.atTags
+            "towersignalTags": featureScope.contextMock.atTags
         ]
 
         XCTAssertTrue(result, "It must accept the message")
@@ -386,7 +386,7 @@ class WebViewEventReceiverTests: XCTestCase {
         )
 
         // When
-        let result = receiver.receive(message: webViewTrackingMessage(with: randomWebEvent()), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: randomWebEvent()), from: NOPTowerSignalCore())
 
         // Then
         XCTAssertTrue(result, "It must accept the message")
@@ -425,7 +425,7 @@ class WebViewEventReceiverTests: XCTestCase {
         let webHasReplay: Bool = .mockRandom()
         let webEventMock: JSON = [
             // Known properties:
-            "_atatus": [
+            "_towersignal": [
                 "browser_sdk_version": "5.2.0",
                 "replay_stats": RUMViewEvent.AT.ReplayStats(
                     recordsCount: 10,
@@ -443,12 +443,12 @@ class WebViewEventReceiverTests: XCTestCase {
         ].merging(random, uniquingKeysWith: { old, _ in old })
 
         // When
-        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPTowerSignalCore())
 
         // Then
         let expectedWebEventWritten: JSON = [
             // Known properties:
-            "_atatus": [
+            "_towersignal": [
                 "browser_sdk_version": "5.2.0",
                 "replay_stats": [
                     "records_count": 10,
@@ -467,7 +467,7 @@ class WebViewEventReceiverTests: XCTestCase {
             ] as [String: Any],
             "view": ["id": "00000000-aaaa-0000-aaaa-000000000000"],
             "date": date + featureScope.contextMock.serverTimeOffset.dd.toInt64Milliseconds,
-            "atatusTags": featureScope.contextMock.atTags,
+            "towersignalTags": featureScope.contextMock.atTags,
         ].merging(random, uniquingKeysWith: { old, _ in old })
 
         XCTAssertTrue(result, "It must accept the message")
@@ -507,7 +507,7 @@ class WebViewEventReceiverTests: XCTestCase {
         let random = mockRandomAttributes() // because below we only mock partial web event, we use this random to make the test fuzzy
         let webEventMock: JSON = [
             // Known properties:
-            "_atatus": [
+            "_towersignal": [
                 "browser_sdk_version": "5.2.0",
                 "replay_stats": RUMViewEvent.AT.ReplayStats(
                     recordsCount: .mockRandom(),
@@ -525,12 +525,12 @@ class WebViewEventReceiverTests: XCTestCase {
         ].merging(random, uniquingKeysWith: { old, _ in old })
 
         // When
-        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPTowerSignalCore())
 
         // Then
         let expectedWebEventWritten: JSON = [
             // Known properties:
-            "_atatus": [
+            "_towersignal": [
                 "browser_sdk_version": "5.2.0"
             ] as [String: Any],
             "container": [
@@ -544,7 +544,7 @@ class WebViewEventReceiverTests: XCTestCase {
             ] as [String: Any],
             "view": ["id": "00000000-aaaa-0000-aaaa-000000000000"],
             "date": date + featureScope.contextMock.serverTimeOffset.dd.toInt64Milliseconds,
-            "atatusTags": featureScope.contextMock.atTags,
+            "towersignalTags": featureScope.contextMock.atTags,
         ].merging(random, uniquingKeysWith: { old, _ in old })
 
         XCTAssertTrue(result, "It must accept the message")
@@ -588,7 +588,7 @@ class WebViewEventReceiverTests: XCTestCase {
         ]
 
         // When
-        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPTowerSignalCore())
 
         // Then
         XCTAssertTrue(result)
@@ -599,7 +599,7 @@ class WebViewEventReceiverTests: XCTestCase {
             "session": ["id": rumContext.sessionID],
             "view": ["id": "00000000-aaaa-0000-aaaa-000000000000"],
             "date": date + featureScope.contextMock.serverTimeOffset.dd.toInt64Milliseconds,
-            "atatusTags": featureScope.contextMock.atTags,
+            "towersignalTags": featureScope.contextMock.atTags,
             "usr": [
                 "id": webUsrId,
                 "name": webUsrName,
@@ -638,7 +638,7 @@ class WebViewEventReceiverTests: XCTestCase {
         ]
 
         // When
-        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPTowerSignalCore())
 
         // Then
         XCTAssertTrue(result)
@@ -649,7 +649,7 @@ class WebViewEventReceiverTests: XCTestCase {
             "session": ["id": rumContext.sessionID],
             "view": ["id": "00000000-aaaa-0000-aaaa-000000000000"],
             "date": date + featureScope.contextMock.serverTimeOffset.dd.toInt64Milliseconds,
-            "atatusTags": featureScope.contextMock.atTags,
+            "towersignalTags": featureScope.contextMock.atTags,
             "usr": ["anonymous_id": nativeAnonymousId]
         ]
         ATAssertJSONEqual(AnyCodable(actualWebEventWritten), AnyCodable(expectedWebEventWritten))
@@ -664,7 +664,7 @@ class WebViewEventReceiverTests: XCTestCase {
         let sessionUUID = RUMUUID(rawValue: UUID(uuidString: "c5b3c4ab-fa4a-4de9-8199-a522131ec48a")!)
         let uuidGenerator = RUMUUIDGeneratorMock(uuid: sessionUUID)
 
-        let core = AtatusCoreProxy(
+        let core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",
@@ -699,7 +699,7 @@ class WebViewEventReceiverTests: XCTestCase {
         let date = dateProvider.now.timeIntervalSince1970.dd.toInt64Milliseconds
         let webEventMock: JSON = [
             "type": "resource",
-            "_atatus": [
+            "_towersignal": [
                 "browser_sdk_version": "6.32.0",
                 "trace_id": "123456789",
                 "span_id": "987654321",
@@ -718,7 +718,7 @@ class WebViewEventReceiverTests: XCTestCase {
         XCTAssertTrue(result)
         let events = core.waitAndReturnEvents(ofFeature: "rum", ofType: AnyEncodable.self)
         let actualWebEventWritten = try XCTUnwrap((events.first)?.value as? [String: Any])
-        let actualDD = try XCTUnwrap(actualWebEventWritten["_atatus"] as? [String: Any])
+        let actualDD = try XCTUnwrap(actualWebEventWritten["_towersignal"] as? [String: Any])
         XCTAssertEqual(actualDD["rule_psr"] as? Float, Float(nativeSamplingRate.percentageProportion), "rule_psr must be overwritten with the native sampling rate")
         XCTAssertEqual(actualDD["trace_id"] as? String, "123456789", "trace_id must be preserved")
         XCTAssertEqual(actualDD["span_id"] as? String, "987654321", "span_id must be preserved")
@@ -732,7 +732,7 @@ class WebViewEventReceiverTests: XCTestCase {
         let sessionUUID = RUMUUID(rawValue: UUID(uuidString: "c5b3c4ab-fa4a-4de9-8199-a522131ec48a")!)
         let uuidGenerator = RUMUUIDGeneratorMock(uuid: sessionUUID)
 
-        let core = AtatusCoreProxy(
+        let core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",
@@ -767,7 +767,7 @@ class WebViewEventReceiverTests: XCTestCase {
         let date = dateProvider.now.timeIntervalSince1970.dd.toInt64Milliseconds
         let webEventMock: JSON = [
             "type": "resource",
-            "_atatus": [
+            "_towersignal": [
                 "browser_sdk_version": "6.32.0"
             ] as [String: Any],
             "application": ["id": String.mockRandom()],
@@ -783,7 +783,7 @@ class WebViewEventReceiverTests: XCTestCase {
         XCTAssertTrue(result)
         let events = core.waitAndReturnEvents(ofFeature: "rum", ofType: AnyEncodable.self)
         let actualWebEventWritten = try XCTUnwrap((events.first)?.value as? [String: Any])
-        let actualDD = try XCTUnwrap(actualWebEventWritten["_atatus"] as? [String: Any])
+        let actualDD = try XCTUnwrap(actualWebEventWritten["_towersignal"] as? [String: Any])
         XCTAssertNil(actualDD["rule_psr"], "rule_psr should not have been created")
         XCTAssertNil(actualDD["trace_id"])
         XCTAssertNil(actualDD["span_id"])
@@ -796,7 +796,7 @@ class WebViewEventReceiverTests: XCTestCase {
         let sessionUUID = RUMUUID(rawValue: UUID(uuidString: "c5b3c4ab-fa4a-4de9-8199-a522131ec48a")!)
         let uuidGenerator = RUMUUIDGeneratorMock(uuid: sessionUUID)
 
-        let core = AtatusCoreProxy(
+        let core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",
@@ -827,7 +827,7 @@ class WebViewEventReceiverTests: XCTestCase {
         let originalRulePsr: Float = 1.0
         let webEventMock: JSON = [
             "type": "resource",
-            "_atatus": [
+            "_towersignal": [
                 "browser_sdk_version": "6.32.0",
                 "trace_id": "123456789",
                 "span_id": "987654321",
@@ -840,13 +840,13 @@ class WebViewEventReceiverTests: XCTestCase {
         ]
 
         // When
-        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPTowerSignalCore())
 
         // Then
         XCTAssertTrue(result)
         let events = core.waitAndReturnEvents(ofFeature: "rum", ofType: AnyEncodable.self)
         let actualWebEventWritten = try XCTUnwrap((events.first)?.value as? [String: Any])
-        let actualDD = try XCTUnwrap(actualWebEventWritten["_atatus"] as? [String: Any])
+        let actualDD = try XCTUnwrap(actualWebEventWritten["_towersignal"] as? [String: Any])
         XCTAssertEqual(actualDD["rule_psr"] as? Float, originalRulePsr, "rule_psr must be overwritten")
         XCTAssertEqual(actualDD["trace_id"] as? String, "123456789", "trace_id must be preserved")
         XCTAssertEqual(actualDD["span_id"] as? String, "987654321", "span_id must be preserved")
@@ -881,7 +881,7 @@ class WebViewEventReceiverTests: XCTestCase {
         ]
 
         // When
-        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPAtatusCore())
+        let result = receiver.receive(message: webViewTrackingMessage(with: webEventMock), from: NOPTowerSignalCore())
 
         // Then
         XCTAssertTrue(result)
@@ -892,7 +892,7 @@ class WebViewEventReceiverTests: XCTestCase {
             "session": ["id": rumContext.sessionID],
             "view": ["id": "00000000-aaaa-0000-aaaa-000000000000"],
             "date": date + featureScope.contextMock.serverTimeOffset.dd.toInt64Milliseconds,
-            "atatusTags": featureScope.contextMock.atTags,
+            "towersignalTags": featureScope.contextMock.atTags,
             "usr": ["anonymous_id": fakeAnonymousId]
         ]
         ATAssertJSONEqual(AnyCodable(actualWebEventWritten), AnyCodable(expectedWebEventWritten))

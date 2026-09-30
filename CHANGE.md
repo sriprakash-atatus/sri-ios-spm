@@ -1,14 +1,14 @@
-# Atatus iOS Agent — Changes
+# TowerSignal iOS Agent — Changes
 
-Every change below was ported from the **Atatus Android Agent**, which is the reference for what
-Atatus-specific changes exist. Nothing here is new functionality: no APIs, flow, or architecture
-were redesigned — only renamed or repointed where Atatus requires it.
+Every change below was ported from the **TowerSignal Android Agent**, which is the reference for what
+TowerSignal-specific changes exist. Nothing here is new functionality: no APIs, flow, or architecture
+were redesigned — only renamed or repointed where TowerSignal requires it.
 
 Every changed source file carries an inline `// ATCHG` marker naming what was changed in that file.
 **1,663 markers across 1,563 files.** Untouched files carry no marker.
 
-Reference: `atatus-android-agent`, fork point `f28806d` (from `dd-sdk-android` commit `61409f2f`).
-The Atatus delta was extracted from `git diff f28806d..HEAD` and its 8,372 `// ATCHG:` markers.
+Reference: `towersignal-android-agent`, fork point `f28806d` (from `dd-sdk-android` commit `61409f2f`).
+The TowerSignal delta was extracted from `git diff f28806d..HEAD` and its 8,372 `// ATCHG:` markers.
 
 ---
 
@@ -18,37 +18,37 @@ These change behaviour or what goes on the wire. Each is marked with `// ATCHG` 
 
 | # | Change | Where | Android reference |
 |---|---|---|---|
-| 1 | Site list reduced to one Atatus site; intake host is `mo-rx.atatus.com` | `TowerSignalInternal/Sources/Context/TowerSignalSite.swift` | `AtatusSite.ATATUS` |
-| 2 | Added `serverUrl` override, read from `ATATUS_SERVER_URL` | `TowerSignalSite.swift` | `AtatusSite.serverUrl` |
+| 1 | Site list reduced to one TowerSignal site; intake host is `mo-rx.towersignal.com` | `TowerSignalInternal/Sources/Context/TowerSignalSite.swift` | `TowerSignalSite.TOWERSIGNAL` |
+| 2 | Added `serverUrl` override, read from `TOWERSIGNAL_SERVER_URL` | `TowerSignalSite.swift` | `TowerSignalSite.serverUrl` |
 | 3 | API key header `DD-API-KEY` → `api-key` | `TowerSignalInternal/Sources/Upload/URLRequestBuilder.swift` | `HEADER_API_KEY` |
-| 4 | `DD-EVP-ORIGIN` / `-VERSION` → `ATATUS-EVP-ORIGIN` / `-VERSION` | `URLRequestBuilder.swift` | `HEADER_EVP_ORIGIN` |
-| 5 | `DD-REQUEST-ID` → `ATATUS-REQUEST-ID` | `URLRequestBuilder.swift` | `HEADER_REQUEST_ID` |
+| 4 | `DD-EVP-ORIGIN` / `-VERSION` → `TOWERSIGNAL-EVP-ORIGIN` / `-VERSION` | `URLRequestBuilder.swift` | `HEADER_EVP_ORIGIN` |
+| 5 | `DD-REQUEST-ID` → `TOWERSIGNAL-REQUEST-ID` | `URLRequestBuilder.swift` | `HEADER_REQUEST_ID` |
 | 6 | `DD-IDEMPOTENCY-KEY` → `AT-IDEMPOTENCY-KEY` | `URLRequestBuilder.swift` | `AT_IDEMPOTENCY_KEY` |
-| 7 | `DD-CLIENT-TOKEN` → `atatus-client-token` | `URLRequestBuilder.swift` | `HEADER_CLIENT_TOKEN` |
-| 8 | Added headers `ATATUS-AGENT-NAME`, `ATATUS-AGENT-VERSION`, `ATATUS-APP-NAME` | `URLRequestBuilder.swift`, Logs + Trace request builders | `HEADER_AGENT_NAME` etc. |
-| 9 | Query param `ddsource` → `atatus_source` | `URLRequestBuilder.swift` | `QUERY_PARAM_SOURCE` |
-| 10 | Query param `ddtags` → `atatustags` | `URLRequestBuilder.swift` | `QUERY_PARAM_TAGS` |
+| 7 | `DD-CLIENT-TOKEN` → `towersignal-client-token` | `URLRequestBuilder.swift` | `HEADER_CLIENT_TOKEN` |
+| 8 | Added headers `TOWERSIGNAL-AGENT-NAME`, `TOWERSIGNAL-AGENT-VERSION`, `TOWERSIGNAL-APP-NAME` | `URLRequestBuilder.swift`, Logs + Trace request builders | `HEADER_AGENT_NAME` etc. |
+| 9 | Query param `ddsource` → `towersignal_source` | `URLRequestBuilder.swift` | `QUERY_PARAM_SOURCE` |
+| 10 | Query param `ddtags` → `towersignaltags` | `URLRequestBuilder.swift` | `QUERY_PARAM_TAGS` |
 | 11 | Added query params `license_key`, `agent_name`, `agent_version`, `app_name` | RUM, Logs and Trace request builders | `buildUrl()` |
 | 12 | RUM intake path → `/v1/ios/rum` | `TowerSignalRUM/Sources/Feature/RequestBuilder.swift` | `/v1/android/rum` |
 | 13 | Logs intake path → `/v1/ios/logs` | `TowerSignalLogs/Sources/Feature/RequestBuilder.swift` | `/v1/android/logs` |
 | 14 | Traces intake path → `/v1/ios/spans` | `TowerSignalTrace/Sources/Feature/RequestBuilder.swift` | `/v1/android/spans` |
-| 15 | `clientToken` → `licenseKey` throughout config and context | `Atatus.Configuration`, `AtatusContext` | `Configuration.licensekey` |
-| 16 | Build `variant` → `appName`; emitted tag key `variant` → `app_name` | `AtatusContext`, `ATTag` | `AtatusContext.appName` |
-| 17 | Added `AgentInfo` (`agentName` = "Atatus iOS Agent", `agentVersion` = "1.0.0") | `TowerSignalInternal/Sources/AgentInfo.swift` *(new)* | `AgentInfo` |
+| 15 | `clientToken` → `licenseKey` throughout config and context | `TowerSignal.Configuration`, `TowerSignalContext` | `Configuration.licensekey` |
+| 16 | Build `variant` → `appName`; emitted tag key `variant` → `app_name` | `TowerSignalContext`, `ATTag` | `TowerSignalContext.appName` |
+| 17 | Added `AgentInfo` (`agentName` = "TowerSignal iOS Agent", `agentVersion` = "1.0.0") | `TowerSignalInternal/Sources/AgentInfo.swift` *(new)* | `AgentInfo` |
 | 18 | `agent: { name, version }` appended to every RUM event payload | RUM scopes + crash receiver | `RumEventSerializer` |
 | 19 | `agent: { name, version }` appended to the log payload | `TowerSignalLogs/Sources/RemoteLogger.swift` | `LogEventSerializer` |
 | 20 | `agent: { name, version }` appended to the spans envelope | `TowerSignalTrace/Sources/ATSpan.swift` | `SpanEventSerializer` |
 | 21 | `log_source` injected (`flutter` / `react-native` / `swift`) | `AgentInfo.logSource`, `RemoteLogger` | `LogEventSerializer` (`"kotlin"`) |
 | 22 | RUM `application.id` emptied (`""`) | RUM scopes + crash receiver | `Application(id = "")` |
-| 23 | Attribute prefix `_dd` → `_atatus` | sources, models, JSON schemas | `_atatus.source` etc. |
-| 24 | `dd.trace_id` / `dd.span_id` → `atatus.trace_id` / `atatus.span_id` | `AtatusLogs` attributes + sanitizer | `LogAttributes` |
-| 25 | Trace headers `x-datadog-*` → `x-atatus-*` | `TracingHTTPHeaders.swift` | `TracingInterceptor` |
+| 23 | Attribute prefix `_dd` → `_towersignal` | sources, models, JSON schemas | `_towersignal.source` etc. |
+| 24 | `dd.trace_id` / `dd.span_id` → `towersignal.trace_id` / `towersignal.span_id` | `TowerSignalLogs` attributes + sanitizer | `LogAttributes` |
+| 25 | Trace headers `x-datadog-*` → `x-towersignal-*` | `TracingHTTPHeaders.swift` | `TracingInterceptor` |
 | 26 | Added agent heartbeat (30 min poll of `/v1/ios/agent-heartbeat`) | `TowerSignalInternal/Sources/AgentHeartbeat.swift` *(new)* | `AgentHeartbeat` |
 | 27 | Added logs heartbeat (`/v1/ios/log/heart-beat`) gating log uploads | `AgentHeartbeat.swift`, Logs request builder | `LogsHeartbeat` |
 | 28 | Heartbeat skipped when the license key is blank | `AgentHeartbeat.check`, both schedulers | same guard |
-| 29 | Added `Atatus.setAgentEnabled(_:)`, suspending via `TrackingConsent` | `TowerSignalCore/Sources/AgentHeartbeatScheduler.swift` *(new)* | `Atatus.setAgentEnabled` |
-| 30 | Both schedulers started at the end of `Atatus.initialize` | `TowerSignalCore/Sources/TowerSignal.swift` | same placement |
-| 31 | Flags CDN host absent for the Atatus site (request skipped) | `TowerSignalFlags/Sources/Client/FlagAssignmentsFetcher.swift` | `AtatusSite.ATATUS -> null` |
+| 29 | Added `TowerSignal.setAgentEnabled(_:)`, suspending via `TrackingConsent` | `TowerSignalCore/Sources/AgentHeartbeatScheduler.swift` *(new)* | `TowerSignal.setAgentEnabled` |
+| 30 | Both schedulers started at the end of `TowerSignal.initialize` | `TowerSignalCore/Sources/TowerSignal.swift` | same placement |
+| 31 | Flags CDN host absent for the TowerSignal site (request skipped) | `TowerSignalFlags/Sources/Client/FlagAssignmentsFetcher.swift` | `TowerSignalSite.TOWERSIGNAL -> null` |
 
 **Unchanged on purpose** (Android did not change them): Session Replay `/api/v2/replay`, Profiling
 `/api/v2/profile`, Flags `/api/v2/exposures`; Session Replay `applicationID`; telemetry and WebView
@@ -62,14 +62,14 @@ No behaviour change — naming only. Marked with a file-level `// ATCHG` naming 
 
 | # | Change |
 |---|---|
-| 32 | 11 module directories `Datadog*` → `Atatus*`, plus `Package.swift` products/targets and 10 podspecs |
-| 33 | Public type `Datadog` → `Atatus`, `DatadogSite` → `AtatusSite`, `DatadogContext` → `AtatusContext` |
+| 32 | 11 module directories `Datadog*` → `TowerSignal*`, plus `Package.swift` products/targets and 10 podspecs |
+| 33 | Public type `Datadog` → `TowerSignal`, `DatadogSite` → `TowerSignalSite`, `DatadogContext` → `TowerSignalContext` |
 | 34 | Symbol prefix `DD` → `AT` (`DDSpan` → `ATSpan`, `DDError` → `ATError`, the `DD` namespace → `AT`) |
 | 35 | Member prefix `dd*` → `at*` (`ddAPIKeyHeader` → `atAPIKeyHeader`, …) |
-| 36 | ObjC private symbols `__dd_private_*` → `__atatus_private_*` |
-| 37 | Reverse-domain identifiers `com.datadoghq.*` → `com.atatus.*` (bundle IDs, queue labels, cache paths) |
-| 38 | Podspec metadata: homepage, authors, source URL → Atatus |
-| 39 | Licence headers, `LICENSE` and `NOTICE` copyright holder → Atatus |
+| 36 | ObjC private symbols `__dd_private_*` → `__towersignal_private_*` |
+| 37 | Reverse-domain identifiers `com.datadoghq.*` → `com.towersignal.*` (bundle IDs, queue labels, cache paths) |
+| 38 | Podspec metadata: homepage, authors, source URL → TowerSignal |
+| 39 | Licence headers, `LICENSE` and `NOTICE` copyright holder → TowerSignal |
 | 40 | The literal word `Datadog` scrubbed to `dd` in all prose, comments, docs and `CHANGELOG.md` |
 
 Change 40 follows Android, whose `CHANGELOG.md` contains zero occurrences of "Datadog" and whose
@@ -82,7 +82,7 @@ is the porting record and must name the source project to stay useful.
 
 Updated because a ported change invalidated them:
 
-- `TowerSignalRUM/Tests/Feature/RequestBuilderTests.swift` — `/v1/ios/rum`, Atatus query params, single site
+- `TowerSignalRUM/Tests/Feature/RequestBuilderTests.swift` — `/v1/ios/rum`, TowerSignal query params, single site
 - `TowerSignalCore/Tests/TowerSignal/Logs/TowerSignalLogsFeatureTests.swift` — enables the logs heartbeat gate
 - `TowerSignalCore/Tests/TowerSignal/RUM/RUMFeatureTests.swift` — query-string assertion relaxed
 - `TowerSignalCore/Tests/Objc/ATConfigurationTests.swift`, `TowerSignalCore/Tests/TowerSignal/TowerSignalConfigurationTests.swift` — single site
@@ -94,7 +94,7 @@ Added:
 - `TowerSignalInternal/Tests/TowerSignalAgentTests.swift` — site + `serverUrl` override, `AgentInfo`, the `agent`
   object merged as a sibling of the event properties, renamed headers/query params, heartbeat URL,
   blank-license-key skip
-- `TowerSignalLogs/Tests/LogsTests.swift` → `AtatusLogsRequestBuilderTests` — `/v1/ios/logs`, agent headers
+- `TowerSignalLogs/Tests/LogsTests.swift` → `TowerSignalLogsRequestBuilderTests` — `/v1/ios/logs`, agent headers
   and query params, heartbeat gate skipping the batch
 
 ---
@@ -128,11 +128,11 @@ scrub was applied without exception:
 
 ### Other open items
 
-- **`api-key` vs `ATATUS-API-KEY`** — Android's production constant is `HEADER_API_KEY = "api-key"`,
-  but some Android tests and the Atatus Flutter agent's iOS tests still expect `ATATUS-API-KEY`.
+- **`api-key` vs `TOWERSIGNAL-API-KEY`** — Android's production constant is `HEADER_API_KEY = "api-key"`,
+  but some Android tests and the TowerSignal Flutter agent's iOS tests still expect `TOWERSIGNAL-API-KEY`.
   Production was treated as authoritative. Confirm which the backend expects.
 - **Logs are held back until the first successful heartbeat** — `isLogsAllowed` defaults to `false`,
   exactly as on Android.
 - **`.github/CODEOWNERS`** still references `@DataDog/*` teams; replace with your own org's teams.
-- **Cache path moved** from `Library/Caches/com.datadoghq.*` to `com.atatus.*`; previously cached
+- **Cache path moved** from `Library/Caches/com.datadoghq.*` to `com.towersignal.*`; previously cached
   data is orphaned, not migrated.

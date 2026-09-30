@@ -1,7 +1,7 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 #include "dd_profiler.h"
@@ -107,7 +107,7 @@ extern "C" {
 #endif
 
 /**
- * Reads the AtatusProfiling info from the `UserDefaults`
+ * Reads the TowerSignalProfiling info from the `UserDefaults`
  * to validate that the feature was enabled before.
  *
  * @return If Profiling was enabled, or false if the key is not found
@@ -130,7 +130,7 @@ bool dd_is_profiling_enabled() {
 }
 
 /**
- * Reads the AtatusProfiling sample rate from the `UserDefaults`
+ * Reads the TowerSignalProfiling sample rate from the `UserDefaults`
  *
  * @return The sample rate as a double, or 0.0 if not found or invalid
  */
@@ -156,7 +156,7 @@ static double read_profiling_sample_rate() {
 }
 
 /**
- * Deletes the AtatusProfiling defaults from the `UserDefaults`
+ * Deletes the TowerSignalProfiling defaults from the `UserDefaults`
  * to be re-evaluated during `Profiling.enable()`.
  */
 void dd_delete_profiling_defaults() {
@@ -346,7 +346,7 @@ private:
      */
     bool create_profile_and_profiler() {
         if (is_thread_sanitizer_enabled()) {
-            printf("[ATATUS SDK] 🐶 → Profiling is disabled because ThreadSanitizer is active. Please disable ThreadSanitizer to enable profiling.\n");
+            printf("[TOWERSIGNAL SDK] 🐶 → Profiling is disabled because ThreadSanitizer is active. Please disable ThreadSanitizer to enable profiling.\n");
             status = DD_PROFILER_STATUS_NOT_STARTED;
             return false;
         }

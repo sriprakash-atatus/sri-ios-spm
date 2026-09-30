@@ -1,25 +1,25 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddLogs` -> `AtatusLogs`; renamed `dd*` members to `at*`; renamed `clientToken` to
-// `licenseKey`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddLogs` -> `TowerSignalLogs`; renamed `dd*` members to `at*`; renamed `clientToken` to
+// `licenseKey`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import XCTest
 import TestUtilities
-@testable import AtatusCore
-import AtatusInternal
-import AtatusLogs
+@testable import TowerSignalCore
+import TowerSignalInternal
+import TowerSignalLogs
 
-class Atatus_MultipleInstancesIntegrationTests: XCTestCase {
+class TowerSignal_MultipleInstancesIntegrationTests: XCTestCase {
     /// The configuraiton of default instance of SDK.
-    private var defaultInstanceConfig = Atatus.Configuration(licenseKey: "main-token", env: "default-env")
+    private var defaultInstanceConfig = TowerSignal.Configuration(licenseKey: "main-token", env: "default-env")
     /// The configuraiton of custom instance of SDK.
-    private var customInstanceConfig = Atatus.Configuration(licenseKey: "custom-token", env: "custom-env")
+    private var customInstanceConfig = TowerSignal.Configuration(licenseKey: "custom-token", env: "custom-env")
 
     override func setUp() {
         super.setUp()
@@ -47,14 +47,14 @@ class Atatus_MultipleInstancesIntegrationTests: XCTestCase {
         customInstanceConfig.bundle = .mockWith(bundleIdentifier: "com.bundle.custom", CFBundleShortVersionString: "1.0-custom")
 
         // Given
-        Atatus.initialize(with: defaultInstanceConfig, trackingConsent: .granted)
-        Atatus.initialize(with: customInstanceConfig, trackingConsent: .granted, instanceName: customInstanceName)
+        TowerSignal.initialize(with: defaultInstanceConfig, trackingConsent: .granted)
+        TowerSignal.initialize(with: customInstanceConfig, trackingConsent: .granted, instanceName: customInstanceName)
 
         Logs.enable(with: .init())
-        Logs.enable(with: .init(), in: Atatus.sdkInstance(named: customInstanceName))
+        Logs.enable(with: .init(), in: TowerSignal.sdkInstance(named: customInstanceName))
 
         let defaultLogger = Logger.create()
-        let customLogger = Logger.create(in: Atatus.sdkInstance(named: customInstanceName))
+        let customLogger = Logger.create(in: TowerSignal.sdkInstance(named: customInstanceName))
 
         // When
         for _ in 0..<numberOfLogs {
@@ -63,8 +63,8 @@ class Atatus_MultipleInstancesIntegrationTests: XCTestCase {
         }
 
         // Then
-        Atatus.flushAndDeinitialize()
-        Atatus.flushAndDeinitialize(instanceName: customInstanceName)
+        TowerSignal.flushAndDeinitialize()
+        TowerSignal.flushAndDeinitialize(instanceName: customInstanceName)
 
         let defaultInstanceRequests = defaultHTTPClient.requestsSent()
         let customInstanceRequests = customHTTPClient.requestsSent()

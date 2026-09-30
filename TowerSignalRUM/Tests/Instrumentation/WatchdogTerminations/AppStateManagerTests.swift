@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 import TestUtilities
 
 final class AppStateManagerTests: XCTestCase {
@@ -78,7 +78,7 @@ final class AppStateManagerTests: XCTestCase {
         // Given
         let dataStore = DataStoreAsyncMock()
         let featureScope = FeatureScopeMock(dataStore: dataStore)
-        let initialStateQueue = DispatchQueue(label: "com.atatus.tests.initial-state-update")
+        let initialStateQueue = DispatchQueue(label: "com.towersignal.tests.initial-state-update")
         let initialState = AppStateInfo.mockWith(wasTerminated: false, isActive: true)
         featureScope.rumDataStore.setValue(initialState, forKey: .appStateKey)
         dataStore.flush()

@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddRUM` -> `AtatusRUM`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddRUM` -> `TowerSignalRUM`; rebranded the licence
 // header.
 
 import XCTest
 import TestUtilities
-@testable import AtatusRUM
+@testable import TowerSignalRUM
 
 class BaggageHeaderMergerTests: XCTestCase {
     // MARK: - Basic Functionality Tests
@@ -90,7 +90,7 @@ class BaggageHeaderMergerTests: XCTestCase {
         XCTAssertTrue(resultKeys.contains("key4"))
     }
 
-    func testMerge_atatusKeysOverrideAndNoDuplicates() {
+    func testMerge_towersignalKeysOverrideAndNoDuplicates() {
         // Given
         let previousHeader = "session.id=1,user.id=2,account.id=3"
         let newHeader = "session.id=10,user.id=20,account.id=30"

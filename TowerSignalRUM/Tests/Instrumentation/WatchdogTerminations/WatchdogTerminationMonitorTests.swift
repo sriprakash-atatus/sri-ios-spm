@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 import TestUtilities
 
 final class WatchdogTerminationMonitorTests: XCTestCase {
@@ -24,7 +24,7 @@ final class WatchdogTerminationMonitorTests: XCTestCase {
         let didSend = self.expectation(description: "Watchdog termination was reported")
 
         // app starts - use a controlled queue so we can flush its state transitions
-        let firstSessionQueue = DispatchQueue(label: "com.atatus.tests.first-session")
+        let firstSessionQueue = DispatchQueue(label: "com.towersignal.tests.first-session")
         given(
             isSimulator: false,
             isDebugging: false,
@@ -43,7 +43,7 @@ final class WatchdogTerminationMonitorTests: XCTestCase {
         sut.update(viewEvent: viewEvent1)
 
         // monitor reveives the launch report
-        _ = sut.receive(message: .context(featureScope.contextMock), from: NOPAtatusCore())
+        _ = sut.receive(message: .context(featureScope.contextMock), from: NOPTowerSignalCore())
 
         // Flush the queue to ensure the monitor has transitioned to `.started`
         // before updating the view event. Without this, the update would be
@@ -72,7 +72,7 @@ final class WatchdogTerminationMonitorTests: XCTestCase {
         sut.update(viewEvent: viewEvent3)
 
         // monitor reveives the launch report
-        _ = sut.receive(message: .context(featureScope.contextMock), from: NOPAtatusCore())
+        _ = sut.receive(message: .context(featureScope.contextMock), from: NOPTowerSignalCore())
 
         waitForExpectations(timeout: 1)
         XCTAssertEqual(reporter.sendParams?.viewEvent.view.id, viewEvent2.view.id)
@@ -117,7 +117,7 @@ final class WatchdogTerminationMonitorTests: XCTestCase {
         sut = WatchdogTerminationMonitor(
             appStateManager: appStateManager,
             checker: checker,
-            storage: NOPAtatusCore().storage,
+            storage: NOPTowerSignalCore().storage,
             feature: featureScope,
             reporter: reporter
         )

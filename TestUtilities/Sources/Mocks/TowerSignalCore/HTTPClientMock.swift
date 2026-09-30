@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`; renamed
-// `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`; renamed
+// `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the licence header.
 
 import Foundation
-@testable import AtatusCore
+@testable import TowerSignalCore
 
 public class HTTPClientMock: HTTPClient {
     /// The queue to synchronise access to tracked requests.
-    private let queue = DispatchQueue(label: "com.atatus.HTTPClientMock-\(UUID().uuidString)")
+    private let queue = DispatchQueue(label: "com.towersignal.HTTPClientMock-\(UUID().uuidString)")
     /// Keeps track of sent requests.
     private var requests: [URLRequest] = []
     /// Closure providing the result for each request.

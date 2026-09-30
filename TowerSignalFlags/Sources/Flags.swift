@@ -1,30 +1,30 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddFlags` ->
-// `AtatusFlags`, `ddInternal` -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed
-// `clientToken` to `licenseKey`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddFlags` ->
+// `TowerSignalFlags`, `ddInternal` -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed
+// `clientToken` to `licenseKey`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// Atatus Feature Flags SDK.
+/// TowerSignal Feature Flags SDK.
 ///
 /// The Flags SDK enables feature flag evaluation and management in your iOS application,
-/// integrating with Atatus's feature flag service for dynamic configuration and experimentation.
+/// integrating with TowerSignal's feature flag service for dynamic configuration and experimentation.
 ///
 /// To use feature flags in your application:
 ///
-/// 1. Enable the Flags feature after initializing the Atatus SDK
+/// 1. Enable the Flags feature after initializing the TowerSignal SDK
 /// 2. Create a `FlagsClient` to evaluate flags
 /// 3. Set the evaluation context with user/session information
 /// 4. Evaluate flags throughout your application
 public enum Flags {
-    /// Configuration options for the Atatus Flags feature.
+    /// Configuration options for the TowerSignal Flags feature.
     ///
     /// Use this type to customize the behavior of feature flag evaluation, including custom endpoints,
     /// exposure tracking, and error handling modes.
@@ -51,14 +51,14 @@ public enum Flags {
 
         /// Custom server URL for retrieving flag assignments.
         ///
-        /// If not set, the SDK uses the default Atatus Flags endpoint for the configured site.
+        /// If not set, the SDK uses the default TowerSignal Flags endpoint for the configured site.
         ///
         /// Default: `nil`.
         public var customFlagsEndpoint: URL?
 
         /// Additional HTTP headers to attach to requests made to `customFlagsEndpoint`.
         ///
-        /// Useful for authentication or routing when using your own Flags service. Ignored when using the default Atatus endpoint.
+        /// Useful for authentication or routing when using your own Flags service. Ignored when using the default TowerSignal endpoint.
         ///
         /// Default: `nil`.
         public var customFlagsHeaders: [String: String]?
@@ -101,7 +101,7 @@ public enum Flags {
         /// Default: `true`.
         public var rumIntegrationEnabled: Bool
 
-        /// Creates a configuration for the Atatus Flags feature.
+        /// Creates a configuration for the TowerSignal Flags feature.
         ///
         /// - Parameters:
         ///   - gracefulModeEnabled: Controls error handling behavior for API misuse. Default: `true`.
@@ -136,18 +136,18 @@ public enum Flags {
         }
     }
 
-    /// Enables the Atatus Flags feature in your application.
+    /// Enables the TowerSignal Flags feature in your application.
     ///
-    /// Call this method after initializing the Atatus SDK to enable feature flag evaluation.
+    /// Call this method after initializing the TowerSignal SDK to enable feature flag evaluation.
     /// This method must be called before creating any `FlagsClient` instances.
     ///
     /// ```swift
-    /// import AtatusCore
-    /// import AtatusFlags
+    /// import TowerSignalCore
+    /// import TowerSignalFlags
     ///
-    /// // Initialize Atatus SDK
-    /// Atatus.initialize(
-    ///     with: Atatus.Configuration(
+    /// // Initialize TowerSignal SDK
+    /// TowerSignal.initialize(
+    ///     with: TowerSignal.Configuration(
     ///         licenseKey: "<client_token>",
     ///         env: "<environment>"
     ///     ),
@@ -160,10 +160,10 @@ public enum Flags {
     ///
     /// - Parameters:
     ///   - configuration: Configuration options for the Flags feature. Defaults to standard configuration.
-    ///   - core: The Atatus SDK core instance. Defaults to the global shared instance.
+    ///   - core: The TowerSignal SDK core instance. Defaults to the global shared instance.
     public static func enable(
         with configuration: Flags.Configuration = .init(),
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
         do {
             // To ensure the correct registration order between Core and Features,
@@ -178,11 +178,11 @@ public enum Flags {
 
     internal static func enableOrThrow(
         with configuration: Flags.Configuration,
-        in core: AtatusCoreProtocol
+        in core: TowerSignalCoreProtocol
     ) throws {
-        guard !(core is NOPAtatusCore) else {
+        guard !(core is NOPTowerSignalCore) else {
             throw ProgrammerError(
-                description: "Atatus SDK must be initialized before calling `Flags.enable(with:)`."
+                description: "TowerSignal SDK must be initialized before calling `Flags.enable(with:)`."
             )
         }
 

@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-internal struct TracingURLSessionHandler: AtatusURLSessionHandler {
+internal struct TracingURLSessionHandler: TowerSignalURLSessionHandler {
     /// Captured state containing the active span, if any, at the time of the request modification for instrumentation,
     /// obtained synchronously.
     struct TracingURLSessionHandlerCapturedState: URLSessionHandlerCapturedState {
@@ -39,7 +39,7 @@ internal struct TracingURLSessionHandler: AtatusURLSessionHandler {
     /// Defaults to `Trace.Configuration.URLSessionTracking.defaultRedactedStatusCodes` for backward compatibility.
     let redactedStatusCodes: Set<Int>
 
-    weak var tracer: AtatusTracer?
+    weak var tracer: TowerSignalTracer?
 
     /// Helper structure, used to collect elements for creating new contexts.
     /// See ``TracingURLSessionHandler.makeElementsForNewSpanContext(tracer:parentSpanContext:)``
@@ -55,7 +55,7 @@ internal struct TracingURLSessionHandler: AtatusURLSessionHandler {
     }
 
     init(
-        tracer: AtatusTracer,
+        tracer: TowerSignalTracer,
         contextReceiver: ContextMessageReceiver,
         samplingRate: SampleRate,
         firstPartyHosts: FirstPartyHosts,
@@ -97,7 +97,7 @@ internal struct TracingURLSessionHandler: AtatusURLSessionHandler {
         headerTypes.forEach {
             let writer: TracePropagationHeadersWriter
             switch $0 {
-            case .atatus:
+            case .towersignal:
                 writer = HTTPHeadersWriter(traceContextInjection: traceContextInjection)
             case .b3:
                 writer = B3HTTPHeadersWriter(
@@ -169,7 +169,7 @@ internal struct TracingURLSessionHandler: AtatusURLSessionHandler {
         )
     }
 
-    func interceptionDidStart(interception: AtatusInternal.URLSessionTaskInterception, capturedStates: [any URLSessionHandlerCapturedState]) {
+    func interceptionDidStart(interception: TowerSignalInternal.URLSessionTaskInterception, capturedStates: [any URLSessionHandlerCapturedState]) {
         /*
          Read the comment inside the modify(…) method to know where the captured state comes from.
 
@@ -200,7 +200,7 @@ internal struct TracingURLSessionHandler: AtatusURLSessionHandler {
         }
     }
 
-    func interceptionDidComplete(interception: AtatusInternal.URLSessionTaskInterception) {
+    func interceptionDidComplete(interception: TowerSignalInternal.URLSessionTaskInterception) {
         guard
             interception.isFirstPartyRequest, // `Span` should be only send for 1st party requests
             interception.origin != "rum", // if that request was tracked as RUM resource, the RUM backend will create the span on our behalf
@@ -338,7 +338,7 @@ internal struct TracingURLSessionHandler: AtatusURLSessionHandler {
     ///    - parentSpanContext: If the span created by the session handler should be related to a parent span, pass
     ///    the parent span context here, otherwise, pass `nil`.
     /// - returns: A ``TracingURLSessionHandler.NewSpanElements`` helper struct.
-    private func makeElementsForNewSpanContext(tracer: AtatusTracer, parentSpanContext: ATSpanContext?, networkContext: NetworkContext? = nil) -> NewSpanElements {
+    private func makeElementsForNewSpanContext(tracer: TowerSignalTracer, parentSpanContext: ATSpanContext?, networkContext: NetworkContext? = nil) -> NewSpanElements {
         let traceID = parentSpanContext?.traceID ?? tracer.traceIDGenerator.generate()
         let sampled = isSampled(
             rumContext: networkContext?.rumContext ?? contextReceiver.context.rumContext,

@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 
 class RUMScopeTests: XCTestCase {
     /// A mock `RUMScope` that completes or not based on the configuration.
@@ -23,7 +23,7 @@ class RUMScopeTests: XCTestCase {
         }
 
         let context = RUMContext.mockWith(rumApplicationID: .mockAny(), sessionID: .mockAny())
-        func process(command: RUMCommand, context: AtatusContext, writer: Writer) -> Bool { !isCompleted }
+        func process(command: RUMCommand, context: TowerSignalContext, writer: Writer) -> Bool { !isCompleted }
     }
 
     func testWhenPropagatingCommand_itRemovesCompletedScope() {

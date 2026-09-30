@@ -1,26 +1,26 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `clientToken` to `licenseKey`; rebranded the `dd` name to
-// `Atatus` in comments and docs; scrubbed the remaining `dd` name to `dd` in comments and docs;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `clientToken` to `licenseKey`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; scrubbed the remaining `dd` name to `dd` in comments and docs;
 // rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-@_exported import class AtatusInternal.CoreRegistry
-@_exported import class AtatusInternal.HTTPHeadersWriter
-@_exported import class AtatusInternal.B3HTTPHeadersWriter
-@_exported import class AtatusInternal.W3CHTTPHeadersWriter
+@_exported import class TowerSignalInternal.CoreRegistry
+@_exported import class TowerSignalInternal.HTTPHeadersWriter
+@_exported import class TowerSignalInternal.B3HTTPHeadersWriter
+@_exported import class TowerSignalInternal.W3CHTTPHeadersWriter
 
-extension Atatus {
-    /// Configuration of Atatus SDK.
+extension TowerSignal {
+    /// Configuration of TowerSignal SDK.
     public struct Configuration {
-        /// Defines the Atatus SDK policy when batching data together before uploading it to Atatus servers.
+        /// Defines the TowerSignal SDK policy when batching data together before uploading it to TowerSignal servers.
         /// Smaller batches mean smaller but more network requests, whereas larger batches mean fewer but larger network requests.
         public enum BatchSize: CaseIterable {
             /// Prefer small sized data batches.
@@ -31,7 +31,7 @@ extension Atatus {
             case large
         }
 
-        /// Defines the frequency at which Atatus SDK will try to upload data batches.
+        /// Defines the frequency at which TowerSignal SDK will try to upload data batches.
         public enum UploadFrequency: CaseIterable {
             /// Try to upload batched data frequently.
             case frequent
@@ -62,16 +62,16 @@ extension Atatus {
         /// Either the RUM client token (which supports RUM, Logging and APM) or regular client token, only for Logging and APM.
         public var licenseKey: String
 
-        /// The environment name which will be sent to Atatus. This can be used
+        /// The environment name which will be sent to TowerSignal. This can be used
         /// To filter events on different environments (e.g. "staging" or "production").
         public var env: String
 
-        /// The Atatus server site where data is sent.
+        /// The TowerSignal server site where data is sent.
         ///
-        /// Default value is `.atatus`. // ATCHG: single Atatus site replaces the dd regions
-        public var site: AtatusSite
+        /// Default value is `.towersignal`. // ATCHG: single TowerSignal site replaces the dd regions
+        public var site: TowerSignalSite
 
-        // ATCHG: Added `serverUrl`, matching `Configuration.Builder.setServerUrl()` in the Atatus
+        // ATCHG: Added `serverUrl`, matching `Configuration.Builder.setServerUrl()` in the TowerSignal
         // Android agent, so an on-premise intake, a proxy or a local tunnel can be targeted.
         /// Sends all the data to a custom intake instead of the ``site`` one.
         ///
@@ -86,7 +86,7 @@ extension Atatus {
         public var serverUrl: String?
         // ATCHG: End
 
-        /// The service name associated with data send to Atatus.
+        /// The service name associated with data send to TowerSignal.
         ///
         /// Default value is set to application bundle identifier.
         public var service: String?
@@ -97,20 +97,20 @@ extension Atatus {
         /// (`CFBundleShortVersionString` or `CFBundleVersion`).
         public var version: String?
 
-        /// The preferred size of batched data uploaded to Atatus servers.
+        /// The preferred size of batched data uploaded to TowerSignal servers.
         /// This value impacts the size and number of requests performed by the SDK.
         ///
         /// `.medium` by default.
         public var batchSize: BatchSize
 
-        /// The preferred frequency of uploading data to Atatus servers.
+        /// The preferred frequency of uploading data to TowerSignal servers.
         /// This value impacts the frequency of performing network requests by the SDK.
         ///
         /// `.average` by default.
         public var uploadFrequency: UploadFrequency
 
         /// Proxy configuration attributes.
-        /// This can be used to a enable a custom proxy for uploading tracked data to Atatus's intake.
+        /// This can be used to a enable a custom proxy for uploading tracked data to TowerSignal's intake.
         ///
         /// Ref.: https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411499-connectionproxydictionary
         public var proxyConfiguration: [AnyHashable: Any]?
@@ -121,9 +121,9 @@ extension Atatus {
 
         /// A custom NTP synchronization interface.
         ///
-        /// By default, the Atatus SDK synchronizes with dedicated NTP pools provided by the
+        /// By default, the TowerSignal SDK synchronizes with dedicated NTP pools provided by the
         /// https://www.ntppool.org/ . Using different pools or setting a no-op `ServerDateProvider`
-        /// implementation will result in desynchronization of the SDK instance and the Atatus servers.
+        /// implementation will result in desynchronization of the SDK instance and the TowerSignal servers.
         /// This can lead to significant time shift in RUM sessions or distributed traces.
         public var serverDateProvider: ServerDateProvider
 
@@ -143,22 +143,22 @@ extension Atatus {
         /// `false` by default.
         public var backgroundTasksEnabled: Bool
 
-        /// Creates a Atatus SDK Configuration object.
+        /// Creates a TowerSignal SDK Configuration object.
         ///
         /// - Parameters:
         ///   - licenseKey:                Either the RUM client token (which supports RUM, Logging and APM) or regular client token,
         ///                                 only for Logging and APM.
         ///
-        ///   - env:                        The environment name which will be sent to Atatus. This can be used
+        ///   - env:                        The environment name which will be sent to TowerSignal. This can be used
         ///                                 To filter events on different environments (e.g. "staging" or "production").
         ///
-        ///   - site:                       Atatus site endpoint, default value is `.atatus`.
+        ///   - site:                       TowerSignal site endpoint, default value is `.towersignal`.
         ///
         ///   - serverUrl:                  ATCHG: A custom intake base url (no path) replacing the `site` one for
         ///                                 every feature, e.g. `https://rum.example.com`. Each feature appends
         ///                                 its own path to it. `nil` by default, meaning the `site` intake is used.
         ///
-        ///   - service:                    The service name associated with data send to Atatus.
+        ///   - service:                    The service name associated with data send to TowerSignal.
         ///                                 Default value is set to application bundle identifier.
         ///
         ///   - version:                    The application version used for Unified Service Tagging.
@@ -167,24 +167,24 @@ extension Atatus {
         ///
         ///   - bundle:                     The bundle object that contains the current executable.
         ///
-        ///   - batchSize:                  The preferred size of batched data uploaded to Atatus servers.
+        ///   - batchSize:                  The preferred size of batched data uploaded to TowerSignal servers.
         ///                                 This value impacts the size and number of requests performed by the SDK.
         ///                                 `.medium` by default.
         ///
-        ///   - uploadFrequency:            The preferred frequency of uploading data to Atatus servers.
+        ///   - uploadFrequency:            The preferred frequency of uploading data to TowerSignal servers.
         ///                                 This value impacts the frequency of performing network requests by the SDK.
         ///                                 `.average` by default.
         ///
         ///   - proxyConfiguration:         A proxy configuration attributes.
-        ///                                 This can be used to a enable a custom proxy for uploading tracked data to Atatus's intake.
+        ///                                 This can be used to a enable a custom proxy for uploading tracked data to TowerSignal's intake.
         ///
         ///   - encryption:                 Data encryption to use for on-disk data persistency by providing an object
         ///                                 complying with `DataEncryption` protocol.
         ///
         ///   - serverDateProvider:         A custom NTP synchronization interface.
-        ///                                 By default, the Atatus SDK synchronizes with dedicated NTP pools provided by the
+        ///                                 By default, the TowerSignal SDK synchronizes with dedicated NTP pools provided by the
         ///                                 https://www.ntppool.org/ . Using different pools or setting a no-op `ServerDateProvider`
-        ///                                 implementation will result in desynchronization of the SDK instance and the Atatus servers.
+        ///                                 implementation will result in desynchronization of the SDK instance and the TowerSignal servers.
         ///                                 This can lead to significant time shift in RUM sessions or distributed traces.
         ///   - backgroundTasksEnabled:     A flag that determines if `UIApplication` methods
         ///                                 `beginBackgroundTask(expirationHandler:)` and `endBackgroundTask:`
@@ -196,7 +196,7 @@ extension Atatus {
         public init(
             licenseKey: String,
             env: String,
-            site: AtatusSite = .atatus, // ATCHG: default site is the Atatus intake
+            site: TowerSignalSite = .towersignal, // ATCHG: default site is the TowerSignal intake
             serverUrl: String? = nil, // ATCHG: no custom intake by default, the site endpoint is used
             service: String? = nil,
             version: String? = nil,
@@ -220,7 +220,7 @@ extension Atatus {
             self.uploadFrequency = uploadFrequency
             self.proxyConfiguration = proxyConfiguration
             self.encryption = encryption
-            self.serverDateProvider = serverDateProvider ?? AtatusNTPDateProvider()
+            self.serverDateProvider = serverDateProvider ?? TowerSignalNTPDateProvider()
             self.batchProcessingLevel = batchProcessingLevel
             self.backgroundTasksEnabled = backgroundTasksEnabled
         }

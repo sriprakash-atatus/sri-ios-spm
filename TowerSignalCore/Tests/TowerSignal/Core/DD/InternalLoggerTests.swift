@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusCore
+import TowerSignalInternal
+@testable import TowerSignalCore
 
 class InternalLoggerTests: XCTestCase {
     private let mock = PrintFunctionSpy()
@@ -34,10 +34,10 @@ class InternalLoggerTests: XCTestCase {
 
         // Then
         XCTAssertEqual(mock.printedMessages.count, 4)
-        XCTAssertEqual(mock.printedMessages[0], "[ATATUS SDK] 🐶 → 10:00:04.200 Debug message")
-        XCTAssertEqual(mock.printedMessages[1], "[ATATUS SDK] 🐶 → 10:00:04.200 ⚠️ Warn message")
-        XCTAssertEqual(mock.printedMessages[2], "[ATATUS SDK] 🐶 → 10:00:04.200 🔥 Error message")
-        XCTAssertEqual(mock.printedMessages[3], "[ATATUS SDK] 🐶 → 10:00:04.200 ⛔️ Critical message")
+        XCTAssertEqual(mock.printedMessages[0], "[TOWERSIGNAL SDK] 🐶 → 10:00:04.200 Debug message")
+        XCTAssertEqual(mock.printedMessages[1], "[TOWERSIGNAL SDK] 🐶 → 10:00:04.200 ⚠️ Warn message")
+        XCTAssertEqual(mock.printedMessages[2], "[TOWERSIGNAL SDK] 🐶 → 10:00:04.200 🔥 Error message")
+        XCTAssertEqual(mock.printedMessages[3], "[TOWERSIGNAL SDK] 🐶 → 10:00:04.200 ⛔️ Critical message")
     }
 
     func testItPrintsErrorWithExpectedFormat() {
@@ -66,7 +66,7 @@ class InternalLoggerTests: XCTestCase {
         // Then
         let expectedMessages = ["", "⚠️ ", "🔥 ", "⛔️ "].map { emoji in
             """
-            [ATATUS SDK] 🐶 → 10:00:00.000 \(emoji)Message
+            [TOWERSIGNAL SDK] 🐶 → 10:00:00.000 \(emoji)Message
 
             Error details:
             → type: The error domain - 42

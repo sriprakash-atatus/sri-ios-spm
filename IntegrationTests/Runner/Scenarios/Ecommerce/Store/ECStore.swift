@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: The shop the `AtatusEcommerceScenario` runs — FlipShop, a marketplace laid out the way
+// ATCHG: The shop the `TowerSignalEcommerceScenario` runs — FlipShop, a marketplace laid out the way
 // Indian shopping apps are: home feed, search, listings, wishlist, cart, address, payment and order
 // tracking. Deliberately free of SDK imports: this scenario reports nothing by hand, so nothing in
 // the store's own code talks to the agent. What reaches the intake is what auto-instrumentation

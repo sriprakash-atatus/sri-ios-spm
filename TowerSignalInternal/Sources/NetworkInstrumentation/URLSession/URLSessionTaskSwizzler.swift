@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - removed the `dd` name from comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - removed the `dd` name from comments and docs; rebranded the licence
 // header.
 
 import Foundation
@@ -49,7 +49,7 @@ internal final class URLSessionTaskSwizzler {
         static func build() throws -> TaskResume {
             // RUM-2690: We swizzle private `__NSCFLocalSessionTask` class as it appears to be uniformly used
             // in iOS versions 12.x - 17.x. Swizzling the public `URLSessionTask.resume()` doesn't work in 12.x and 13.x.
-            // See https://github.com/dd/atatus-sdk-ios/pull/1637 for full `URLSessionTask` class dumps in major iOS versions.
+            // See https://github.com/dd/towersignal-sdk-ios/pull/1637 for full `URLSessionTask` class dumps in major iOS versions.
             let className = "__NSCFLocalSessionTask"
             guard let klass = NSClassFromString(className) else {
                 throw InternalError(description: "Failed to swizzle `URLSessionTask`: `\(className)` class not found.")

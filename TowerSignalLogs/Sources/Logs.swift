@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `_dd` attribute prefix to `_atatus`; rebranded the `dd`
-// name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `_dd` attribute prefix to `_towersignal`; rebranded the `dd`
+// name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// iOS Log Collection
 ///
-/// Send logs to Atatus from your iOS applications with Atatus’s atatus-sdk-ios client-side logging library and leverage the following features:
-/// - Log to Atatus in JSON format natively.
+/// Send logs to TowerSignal from your iOS applications with TowerSignal’s towersignal-sdk-ios client-side logging library and leverage the following features:
+/// - Log to TowerSignal in JSON format natively.
 /// - Use default and add custom attributes to each log sent.
 /// - Record real client IP addresses and User-Agents.
 /// - Leverage optimized network usage with automatic bulk posts.
@@ -24,10 +24,10 @@ public enum Logs {
     /// This configuration will be applied to all Logger instances.
     public struct Configuration {
         public typealias EventMapper = (LogEvent) -> LogEvent?
-        /// Sets the custom mapper for `LogEvent`. This can be used to modify logs before they are send to Atatus.
+        /// Sets the custom mapper for `LogEvent`. This can be used to modify logs before they are send to TowerSignal.
         ///
         /// The implementation should obtain a mutable version of the `LogEvent`, modify it and return it. Returning `nil` will result
-        /// with dropping the Log event entirely, so it won't be send to Atatus.
+        /// with dropping the Log event entirely, so it won't be send to TowerSignal.
         public var eventMapper: EventMapper?
 
         /// Overrides the custom server endpoint where Logs are sent.
@@ -42,7 +42,7 @@ public enum Logs {
         /// Creates a Logs configuration object.
         ///
         /// - Parameters:
-        ///   - eventMapper: The custom mapper for `LogEvent`. This can be used to modify logs before they are send to Atatus.
+        ///   - eventMapper: The custom mapper for `LogEvent`. This can be used to modify logs before they are send to TowerSignal.
         ///   - customEndpoint: Overrides the custom server endpoint where Logs are sent.
         public init(
             eventMapper: EventMapper? = nil,
@@ -53,14 +53,14 @@ public enum Logs {
         }
     }
 
-    /// Enables the Atatus Logs feature.
+    /// Enables the TowerSignal Logs feature.
     ///
     /// - Parameters:
     ///   - configuration: The Logs configuration.
-    ///   - core: The instance of Atatus SDK to enable Logs in (global instance by default).
+    ///   - core: The instance of TowerSignal SDK to enable Logs in (global instance by default).
     public static func enable(
         with configuration: Logs.Configuration = .init(),
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
         do {
             // To ensure the correct registration order between Core and Features,
@@ -74,11 +74,11 @@ public enum Logs {
     }
 
     internal static func enableOrThrow(
-        with configuration: Logs.Configuration, in core: AtatusCoreProtocol
+        with configuration: Logs.Configuration, in core: TowerSignalCoreProtocol
     ) throws {
-        guard !(core is NOPAtatusCore) else {
+        guard !(core is NOPTowerSignalCore) else {
             throw ProgrammerError(
-                description: "Atatus SDK must be initialized before calling `Logs.enable(with:)`."
+                description: "TowerSignal SDK must be initialized before calling `Logs.enable(with:)`."
             )
         }
 
@@ -100,8 +100,8 @@ public enum Logs {
     ///   - key: the attribute key. See `AttributeKey` documentation for information on nesting attributes with dot `.` syntax.
     ///   - value: the attribute value that conforms to `Encodable`. See `AttributeValue` documentation
     ///     for information on nested encoding containers limitation.
-    ///   - core: the `AtatusCoreProtocol` to add the attribute to.
-    public static func addAttribute(forKey key: AttributeKey, value: AttributeValue, in core: AtatusCoreProtocol = CoreRegistry.default) {
+    ///   - core: the `TowerSignalCoreProtocol` to add the attribute to.
+    public static func addAttribute(forKey key: AttributeKey, value: AttributeValue, in core: TowerSignalCoreProtocol = CoreRegistry.default) {
         guard let feature = core.get(feature: LogsFeature.self) else {
             return
         }
@@ -114,8 +114,8 @@ public enum Logs {
     /// Previous logs won't lose this attribute if sent prior to this call.
     /// - Parameters:
     ///   - key: the key of an attribute that will be removed.
-    ///   - core: the `AtatusCoreProtocol` to remove the attribute from.
-    public static func removeAttribute(forKey key: AttributeKey, in core: AtatusCoreProtocol = CoreRegistry.default) {
+    ///   - core: the `TowerSignalCoreProtocol` to remove the attribute from.
+    public static func removeAttribute(forKey key: AttributeKey, in core: TowerSignalCoreProtocol = CoreRegistry.default) {
         guard let feature = core.get(feature: LogsFeature.self) else {
             return
         }
@@ -123,7 +123,7 @@ public enum Logs {
         sendAttributesChanged(for: feature, in: core)
     }
 
-    private static func sendAttributesChanged(for feature: LogsFeature, in core: AtatusCoreProtocol) {
+    private static func sendAttributesChanged(for feature: LogsFeature, in core: TowerSignalCoreProtocol) {
         core.send(
             message: .payload(LogEventAttributes(
                 attributes: feature.attributes.getAttributes()
@@ -133,17 +133,17 @@ public enum Logs {
 }
 
 extension Logs {
-    /// Attributes that can be added to logs that have special properies in Atatus.
+    /// Attributes that can be added to logs that have special properies in TowerSignal.
     public struct Attributes {
         /// Add a custom fingerprint to the error in this log. Requires that the log is supplied with an Error.
         /// The value of this attribute must be a `String`.
-        public static let errorFingerprint = "_atatus.error.fingerprint"
+        public static let errorFingerprint = "_towersignal.error.fingerprint"
     }
 }
 
 extension Logs.Configuration: InternalExtended { }
 extension InternalExtension where ExtendedType == Logs.Configuration {
-    /// Sets the custom mapper for `LogEvent`. This can be used to modify logs before they are sent to Atatus.
+    /// Sets the custom mapper for `LogEvent`. This can be used to modify logs before they are sent to TowerSignal.
     ///
     /// - Parameter mapper: the mapper taking `LogEvent` as input and invoke callback closure with modifier `LogEvent`.
     public mutating func setLogEventMapper(_ mapper: LogEventMapper) {

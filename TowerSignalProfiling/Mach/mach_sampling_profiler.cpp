@@ -1,7 +1,7 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 #include "mach_sampling_profiler.h"
@@ -557,7 +557,7 @@ mach_sampling_profiler::~mach_sampling_profiler() {
  * Static entry point for the sampling thread.
  */
 void* mach_sampling_profiler::sampling_thread_entry(void* arg) {
-    pthread_setname_np("com.atatus.profiler.sampling");
+    pthread_setname_np("com.towersignal.profiler.sampling");
     auto* profiler = static_cast<mach_sampling_profiler*>(arg);
     profiler->sampling_thread_mach.store(
         pthread_mach_thread_np(pthread_self()),

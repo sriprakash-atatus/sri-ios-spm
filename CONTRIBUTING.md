@@ -5,23 +5,23 @@ First of all, thanks for contributing!
 This document provides some basic guidelines for contributing to this repository.
 To propose improvements, feel free to submit a PR or open an Issue.
 
-**Note:** Atatus requires that all commits within this repository must be signed, including those within external contribution PRs. Please ensure you have followed GitHub's [Signing Commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) guide before proposing a contribution. PRs lacking signed commits will not be processed and may be rejected.
+**Note:** TowerSignal requires that all commits within this repository must be signed, including those within external contribution PRs. Please ensure you have followed GitHub's [Signing Commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) guide before proposing a contribution. PRs lacking signed commits will not be processed and may be rejected.
 
 ## Have a feature request or idea?
 
 Many great ideas for new features come from the community, and we'd be happy to consider yours 👍.
 
-To share your idea or request, [open a GitHub Issue](https://github.com/atatus/atatus-sdk-ios/issues/new/choose) using dedicated issue template.
+To share your idea or request, [open a GitHub Issue](https://github.com/towersignal/towersignal-sdk-ios/issues/new/choose) using dedicated issue template.
 
 ## Found a bug?
 
-For any urgent matters (such as outages) or issues concerning the Atatus service or UI, contact our support team via https://docs.atatus.com/help/ for direct, faster assistance.
+For any urgent matters (such as outages) or issues concerning the TowerSignal service or UI, contact our support team via https://docs.towersignal.com/help/ for direct, faster assistance.
 
-You may submit a bug report concerning the Atatus SDK for iOS by [opening a GitHub Issue](https://github.com/atatus/atatus-sdk-ios/issues/new/choose). Use appropriate template and provide all listed details to help us resolve the issue.
+You may submit a bug report concerning the TowerSignal SDK for iOS by [opening a GitHub Issue](https://github.com/towersignal/towersignal-sdk-ios/issues/new/choose). Use appropriate template and provide all listed details to help us resolve the issue.
 
 ## Have a patch?
 
-We welcome all code contributions to the library. If you have a patch adding value to the SDK, let us know 💪! Before you [submit a Pull Request](https://github.com/atatus/atatus-sdk-ios/pull/new/master), make sure that you first create an Issue to explain the bug or the feature your patch covers, then make sure similar Issue or PR doesn't already exist.
+We welcome all code contributions to the library. If you have a patch adding value to the SDK, let us know 💪! Before you [submit a Pull Request](https://github.com/towersignal/towersignal-sdk-ios/pull/new/master), make sure that you first create an Issue to explain the bug or the feature your patch covers, then make sure similar Issue or PR doesn't already exist.
 
 Your Pull Request will be run through our CI pipeline, and a project member will review the changes with you. At a minimum, to be accepted and merged, Pull Requests must:
 
@@ -48,11 +48,11 @@ The workspace for SDK development and integration (tests, benchmarks, example ap
 
 #### Sources
 
-`Atatus` source files
+`TowerSignal` source files
 
 #### Tests
 
-`AtatusTests` (unit tests), `IntegrationTests`, and `AtatusBenchmarkTests` (benchmarks) source files
+`TowerSignalTests` (unit tests), `IntegrationTests`, and `TowerSignalBenchmarkTests` (benchmarks) source files
 
 #### Lint
 

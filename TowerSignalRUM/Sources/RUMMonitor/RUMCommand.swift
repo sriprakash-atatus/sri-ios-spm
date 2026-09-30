@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `DD` symbol prefix to `AT`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `DD` symbol prefix to `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the
 // licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Command processed through the tree of `RUMScopes`.
 internal protocol RUMCommand {
@@ -252,7 +252,7 @@ internal protocol RUMErrorCommand: RUMCommand {
 
 /// Adds exception error to current view.
 ///
-/// Using this command results with classifying the error as "Exception" in Atatus app (`@error.category: Exception`).
+/// Using this command results with classifying the error as "Exception" in TowerSignal app (`@error.category: Exception`).
 internal struct RUMAddCurrentViewErrorCommand: RUMErrorCommand {
     var time: Date
     var globalAttributes: [AttributeKey: AttributeValue]
@@ -367,7 +367,7 @@ internal struct RUMAddCurrentViewErrorCommand: RUMErrorCommand {
 
 /// Adds App Hang error to current view.
 ///
-/// Using this command results with classifying the error as "App Hang" in Atatus app (`@error.category: App Hang`).
+/// Using this command results with classifying the error as "App Hang" in TowerSignal app (`@error.category: App Hang`).
 internal struct RUMAddCurrentViewAppHangCommand: RUMErrorCommand {
     var time: Date
     var globalAttributes: [AttributeKey: AttributeValue] = [:]

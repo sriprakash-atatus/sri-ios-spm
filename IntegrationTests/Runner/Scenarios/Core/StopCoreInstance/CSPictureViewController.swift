@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - repointed the intake host at the Atatus site; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - repointed the intake host at the TowerSignal site; rebranded the licence header.
 
 import UIKit
 
@@ -28,7 +28,7 @@ internal class CSPictureViewController: UIViewController {
     @IBAction func didTapDownloadImage(_ sender: UIButton) {
         let enableSender = sender.disableUntilCompletion()
 
-        let imageURL = URL(string: "https://www.atatus.com/")!
+        let imageURL = URL(string: "https://www.towersignal.com/")!
         var imageRequest = URLRequest(url: imageURL)
         imageRequest.cachePolicy = .reloadIgnoringLocalCacheData
 

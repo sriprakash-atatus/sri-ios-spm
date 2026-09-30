@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 #if os(iOS)
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-internal class SessionReplayFeature: SessionReplayConfiguration, AtatusRemoteFeature {
+internal class SessionReplayFeature: SessionReplayConfiguration, TowerSignalRemoteFeature {
     let requestBuilder: FeatureRequestBuilder
     let messageReceiver: FeatureMessageReceiver
     let performanceOverride: PerformancePresetOverride?
@@ -27,7 +27,7 @@ internal class SessionReplayFeature: SessionReplayConfiguration, AtatusRemoteFea
     // MARK: - Initialization
 
     init(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         configuration: SessionReplay.Configuration
     ) throws {
         let resourcesWriter = ResourcesWriter(scope: core.scope(for: ResourcesFeature.self))
@@ -57,7 +57,7 @@ internal class SessionReplayFeature: SessionReplayConfiguration, AtatusRemoteFea
         self.performanceOverride = PerformancePresetOverride(
             maxFileSize: SessionReplay.maxObjectSize,
             maxObjectSize: SessionReplay.maxObjectSize,
-            meanFileAge: 2, // vs 5s with `batchSize: .small` - see `AtatusCore.PerformancePreset`
+            meanFileAge: 2, // vs 5s with `batchSize: .small` - see `TowerSignalCore.PerformancePreset`
             maxFileAgeForRead: 5.hours, // Session Replay intake max age is 5 hours
             uploadDelay: (
                 initial: 2, // vs 5s with `uploadFrequency: .frequent`

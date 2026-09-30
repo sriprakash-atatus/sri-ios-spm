@@ -1,4 +1,4 @@
-module AtatusMachProfiler {
+module TowerSignalMachProfiler {
   header "dd_profiler.h"
   header "dd_pprof.h"
   export *

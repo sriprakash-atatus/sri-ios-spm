@@ -1,25 +1,25 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-// Export `URLSessionInstrumentation` elements to be available with `import AtatusTrace`:
+// Export `URLSessionInstrumentation` elements to be available with `import TowerSignalTrace`:
 // swiftlint:disable duplicate_imports
-@_exported import enum AtatusInternal.URLSessionInstrumentation
+@_exported import enum TowerSignalInternal.URLSessionInstrumentation
 
-@_exported import class AtatusInternal.HTTPHeadersWriter
-@_exported import class AtatusInternal.B3HTTPHeadersWriter
-@_exported import class AtatusInternal.W3CHTTPHeadersWriter
-@_exported import enum AtatusInternal.TraceContextInjection
-@_exported import enum AtatusInternal.TracingHeaderType
+@_exported import class TowerSignalInternal.HTTPHeadersWriter
+@_exported import class TowerSignalInternal.B3HTTPHeadersWriter
+@_exported import class TowerSignalInternal.W3CHTTPHeadersWriter
+@_exported import enum TowerSignalInternal.TraceContextInjection
+@_exported import enum TowerSignalInternal.TracingHeaderType
 // swiftlint:enable duplicate_imports
 
 extension Trace {
@@ -95,12 +95,12 @@ extension Trace {
             ///     - Third-party URL examples: https://example.com/ and https://foo.com/
             ///
             /// A trace will be created for each first-party request by injecting HTTP trace headers and creating an APM span.
-            /// If your backend is also instrumented with Atatus, you will see the full trace (app → backend).
+            /// If your backend is also instrumented with TowerSignal, you will see the full trace (app → backend).
             public var firstPartyHostsTracing: FirstPartyHostsTracing
 
             /// Defines configuration for first-party hosts in distributed tracing.
             public enum FirstPartyHostsTracing: Sendable {
-                /// Trace the specified hosts using Atatus and W3C `tracecontext` tracing headers.
+                /// Trace the specified hosts using TowerSignal and W3C `tracecontext` tracing headers.
                 ///
                 /// Wildcard patterns using `*` are supported (e.g. `"*.example.com"`).
                 ///

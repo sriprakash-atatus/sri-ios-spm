@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 #if os(iOS)
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// A type turning succeeding view-tree and touch snapshots into sequence of Mobile Session Replay records.
 ///
@@ -31,8 +31,8 @@ internal protocol SnapshotProcessing {
 /// VTSs processing is following:
 /// - the VTS is broke apart into individual view snapshots, mapped into array of SR wireframes (see `WireframesBuilder`);
 /// - the array of wireframes is attached to SR record (see `RecordsBuilder`);
-/// - succeeding records are enriched with their RUM context and written to `AtatusCore`;
-/// - when `AtatusCore` triggers an upload, batched records are deserialized, grouped into SR segments and then uploaded.
+/// - succeeding records are enriched with their RUM context and written to `TowerSignalCore`;
+/// - when `TowerSignalCore` triggers an upload, batched records are deserialized, grouped into SR segments and then uploaded.
 internal class SnapshotProcessor: SnapshotProcessing {
     /// Flattens VTS received from `Recorder` by removing invisible nodes.
     private let nodesFlattener = NodesFlattener()
@@ -41,7 +41,7 @@ internal class SnapshotProcessor: SnapshotProcessing {
 
     /// The background queue for executing all logic.
     private let queue: Queue
-    /// Writes records to `AtatusCore`.
+    /// Writes records to `TowerSignalCore`.
     private let recordWriter: RecordWriting
     /// Processes resources on a background thread.
     private let resourceProcessor: ResourceProcessing
@@ -137,7 +137,7 @@ internal class SnapshotProcessor: SnapshotProcessing {
         }
 
         if !records.isEmpty {
-            // Transform `[SRRecord]` to `EnrichedRecord` so we can write it to `AtatusCore` and
+            // Transform `[SRRecord]` to `EnrichedRecord` so we can write it to `TowerSignalCore` and
             // later read it back (as `EnrichedRecordJSON`) for preparing upload request(s):
             let enrichedRecord = EnrichedRecord(context: viewTreeSnapshot.context, records: records)
             srContextPublisher.incrementRecordCount(

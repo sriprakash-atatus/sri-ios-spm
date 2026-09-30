@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; repointed the intake host at the
-// Atatus site; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; repointed the intake host at the
+// TowerSignal site; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Enable iOS Crash Reporting and Error Tracking to get comprehensive crash reports and
 /// error trends with Real User Monitoring. With this feature, you can access:
@@ -18,24 +18,24 @@ import AtatusInternal
 /// - Symbolicated iOS crash reports
 /// - Trend analysis with iOS error tracking
 ///
-/// In order to symbolicate your stack traces, find and upload your .dSYM files to Atatus.
+/// In order to symbolicate your stack traces, find and upload your .dSYM files to TowerSignal.
 /// Then, verify your configuration by running a test crash and restarting your application.
 ///
-/// Your crash reports appear in [Error Tracking](https://www.atatus.com/).
+/// Your crash reports appear in [Error Tracking](https://www.towersignal.com/).
 public final class CrashReporting {
-    /// Initializes the Atatus Crash Reporter using the default
+    /// Initializes the TowerSignal Crash Reporter using the default
     /// `KSCrash` plugin.
-    public static func enable(in core: AtatusCoreProtocol = CoreRegistry.default) {
+    public static func enable(in core: TowerSignalCoreProtocol = CoreRegistry.default) {
         enable(with: try KSCrashPlugin(telemetry: core.telemetry), in: core)
     }
 
-    /// Initializes the Atatus Crash Reporter with a custom Crash Reporting Plugin.
+    /// Initializes the TowerSignal Crash Reporter with a custom Crash Reporting Plugin.
     ///
     /// The custom plugin will be responsible for:
     /// - Provide crash report
     /// - Store context data associated with crashes
     /// - Provide backtraces
-    public static func enable(with plugin: @autoclosure () throws -> CrashReportingPlugin, in core: AtatusCoreProtocol = CoreRegistry.default) {
+    public static func enable(with plugin: @autoclosure () throws -> CrashReportingPlugin, in core: TowerSignalCoreProtocol = CoreRegistry.default) {
         do {
             // To ensure the correct registration order between Core and Features,
             // the entire initialization flow is synchronized on the main thread.
@@ -47,10 +47,10 @@ public final class CrashReporting {
         }
     }
 
-    internal static func enableOrThrow(with plugin: CrashReportingPlugin, in core: AtatusCoreProtocol) throws {
-        guard !(core is NOPAtatusCore) else {
+    internal static func enableOrThrow(with plugin: CrashReportingPlugin, in core: TowerSignalCoreProtocol) throws {
+        guard !(core is NOPTowerSignalCore) else {
             throw ProgrammerError(
-                description: "Atatus SDK must be initialized before calling `CrashReporting.enable()`."
+                description: "TowerSignal SDK must be initialized before calling `CrashReporting.enable()`."
             )
         }
 
@@ -83,14 +83,14 @@ public final class CrashReporting {
 /// - Symbolicated iOS crash reports
 /// - Trend analysis with iOS error tracking
 ///
-/// In order to symbolicate your stack traces, find and upload your .dSYM files to Atatus.
+/// In order to symbolicate your stack traces, find and upload your .dSYM files to TowerSignal.
 /// Then, verify your configuration by running a test crash and restarting your application.
 ///
-/// Your crash reports appear in [Error Tracking](https://www.atatus.com/).
+/// Your crash reports appear in [Error Tracking](https://www.towersignal.com/).
 @available(swift, obsoleted: 1)
 @objc(ATCrashReporter)
 public final class objc_CrashReporting: NSObject {
-    /// Initializes the Atatus Crash Reporter.
+    /// Initializes the TowerSignal Crash Reporter.
     @objc
     public static func enable() {
         CrashReporting.enable()

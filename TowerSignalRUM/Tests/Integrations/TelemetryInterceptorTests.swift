@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-@testable import AtatusInternal
-@testable import AtatusRUM
+@testable import TowerSignalInternal
+@testable import TowerSignalRUM
 
 class TelemetryInterceptorTests: XCTestCase {
     private let telemetry = TelemetryMock()
@@ -25,7 +25,7 @@ class TelemetryInterceptorTests: XCTestCase {
         // When
         metricController.startMetric(sessionID: sessionID, precondition: .mockRandom(), context: .mockAny())
         let errorTelemetry: TelemetryMessage = .error(id: .mockAny(), message: .mockAny(), kind: .mockAny(), stack: .mockAny())
-        let result = interceptor.receive(message: .telemetry(errorTelemetry), from: NOPAtatusCore())
+        let result = interceptor.receive(message: .telemetry(errorTelemetry), from: NOPTowerSignalCore())
         XCTAssertFalse(result)
 
         // Then
@@ -45,7 +45,7 @@ class TelemetryInterceptorTests: XCTestCase {
         // When
         metricController.startMetric(sessionID: sessionID, precondition: .mockRandom(), context: .mockAny())
         let metricTelemetry: TelemetryMessage = .metric(MetricTelemetry(name: UploadQualityMetric.name, attributes: [UploadQualityMetric.track: "feature"], sampleRate: .mockRandom()))
-        let result = interceptor.receive(message: .telemetry(metricTelemetry), from: NOPAtatusCore())
+        let result = interceptor.receive(message: .telemetry(metricTelemetry), from: NOPTowerSignalCore())
         XCTAssertTrue(result)
 
         // Then

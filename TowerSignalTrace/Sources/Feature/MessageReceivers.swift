@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal struct CoreContext {
     /// Provides the history of app foreground / background states.
@@ -49,7 +49,7 @@ internal final class ContextMessageReceiver: FeatureMessageReceiver {
     /// - Parameters:
     ///   - message: The Feature message
     ///   - core: The core from which the message is transmitted.
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         switch message {
         case .context(let context):
             return update(context: context, from: core)
@@ -58,17 +58,17 @@ internal final class ContextMessageReceiver: FeatureMessageReceiver {
         }
     }
 
-    /// Updates context of the `AtatusTracer` if available.
+    /// Updates context of the `TowerSignalTracer` if available.
     ///
     /// - Parameter context: The updated core context.
-    private func update(context atatusContext: AtatusContext, from core: AtatusCoreProtocol) -> Bool {
-        let rumContext = atatusContext.additionalContext(ofType: RUMCoreContext.self)
+    private func update(context towersignalContext: TowerSignalContext, from core: TowerSignalCoreProtocol) -> Bool {
+        let rumContext = towersignalContext.additionalContext(ofType: RUMCoreContext.self)
 
         _context.mutate {
-            $0.applicationStateHistory = atatusContext.applicationStateHistory
+            $0.applicationStateHistory = towersignalContext.applicationStateHistory
             $0.rumContext = rumContext
-            $0.userInfo = atatusContext.userInfo
-            $0.accountInfo = atatusContext.accountInfo
+            $0.userInfo = towersignalContext.userInfo
+            $0.accountInfo = towersignalContext.accountInfo
         }
 
         samplerProvider.updateWith(deterministicSampler: rumContext?.sessionSampler)

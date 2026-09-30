@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-@testable import AtatusInternal
-@testable import AtatusTrace
+@testable import TowerSignalInternal
+@testable import TowerSignalTrace
 
 class TraceTests: XCTestCase {
     private var core: FeatureRegistrationCoreMock! // swiftlint:disable:this implicitly_unwrapped_optional
@@ -42,12 +42,12 @@ class TraceTests: XCTestCase {
         defer { consolePrint = { message, _ in print(message) } }
 
         // When
-        Trace.enable(with: config, in: NOPAtatusCore())
+        Trace.enable(with: config, in: NOPTowerSignalCore())
 
         // Then
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Atatus SDK must be initialized before calling `Trace.enable(with:)`."
+            "🔥 TowerSignal SDK usage error: TowerSignal SDK must be initialized before calling `Trace.enable(with:)`."
         )
     }
 
@@ -57,7 +57,7 @@ class TraceTests: XCTestCase {
         XCTAssertNotNil(core.get(feature: TraceFeature.self))
 
         // Then
-        XCTAssertTrue(Tracer.shared(in: core) is AtatusTracer)
+        XCTAssertTrue(Tracer.shared(in: core) is TowerSignalTracer)
     }
 
     // MARK: - Configuration Tests
@@ -139,7 +139,7 @@ class TraceTests: XCTestCase {
             )
             },
             { self.config.urlSessionTracking = .init(
-                firstPartyHostsTracing: .traceWithHeaders(hostsWithHeaders: ["example.com": [.atatus, .b3]])
+                firstPartyHostsTracing: .traceWithHeaders(hostsWithHeaders: ["example.com": [.towersignal, .b3]])
             )
             },
         ])
@@ -190,7 +190,7 @@ class TraceTests: XCTestCase {
             )
             },
             { self.config.urlSessionTracking = .init(
-                firstPartyHostsTracing: .traceWithHeaders(hostsWithHeaders: ["example.com": [.atatus, .b3]], sampleRate: random)
+                firstPartyHostsTracing: .traceWithHeaders(hostsWithHeaders: ["example.com": [.towersignal, .b3]], sampleRate: random)
             )
             },
         ])
@@ -281,7 +281,7 @@ class TraceTests: XCTestCase {
         Trace.enable(with: config, in: core)
 
         // Then
-        let tracer = try XCTUnwrap(Tracer.shared(in: core) as? AtatusTracer)
+        let tracer = try XCTUnwrap(Tracer.shared(in: core) as? TowerSignalTracer)
         let networkInstrumentation = try XCTUnwrap(core.get(feature: NetworkInstrumentationFeature.self))
         let tracingHandler = try XCTUnwrap(networkInstrumentation.handlers.firstElement(of: TracingURLSessionHandler.self))
         XCTAssertEqual(tracer.samplerProvider.sampler.samplingRate, 100)
@@ -304,7 +304,7 @@ class TraceTests: XCTestCase {
         Trace.enable(with: config, in: core)
 
         // Then
-        let tracer = try XCTUnwrap(Tracer.shared(in: core) as? AtatusTracer)
+        let tracer = try XCTUnwrap(Tracer.shared(in: core) as? TowerSignalTracer)
         let networkInstrumentation = try XCTUnwrap(core.get(feature: NetworkInstrumentationFeature.self))
         let tracingHandler = try XCTUnwrap(networkInstrumentation.handlers.firstElement(of: TracingURLSessionHandler.self))
         XCTAssertEqual(tracer.samplerProvider.sampler.samplingRate, random)

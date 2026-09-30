@@ -1,35 +1,35 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `clientToken` to
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `clientToken` to
 // `licenseKey`; renamed the build `variant` to `appName`; renamed the `ddsource` / `ddtags` query
-// parameters to `atatus_source` / `atatustags`; renamed `com.ddhq.*` identifiers to `com.atatus.*`;
-// rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// parameters to `towersignal_source` / `towersignaltags`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`;
+// rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 //swiftlint:disable duplicate_imports
-@_exported import enum AtatusInternal.TrackingConsent
-@_exported import protocol AtatusInternal.AtatusCoreProtocol
+@_exported import enum TowerSignalInternal.TrackingConsent
+@_exported import protocol TowerSignalInternal.TowerSignalCoreProtocol
 //swiftlint:enable duplicate_imports
 
-/// An entry point to Atatus SDK.
+/// An entry point to TowerSignal SDK.
 ///
-/// Initialize the core instance of the Atatus SDK prior to enabling any Product.
+/// Initialize the core instance of the TowerSignal SDK prior to enabling any Product.
 ///
 /// ```swift
-/// Atatus.initialize(
-///     with: Atatus.Configuration(licenseKey: "<client token>", env: "<environment>"),
+/// TowerSignal.initialize(
+///     with: TowerSignal.Configuration(licenseKey: "<client token>", env: "<environment>"),
 ///     trackingConsent: .pending
 /// )
 /// ```
 ///
-/// Once Atatus SDK is initialized, you can enable products, such as RUM:
+/// Once TowerSignal SDK is initialized, you can enable products, such as RUM:
 ///
 /// ```swift
 /// RUM.enable(
@@ -37,8 +37,8 @@ import AtatusInternal
 /// )
 /// ```
 ///     
-public enum Atatus {
-    /// Verbosity level of Atatus SDK. Can be used for debugging purposes.
+public enum TowerSignal {
+    /// Verbosity level of TowerSignal SDK. Can be used for debugging purposes.
     /// If set, internal events occurring inside SDK will be printed to debugger console if their level is equal or greater than `verbosityLevel`.
     /// Default is `nil`.
     public static var verbosityLevel: CoreLoggerLevel? {
@@ -50,18 +50,18 @@ public enum Atatus {
     /// read/write access to the shared value.
     private static let _verbosityLevel = ReadWriteLock<CoreLoggerLevel?>(wrappedValue: nil)
 
-    /// Returns `true` if the Atatus SDK is already initialized, `false` otherwise.
+    /// Returns `true` if the TowerSignal SDK is already initialized, `false` otherwise.
     ///
     /// - Parameter name: The name of the SDK instance to verify.
     public static func isInitialized(instanceName name: String = CoreRegistry.defaultInstanceName) -> Bool {
-        CoreRegistry.instance(named: name) is AtatusCore
+        CoreRegistry.instance(named: name) is TowerSignalCore
     }
 
-    /// Returns the Atatus SDK instance for the given name.
+    /// Returns the TowerSignal SDK instance for the given name.
     ///
     /// - Parameter name: The name of the instance to get.
-    /// - Returns: The core instance if it exists, `NOPAtatusCore` instance otherwise.
-    public static func sdkInstance(named name: String) -> AtatusCoreProtocol {
+    /// - Returns: The core instance if it exists, `NOPTowerSignalCore` instance otherwise.
+    public static func sdkInstance(named name: String) -> TowerSignalCoreProtocol {
         CoreRegistry.instance(named: name)
     }
 
@@ -79,9 +79,9 @@ public enum Atatus {
         name: String? = nil,
         email: String? = nil,
         extraInfo: [AttributeKey: AttributeValue] = [:],
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
-        let core = core as? AtatusCore
+        let core = core as? TowerSignalCore
         core?.setUserInfo(
             id: id,
             name: name,
@@ -99,9 +99,9 @@ public enum Atatus {
     ///   - extraInfo: User's additional custom attributes
     public static func addUserExtraInfo(
         _ extraInfo: [AttributeKey: AttributeValue?],
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
-        let core = core as? AtatusCore
+        let core = core as? TowerSignalCore
         core?.addUserExtraInfo(extraInfo)
     }
 
@@ -119,9 +119,9 @@ public enum Atatus {
     /// you need to stop the view first by using `RUMMonitor.stopView(viewController:attributes:)`
     ///
     public static func clearUserInfo(
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
-        let core = core as? AtatusCore
+        let core = core as? TowerSignalCore
         core?.clearUserInfo()
     }
 
@@ -137,9 +137,9 @@ public enum Atatus {
         id: String,
         name: String? = nil,
         extraInfo: [AttributeKey: AttributeValue] = [:],
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
-        let core = core as? AtatusCore
+        let core = core as? TowerSignalCore
         core?.setAccountInfo(
             id: id,
             name: name,
@@ -156,9 +156,9 @@ public enum Atatus {
     ///   - extraInfo: User's additional custom attributes
     public static func addAccountExtraInfo(
         _ extraInfo: [AttributeKey: AttributeValue?],
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
-        let core = core as? AtatusCore
+        let core = core as? TowerSignalCore
         core?.addAccountExtraInfo(extraInfo)
     }
 
@@ -176,22 +176,22 @@ public enum Atatus {
     /// you need to stop the view first by using `RUMMonitor.stopView(viewController:attributes:)`
     ///
     public static func clearAccountInfo(
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
-        let core = core as? AtatusCore
+        let core = core as? TowerSignalCore
         core?.clearAccountInfo()
     }
 
-    /// Sets the tracking consent regarding the data collection for the Atatus SDK.
+    /// Sets the tracking consent regarding the data collection for the TowerSignal SDK.
     /// - Parameter trackingConsent: new consent value, which will be applied for all data collected from now on
-    public static func set(trackingConsent: TrackingConsent, in core: AtatusCoreProtocol = CoreRegistry.default) {
-        let core = core as? AtatusCore
+    public static func set(trackingConsent: TrackingConsent, in core: TowerSignalCoreProtocol = CoreRegistry.default) {
+        let core = core as? TowerSignalCore
         core?.set(trackingConsent: trackingConsent)
     }
 
-    /// Clears all data that has not already been sent to Atatus servers.
-    public static func clearAllData(in core: AtatusCoreProtocol = CoreRegistry.default) {
-        let core = core as? AtatusCore
+    /// Clears all data that has not already been sent to TowerSignal servers.
+    public static func clearAllData(in core: TowerSignalCoreProtocol = CoreRegistry.default) {
+        let core = core as? TowerSignalCore
         core?.clearAllData()
     }
 
@@ -202,22 +202,22 @@ public enum Atatus {
     /// 
     /// - Parameter instanceName: the name of the instance to stop.
     public static func stopInstance(named instanceName: String = CoreRegistry.defaultInstanceName) {
-        let core = CoreRegistry.unregisterInstance(named: instanceName) as? AtatusCore
+        let core = CoreRegistry.unregisterInstance(named: instanceName) as? TowerSignalCore
         core?.stop()
     }
 
-    /// Initializes the Atatus SDK.
+    /// Initializes the TowerSignal SDK.
     ///
-    /// You **must** initialize the core instance of the Atatus SDK prior to enabling any Product.
+    /// You **must** initialize the core instance of the TowerSignal SDK prior to enabling any Product.
     ///
     ///    ```swift
-    ///     Atatus.initialize(
-    ///         with: Atatus.Configuration(licenseKey: "<client token>", env: "<environment>"),
+    ///     TowerSignal.initialize(
+    ///         with: TowerSignal.Configuration(licenseKey: "<client token>", env: "<environment>"),
     ///         trackingConsent: .pending
     ///     )
     ///    ```
     ///
-    /// Once Atatus SDK is initialized, you can enable products, such as RUM:
+    /// Once TowerSignal SDK is initialized, you can enable products, such as RUM:
     ///
     ///    ```swift
     ///     RUM.enable(
@@ -232,8 +232,8 @@ public enum Atatus {
     /// and use the returned instance to enable products:
     ///
     ///    ```swift
-    ///     let core = Atatus.initialize(
-    ///         with: Atatus.Configuration(licenseKey: "<client token>", env: "<environment>"),
+    ///     let core = TowerSignal.initialize(
+    ///         with: TowerSignal.Configuration(licenseKey: "<client token>", env: "<environment>"),
     ///         trackingConsent: .pending,
     ///         instanceName: "my-instance"
     ///     )
@@ -254,13 +254,13 @@ public enum Atatus {
         with configuration: Configuration,
         trackingConsent: TrackingConsent,
         instanceName: String = CoreRegistry.defaultInstanceName
-    ) -> AtatusCoreProtocol {
+    ) -> TowerSignalCoreProtocol {
         #if targetEnvironment(macCatalyst)
-        consolePrint("⚠️ Catalyst is not officially supported by Atatus SDK: some features may NOT be functional!", .warn)
+        consolePrint("⚠️ Catalyst is not officially supported by TowerSignal SDK: some features may NOT be functional!", .warn)
         #endif
 
         #if os(macOS)
-        consolePrint("⚠️ macOS is not officially supported by Atatus SDK: some features may NOT be functional!", .warn)
+        consolePrint("⚠️ macOS is not officially supported by TowerSignal SDK: some features may NOT be functional!", .warn)
         #endif
 
         do {
@@ -276,7 +276,7 @@ public enum Atatus {
             }
         } catch {
             consolePrint("\(error)", .error)
-            return NOPAtatusCore()
+            return NOPTowerSignalCore()
         }
     }
 
@@ -284,7 +284,7 @@ public enum Atatus {
         with configuration: Configuration,
         trackingConsent: TrackingConsent,
         instanceName: String
-    ) throws -> AtatusCoreProtocol {
+    ) throws -> TowerSignalCoreProtocol {
         guard !CoreRegistry.isRegistered(instanceName: instanceName) else {
             throw ProgrammerError(description: "The '\(instanceName)' instance of SDK is already initialized.")
         }
@@ -294,7 +294,7 @@ public enum Atatus {
         try isValid(licenseKey: configuration.licenseKey)
         try isValid(env: configuration.env)
 
-        let core = try AtatusCore(
+        let core = try TowerSignalCore(
             configuration: configuration,
             trackingConsent: trackingConsent,
             instanceName: instanceName
@@ -309,29 +309,29 @@ public enum Atatus {
             dateProvider: configuration.dateProvider,
             timeZone: .current,
             printFunction: consolePrint,
-            verbosityLevel: { Atatus.verbosityLevel }
+            verbosityLevel: { TowerSignal.verbosityLevel }
         )
 
         // ATCHG: Start the background heartbeat schedulers for dynamic agent and logs control,
         // matching the `AgentHeartbeatScheduler.start()` / `LogsHeartbeatScheduler.start()` calls
-        // at the end of `Atatus.initialize` in the Atatus Android agent.
+        // at the end of `TowerSignal.initialize` in the TowerSignal Android agent.
         let heartbeatConfiguration = HeartbeatConfiguration(
             // ATCHG: Resolve the intake base url the same way the request builders do — the custom
             // `serverUrl` when configured, the site endpoint otherwise — matching the
             // `Configuration.intakeEndpoint` extension used by the heartbeats on Android.
-            endpoint: AtatusSite.intakeEndpoint(serverUrl: configuration.serverUrl, site: configuration.site),
+            endpoint: TowerSignalSite.intakeEndpoint(serverUrl: configuration.serverUrl, site: configuration.site),
             licenseKey: configuration.licenseKey,
             // ATCHG: Only a cross-platform SDK sets `additionalConfiguration[appName]`, so a native
             // app used to send an empty `app_name` — which the intake answers with "App name is
             // missing!". The agent reads that as `allowAgent: false` and disables itself seconds
             // after launch, so a native app could never pass its own heartbeat. Falls back to the
-            // same value `service` resolves to below, which is the app's identity in Atatus.
+            // same value `service` resolves to below, which is the app's identity in TowerSignal.
             appName: configuration.additionalConfiguration[CrossPlatformAttributes.appName] as? String
                 ?? configuration.service
                 ?? configuration.bundle.bundleIdentifier
                 ?? "ios",
             // ATCHG: End
-            source: configuration.additionalConfiguration[CrossPlatformAttributes.atatusSource] as? String ?? "ios"
+            source: configuration.additionalConfiguration[CrossPlatformAttributes.towersignalSource] as? String ?? "ios"
         )
         AgentHeartbeatScheduler.shared.start(configuration: heartbeatConfiguration, instanceName: instanceName)
         LogsHeartbeatScheduler.shared.start(configuration: heartbeatConfiguration)
@@ -340,8 +340,8 @@ public enum Atatus {
         return core
     }
 
-    private static func deleteV1Folders(in core: AtatusCore) {
-        let deprecated = ["com.atatus.logs", "com.atatus.traces", "com.atatus.rum"].compactMap {
+    private static func deleteV1Folders(in core: TowerSignalCore) {
+        let deprecated = ["com.towersignal.logs", "com.towersignal.traces", "com.towersignal.rum"].compactMap {
             try? Directory.cache().subdirectory(path: $0) // ignore errors - deprecated paths likely do not exist
         }
 
@@ -364,20 +364,20 @@ public enum Atatus {
 
     internal static func internalFlushAndDeinitialize(instanceName: String = CoreRegistry.defaultInstanceName) {
         // Unregister core instance:
-        let core = CoreRegistry.unregisterInstance(named: instanceName) as? AtatusCore
+        let core = CoreRegistry.unregisterInstance(named: instanceName) as? TowerSignalCore
         // Flush and tear down SDK core:
         core?.flushAndTearDown()
     }
 }
 
 @_spi(Internal)
-public extension Atatus {
+public extension TowerSignal {
     /// Forces all pending data to upload to intake immediately. Blocks the calling thread until complete.
     /// The SDK remains fully operational after this call.
     ///
     /// - Parameter instanceName: The name of the SDK instance to flush.
     static func flush(instanceName: String = CoreRegistry.defaultInstanceName) {
-        guard let core = CoreRegistry.instance(named: instanceName) as? AtatusCore else {
+        guard let core = CoreRegistry.instance(named: instanceName) as? TowerSignalCore else {
             return
         }
         core.flushAndUpload()
@@ -400,8 +400,8 @@ private func isValid(licenseKey: String) throws {
     }
 }
 
-extension AtatusCore {
-    /// The primary entry point for creating a `AtatusCore` instance.
+extension TowerSignalCore {
+    /// The primary entry point for creating a `TowerSignalCore` instance.
     ///
     /// - Parameters:
     ///   - configuration: A configuration object that encapsulates both user-defined options and internal dependencies
@@ -409,14 +409,14 @@ extension AtatusCore {
     ///   - trackingConsent: The user's consent regarding data tracking for the SDK.
     ///   - instanceName: A unique name for this SDK instance.
     convenience init(
-        configuration: Atatus.Configuration,
+        configuration: TowerSignal.Configuration,
         trackingConsent: TrackingConsent,
         instanceName: String
     ) throws {
         let debug = configuration.processInfo.arguments.contains(LaunchArguments.Debug)
         if debug {
             consolePrint("⚠️ Overriding verbosity, upload frequency, and sample rates due to \(LaunchArguments.Debug) launch argument", .warn)
-            Atatus.verbosityLevel = .debug
+            TowerSignal.verbosityLevel = .debug
         }
 
         let applicationVersion = configuration.additionalConfiguration[CrossPlatformAttributes.version] as? String
@@ -432,7 +432,7 @@ extension AtatusCore {
         let bundleType = BundleType(bundle: configuration.bundle)
         let bundleIdentifier = configuration.bundle.bundleIdentifier ?? "unknown"
         let service = configuration.service ?? configuration.bundle.bundleIdentifier ?? "ios"
-        let source = configuration.additionalConfiguration[CrossPlatformAttributes.atatusSource] as? String ?? "ios"
+        let source = configuration.additionalConfiguration[CrossPlatformAttributes.towersignalSource] as? String ?? "ios"
         let appName = configuration.additionalConfiguration[CrossPlatformAttributes.appName] as? String
         let sdkVersion = configuration.additionalConfiguration[CrossPlatformAttributes.sdkVersion] as? String ?? __sdkVersion
         let buildId = configuration.additionalConfiguration[CrossPlatformAttributes.buildId] as? String
@@ -457,7 +457,7 @@ extension AtatusCore {
             performance: performance,
             httpClient: configuration.httpClientFactory(configuration.proxyConfiguration),
             encryption: configuration.encryption,
-            contextProvider: AtatusContextProvider(
+            contextProvider: TowerSignalContextProvider(
                 site: configuration.site,
                 serverUrl: configuration.serverUrl, // ATCHG: Added the custom intake base url
                 licenseKey: configuration.licenseKey,

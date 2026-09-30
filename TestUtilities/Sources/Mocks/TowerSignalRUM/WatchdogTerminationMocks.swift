@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 
 extension AppStateInfo: RandomMockable, AnyMockable {
     public static func mockAny() -> AppStateInfo {
@@ -81,7 +81,7 @@ public final class WatchdogTerminationReporterMock: WatchdogTerminationReporting
         self.didSend = didSend
     }
 
-    public func send(date: Date?, state: AtatusRUM.AppStateInfo, viewEvent: AtatusInternal.RUMViewEvent) {
+    public func send(date: Date?, state: TowerSignalRUM.AppStateInfo, viewEvent: TowerSignalInternal.RUMViewEvent) {
         sendParams = SendParams(date: date, state: state, viewEvent: viewEvent)
         didSend.fulfill()
     }
@@ -125,13 +125,13 @@ extension AppStateManager: RandomMockable {
 }
 
 extension Sysctl: RandomMockable {
-    public static func mockRandom() -> AtatusInternal.Sysctl {
+    public static func mockRandom() -> TowerSignalInternal.Sysctl {
         return .init()
     }
 }
 
 extension RUMDataStore: RandomMockable {
-    public static func mockRandom() -> AtatusRUM.RUMDataStore {
+    public static func mockRandom() -> TowerSignalRUM.RUMDataStore {
         return .init(featureScope: FeatureScopeMock())
     }
 }
@@ -142,7 +142,7 @@ extension WatchdogTerminationMonitor: RandomMockable {
         return .init(
             appStateManager: .mockRandom(),
             checker: .mockRandom(),
-            storage: NOPAtatusCore().storage,
+            storage: NOPTowerSignalCore().storage,
             feature: FeatureScopeMock(),
             reporter: WatchdogTerminationReporter.mockRandom()
         )
@@ -151,7 +151,7 @@ extension WatchdogTerminationMonitor: RandomMockable {
 #endif
 
 extension LaunchReport: RandomMockable {
-    public static func mockRandom() -> AtatusInternal.LaunchReport {
+    public static func mockRandom() -> TowerSignalInternal.LaunchReport {
         return .init(didCrash: .mockRandom())
     }
 }

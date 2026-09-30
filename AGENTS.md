@@ -1,4 +1,4 @@
-# AI Agents Guide for atatus-sdk-ios
+# AI Agents Guide for towersignal-sdk-ios
 
 > This file is a **map**, not an encyclopedia. It provides the entry point and pointers to deeper documentation. Start here, then follow the links relevant to your task.
 
@@ -28,7 +28,7 @@ docs/
 ├── DEVELOPMENT.md       ← Recipes for adding features/commands/providers,
 │                          RFC process, build & test quick reference
 ├── TESTING.md           ← Test conventions, mock infrastructure (.mockAny(),
-│                          .mockRandom(), .mockWith()), AtatusCoreProxy usage
+│                          .mockRandom(), .mockWith()), TowerSignalCoreProxy usage
 ├── KNOWN_CONCERNS.md    ← Fragile areas requiring extra caution
 ├── SWIZZLING.md         ← Mandatory swizzling patterns and real incidents
 ├── LLM_FEATURE_DOCS_GUIDELINES.md  ← How to update *_FEATURE.md files
@@ -64,8 +64,8 @@ Feature-specific docs (in each module directory):
 ## Critical Rules (always apply)
 
 - **Never crash customer apps.** Use NOP implementations when the SDK is not initialized.
-- **Feature modules must not import each other.** Only `AtatusCore` orchestrates.
-- **Always search for usages across the entire codebase** before considering a change complete — update call sites in `AtatusCore`, `AtatusInternal`, encoders, ObjC bridges, and `.pbxproj`.
+- **Feature modules must not import each other.** Only `TowerSignalCore` orchestrates.
+- **Always search for usages across the entire codebase** before considering a change complete — update call sites in `TowerSignalCore`, `TowerSignalInternal`, encoders, ObjC bridges, and `.pbxproj`.
 - **Do NOT modify generated files** (RUM and Session Replay models in `TowerSignalInternal/Sources/Models/`).
 - **Do NOT add new dependencies** without explicit approval.
 - **Do NOT change networking formats or endpoints.**

@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`; repointed the intake host at the Atatus site; rebranded the `dd` name to `Atatus`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`; repointed the intake host at the TowerSignal site; rebranded the `dd` name to `TowerSignal`
 // in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Log levels ordered by their severity, with `.debug` being the least severe and
 /// `.critical` being the most severe.
@@ -33,11 +33,11 @@ extension CoreLoggerLevel {
     }
 }
 
-/// Atatus Logger.
+/// TowerSignal Logger.
 ///
 /// Usage:
 ///
-///     import AtatusLogs
+///     import TowerSignalLogs
 ///
 ///     // Initialise the Logs module
 ///
@@ -85,7 +85,7 @@ public protocol LoggerProtocol: Sendable {
     /// * must be lowercase
     /// * and can be at most 200 characters long (tags exceeding this limit will be truncated to first 200 characters).
     ///
-    /// See also: [Defining Tags](https://www.atatus.com/docs/)
+    /// See also: [Defining Tags](https://www.towersignal.com/docs/)
     ///
     /// - Parameter key: tag key
     /// - Parameter value: tag value
@@ -106,7 +106,7 @@ public protocol LoggerProtocol: Sendable {
     /// * must be lowercase
     /// * and can be at most 200 characters long (tags exceeding this limit will be truncated to first 200 characters).
     ///
-    /// See also: [Defining Tags](https://www.atatus.com/docs/)
+    /// See also: [Defining Tags](https://www.towersignal.com/docs/)
     ///
     /// - Parameter tag: value of the tag
     func add(tag: String)

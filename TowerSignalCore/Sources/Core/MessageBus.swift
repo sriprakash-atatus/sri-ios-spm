@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the
 // licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// The message-bus sends messages to a set of registered receivers.
 ///
@@ -17,14 +17,14 @@ import AtatusInternal
 internal final class MessageBus {
     /// The message bus GDC queue.
     let queue = DispatchQueue(
-        label: "com.atatus.ios-sdk-message-bus",
+        label: "com.towersignal.ios-sdk-message-bus",
         target: .global(qos: .utility)
     )
 
     /// A weak core reference.
     ///
     /// The core **must** be accessed within the queue.
-    private weak var core: AtatusCoreProtocol?
+    private weak var core: TowerSignalCoreProtocol?
 
     /// The message bus used to dispatch messages to registered features.
     ///
@@ -62,7 +62,7 @@ internal final class MessageBus {
     /// The message-bus keeps a weak reference to the core.
     ///
     /// - Parameter core: The core ference.
-    func connect(core: AtatusCoreProtocol) {
+    func connect(core: TowerSignalCoreProtocol) {
         queue.async { self.core = core }
     }
 

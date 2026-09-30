@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; rebranded the `dd` name to `Atatus` in comments and
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; rebranded the `dd` name to `TowerSignal` in comments and
 // docs; rebranded the licence header.
 
 #if os(iOS)
 import XCTest
 import TestUtilities
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 @_spi(Internal)
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 
 class SessionReplayTests: XCTestCase {
     private var core: FeatureRegistrationCoreMock! // swiftlint:disable:this implicitly_unwrapped_optional
@@ -49,12 +49,12 @@ class SessionReplayTests: XCTestCase {
         defer { consolePrint = { message, _ in print(message) } }
 
         // When
-        SessionReplay.enable(with: config, in: NOPAtatusCore())
+        SessionReplay.enable(with: config, in: NOPTowerSignalCore())
 
         // Then
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Atatus SDK must be initialized before calling `SessionReplay.enable(with:)`."
+            "🔥 TowerSignal SDK usage error: TowerSignal SDK must be initialized before calling `SessionReplay.enable(with:)`."
         )
     }
 
@@ -70,7 +70,7 @@ class SessionReplayTests: XCTestCase {
         // Then
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Session Replay is already enabled and does not support multiple instances. The existing instance will continue to be used."
+            "🔥 TowerSignal SDK usage error: Session Replay is already enabled and does not support multiple instances. The existing instance will continue to be used."
         )
     }
 
@@ -300,12 +300,12 @@ class SessionReplayTests: XCTestCase {
         defer { consolePrint = { message, _ in print(message) } }
 
         // When
-        SessionReplay.startRecording(in: NOPAtatusCore())
+        SessionReplay.startRecording(in: NOPTowerSignalCore())
 
         // Then
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Session Replay must be initialized before calling `SessionReplay.startRecording()`."
+            "🔥 TowerSignal SDK usage error: Session Replay must be initialized before calling `SessionReplay.startRecording()`."
         )
     }
 }

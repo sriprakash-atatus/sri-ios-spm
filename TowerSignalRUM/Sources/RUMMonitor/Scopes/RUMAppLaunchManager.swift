@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
-// renamed the `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; rebranded the
 // licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import Foundation
 
 internal class RUMAppLaunchManager {
@@ -49,7 +49,7 @@ internal class RUMAppLaunchManager {
 
     // MARK: - Internal Interface
 
-    func process(_ command: RUMCommand, context: AtatusContext, writer: Writer, activeView: RUMViewScope? = nil) {
+    func process(_ command: RUMCommand, context: TowerSignalContext, writer: Writer, activeView: RUMViewScope? = nil) {
         switch command {
         case let command as RUMTimeToInitialDisplayCommand:
             writeTTIDVitalEvent(from: command, context: context, writer: writer, activeView: activeView)
@@ -63,7 +63,7 @@ internal class RUMAppLaunchManager {
 // MARK: - TTID
 
 private extension RUMAppLaunchManager {
-    func writeTTIDVitalEvent(from command: RUMTimeToInitialDisplayCommand, context: AtatusContext, writer: Writer, activeView: RUMViewScope?) {
+    func writeTTIDVitalEvent(from command: RUMTimeToInitialDisplayCommand, context: TowerSignalContext, writer: Writer, activeView: RUMViewScope?) {
         guard shouldProcess(command: command, context: context),
               let ttid = time(from: command, context: context)
         else {
@@ -144,7 +144,7 @@ private extension RUMAppLaunchManager {
         }
     }
 
-    func shouldProcess(command: RUMTimeToInitialDisplayCommand, context: AtatusContext) -> Bool {
+    func shouldProcess(command: RUMTimeToInitialDisplayCommand, context: TowerSignalContext) -> Bool {
         // Ignore command if the time to initial display was already written
         guard self.timeToInitialDisplay == nil else {
             telemetryController.incrementTTIDCounter()
@@ -174,7 +174,7 @@ private extension RUMAppLaunchManager {
         return true
     }
 
-    func time(from command: RUMCommand, context: AtatusContext) -> TimeInterval? {
+    func time(from command: RUMCommand, context: TowerSignalContext) -> TimeInterval? {
         switch context.launchInfo.launchReason {
         case .userLaunch:
             return command.time.timeIntervalSince(context.launchInfo.processLaunchDate)
@@ -195,7 +195,7 @@ private extension RUMAppLaunchManager {
         appLaunchMetric: RUMVitalAppLaunchEvent.Vital.AppLaunchMetric,
         startupType: RUMVitalAppLaunchEvent.Vital.StartupType,
         attributes: [AttributeKey: AttributeValue],
-        context: AtatusContext,
+        context: TowerSignalContext,
         writer: Writer,
         activeView: RUMViewScope?,
         profiling: ATProfiling? = nil
@@ -212,7 +212,7 @@ private extension RUMAppLaunchManager {
         let vitalEvent = RUMVitalAppLaunchEvent(
             dd: .init(profiling: profiling),
             account: .init(context: context),
-            // ATCHG: application_id removed -- Atatus events do not carry a RUM application ID
+            // ATCHG: application_id removed -- TowerSignal events do not carry a RUM application ID
             application: .init(id: ""),
             buildId: context.buildId,
             buildVersion: context.buildNumber,
@@ -222,7 +222,7 @@ private extension RUMAppLaunchManager {
             date: context.launchInfo.processLaunchDate
                 .addingTimeInterval(context.serverTimeOffset)
                 .timeIntervalSince1970.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: context.normalizedDevice(),
             os: context.os,
             service: context.service,
@@ -256,7 +256,7 @@ private extension RUMAppLaunchManager {
 // MARK: - TTFD
 
 private extension RUMAppLaunchManager {
-    func writeTTFDVitalEvent(from command: RUMTimeToFullDisplayCommand, context: AtatusContext, writer: Writer, activeView: RUMViewScope?) {
+    func writeTTFDVitalEvent(from command: RUMTimeToFullDisplayCommand, context: TowerSignalContext, writer: Writer, activeView: RUMViewScope?) {
         guard shouldProcess(command: command, context: context),
               let ttfd = time(from: command, context: context) else { return }
 
@@ -295,7 +295,7 @@ private extension RUMAppLaunchManager {
         }
     }
 
-    func shouldProcess(command: RUMTimeToFullDisplayCommand, context: AtatusContext) -> Bool {
+    func shouldProcess(command: RUMTimeToFullDisplayCommand, context: TowerSignalContext) -> Bool {
         // Ignore command if the time to full display was already written
         guard self.timeToFullDisplay == nil else {
             return false

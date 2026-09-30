@@ -1,35 +1,35 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddLogs` -> `AtatusLogs`, `ddRUM` -> `AtatusRUM`, `ddTrace` ->
-// `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddLogs` -> `TowerSignalLogs`, `ddRUM` -> `TowerSignalRUM`, `ddTrace` ->
+// `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed
 // `dd*` members to `at*`; renamed the build `variant` to `appName`; renamed the `_dd` attribute prefix to
-// `_atatus`; renamed `dd.trace_id` / `dd.span_id` to `atatus.trace_id` / `atatus.span_id`; renamed the
-// `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; renamed `com.ddhq.*`
-// identifiers to `com.atatus.*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// `_towersignal`; renamed `dd.trace_id` / `dd.span_id` to `towersignal.trace_id` / `towersignal.span_id`; renamed the
+// `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; renamed `com.ddhq.*`
+// identifiers to `com.towersignal.*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import OpenTelemetryApi
 
-@testable import AtatusLogs
-@testable import AtatusTrace
-@testable import AtatusRUM
-@testable import AtatusCore
+@testable import TowerSignalLogs
+@testable import TowerSignalTrace
+@testable import TowerSignalRUM
+@testable import TowerSignalCore
 @testable import TestUtilities
 
 // swiftlint:disable multiline_arguments_brackets
 class LoggerTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
     }
 
     override func tearDownWithError() throws {
@@ -47,7 +47,7 @@ class LoggerTests: XCTestCase {
             version: "1.0.0",
             buildNumber: "1",
             sdkVersion: "1.2.3",
-            applicationBundleIdentifier: "com.atatus.ios-sdk",
+            applicationBundleIdentifier: "com.towersignal.ios-sdk",
             device: .mockWith(
                 name: "Device Name",
                 model: "Model Name",
@@ -77,7 +77,7 @@ class LoggerTests: XCTestCase {
         {
           "status": "debug",
           "message": "message",
-          "_atatus": {
+          "_towersignal": {
             "device": {
               "architecture": "testArch"
             }
@@ -98,13 +98,13 @@ class LoggerTests: XCTestCase {
             "type": "other"
           },
           "service" : "default-service-name",
-          "logger.name" : "com.atatus.ios-sdk",
+          "logger.name" : "com.towersignal.ios-sdk",
           "logger.version": "1.2.3",
           "logger.thread_name" : "main",
           "date" : "2019-12-15T10:00:00.000Z",
           "version": "1.0.0",
           "build_version": "1",
-          "atatusTags": "sdk_version:1.2.3,service:default-service-name,version:1.0.0,env:tests",
+          "towersignalTags": "sdk_version:1.2.3,service:default-service-name,version:1.0.0,env:tests",
           "os": {
             "build": "FFFFFF",
             "name": "testOS",
@@ -113,7 +113,7 @@ class LoggerTests: XCTestCase {
           }
         }
         """, usingCustomKeyComparators: [
-            "atatusTags": { lhs, rhs, file, line in
+            "towersignalTags": { lhs, rhs, file, line in
                 guard let lhs = lhs as? String,
                       let rhs = rhs as? String
                 else {
@@ -303,7 +303,7 @@ class LoggerTests: XCTestCase {
                    errorMessage: errorMessage,
                    stackTrace: stackTrace,
                    attributes: [
-                    "_atatus.error.source_type": "flutter"
+                    "_towersignal.error.source_type": "flutter"
                    ]
         )
 
@@ -901,10 +901,10 @@ class LoggerTests: XCTestCase {
 
         // when
         logger.error("error message", attributes: [
-            "_atatus.error.source_type": "flutter"
+            "_towersignal.error.source_type": "flutter"
         ])
         logger.critical("critical message", attributes: [
-            "_atatus.error.source_type": "react-native"
+            "_towersignal.error.source_type": "react-native"
         ])
 
         // then
@@ -936,10 +936,10 @@ class LoggerTests: XCTestCase {
 
         // when
         logger.error("error message", attributes: [
-            "_atatus.error.is_crash": false
+            "_towersignal.error.is_crash": false
         ])
         logger.critical("critical message", attributes: [
-            "_atatus.error.is_crash": true
+            "_towersignal.error.is_crash": true
         ])
 
         // then
@@ -980,15 +980,15 @@ class LoggerTests: XCTestCase {
         // then
         let logMatchers = try core.waitAndReturnLogMatchers()
         logMatchers[0].assertValue(
-            forKeyPath: "atatus.trace_id",
+            forKeyPath: "towersignal.trace_id",
             equals: span.context.dd.traceID.toString(representation: .hexadecimal)
         )
         logMatchers[0].assertValue(
-            forKeyPath: "atatus.span_id",
+            forKeyPath: "towersignal.span_id",
             equals: span.context.dd.spanID.toString(representation: .decimal)
         )
-        logMatchers[1].assertNoValue(forKey: "atatus.trace_id")
-        logMatchers[1].assertNoValue(forKey: "atatus.span_id")
+        logMatchers[1].assertNoValue(forKey: "towersignal.trace_id")
+        logMatchers[1].assertNoValue(forKey: "towersignal.span_id")
     }
 
     func testGivenBundlingWithTraceEnabledAndOpenTelemetryTracerRegistered_whenSendingLog_itContainsActiveSpanAttributes() throws {
@@ -1019,15 +1019,15 @@ class LoggerTests: XCTestCase {
         // then
         let logMatchers = try core.waitAndReturnLogMatchers()
         logMatchers[0].assertValue(
-            forKeyPath: "atatus.trace_id",
-            equals: span.context.traceId.toAtatus().toString(representation: .hexadecimal)
+            forKeyPath: "towersignal.trace_id",
+            equals: span.context.traceId.toTowerSignal().toString(representation: .hexadecimal)
         )
         logMatchers[0].assertValue(
-            forKeyPath: "atatus.span_id",
-            equals: span.context.spanId.toAtatus().toString(representation: .decimal)
+            forKeyPath: "towersignal.span_id",
+            equals: span.context.spanId.toTowerSignal().toString(representation: .decimal)
         )
-        logMatchers[1].assertNoValue(forKey: "atatus.trace_id")
-        logMatchers[1].assertNoValue(forKey: "atatus.span_id")
+        logMatchers[1].assertNoValue(forKey: "towersignal.trace_id")
+        logMatchers[1].assertNoValue(forKey: "towersignal.span_id")
     }
 
     // MARK: - Log Dates Correction
@@ -1084,12 +1084,12 @@ class LoggerTests: XCTestCase {
 
     // MARK: - Usage
 
-    func testGivenAtatusNotInitialized_whenInitializingLogger_itPrintsError() {
+    func testGivenTowerSignalNotInitialized_whenInitializingLogger_itPrintsError() {
         let dd = AT.mockWith(logger: CoreLoggerMock())
         defer { dd.reset() }
 
         // given
-        let core = NOPAtatusCore()
+        let core = NOPTowerSignalCore()
 
         // when
         let logger = Logger.create(in: core)
@@ -1101,7 +1101,7 @@ class LoggerTests: XCTestCase {
         )
         XCTAssertEqual(
             dd.logger.criticalLog?.error?.message,
-            "🔥 Atatus SDK usage error: `Atatus.initialize()` must be called prior to `Logger.create()`."
+            "🔥 TowerSignal SDK usage error: `TowerSignal.initialize()` must be called prior to `Logger.create()`."
         )
         XCTAssertTrue(logger is NOPLogger)
     }
@@ -1124,7 +1124,7 @@ class LoggerTests: XCTestCase {
         )
         XCTAssertEqual(
             dd.logger.criticalLog?.error?.message,
-            "🔥 Atatus SDK usage error: `Logger.create()` produces a non-functional logger because the `Logs` feature was not enabled."
+            "🔥 TowerSignal SDK usage error: `Logger.create()` produces a non-functional logger because the `Logs` feature was not enabled."
         )
         XCTAssertTrue(logger is NOPLogger)
     }

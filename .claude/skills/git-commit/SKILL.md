@@ -1,9 +1,9 @@
 ---
-name: atatus-sdk-ios:git-commit
-description: Use when committing changes in atatus-sdk-ios. Use when writing commit messages, signing commits, or staging files before a commit.
+name: towersignal-sdk-ios:git-commit
+description: Use when committing changes in towersignal-sdk-ios. Use when writing commit messages, signing commits, or staging files before a commit.
 ---
 
-# Committing in atatus-sdk-ios
+# Committing in towersignal-sdk-ios
 
 ## Requirements
 

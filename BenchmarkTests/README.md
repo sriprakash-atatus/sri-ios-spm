@@ -1,6 +1,6 @@
 # Benchmark Tests
 
-[Synthetics for Mobile](https://docs.atatus.com/mobile_app_testing/) runs Benchmark test scenarios to collect metrics of the SDK performances.
+[Synthetics for Mobile](https://docs.towersignal.com/mobile_app_testing/) runs Benchmark test scenarios to collect metrics of the SDK performances.
 
 ## Setup
 
@@ -23,22 +23,22 @@ Here is a simple example of a scenario using Logs:
 import Foundation
 import UIKit
 
-import AtatusCore
-import AtatusLogs
+import TowerSignalCore
+import TowerSignalLogs
 
 struct LogsScenario: Scenario {
 
     /// The initial view-controller of the scenario
     let initialViewController: UIViewController = LoggerViewController()
 
-    /// Start instrumenting the application by enabling the Atatus SDK and
+    /// Start instrumenting the application by enabling the TowerSignal SDK and
     /// its Features.
     ///
     /// - Parameter info: The application information to use during SDK
     /// initialisation.
     func instrument(with info: AppInfo) {
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: .benchmark(info: info), // SDK init with the benchmark configuration
             trackingConsent: .granted
         )
@@ -79,7 +79,7 @@ xcrun simctl openurl booted 'bench://stop'
 
 ### Synthetics Configuration
 
-Please refer to the [Confluence page (internal)](https://atatus.atlassian.net/wiki/spaces/RUMP/pages/3981476482/Benchmarks+iOS)
+Please refer to the [Confluence page (internal)](https://towersignal.atlassian.net/wiki/spaces/RUMP/pages/3981476482/Benchmarks+iOS)
 
 ## CI
 
@@ -104,10 +104,10 @@ To sign the runner application, the certificate and provision profile defined in
 
 ### Upload
 
-The application version (build number) is set to the commit SHA of the current job, and the build is uploaded to Synthetics using the [atatus-ci](https://github.com/atatus/atatus-ci) CLI. This step expects environment variables to authenticate with the `Mobile - Integration Org`:
+The application version (build number) is set to the commit SHA of the current job, and the build is uploaded to Synthetics using the [towersignal-ci](https://github.com/towersignal/towersignal-ci) CLI. This step expects environment variables to authenticate with the `Mobile - Integration Org`:
 
 ```bash
-export ATATUS_API_KEY=
-export ATATUS_APP_KEY=
+export TOWERSIGNAL_API_KEY=
+export TOWERSIGNAL_APP_KEY=
 export S8S_APPLICATION_ID=
 ```

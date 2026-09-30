@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddLogs` ->
-// `AtatusLogs`, `ddTrace` -> `AtatusTrace`; renamed the `DD` symbol prefix to `AT`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddLogs` ->
+// `TowerSignalLogs`, `ddTrace` -> `TowerSignalTrace`; renamed the `DD` symbol prefix to `AT`; rebranded the
 // licence header.
 
-import AtatusCore
-import AtatusTrace
-import AtatusLogs
+import TowerSignalCore
+import TowerSignalTrace
+import TowerSignalLogs
 
 /// Scenario which starts a view controller that sends bunch of spans using manual API of `Tracer`.
 /// It also uses the `span.log()` to send logs.

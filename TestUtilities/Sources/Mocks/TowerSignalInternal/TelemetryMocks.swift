@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
 // `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 public class CoreLoggerMock: CoreLogger {
     @ReadWriteLock
@@ -63,7 +63,7 @@ public class TelemetryMock: Telemetry, CustomStringConvertible {
 
     public init() {}
 
-    public func send(telemetry: AtatusInternal.TelemetryMessage) {
+    public func send(telemetry: TowerSignalInternal.TelemetryMessage) {
         messages.append(telemetry)
 
         switch telemetry {

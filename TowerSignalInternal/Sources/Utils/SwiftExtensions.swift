@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
 // `AT`; renamed `dd*` members to `at*`; rebranded the licence header.
 
 import Foundation
@@ -31,8 +31,8 @@ extension Optional {
 }
 
 // MARK: - Double / TimeInterval
-extension Double: AtatusExtended {}
-extension AtatusExtension where ExtendedType == Double {
+extension Double: TowerSignalExtended {}
+extension TowerSignalExtension where ExtendedType == Double {
     public func divideIfNotZero(by divider: Double) -> Double? {
         if divider == 0 {
             return nil
@@ -85,8 +85,8 @@ extension TimeInterval {
 }
 
 // MARK: - UUID
-extension UUID: AtatusExtended {}
-extension AtatusExtension where ExtendedType == UUID {
+extension UUID: TowerSignalExtended {}
+extension TowerSignalExtension where ExtendedType == UUID {
     /// An UUID with all zeroes (`00000000-0000-0000-0000-000000000000`).
     /// Used to represent "null" in types that cannot be given a proper UUID (e.g. rejected RUM session).
     public static var nullUUID: UUID {
@@ -131,7 +131,7 @@ extension FixedWidthInteger {
 }
 
 // MARK: - Collection
-extension AtatusExtension where ExtendedType: Collection {
+extension TowerSignalExtension where ExtendedType: Collection {
     /// Safe collection subscript that returns nil instead of crashing for out-of-bounds access.
     public subscript (safe index: ExtendedType.Index) -> ExtendedType.Element? {
         guard index >= type.startIndex && index < type.endIndex else {
@@ -142,8 +142,8 @@ extension AtatusExtension where ExtendedType: Collection {
 }
 
 // MARK: - Bundle
-extension Bundle: AtatusExtended {}
-extension AtatusExtension where ExtendedType == Bundle {
+extension Bundle: TowerSignalExtended {}
+extension TowerSignalExtension where ExtendedType == Bundle {
     /// Returns `true` when `self` represents the `SwiftUI` framework bundle.
     public var isSwiftUI: Bool {
         return type.bundleURL.lastPathComponent == "SwiftUI.framework"

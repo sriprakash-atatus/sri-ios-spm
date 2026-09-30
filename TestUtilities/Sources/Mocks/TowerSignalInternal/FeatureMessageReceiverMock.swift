@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 public struct FeatureMessageReceiverMock: FeatureMessageReceiver {
     public typealias ReceiverClosure = (FeatureMessage) -> Void
@@ -27,7 +27,7 @@ public struct FeatureMessageReceiverMock: FeatureMessageReceiver {
         self.receiver = receiver
     }
 
-    public func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    public func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         messages.append(message)
         receiver?(message)
         return true

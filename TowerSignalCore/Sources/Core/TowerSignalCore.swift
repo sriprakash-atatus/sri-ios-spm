@@ -1,34 +1,34 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddPrivate` -> `AtatusPrivate`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddPrivate` -> `TowerSignalPrivate`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol
 // prefix to `AT`; renamed `clientToken` to `licenseKey`; renamed the build `variant` to `appName`; renamed
-// the `__dd_private_*` ObjC symbols to `__atatus_private_*`; renamed `com.ddhq.*` identifiers to
-// `com.atatus.*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// the `__dd_private_*` ObjC symbols to `__towersignal_private_*`; renamed `com.ddhq.*` identifiers to
+// `com.towersignal.*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// Core implementation of Atatus SDK.
+/// Core implementation of TowerSignal SDK.
 ///
 /// The core provides a storage and upload mechanism for each registered Feature
 /// based on their respective configuration.
 ///
-/// By complying with `AtatusCoreProtocol`, the core can
+/// By complying with `TowerSignalCoreProtocol`, the core can
 /// provide context and writing scopes to Features for event recording.
-internal final class AtatusCore {
+internal final class TowerSignalCore {
     /// The root location for storing Features data in this instance of the SDK.
     /// For each Feature a set of subdirectories is created inside `CoreDirectory` based on their storage configuration.
     let directory: CoreDirectory
 
     /// The storage r/w GDC queue.
     let readWriteQueue = DispatchQueue(
-        label: "com.atatus.ios-sdk-read-write",
+        label: "com.towersignal.ios-sdk-read-write",
         autoreleaseFrequency: .workItem,
         target: .global(qos: .utility)
     )
@@ -68,10 +68,10 @@ internal final class AtatusCore {
 
     /// Registry for Features.
     @ReadWriteLock
-    private var features: [String: AtatusFeature] = [:]
+    private var features: [String: TowerSignalFeature] = [:]
 
     /// The core context provider.
-    internal let contextProvider: AtatusContextProvider
+    internal let contextProvider: TowerSignalContextProvider
 
     /// Flag defining if background tasks are enabled.
     internal let backgroundTasksEnabled: Bool
@@ -100,7 +100,7 @@ internal final class AtatusCore {
     	performance: PerformancePreset,
     	httpClient: HTTPClient,
     	encryption: DataEncryption?,
-        contextProvider: AtatusContextProvider,
+        contextProvider: TowerSignalContextProvider,
         applicationVersion: String,
         maxBatchesPerUpload: Int,
         backgroundTasksEnabled: Bool,
@@ -241,7 +241,7 @@ internal final class AtatusCore {
         accountInfoPublisher.current = nil
     }
 
-    /// Sets the tracking consent regarding the data collection for the Atatus SDK.
+    /// Sets the tracking consent regarding the data collection for the TowerSignal SDK.
     ///
     /// - Parameter trackingConsent: new consent value, which will be applied for all data collected from now on
     func set(trackingConsent: TrackingConsent) {
@@ -256,7 +256,7 @@ internal final class AtatusCore {
         }
     }
 
-    /// Clears all data that has not already yet been uploaded Atatus servers.
+    /// Clears all data that has not already yet been uploaded TowerSignal servers.
     func clearAllData() {
         allStorages.forEach { $0.clearAllData() }
         allDataStores.forEach { $0.clearAllData() }
@@ -288,7 +288,7 @@ internal final class AtatusCore {
 
     private var allDataStores: [DataStore] {
         features.values.compactMap { feature in
-            let featureType = type(of: feature) as AtatusFeature.Type
+            let featureType = type(of: feature) as TowerSignalFeature.Type
             return scope(for: featureType).dataStore
         }
     }
@@ -321,7 +321,7 @@ internal final class AtatusCore {
         allStorages.forEach { $0.setIgnoreFilesAgeWhenReading(to: false) }
     }
 
-    /// Stops all processes for this instance of the Atatus core by
+    /// Stops all processes for this instance of the TowerSignal core by
     /// deallocating all Features and their storage & upload units.
     func stop() {
         stores = [:]
@@ -329,18 +329,18 @@ internal final class AtatusCore {
     }
 }
 
-extension AtatusCore: AtatusCoreProtocol {
+extension TowerSignalCore: TowerSignalCoreProtocol {
     /// Registers a Feature instance.
     ///
-    /// A Feature collects and transfers data to a Atatus Product (e.g. Logs, RUM, ...). A registered Feature can
+    /// A Feature collects and transfers data to a TowerSignal Product (e.g. Logs, RUM, ...). A registered Feature can
     /// open a `FeatureScope` to write events, the core will then be responsible for storing and uploading events
     /// in a efficient manner. Performance presets for storage and upload are define when instanciating the core instance.
     ///
     /// A Feature can also communicate to other Features by sending message on the bus that is managed by the core.
     ///
     /// - Parameter feature: The Feature instance.
-    func register<T>(feature: T) throws where T: AtatusFeature {
-        if let feature = feature as? AtatusRemoteFeature {
+    func register<T>(feature: T) throws where T: TowerSignalFeature {
+        if let feature = feature as? TowerSignalRemoteFeature {
             let featureDirectories = try directory.getFeatureDirectories(forFeatureNamed: T.name)
 
             let performancePreset: PerformancePreset
@@ -402,7 +402,7 @@ extension AtatusCore: AtatusCoreProtocol {
         features[name] as? T
     }
 
-    func scope<Feature>(for featureType: Feature.Type) -> FeatureScope where Feature: AtatusFeature {
+    func scope<Feature>(for featureType: Feature.Type) -> FeatureScope where Feature: TowerSignalFeature {
         return CoreFeatureScope<Feature>(in: self)
     }
 
@@ -419,11 +419,11 @@ extension AtatusCore: AtatusCoreProtocol {
     }
 }
 
-internal class CoreFeatureScope<Feature>: @unchecked Sendable, FeatureScope where Feature: AtatusFeature {
-    private weak var core: AtatusCore?
+internal class CoreFeatureScope<Feature>: @unchecked Sendable, FeatureScope where Feature: TowerSignalFeature {
+    private weak var core: TowerSignalCore?
     private let store: FeatureDataStore
 
-    init(in core: AtatusCore) {
+    init(in core: TowerSignalCore) {
         self.core = core
         self.store = FeatureDataStore(
             feature: Feature.name,
@@ -433,7 +433,7 @@ internal class CoreFeatureScope<Feature>: @unchecked Sendable, FeatureScope wher
         )
     }
 
-    func eventWriteContext(bypassConsent: Bool, _ block: @escaping (AtatusContext, Writer) -> Void) {
+    func eventWriteContext(bypassConsent: Bool, _ block: @escaping (TowerSignalContext, Writer) -> Void) {
         guard let core = core else {
             return  // core is deinitialized
         }
@@ -442,10 +442,10 @@ internal class CoreFeatureScope<Feature>: @unchecked Sendable, FeatureScope wher
         guard let storage = core.stores[Feature.name]?.storage else {
             if core.get(feature: Feature.self) != nil { // the feature is running, but has no storage
                 AT.logger.error(
-                    "Failed to obtain Event Write Context for '\(Feature.name)' because it is not a `AtatusRemoteFeature`."
+                    "Failed to obtain Event Write Context for '\(Feature.name)' because it is not a `TowerSignalRemoteFeature`."
                 )
                 #if DEBUG
-                assertionFailure("Obtaining Event Write Context for '\(Feature.name)' but it is not a `AtatusRemoteFeature`.")
+                assertionFailure("Obtaining Event Write Context for '\(Feature.name)' but it is not a `TowerSignalRemoteFeature`.")
                 #endif
             }
             return
@@ -459,7 +459,7 @@ internal class CoreFeatureScope<Feature>: @unchecked Sendable, FeatureScope wher
         }
     }
 
-    func context(_ block: @escaping (AtatusContext) -> Void) {
+    func context(_ block: @escaping (TowerSignalContext) -> Void) {
         // (on user thread) request SDK context
         core?.contextProvider.read { context in
             // (on context thread) call the block
@@ -488,10 +488,10 @@ internal class CoreFeatureScope<Feature>: @unchecked Sendable, FeatureScope wher
     }
 }
 
-extension AtatusContextProvider {
+extension TowerSignalContextProvider {
     /// Creates a core context provider with the given configuration,
     convenience init(
-        site: AtatusSite,
+        site: TowerSignalSite,
         serverUrl: String?, // ATCHG: Added the custom intake base url, overriding the site one when set
         licenseKey: String,
         service: String,
@@ -529,7 +529,7 @@ extension AtatusContextProvider {
         let appStateHistory = AppStateHistory(initialState: initialAppState, date: dateProvider.now)
         let launchInfo = appLaunchHandler.resolveLaunchInfo(using: processInfo)
 
-        let context = AtatusContext(
+        let context = TowerSignalContext(
             site: site,
             serverUrl: serverUrl, // ATCHG: Added the custom intake base url
             licenseKey: licenseKey,
@@ -590,7 +590,7 @@ extension AtatusContextProvider {
     }
 }
 
-extension AtatusCore: Flushable {
+extension TowerSignalCore: Flushable {
     /// Flushes asynchronous operations related to events write, context and message bus propagation in this instance of the SDK
     /// with **blocking the caller thread** till their completion.
     ///
@@ -629,7 +629,7 @@ extension AtatusCore: Flushable {
     }
 }
 
-extension AtatusCore: Storage {
+extension TowerSignalCore: Storage {
     /// Returns the most recent modification date of a file in the core directory.
     /// - Parameter before: The date to compare the last modification date of files.
     /// - Returns: The latest modified file or `nil` if no files were modified before given date.
@@ -643,14 +643,14 @@ extension AtatusCore: Storage {
 // swiftlint:disable duplicate_imports
 #if SPM_BUILD
     #if swift(>=6.0)
-    internal import AtatusPrivate
+    internal import TowerSignalPrivate
     #else
-    @_implementationOnly import AtatusPrivate
+    @_implementationOnly import TowerSignalPrivate
     #endif
 #endif
 // swiftlint:enable duplicate_imports
 
 internal let registerObjcExceptionHandlerOnce: () -> Void = {
-    ObjcException.rethrow = __atatus_private_ObjcExceptionHandler.rethrow
+    ObjcException.rethrow = __towersignal_private_ObjcExceptionHandler.rethrow
     return {}
 }()

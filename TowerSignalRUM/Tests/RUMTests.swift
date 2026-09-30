@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to `Atatus` in
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to `TowerSignal` in
 // comments and docs; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-@testable import AtatusInternal
-@testable import AtatusRUM
+@testable import TowerSignalInternal
+@testable import TowerSignalRUM
 
 class RUMTests: XCTestCase {
     private var core: FeatureRegistrationCoreMock! // swiftlint:disable:this implicitly_unwrapped_optional
@@ -51,12 +51,12 @@ class RUMTests: XCTestCase {
         defer { consolePrint = { message, _ in print(message) } }
 
         // When
-        RUM.enable(with: config, in: NOPAtatusCore())
+        RUM.enable(with: config, in: NOPTowerSignalCore())
 
         // Then
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Atatus SDK must be initialized before calling `RUM.enable(with:)`."
+            "🔥 TowerSignal SDK usage error: TowerSignal SDK must be initialized before calling `RUM.enable(with:)`."
         )
     }
 
@@ -454,7 +454,7 @@ class RUMTests: XCTestCase {
 
     func testWhenPassedNOPCore_lateEnableUrlSessionTrackingThrows() {
         // Given
-        let core = NOPAtatusCore()
+        let core = NOPTowerSignalCore()
         let config = RUM.Configuration.URLSessionTracking()
 
         // When + Then
@@ -477,7 +477,7 @@ class RUMTests: XCTestCase {
         var rumConfig = RUM.Configuration(applicationID: .mockAny())
         rumConfig.debugSDK = debugSDK
         RUM.enable(with: rumConfig, in: core)
-        let hosts: Set<String> = ["atatus.com", "example.com", "localhost"]
+        let hosts: Set<String> = ["towersignal.com", "example.com", "localhost"]
         let sampleRate: Float = .mockRandom(min: 0.0, max: 1.0)
         let hostsTracing: RUM.Configuration.URLSessionTracking.FirstPartyHostsTracing = .trace(hosts: hosts, sampleRate: sampleRate)
 

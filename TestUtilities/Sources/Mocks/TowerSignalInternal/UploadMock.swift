@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `dd*` members to `at*`; renamed `clientToken` to `licenseKey`;
-// renamed the `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `dd*` members to `at*`; renamed `clientToken` to `licenseKey`;
+// renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; rebranded the
 // licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 public class FeatureRequestBuilderMock: FeatureRequestBuilder {
-    private let factory: (([Event], AtatusContext) throws -> URLRequest)
+    private let factory: (([Event], TowerSignalContext) throws -> URLRequest)
 
-    public init(factory: @escaping (([Event], AtatusContext) throws -> URLRequest) = { _, _ in .mockAny() }) {
+    public init(factory: @escaping (([Event], TowerSignalContext) throws -> URLRequest) = { _, _ in .mockAny() }) {
         self.factory = factory
     }
 
@@ -25,7 +25,7 @@ public class FeatureRequestBuilderMock: FeatureRequestBuilder {
 
     public func request(
         for events: [Event],
-        with context: AtatusContext,
+        with context: TowerSignalContext,
         execution: ExecutionContext
     ) throws -> URLRequest {
         return try factory(events, context)
@@ -35,17 +35,17 @@ public class FeatureRequestBuilderMock: FeatureRequestBuilder {
 public  class FeatureRequestBuilderSpy: FeatureRequestBuilder {
     /// Stores the parameters passed to the `request(for:with:)` method.
     @ReadWriteLock
-    public private(set) var requestParameters: [(events: [Event], context: AtatusContext)] = []
+    public private(set) var requestParameters: [(events: [Event], context: TowerSignalContext)] = []
 
     /// A closure that is called when a request is about to be created in the `request(for:with:)` method.
     @ReadWriteLock
-    public var onRequest: ((_ events: [Event], _ context: AtatusContext) -> Void)?
+    public var onRequest: ((_ events: [Event], _ context: TowerSignalContext) -> Void)?
 
     public init() {}
 
     public func request(
         for events: [Event],
-        with context: AtatusContext,
+        with context: TowerSignalContext,
         execution: ExecutionContext
     ) throws -> URLRequest {
         requestParameters.append((events: events, context: context))
@@ -63,7 +63,7 @@ public struct FailingRequestBuilderMock: FeatureRequestBuilder {
 
     public func request(
         for events: [Event],
-        with context: AtatusContext,
+        with context: TowerSignalContext,
         execution: ExecutionContext
     ) throws -> URLRequest {
         throw error
@@ -73,14 +73,14 @@ public struct FailingRequestBuilderMock: FeatureRequestBuilder {
 extension URLRequestBuilder.QueryItem: RandomMockable, AnyMockable {
     public static func mockRandom() -> Self {
         let all: [URLRequestBuilder.QueryItem] = [
-            .atatusSource(source: .mockRandom()),
-            .atatusTags(tags: .mockRandom()),
+            .towersignalSource(source: .mockRandom()),
+            .towersignalTags(tags: .mockRandom()),
         ]
         return all.randomElement()!
     }
 
     public static func mockAny() -> Self {
-        return .atatusSource(source: .mockRandom(among: .alphanumerics))
+        return .towersignalSource(source: .mockRandom(among: .alphanumerics))
     }
 }
 

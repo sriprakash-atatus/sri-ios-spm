@@ -1,12 +1,12 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; renamed the `DD-*` intake headers to their Atatus equivalents; repointed the intake host at the
-// Atatus site; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; renamed the `DD-*` intake headers to their TowerSignal equivalents; repointed the intake host at the
+// TowerSignal site; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 import OpenTelemetrySdk
@@ -15,7 +15,7 @@ enum MetricExporterError: Error {
     case unsupportedMetric(type: MetricDataType, dataType: Any.Type)
 }
 
-/// Replacement of otel `AtatusExporter` for metrics.
+/// Replacement of otel `TowerSignalExporter` for metrics.
 ///
 /// This version does not store data to disk, it uploads to the intake directly.
 /// Additionally, it does not crash.
@@ -33,7 +33,7 @@ final class MetricExporter: OpenTelemetrySdk.MetricExporter {
         case gauge = 3
     }
 
-    /// https://www.atatus.com/docs/
+    /// https://www.towersignal.com/docs/
     internal struct Serie: Codable {
         struct Point: Codable {
             let timestamp: Int64
@@ -59,7 +59,7 @@ final class MetricExporter: OpenTelemetrySdk.MetricExporter {
     let configuration: Configuration
 
     // swiftlint:disable force_unwrapping
-    let intake = URL(string: "https://www.atatus.com/")!
+    let intake = URL(string: "https://www.towersignal.com/")!
     let prefix = "{ \"series\": [".data(using: .utf8)!
     let separator = ",".data(using: .utf8)!
     let suffix = "]}".data(using: .utf8)!
@@ -94,7 +94,7 @@ final class MetricExporter: OpenTelemetrySdk.MetricExporter {
         return .cumulative
     }
 
-    /// Transforms otel `MetricData` to Atatus `serie`.
+    /// Transforms otel `MetricData` to TowerSignal `serie`.
     ///
     /// - Parameter metric: The otel metric data
     /// - Returns: The timeserie.
@@ -148,9 +148,9 @@ final class MetricExporter: OpenTelemetrySdk.MetricExporter {
         request.allHTTPHeaderFields = [
             "Content-Type": "application/json",
             "api-key": configuration.apiKey,
-            "ATATUS-EVP-ORIGIN": "ios",
-            "ATATUS-EVP-ORIGIN-VERSION": configuration.version,
-            "ATATUS-REQUEST-ID": UUID().uuidString,
+            "TOWERSIGNAL-EVP-ORIGIN": "ios",
+            "TOWERSIGNAL-EVP-ORIGIN-VERSION": configuration.version,
+            "TOWERSIGNAL-REQUEST-ID": UUID().uuidString,
         ]
 
         request.httpBody = prefix + data + suffix

@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 extension Data {
     static let empty = Data()
@@ -159,7 +159,7 @@ internal struct Directory: DirectoryProtocol {
         // Instead of iterating over all files and removing them one by one, we create a temporary
         // empty directory and replace source directory content with (empty) temporary folder.
         // This makes the deletion atomic, and is more performant in benchmarks.
-        let temporaryDirectory = try Directory(withSubdirectoryPath: "com.atatus/\(UUID().uuidString)")
+        let temporaryDirectory = try Directory(withSubdirectoryPath: "com.towersignal/\(UUID().uuidString)")
         try retry(times: 3, delay: 0.001) {
             _ = try FileManager.default.replaceItemAt(url, withItemAt: temporaryDirectory.url)
         }

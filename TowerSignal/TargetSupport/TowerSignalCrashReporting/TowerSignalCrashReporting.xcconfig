@@ -1,5 +1,5 @@
-// Base configuration for AtatusCrashReporting target.
-// Note: all configuration here will be applied to `AtatusCrashReporting.framework` produced by Carthage.
+// Base configuration for TowerSignalCrashReporting target.
+// Note: all configuration here will be applied to `TowerSignalCrashReporting.framework` produced by Carthage.
 
 // Include base config
 #include "../xcconfigs/Base.xcconfig"

@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddSessionReplay` -> `AtatusSessionReplay`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddSessionReplay` -> `TowerSignalSessionReplay`;
 // renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 #if os(iOS)
@@ -12,7 +12,7 @@ import XCTest
 @_spi(Internal)
 import TestUtilities
 @_spi(Internal)
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 
 class RecordsBuilderTests: XCTestCase {
     func testWhenPreviousAndNextWireframesAreTheSame_itCreatesNoIncrementalSnapshotRecord() {
@@ -110,7 +110,7 @@ class RecordsBuilderTests: XCTestCase {
             telemetry.description,
             """
             Telemetry logs:
-             - [error] [SR] Failed to create incremental record - typeMismatch(fromType: "shape", toType: "text"), kind: WireframeMutationError, stack: AtatusSessionReplay/RecordsBuilder.swift:73
+             - [error] [SR] Failed to create incremental record - typeMismatch(fromType: "shape", toType: "text"), kind: WireframeMutationError, stack: TowerSignalSessionReplay/RecordsBuilder.swift:73
             """
         )
     }

@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Abstracts the `DataUploadWorker`, so we can have no-op uploader in tests.
 internal protocol DataUploadWorkerType {
@@ -29,7 +29,7 @@ internal class DataUploadWorker: DataUploadWorkerType {
     /// Name of the feature this worker is performing uploads for.
     private let featureName: String
     /// The core context provider
-    private let contextProvider: AtatusContextProvider
+    private let contextProvider: TowerSignalContextProvider
     /// Delay used to schedule consecutive uploads.
     private let delay: DataUploadDelay
 
@@ -52,7 +52,7 @@ internal class DataUploadWorker: DataUploadWorkerType {
         queue: DispatchQueue,
         fileReader: Reader,
         dataUploader: DataUploaderType,
-        contextProvider: AtatusContextProvider,
+        contextProvider: TowerSignalContextProvider,
         uploadConditions: DataUploadConditions,
         delay: DataUploadDelay,
         featureName: String,
@@ -105,7 +105,7 @@ internal class DataUploadWorker: DataUploadWorkerType {
         queue.asyncAfter(deadline: .now() + delay.current, execute: readWork)
     }
 
-    private func uploadFile(from files: [ReadableFile], context: AtatusContext) {
+    private func uploadFile(from files: [ReadableFile], context: TowerSignalContext) {
         let uploadWork = DispatchWorkItem { [weak self] in
             guard let self = self else {
                 return
@@ -156,14 +156,14 @@ internal class DataUploadWorker: DataUploadWorkerType {
                         throw error
                     }
                 } catch DataUploadError.httpError(statusCode: .unauthorized), DataUploadError.httpError(statusCode: .forbidden) {
-                    AT.logger.error("⚠️ Make sure that the provided token still exists and you're targeting the relevant Atatus site.")
+                    AT.logger.error("⚠️ Make sure that the provided token still exists and you're targeting the relevant TowerSignal site.")
                 } catch DataUploadError.httpError(statusCode: let statusCode) where !telemetryIgnoredStatusCodes.contains(statusCode) {
                     self.telemetry.error("Data upload finished with status code: \(statusCode.rawValue)")
                 } catch DataUploadError.networkError(let error) where !telemetryIgnoredNSURLErrorCodes.contains(error.code) {
                     self.telemetry.error("Data upload finished with error", error: error)
                 } catch is DataUploadError {
                     // Do not report any other 'DataUploadError':
-                    // - If status indicate Atatus service issue, there is no fix required client side.
+                    // - If status indicate TowerSignal service issue, there is no fix required client side.
                     // - If status code is unexpected, monitoring may become too verbose for old installations
                     // if we introduce a new status code in the API.
                 } catch let error {
@@ -334,7 +334,7 @@ private let telemetryIgnoredNSURLErrorCodes: Set<Int> = [
     NSURLErrorCannotConnectToHost, // -1004
 ]
 
-/// These codes indicate Atatus service issue - so do not produce error as there is no fix reqiured for SDK.
+/// These codes indicate TowerSignal service issue - so do not produce error as there is no fix reqiured for SDK.
 private let telemetryIgnoredStatusCodes: Set<HTTPResponseStatusCode> = [
     .internalServerError,
     .serviceUnavailable,

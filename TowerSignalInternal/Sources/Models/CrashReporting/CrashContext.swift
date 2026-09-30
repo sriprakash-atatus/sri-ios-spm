@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; renamed `dd*` members to `at*`; repointed the intake host at the Atatus site; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; renamed `dd*` members to `at*`; repointed the intake host at the TowerSignal site; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
-/// Describes current Atatus SDK context, so the app state information can be attached to
+/// Describes current TowerSignal SDK context, so the app state information can be attached to
 /// the crash report and retrieved back when the application is started again.
 ///
 /// Note: as it gets saved along with the crash report during process interruption, it's good
@@ -24,13 +24,13 @@ public struct CrashContext: Codable, Equatable {
     /// The value can change as the device continue to sync with the server.
     public let serverTimeOffset: TimeInterval
 
-    /// The name of the service that data is generated from. Used for [Unified Service Tagging](https://www.atatus.com/docs/).
+    /// The name of the service that data is generated from. Used for [Unified Service Tagging](https://www.towersignal.com/docs/).
     public let service: String
 
-    /// The name of the environment that data is generated from. Used for [Unified Service Tagging](https://www.atatus.com/docs/).
+    /// The name of the environment that data is generated from. Used for [Unified Service Tagging](https://www.towersignal.com/docs/).
     public let env: String
 
-    /// The version of the application that data is generated from. Used for [Unified Service Tagging](https://www.atatus.com/docs/).
+    /// The version of the application that data is generated from. Used for [Unified Service Tagging](https://www.towersignal.com/docs/).
     public let version: String
 
     /// The build number of the application that data is generated from.
@@ -42,11 +42,11 @@ public struct CrashContext: Codable, Equatable {
     /// Operating System information.
     public let os: OperatingSystem
 
-    /// The version of Atatus iOS SDK.
+    /// The version of TowerSignal iOS SDK.
     public let sdkVersion: String
 
     /// Denotes the mobile application's platform, such as `"ios"` or `"flutter"` that data is generated from.
-    ///  - See: Atatus [Reserved Attributes](https://www.atatus.com/docs/).
+    ///  - See: TowerSignal [Reserved Attributes](https://www.towersignal.com/docs/).
     public let source: String
 
     /// The user's consent to data collection
@@ -134,7 +134,7 @@ public struct CrashContext: Codable, Equatable {
     }
 
     public init(
-        _ context: AtatusContext,
+        _ context: TowerSignalContext,
         lastRUMViewEvent: RUMViewEvent?,
         lastRUMSessionState: RUMSessionState?,
         lastRUMAttributes: RUMEventAttributes?,
@@ -185,7 +185,7 @@ public struct CrashContext: Codable, Equatable {
 }
 
 extension CrashContext {
-    /// Atatus tags to send in the error events.
+    /// TowerSignal tags to send in the error events.
     public var atTags: String {
         "\(ATTag.service):\(service),\(ATTag.version):\(version),\(ATTag.sdkVersion):\(sdkVersion),\(ATTag.env):\(env)"
     }

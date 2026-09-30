@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
 /// Core utilities for monitoring performance and execution of the SDK.
 ///
-/// These are meant to be shared by all instances of the SDK and `AtatusCore`.
+/// These are meant to be shared by all instances of the SDK and `TowerSignalCore`.
 /// `AT` bundles static dependencies that must be available and functional right away,
 /// so it is possible to monitor any phase of the SDK execution, including its initialization sequence.
 public struct AT {
-    /// The logger providing methods to print debug information and execution errors from Atatus SDK to user console.
+    /// The logger providing methods to print debug information and execution errors from TowerSignal SDK to user console.
     ///
     /// It is meant for debugging purposes when using the SDK, hence **it should log information useful and actionable
     /// to the SDK user**. Think of possible logs that we may want to receive from our users when asking them to enable
@@ -43,10 +43,10 @@ nonisolated(unsafe) public var consolePrint: @Sendable (String, CoreLoggerLevel)
     #if canImport(OSLog)
     if #available(iOS 14.0, tvOS 14.0, *) {
         switch level {
-        case .debug: Logger.atatus.debug("\(message, privacy: .private)")
-        case .warn: Logger.atatus.warning("\(message, privacy: .private)")
-        case .error: Logger.atatus.critical("\(message, privacy: .private)")
-        case .critical: Logger.atatus.fault("\(message, privacy: .private)")
+        case .debug: Logger.towersignal.debug("\(message, privacy: .private)")
+        case .warn: Logger.towersignal.warning("\(message, privacy: .private)")
+        case .error: Logger.towersignal.critical("\(message, privacy: .private)")
+        case .critical: Logger.towersignal.fault("\(message, privacy: .private)")
         }
     } else {
         print(message)
@@ -59,6 +59,6 @@ nonisolated(unsafe) public var consolePrint: @Sendable (String, CoreLoggerLevel)
 #if canImport(OSLog)
 @available(iOS 14.0, tvOS 14.0, *)
 extension Logger {
-    static let atatus = Logger(subsystem: "atatus-sdk-ios", category: "AtatusInternal")
+    static let towersignal = Logger(subsystem: "towersignal-sdk-ios", category: "TowerSignalInternal")
 }
 #endif

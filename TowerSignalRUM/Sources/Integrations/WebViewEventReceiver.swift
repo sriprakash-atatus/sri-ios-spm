@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
-// renamed the `_dd` attribute prefix to `_atatus`; renamed the `ddsource` / `ddtags` query parameters to
-// `atatus_source` / `atatustags`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// renamed the `_dd` attribute prefix to `_towersignal`; renamed the `ddsource` / `ddtags` query parameters to
+// `towersignal_source` / `towersignaltags`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal typealias JSON = [String: Any]
 
@@ -53,7 +53,7 @@ internal final class WebViewEventReceiver: FeatureMessageReceiver {
     /// - Parameters:
     ///   - message: The message containing the Browser RUM event.
     ///   - core: The core to write the event.
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         switch message {
         case let .webview(.rum(event)):
             receive(rum: event, core: core)
@@ -66,7 +66,7 @@ internal final class WebViewEventReceiver: FeatureMessageReceiver {
         return true
     }
 
-    private func receive(rum event: JSON, core: AtatusCoreProtocol) {
+    private func receive(rum event: JSON, core: TowerSignalCoreProtocol) {
         commandSubscriber.process(
             command: RUMKeepSessionAliveCommand(
                 time: dateProvider.now,
@@ -82,7 +82,7 @@ internal final class WebViewEventReceiver: FeatureMessageReceiver {
             var webViewContext = context.additionalContext(ofType: RUMWebViewContext.self) ?? .init()
             var event = event
 
-            event["atatusTags"] = ATTag.merge(context.atTags, with: event["atatusTags"] as? String)
+            event["towersignalTags"] = ATTag.merge(context.atTags, with: event["towersignalTags"] as? String)
 
             if let date = event["date"] as? Int,
                let view = event["view"] as? JSON,
@@ -126,11 +126,11 @@ internal final class WebViewEventReceiver: FeatureMessageReceiver {
                 event["session"] = session
             }
 
-            if var dd = event["_atatus"] as? JSON {
+            if var dd = event["_towersignal"] as? JSON {
                 if context.hasReplay != true {
                     // Remove stats if native replay is disabled
                     dd["replay_stats"] = nil
-                    event["_atatus"] = dd
+                    event["_towersignal"] = dd
                 }
                 if dd["rule_psr"] != nil,
                    let networkInstrumentation = core.feature(
@@ -139,7 +139,7 @@ internal final class WebViewEventReceiver: FeatureMessageReceiver {
                    ),
                    let distributedTracingSampleRate = networkInstrumentation.distributedTracingSampleRate {
                     dd["rule_psr"] = distributedTracingSampleRate.percentageProportion
-                    event["_atatus"] = dd
+                    event["_towersignal"] = dd
                 }
             }
 

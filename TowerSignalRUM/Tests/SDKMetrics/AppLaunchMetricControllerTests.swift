@@ -1,27 +1,27 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusRUM
+import TowerSignalInternal
+@testable import TowerSignalRUM
 
 final class AppLaunchMetricControllerTests: XCTestCase {
     private let telemetry = TelemetryMock()
 
     func testTrackingAppLaunchMetric() throws {
         // Given
-        let atatusContext: AtatusContext = .mockRandom()
+        let towersignalContext: TowerSignalContext = .mockRandom()
         let vitalEvent: RUMVitalAppLaunchEvent = .mockWith(
             vital: .mockWith(
                 appLaunchMetric: .ttid,
-                isPrewarmed: atatusContext.launchInfo.launchReason == .prewarming
+                isPrewarmed: towersignalContext.launchInfo.launchReason == .prewarming
             )
         )
         let coldStartRule: ColdStartRule = .appUpdate
@@ -29,7 +29,7 @@ final class AppLaunchMetricControllerTests: XCTestCase {
 
         // When
         controller.track(coldStartRule: coldStartRule)
-        controller.track(ttidEvent: vitalEvent, context: atatusContext)
+        controller.track(ttidEvent: vitalEvent, context: towersignalContext)
         controller.sendMetric()
 
         // Then
@@ -38,8 +38,8 @@ final class AppLaunchMetricControllerTests: XCTestCase {
         XCTAssertEqual(metric.startupType, vitalEvent.vital.startupType?.rawValue)
         XCTAssertEqual(metric.coldStartRule, coldStartRule.rawValue)
         XCTAssertEqual(metric.isPrewarmed, vitalEvent.vital.isPrewarmed)
-        XCTAssertEqual(metric.launchReason, atatusContext.launchInfo.launchReason)
-        XCTAssertEqual(metric.taskPolicyRole, atatusContext.launchInfo.raw.taskPolicyRole)
+        XCTAssertEqual(metric.launchReason, towersignalContext.launchInfo.launchReason)
+        XCTAssertEqual(metric.taskPolicyRole, towersignalContext.launchInfo.raw.taskPolicyRole)
         XCTAssertEqual(metric.pois.count, 5)
 
         let metricTelemetry = try XCTUnwrap(telemetry.messages.lastMetric(named: AppLaunchMetric.Constants.name))
@@ -48,19 +48,19 @@ final class AppLaunchMetricControllerTests: XCTestCase {
 
     func testTrackingLargeTTID() throws {
         // Given
-        let atatusContext: AtatusContext = .mockRandom()
+        let towersignalContext: TowerSignalContext = .mockRandom()
         let controller = AppLaunchMetricController(telemetry: telemetry)
         let duration: TimeInterval = 1_000
 
         // When
-        controller.send(metric: .largeTTID(context: atatusContext, duration: duration))
+        controller.send(metric: .largeTTID(context: towersignalContext, duration: duration))
 
         // Then
         let metric = try XCTUnwrap(telemetry.messages.appLaunchMetric)
         XCTAssertEqual(metric.ttidDurationNs, duration.dd.toInt64Nanoseconds)
-        XCTAssertEqual(metric.launchReason, atatusContext.launchInfo.launchReason)
-        XCTAssertEqual(metric.taskPolicyRole, atatusContext.launchInfo.raw.taskPolicyRole)
-        XCTAssertEqual(metric.isPrewarmed, atatusContext.launchInfo.launchReason == .prewarming)
+        XCTAssertEqual(metric.launchReason, towersignalContext.launchInfo.launchReason)
+        XCTAssertEqual(metric.taskPolicyRole, towersignalContext.launchInfo.raw.taskPolicyRole)
+        XCTAssertEqual(metric.isPrewarmed, towersignalContext.launchInfo.launchReason == .prewarming)
         XCTAssertEqual(metric.pois.count, 5)
         XCTAssertFalse(metric.errorMessage?.isEmpty ?? true)
 
@@ -70,19 +70,19 @@ final class AppLaunchMetricControllerTests: XCTestCase {
 
     func testTrackingLaunchNotSupported() throws {
         // Given
-        let atatusContext: AtatusContext = .mockRandom()
+        let towersignalContext: TowerSignalContext = .mockRandom()
         let controller = AppLaunchMetricController(telemetry: telemetry)
         let duration: TimeInterval = 1_000
 
         // When
-        controller.send(metric: .launchNotSupported(context: atatusContext, duration: duration))
+        controller.send(metric: .launchNotSupported(context: towersignalContext, duration: duration))
 
         // Then
         let metric = try XCTUnwrap(telemetry.messages.appLaunchMetric)
         XCTAssertEqual(metric.ttidDurationNs, duration.dd.toInt64Nanoseconds)
-        XCTAssertEqual(metric.launchReason, atatusContext.launchInfo.launchReason)
-        XCTAssertEqual(metric.taskPolicyRole, atatusContext.launchInfo.raw.taskPolicyRole)
-        XCTAssertEqual(metric.isPrewarmed, atatusContext.launchInfo.launchReason == .prewarming)
+        XCTAssertEqual(metric.launchReason, towersignalContext.launchInfo.launchReason)
+        XCTAssertEqual(metric.taskPolicyRole, towersignalContext.launchInfo.raw.taskPolicyRole)
+        XCTAssertEqual(metric.isPrewarmed, towersignalContext.launchInfo.launchReason == .prewarming)
         XCTAssertEqual(metric.pois.count, 5)
         XCTAssertFalse(metric.errorMessage?.isEmpty ?? true)
 
@@ -92,13 +92,13 @@ final class AppLaunchMetricControllerTests: XCTestCase {
 
     func testTrackingAppLaunchMetric_withTTFDRecordedFirst() throws {
         // Given
-        let atatusContext: AtatusContext = .mockRandom()
+        let towersignalContext: TowerSignalContext = .mockRandom()
         let vitalEvent: RUMVitalAppLaunchEvent = .mockAny()
         let controller = AppLaunchMetricController(telemetry: telemetry)
         let ttfdDuration: Int64 = 1_000
 
         // When
-        controller.track(ttidEvent: vitalEvent, context: atatusContext)
+        controller.track(ttidEvent: vitalEvent, context: towersignalContext)
         controller.trackTTFD(duration: ttfdDuration)
         controller.sendMetric()
 
@@ -106,8 +106,8 @@ final class AppLaunchMetricControllerTests: XCTestCase {
         let metric = try XCTUnwrap(telemetry.messages.appLaunchMetric)
         XCTAssertEqual(metric.ttidDurationNs, vitalEvent.vital.duration.dd.toInt64Nanoseconds)
         XCTAssertEqual(metric.startupType, vitalEvent.vital.startupType?.rawValue)
-        XCTAssertEqual(metric.launchReason, atatusContext.launchInfo.launchReason)
-        XCTAssertEqual(metric.taskPolicyRole, atatusContext.launchInfo.raw.taskPolicyRole)
+        XCTAssertEqual(metric.launchReason, towersignalContext.launchInfo.launchReason)
+        XCTAssertEqual(metric.taskPolicyRole, towersignalContext.launchInfo.raw.taskPolicyRole)
         XCTAssertEqual(metric.pois.count, 5)
         XCTAssertEqual(metric.ttfdDurationNs, ttfdDuration)
 
@@ -117,12 +117,12 @@ final class AppLaunchMetricControllerTests: XCTestCase {
 
     func testTrackingMoreThanOneTTID() throws {
         // Given
-        let atatusContext: AtatusContext = .mockRandom()
+        let towersignalContext: TowerSignalContext = .mockRandom()
         let vitalEvent: RUMVitalAppLaunchEvent = .mockAny()
         let controller = AppLaunchMetricController(telemetry: telemetry)
 
         // When
-        controller.track(ttidEvent: vitalEvent, context: atatusContext)
+        controller.track(ttidEvent: vitalEvent, context: towersignalContext)
         controller.incrementTTIDCounter()
         controller.incrementTTIDCounter()
         controller.sendMetric()
@@ -131,8 +131,8 @@ final class AppLaunchMetricControllerTests: XCTestCase {
         let metric = try XCTUnwrap(telemetry.messages.appLaunchMetric)
         XCTAssertEqual(metric.ttidDurationNs, vitalEvent.vital.duration.dd.toInt64Nanoseconds)
         XCTAssertEqual(metric.startupType, vitalEvent.vital.startupType?.rawValue)
-        XCTAssertEqual(metric.launchReason, atatusContext.launchInfo.launchReason)
-        XCTAssertEqual(metric.taskPolicyRole, atatusContext.launchInfo.raw.taskPolicyRole)
+        XCTAssertEqual(metric.launchReason, towersignalContext.launchInfo.launchReason)
+        XCTAssertEqual(metric.taskPolicyRole, towersignalContext.launchInfo.raw.taskPolicyRole)
         XCTAssertEqual(metric.pois.count, 5)
         XCTAssertEqual(metric.extraTTIDsCount, 2)
 
@@ -143,10 +143,10 @@ final class AppLaunchMetricControllerTests: XCTestCase {
     func testTrackingMultipleAppLaunchMetrics() throws {
         // Given
         let iterations = 10
-        let atatusContext: AtatusContext = .mockRandom()
+        let towersignalContext: TowerSignalContext = .mockRandom()
         let vitalEvent: RUMVitalAppLaunchEvent = .mockAny()
         let controller = AppLaunchMetricController(telemetry: telemetry)
-        let appLaunchMetric = try XCTUnwrap(AppLaunchMetric(vitalEvent: vitalEvent, context: atatusContext))
+        let appLaunchMetric = try XCTUnwrap(AppLaunchMetric(vitalEvent: vitalEvent, context: towersignalContext))
 
         // When
         (0..<iterations).forEach { _ in
@@ -161,8 +161,8 @@ final class AppLaunchMetricControllerTests: XCTestCase {
 
             XCTAssertEqual(metric.ttidDurationNs, vitalEvent.vital.duration.dd.toInt64Nanoseconds)
             XCTAssertEqual(metric.startupType, vitalEvent.vital.startupType?.rawValue)
-            XCTAssertEqual(metric.launchReason, atatusContext.launchInfo.launchReason)
-            XCTAssertEqual(metric.taskPolicyRole, atatusContext.launchInfo.raw.taskPolicyRole)
+            XCTAssertEqual(metric.launchReason, towersignalContext.launchInfo.launchReason)
+            XCTAssertEqual(metric.taskPolicyRole, towersignalContext.launchInfo.raw.taskPolicyRole)
             XCTAssertEqual(metric.pois.count, 5)
         }
     }

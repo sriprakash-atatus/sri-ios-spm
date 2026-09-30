@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
 
 /// An interface for processing `URLSession` task interceptions.
-public protocol AtatusURLSessionHandler {
+public protocol TowerSignalURLSessionHandler {
     /// The first party hosts configured for this handler.
     var firstPartyHosts: FirstPartyHosts { get }
 
@@ -36,18 +36,18 @@ public protocol AtatusURLSessionHandler {
     func interceptionDidComplete(interception: URLSessionTaskInterception)
 }
 
-/// Provides a way for session handlers to obtain data during the ``AtatusURLSessionHandler.modify(request:headerTypes:networkContext:)`` call
-/// and pass it to ``AtatusURLSessionHandler.interceptionDidStart(interception:capturedStates:)``.
+/// Provides a way for session handlers to obtain data during the ``TowerSignalURLSessionHandler.modify(request:headerTypes:networkContext:)`` call
+/// and pass it to ``TowerSignalURLSessionHandler.interceptionDidStart(interception:capturedStates:)``.
 ///
 /// This is useful when a piece of data needs to be obtained synchronously inside a session handler, and
 /// passed to the asynchronous process of setting up the interception that can run on a different thread.
 public protocol URLSessionHandlerCapturedState { }
 
-extension AtatusCoreProtocol {
+extension TowerSignalCoreProtocol {
     /// Core extension for registering `URLSession` handlers.
     ///
     /// - Parameter urlSessionHandler: The `URLSession` handler to register.
-    public func register(urlSessionHandler: AtatusURLSessionHandler) throws {
+    public func register(urlSessionHandler: TowerSignalURLSessionHandler) throws {
         let contextProvider = NetworkContextCoreProvider()
         let feature = get(feature: NetworkInstrumentationFeature.self) ?? .init(networkContextProvider: contextProvider, messageReceiver: contextProvider)
         feature.handlers.append(urlSessionHandler)
@@ -56,7 +56,7 @@ extension AtatusCoreProtocol {
 }
 
 /// Implemented by handlers that support distributed tracing.
-public protocol AtatusURLSessionHandlerSupportingDistributedTracing: AtatusURLSessionHandler {
+public protocol TowerSignalURLSessionHandlerSupportingDistributedTracing: TowerSignalURLSessionHandler {
     /// The currently configured distributed tracing sample rate. `nil` if distributed tracing (first part hosts tracing) is not configured.
     var distributedTracingSampleRate: SampleRate? { get }
 }

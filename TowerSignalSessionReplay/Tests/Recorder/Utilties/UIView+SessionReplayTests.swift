@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddSessionReplay` -> `AtatusSessionReplay`; renamed `dd*` types to `Atatus*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddSessionReplay` -> `TowerSignalSessionReplay`; renamed `dd*` types to `TowerSignal*`; rebranded the
 // licence header.
 
 #if os(iOS)
 import XCTest
 import UIKit
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 
 class UIViewSessionReplayTests: XCTestCase {
     func testUsesDarkMode() {
@@ -21,7 +21,7 @@ class UIViewSessionReplayTests: XCTestCase {
             XCTAssertFalse(UIView().dd.usesDarkMode) // always false prior to iOS 13.x
             return
         }
-        class MockView: NSObject, AtatusExtended, UITraitEnvironment {
+        class MockView: NSObject, TowerSignalExtended, UITraitEnvironment {
             var traitCollection: UITraitCollection = .init(userInterfaceStyle: .unspecified)
             func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {}
         }
@@ -41,7 +41,7 @@ class UIViewSessionReplayTests: XCTestCase {
 
     // swiftlint:disable opening_brace
     func testIsSensitiveText() {
-       class Mock: NSObject, AtatusExtended, UITextInputTraits {
+       class Mock: NSObject, TowerSignalExtended, UITextInputTraits {
             var isSecureTextEntry = false
             var textContentType: UITextContentType! = nil // swiftlint:disable:this implicitly_unwrapped_optional
         }

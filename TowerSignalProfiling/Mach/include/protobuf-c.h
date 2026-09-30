@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// ATCHG: Atatus SDK migration - rebranded the `dd` name to `Atatus` in comments and docs.
+// ATCHG: TowerSignal SDK migration - rebranded the `dd` name to `TowerSignal` in comments and docs.
 
 /*! \file
  * \mainpage Introduction
@@ -204,7 +204,7 @@ size_t foo__bar__baz_bah__pack_to_buffer
  * embed protobuf-c. Define PROTOBUF_C_SYMBOL_PREFIX to change symbols
  * prefix.
  *
- * \authors Atatus Inc.
+ * \authors TowerSignal Inc.
  */
 
 #ifndef PROTOBUF_C_H

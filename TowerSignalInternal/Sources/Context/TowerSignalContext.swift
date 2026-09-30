@@ -1,42 +1,42 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
 // `AT`; renamed `dd*` members to `at*`; renamed `clientToken` to `licenseKey`; renamed the build `variant`
-// to `appName`; repointed the intake host at the Atatus site; rebranded the `dd` name to `Atatus` in
+// to `appName`; repointed the intake host at the TowerSignal site; rebranded the `dd` name to `TowerSignal` in
 // comments and docs; rebranded the licence header.
 
 import Foundation
 
-public struct AtatusContext {
-    // MARK: - Atatus Specific
+public struct TowerSignalContext {
+    // MARK: - TowerSignal Specific
 
-    /// [Atatus Site](https://www.atatus.com/docs/) for data uploads. It can be `nil` in V1
+    /// [TowerSignal Site](https://www.towersignal.com/docs/) for data uploads. It can be `nil` in V1
     /// if the SDK is configured using deprecated APIs:
     /// `set(logsEndpoint:)`, `set(tracesEndpoint:)` and `set(rumEndpoint:)`.
-    public let site: AtatusSite
+    public let site: TowerSignalSite
 
-    // ATCHG: Added `serverUrl`, matching `AtatusContext.serverUrl` in the Atatus Android agent.
+    // ATCHG: Added `serverUrl`, matching `TowerSignalContext.serverUrl` in the TowerSignal Android agent.
     /// A custom intake base url (no path) overriding the ``site`` one when set.
     ///
-    /// Set through `Atatus.Configuration.serverUrl`. Use ``intakeEndpoint`` rather than reading
+    /// Set through `TowerSignal.Configuration.serverUrl`. Use ``intakeEndpoint`` rather than reading
     /// this directly — it applies the fallbacks.
     public let serverUrl: String?
     // ATCHG: End
 
-    /// The client token allowing for data uploads to [Atatus Site](https://www.atatus.com/docs/).
+    /// The client token allowing for data uploads to [TowerSignal Site](https://www.towersignal.com/docs/).
     public let licenseKey: String
 
-    /// The name of the service that data is generated from. Used for [Unified Service Tagging](https://www.atatus.com/docs/).
+    /// The name of the service that data is generated from. Used for [Unified Service Tagging](https://www.towersignal.com/docs/).
     public let service: String
 
-    /// The name of the environment that data is generated from. Used for [Unified Service Tagging](https://www.atatus.com/docs/).
+    /// The name of the environment that data is generated from. Used for [Unified Service Tagging](https://www.towersignal.com/docs/).
     public let env: String
 
-    /// The version of the application that data is generated from. Used for [Unified Service Tagging](https://www.atatus.com/docs/).
+    /// The version of the application that data is generated from. Used for [Unified Service Tagging](https://www.towersignal.com/docs/).
     public var version: String {
         didSet {
             guard version != oldValue else {
@@ -64,17 +64,17 @@ public struct AtatusContext {
     public let appName: String?
 
     /// Denotes the mobile application's platform, such as `"ios"` or `"flutter"` that data is generated from.
-    ///  - See: Atatus [Reserved Attributes](https://www.atatus.com/docs/).
+    ///  - See: TowerSignal [Reserved Attributes](https://www.towersignal.com/docs/).
     public let source: String
 
     /// Denotes the source type for  crashes. This is used for platforms that provide additional symbolication steps for native crashes.
     public let nativeSourceOverride: String?
 
-    /// The version of Atatus iOS SDK.
+    /// The version of TowerSignal iOS SDK.
     public let sdkVersion: String
 
-    /// The name of [CI Visibility](https://www.atatus.com/docs/) origin.
-    /// It is only set if the SDK is running with a context passed from [Swift Tests](https://www.atatus.com/docs/) library.
+    /// The name of [CI Visibility](https://www.towersignal.com/docs/) origin.
+    /// It is only set if the SDK is running with a context passed from [Swift Tests](https://www.towersignal.com/docs/) library.
     public let ciAppOrigin: String?
 
     /// Interval between device and server time.
@@ -82,7 +82,7 @@ public struct AtatusContext {
     /// The value can change as the device continue to sync with the server.
     public var serverTimeOffset: TimeInterval = .zero
 
-    /// Cached Atatus tags to send in the events. Recomputed when `version` changes.
+    /// Cached TowerSignal tags to send in the events. Recomputed when `version` changes.
     public private(set) var atTags: String = ""
 
     // MARK: - Application Specific
@@ -155,7 +155,7 @@ public struct AtatusContext {
 
     // swiftlint:disable function_default_parameter_at_end
     public init(
-        site: AtatusSite,
+        site: TowerSignalSite,
         serverUrl: String? = nil, // ATCHG: Added the custom intake base url, `nil` unless configured
         licenseKey: String,
         service: String,
@@ -234,16 +234,16 @@ public struct AtatusContext {
 }
 
 // ATCHG: Added `intakeEndpoint` so every feature resolves its base url the same way, matching
-// `val AtatusContext.intakeEndpoint` in the Atatus Android agent.
-extension AtatusContext {
+// `val TowerSignalContext.intakeEndpoint` in the TowerSignal Android agent.
+extension TowerSignalContext {
     /// The base url all intake requests are built from: the custom ``serverUrl`` when one was
-    /// configured through `Atatus.Configuration.serverUrl`, the ``site`` intake endpoint otherwise.
+    /// configured through `TowerSignal.Configuration.serverUrl`, the ``site`` intake endpoint otherwise.
     /// Never has a trailing slash.
     ///
     /// Features append their own path to it, e.g. `v1/ios/rum`, `v1/ios/logs`, `v1/ios/spans`,
     /// `v1/ios/replay`. A feature level custom intake url takes precedence over this value.
     public var intakeEndpoint: URL {
-        AtatusSite.intakeEndpoint(serverUrl: serverUrl, site: site)
+        TowerSignalSite.intakeEndpoint(serverUrl: serverUrl, site: site)
     }
 }
 // ATCHG: End
@@ -254,7 +254,7 @@ public protocol AdditionalContext {
     static var key: String { get }
 }
 
-extension AtatusContext {
+extension TowerSignalContext {
     /// Gets an additional context value of `Context` type.
     ///
     /// - Parameter type: The additional context type.
@@ -263,10 +263,10 @@ extension AtatusContext {
         additionalContext[type.key] as? Context
     }
 
-    /// Sets additional context to `AtatusContext`.
+    /// Sets additional context to `TowerSignalContext`.
     ///
     /// This method only mutates the current instance. To propagate an additional context
-    /// across the Atatus SDK, please use the ``AtatusCoreProtocol/set(context:)`` instead.
+    /// across the TowerSignal SDK, please use the ``TowerSignalCoreProtocol/set(context:)`` instead.
     ///
     /// - Parameters:
     ///   - context: The additional context to set.
@@ -274,10 +274,10 @@ extension AtatusContext {
         additionalContext[Context.key] = context
     }
 
-    /// Removes additional context from `AtatusContext`.
+    /// Removes additional context from `TowerSignalContext`.
     ///
     /// This method only mutates the current instance. To propagate an additional context
-    /// across the Atatus SDK, please use the ``AtatusCoreProtocol/removeContext(ofType:)`` instead
+    /// across the TowerSignal SDK, please use the ``TowerSignalCoreProtocol/removeContext(ofType:)`` instead
     /// 
     /// - Parameters:
     ///   - type: The context's type to remove.

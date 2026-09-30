@@ -1,23 +1,23 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddMachProfiler` -> `AtatusMachProfiler`; renamed `dd*` types to `Atatus*`; renamed the `DD`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddMachProfiler` -> `TowerSignalMachProfiler`; renamed `dd*` types to `TowerSignal*`; renamed the `DD`
 // symbol prefix to `AT`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 #if !os(watchOS)
 
 // swiftlint:disable duplicate_imports
 #if swift(>=6.0)
-internal import AtatusMachProfiler
+internal import TowerSignalMachProfiler
 #else
-@_implementationOnly import AtatusMachProfiler
+@_implementationOnly import TowerSignalMachProfiler
 #endif
 // swiftlint:enable duplicate_imports
 
@@ -44,7 +44,7 @@ internal final class AppLaunchProfiler: ProfilingHandler {
     private var hasProcessedAppLaunch: Bool = false
 
     init(
-        core: AtatusCoreProtocol,
+        core: TowerSignalCoreProtocol,
         profilingSamplerProvider: ProfilingSamplerProvider,
         quotaChecker: ProfilingQuotaChecking,
         telemetryController: ProfilingTelemetryController = .init(),
@@ -67,7 +67,7 @@ internal final class AppLaunchProfiler: ProfilingHandler {
 }
 
 extension AppLaunchProfiler: FeatureMessageReceiver {
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         guard hasProcessedAppLaunch == false else {
             return false
         }

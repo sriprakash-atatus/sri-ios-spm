@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
 // rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 import CommonCrypto
 
 /// A type that performs data uploads.
 internal protocol DataUploaderType {
-    func upload(events: [Event], context: AtatusContext, previous: DataUploadStatus?) throws -> DataUploadStatus
+    func upload(events: [Event], context: TowerSignalContext, previous: DataUploadStatus?) throws -> DataUploadStatus
 }
 
 /// Synchronously uploads data to server using `HTTPClient`.
@@ -45,7 +45,7 @@ internal final class DataUploader: DataUploaderType {
 
     /// Uploads data synchronously (will block current thread) and returns the upload status.
     /// Uses timeout configured for `HTTPClient`.
-    func upload(events: [Event], context: AtatusContext, previous: DataUploadStatus?) throws -> DataUploadStatus {
+    func upload(events: [Event], context: TowerSignalContext, previous: DataUploadStatus?) throws -> DataUploadStatus {
         let attempt: UInt
         if let previous = previous {
             attempt = previous.attempt + 1

@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
@@ -60,7 +60,7 @@ public class URLSessionTaskInterception {
     /// Trace context injected to request headers. Can be `nil` if the trace was not sampled or if modifying
     /// request was not possible in `URLSession` swizzling on certain OS version.
     public private(set) var trace: TraceContext?
-    /// The Atatus origin of the Trace.
+    /// The TowerSignal origin of the Trace.
     ///
     /// Setting the value to 'rum' will indicate that the span is reported as a RUM Resource.
     public private(set) var origin: String?

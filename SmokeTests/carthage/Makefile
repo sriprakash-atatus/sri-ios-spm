@@ -6,26 +6,26 @@ include ../../tools/utils/common.mk
 ifeq ($(PLATFORM), iOS Simulator)
 SCHEME := App iOS
 CARTHAGE_PLATFORM := iOS
-EXPECTED_XCFRAMEWORKS := AtatusInternal \
-						AtatusCore \
-						AtatusLogs \
-						AtatusTrace \
-						AtatusRUM \
-						AtatusSessionReplay \
-						AtatusCrashReporting \
-						AtatusFlags \
-						AtatusWebViewTracking \
+EXPECTED_XCFRAMEWORKS := TowerSignalInternal \
+						TowerSignalCore \
+						TowerSignalLogs \
+						TowerSignalTrace \
+						TowerSignalRUM \
+						TowerSignalSessionReplay \
+						TowerSignalCrashReporting \
+						TowerSignalFlags \
+						TowerSignalWebViewTracking \
 						OpenTelemetryApi
 else ifeq ($(PLATFORM), tvOS Simulator)
 SCHEME := App tvOS
 CARTHAGE_PLATFORM := tvOS
-EXPECTED_XCFRAMEWORKS := AtatusInternal \
-						AtatusCore \
-						AtatusLogs \
-						AtatusTrace \
-						AtatusRUM \
-						AtatusCrashReporting \
-						AtatusFlags \
+EXPECTED_XCFRAMEWORKS := TowerSignalInternal \
+						TowerSignalCore \
+						TowerSignalLogs \
+						TowerSignalTrace \
+						TowerSignalRUM \
+						TowerSignalCrashReporting \
+						TowerSignalFlags \
 						OpenTelemetryApi
 endif
 

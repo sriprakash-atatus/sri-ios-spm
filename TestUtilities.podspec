@@ -1,18 +1,18 @@
 Pod::Spec.new do |s|
   s.name         = "TestUtilities"
   s.version      = "3.15.0"
-  s.summary      = "Atatus Testing Utilities. This module is for internal testing and should not be published."
+  s.summary      = "TowerSignal Testing Utilities. This module is for internal testing and should not be published."
 
-  s.homepage     = "https://www.atatus.com"
+  s.homepage     = "https://www.towersignal.com"
 
   s.license            = { :type => "Apache", :file => 'LICENSE' }
-  s.authors            = { "Atatus" => "info@atatus.com" }
+  s.authors            = { "TowerSignal" => "info@towersignal.com" }
 
   s.swift_version = '5.9'
   s.ios.deployment_target = '12.0'
   s.tvos.deployment_target = '12.0'
 
-  s.source = { :git => "https://github.com/Atatus/atatus-sdk-ios.git", :tag => s.version.to_s }
+  s.source = { :git => "https://github.com/TowerSignal/towersignal-sdk-ios.git", :tag => s.version.to_s }
 
   s.pod_target_xcconfig = {
     'ENABLE_TESTING_SEARCH_PATHS'=>'YES'
@@ -24,13 +24,13 @@ Pod::Spec.new do |s|
     "TestUtilities/Sources/**/*.swift"
   ]
 
-  s.dependency 'AtatusCore'
-  s.dependency 'AtatusInternal'
-  s.dependency 'AtatusLogs'
-  s.dependency 'AtatusRUM'
-  s.dependency 'AtatusSessionReplay'
-  s.dependency 'AtatusTrace'
-  s.dependency 'AtatusCrashReporting'
-  s.dependency 'AtatusWebViewTracking'
+  s.dependency 'TowerSignalCore'
+  s.dependency 'TowerSignalInternal'
+  s.dependency 'TowerSignalLogs'
+  s.dependency 'TowerSignalRUM'
+  s.dependency 'TowerSignalSessionReplay'
+  s.dependency 'TowerSignalTrace'
+  s.dependency 'TowerSignalCrashReporting'
+  s.dependency 'TowerSignalWebViewTracking'
 
 end

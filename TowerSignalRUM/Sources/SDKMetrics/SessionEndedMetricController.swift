@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// A controller responsible for managing "RUM Session Ended" metrics.
 internal final class SessionEndedMetricController {
@@ -61,7 +61,7 @@ internal final class SessionEndedMetricController {
     ///   - precondition: The precondition that led to starting this session.
     ///   - context: The SDK context at the moment of starting this session.
     /// - Returns: The newly created `SessionEndedMetric` instance.
-    func startMetric(sessionID: RUMUUID, precondition: RUMSessionPrecondition?, context: AtatusContext) {
+    func startMetric(sessionID: RUMUUID, precondition: RUMSessionPrecondition?, context: TowerSignalContext) {
         _metricsBySessionID.mutate { metrics in
             metrics[sessionID] = SessionEndedMetric(
                 sessionID: sessionID,
@@ -126,7 +126,7 @@ internal final class SessionEndedMetricController {
 
     /// Ends the metric for a given session, sending it to telemetry and removing it from pending metrics.
     /// - Parameter sessionID: The ID of the session to end the metric for.
-    func endMetric(sessionID: RUMUUID, with context: AtatusContext) {
+    func endMetric(sessionID: RUMUUID, with context: TowerSignalContext) {
         _metricsBySessionID.mutate { metrics in
             guard let metric = metrics[sessionID] else {
                 return

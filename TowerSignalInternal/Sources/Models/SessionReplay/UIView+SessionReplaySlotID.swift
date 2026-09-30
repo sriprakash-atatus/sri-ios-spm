@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 #if os(iOS)
 import UIKit
 
 private var sessionReplaySlotIDKey: UInt8 = 0
 
-extension UIView: AtatusExtended {}
+extension UIView: TowerSignalExtended {}
 
 @_spi(Internal)
-public extension AtatusExtension where ExtendedType: UIView {
+public extension TowerSignalExtension where ExtendedType: UIView {
     /// Identifies this view as a host slot for embedded Session Replay content.
     ///
     /// The slot ID is supplied by the embedding SDK and is independent of the view's wireframe ID.

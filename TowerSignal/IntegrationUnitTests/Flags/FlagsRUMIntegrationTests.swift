@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddInternal`
-// -> `AtatusInternal`, `ddRUM` -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddInternal`
+// -> `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; rebranded the
 // licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
 @_spi(Internal)
-@testable import AtatusFlags
-@testable import AtatusRUM
+@testable import TowerSignalFlags
+@testable import TowerSignalRUM
 
 /// Covers integration scenarios between Flags and RUM features.
 final class FlagsRUMIntegrationTests: XCTestCase {
@@ -44,12 +44,12 @@ final class FlagsRUMIntegrationTests: XCTestCase {
         )
     }
 
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
 
-        core = AtatusCoreProxy(context: .mockWith(trackingConsent: .granted))
+        core = TowerSignalCoreProxy(context: .mockWith(trackingConsent: .granted))
 
         RUM.enable(with: .init(applicationID: "test-app-id"), in: core)
         Flags.enable(in: core)

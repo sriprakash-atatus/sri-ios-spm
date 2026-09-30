@@ -1,19 +1,19 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
 // rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal final class ATSpan: OTSpan, @unchecked Sendable {
     /// The `Tracer` which created this span.
-    private let atTracer: AtatusTracer
+    private let atTracer: TowerSignalTracer
     /// Span context.
     internal let atContext: ATSpanContext
     /// Span creation date
@@ -41,7 +41,7 @@ internal final class ATSpan: OTSpan, @unchecked Sendable {
     private let eventWriter: SpanWriteContext
 
     init(
-        tracer: AtatusTracer,
+        tracer: TowerSignalTracer,
         context: ATSpanContext,
         operationName: String,
         startTime: Date,
@@ -168,7 +168,7 @@ internal final class ATSpan: OTSpan, @unchecked Sendable {
 
             let envelope = SpanEventsEnvelope(span: event, environment: context.env)
             // ATCHG: Append the `agent` object to the spans envelope, matching
-            // `SpanEventSerializer.serialize()` in the Atatus Android agent.
+            // `SpanEventSerializer.serialize()` in the TowerSignal Android agent.
             writer.write(value: envelope.withAgentInfo())
             // ATCHG: End
         }

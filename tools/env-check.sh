@@ -85,9 +85,9 @@ if [ "$CI" = "true" ]; then
     npm --version
 
     echo ""
-    echo_succ "atatus-ci:"
-    check_if_installed atatus-ci
-    atatus-ci version
+    echo_succ "towersignal-ci:"
+    check_if_installed towersignal-ci
+    towersignal-ci version
     
     echo ""
     echo_succ "dd-octo-sts:"

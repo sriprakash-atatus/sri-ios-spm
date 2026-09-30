@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Internal Logger for Cross-Platform access.
 public protocol InternalLoggerProtocol {
@@ -16,7 +16,7 @@ public protocol InternalLoggerProtocol {
     /// Sends a log with certain `level`, `message`, `errorKind`,  `errorMessage`,  `stackTrace` and `attributes`.
     /// 
     /// This method is meant for non-native or cross platform frameworks (such as React Native or Flutter) to send error information
-    /// to Atatus. Although it can be used directly, it is recommended to use other methods declared on `Logger`.
+    /// to TowerSignal. Although it can be used directly, it is recommended to use other methods declared on `Logger`.
     /// 
     /// - Parameters:
     ///   - level: the log level
@@ -72,9 +72,9 @@ private struct NOPInternalLogger: InternalLoggerProtocol {
     ) { completionHandler() }
 }
 
-/// Extends `LoggerProtocol` with additional methods designed for Atatus cross-platform SDKs.
+/// Extends `LoggerProtocol` with additional methods designed for TowerSignal cross-platform SDKs.
 extension LoggerProtocol {
-    /// Grants access to an internal interface utilized only by Atatus cross-platform SDKs.
+    /// Grants access to an internal interface utilized only by TowerSignal cross-platform SDKs.
     /// **It is not meant for public use** and it might change without prior notice.
     public var _internal: InternalLoggerProtocol {
         self as? InternalLoggerProtocol ?? NOPInternalLogger()

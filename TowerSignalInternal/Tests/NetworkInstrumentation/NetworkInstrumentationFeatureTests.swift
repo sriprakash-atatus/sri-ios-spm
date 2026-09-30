@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed the `DD-*` intake headers
-// to their Atatus equivalents; repointed the intake host at the Atatus site; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed the `DD-*` intake headers
+// to their TowerSignal equivalents; repointed the intake host at the TowerSignal site; rebranded the licence header.
 
 import XCTest
 import TestUtilities
 @_spi(Internal)
-@testable import AtatusInternal
+@testable import TowerSignalInternal
 
 class NetworkInstrumentationFeatureTests: XCTestCase {
     // swiftlint:disable implicitly_unwrapped_optional
@@ -140,7 +140,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         // Given
         let url: URL = .mockAny()
         handler.firstPartyHosts = .init(
-            hostsWithTracingHeaderTypes: [url.host!: [.atatus]]
+            hostsWithTracingHeaderTypes: [url.host!: [.towersignal]]
         )
         try URLSessionInstrumentation.enableOrThrow(with: nil, in: core)
         // Registered delegate mode
@@ -451,7 +451,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
 
         let url: URL = .mockAny()
         handler.firstPartyHosts = .init(
-            hostsWithTracingHeaderTypes: [url.host!: [.atatus]]
+            hostsWithTracingHeaderTypes: [url.host!: [.towersignal]]
         )
 
         // Registered delegate mode
@@ -1898,10 +1898,10 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
             interceptedSDKRequests.append(interception)
         }
 
-        // When - Make a request with atatus-client-token (used by the profiling quota admission API)
+        // When - Make a request with towersignal-client-token (used by the profiling quota admission API)
         let quotaURL = URL(string: "http://custom-endpoint.example.com/api/v2/profiling/quota?session_id=test")!
         var request = URLRequest(url: quotaURL)
-        request.setValue(.mockRandom(), forHTTPHeaderField: "atatus-client-token")
+        request.setValue(.mockRandom(), forHTTPHeaderField: "towersignal-client-token")
 
         let taskCompleted = expectation(description: "Task completed")
         let task = session.dataTask(with: request) { _, _, _ in
@@ -1914,10 +1914,10 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         wait(for: [taskCompleted], timeout: 1)
 
         // Then
-        XCTAssertEqual(interceptedSDKRequests.count, 0, "Should not intercept SDK requests with atatus-client-token header")
+        XCTAssertEqual(interceptedSDKRequests.count, 0, "Should not intercept SDK requests with towersignal-client-token header")
     }
 
-    func testAutomaticMode_doesNotTrackAtatusSDKTestingRequests() throws {
+    func testAutomaticMode_doesNotTrackTowerSignalSDKTestingRequests() throws {
         // Given - Enable automatic mode
         try URLSessionInstrumentation.enableOrThrow(with: nil, in: core)
 
@@ -1927,8 +1927,8 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         handler.onInterceptionDidStart = { intercepted.append($0) }
 
         // When - Simulate `ddSDKTesting`'s CI Visibility upload: it hits citestcycle intake
-        // authenticated with `api-key` but without our SDK's internal `ATATUS-REQUEST-ID` header.
-        let citestcycleURL = URL(string: "https://www.atatus.com/")!
+        // authenticated with `api-key` but without our SDK's internal `TOWERSIGNAL-REQUEST-ID` header.
+        let citestcycleURL = URL(string: "https://www.towersignal.com/")!
         var request = URLRequest(url: citestcycleURL)
         request.setValue(.mockRandom(), forHTTPHeaderField: "api-key")
 
@@ -1940,7 +1940,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         wait(for: [taskCompleted], timeout: 5)
 
         // Then
-        XCTAssertEqual(intercepted.count, 0, "Should not intercept ddSDKTesting CI Visibility uploads (api-key without ATATUS-REQUEST-ID)")
+        XCTAssertEqual(intercepted.count, 0, "Should not intercept ddSDKTesting CI Visibility uploads (api-key without TOWERSIGNAL-REQUEST-ID)")
     }
 
     /// Regression test: the resume swizzle is process-global, so foreign URLSession activity in
@@ -2105,7 +2105,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         // Given - Configure first-party hosts
         let url = URL(string: "https://api.example.com")!
         handler.firstPartyHosts = .init(
-            hostsWithTracingHeaderTypes: [url.host!: [.atatus]]
+            hostsWithTracingHeaderTypes: [url.host!: [.towersignal]]
         )
 
         handler.onInterceptionDidStart = { interception in
@@ -2136,7 +2136,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         // Given - Configure first-party hosts
         let url = URL(string: "https://api.example.com")!
         handler.firstPartyHosts = .init(
-            hostsWithTracingHeaderTypes: [url.host!: [.atatus, .tracecontext]]
+            hostsWithTracingHeaderTypes: [url.host!: [.towersignal, .tracecontext]]
         )
 
         var capturedHeaderTypes: Set<TracingHeaderType>?
@@ -2159,7 +2159,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
 
         // Then - Verify request mutation (header injection) was called with correct header types
         waitForExpectations(timeout: 5, handler: nil)
-        XCTAssertEqual(capturedHeaderTypes, [.atatus, .tracecontext], "Should pass configured header types for injection")
+        XCTAssertEqual(capturedHeaderTypes, [.towersignal, .tracecontext], "Should pass configured header types for injection")
         _ = server.waitAndReturnRequests(count: 1)
     }
 
@@ -2170,7 +2170,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
 
         // Given - Configure first-party hosts that don't match the request URL
         handler.firstPartyHosts = .init(
-            hostsWithTracingHeaderTypes: ["api.first-party.com": [.atatus]]
+            hostsWithTracingHeaderTypes: ["api.first-party.com": [.towersignal]]
         )
 
         var requestMutationCalled = false
@@ -2202,7 +2202,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         // Given
         try URLSessionInstrumentation.enableOrThrow(with: nil, in: core)
         let delegate = SessionDataDelegateMock()
-        let firstPartyHosts: URLSessionInstrumentation.FirstPartyHostsTracing = .traceWithHeaders(hostsWithHeaders: ["test.com": [.atatus]])
+        let firstPartyHosts: URLSessionInstrumentation.FirstPartyHostsTracing = .traceWithHeaders(hostsWithHeaders: ["test.com": [.towersignal]])
         try URLSessionInstrumentation.enableOrThrow(with: .init(delegateClass: SessionDataDelegateMock.self, firstPartyHostsTracing: firstPartyHosts), in: core)
 
         let session = server.getInterceptedURLSession(delegate: delegate)
@@ -2231,7 +2231,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         let feature = try XCTUnwrap(core.get(feature: NetworkInstrumentationFeature.self))
 
         let url = URL(string: "https://api.example.com/graphql")!
-        handler.firstPartyHosts = .init(hostsWithTracingHeaderTypes: [url.host!: [.atatus]])
+        handler.firstPartyHosts = .init(hostsWithTracingHeaderTypes: [url.host!: [.towersignal]])
 
         var request = URLRequest(url: url)
         request.setValue("GetUser", forHTTPHeaderField: GraphQLHeaders.operationName)
@@ -2287,7 +2287,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         let accountInfo = AccountInfo(id: "account456", name: "TestAccount")
         let rumContext: RUMCoreContext = .mockWith(applicationID: "app123", sessionID: .mockWith("E621E1F8-C36C-495A-93FC-0C247A3E6E5F"))
 
-        let context = AtatusContext.mockWith(
+        let context = TowerSignalContext.mockWith(
             userInfo: userInfo,
             accountInfo: accountInfo,
             additionalContext: [rumContext]
@@ -2319,7 +2319,7 @@ class NetworkInstrumentationFeatureTests: XCTestCase {
         let provider = NetworkContextCoreProvider()
         let rumContext: RUMCoreContext = .mockWith(applicationID: "app123", sessionID: .mockWith("E621E1F8-C36C-495A-93FC-0C247A3E6E5F"))
 
-        let context = AtatusContext.mockWith(
+        let context = TowerSignalContext.mockWith(
             userInfo: .mockEmpty(),
             accountInfo: nil,
             additionalContext: [rumContext]

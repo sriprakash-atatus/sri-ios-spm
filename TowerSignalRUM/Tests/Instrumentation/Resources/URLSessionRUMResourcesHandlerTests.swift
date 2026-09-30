@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix to `_atatus`;
-// renamed the `x-dd-*` trace headers to `x-atatus-*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix to `_towersignal`;
+// renamed the `x-dd-*` trace headers to `x-towersignal-*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-@testable import AtatusInternal
-@testable import AtatusRUM
+@testable import TowerSignalInternal
+@testable import TowerSignalRUM
 
 class URLSessionRUMResourcesHandlerTests: XCTestCase {
     private let dateProvider = RelativeDateProvider(using: .mockDecember15th2019At10AMUTC())
@@ -51,7 +51,7 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
         // When
         let (request, traceContext, _) = handler.modify(
             request: .mockWith(url: "https://www.example.com"),
-            headerTypes: [.atatus],
+            headerTypes: [.towersignal],
             networkContext: NetworkContext(
                 rumContext: .mockWith(
                     applicationID: .mockRandom(),
@@ -62,7 +62,7 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
 
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.originField), "rum")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.traceIDField), "100")
-        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_atatus.p.tid=a,_atatus.p.dm=-1")
+        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_towersignal.p.tid=a,_towersignal.p.dm=-1")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.parentSpanIDField), "100")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.samplingPriorityField), "1")
         XCTAssertEqual(request.value(forHTTPHeaderField: W3CHTTPHeaders.baggage), "session.id=abcdef01-2345-6789-abcd-ef0123456789")
@@ -206,7 +206,7 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
         // When
         let (request, traceContext, _) = handler.modify(
             request: .mockWith(url: "https://www.example.com"),
-            headerTypes: [.atatus],
+            headerTypes: [.towersignal],
             networkContext: NetworkContext(
                 rumContext: .mockWith(
                     applicationID: .mockRandom(),
@@ -347,7 +347,7 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
         let (request, _, _) = handler.modify(
             request: orgRequest,
             headerTypes: [
-                .atatus,
+                .towersignal,
                 .b3,
                 .b3multi,
                 .tracecontext
@@ -845,7 +845,7 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
         let request: URLRequest = .mockWith(httpMethod: "GET")
         let (modifiedRequest, _, _) = handler.modify(
             request: request,
-            headerTypes: [.atatus, .tracecontext, .b3, .b3multi],
+            headerTypes: [.towersignal, .tracecontext, .b3, .b3multi],
             networkContext: NetworkContext(
                 rumContext: .mockWith(
                     applicationID: .mockRandom(),
@@ -863,11 +863,11 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
                 "X-B3-Sampled": "1",
                 "X-B3-TraceId": "000000000000000a0000000000000064",
                 "b3": "000000000000000a0000000000000064-0000000000000064-1",
-                "x-atatus-trace-id": "100",
-                "x-atatus-parent-id": "100",
-                "x-atatus-sampling-priority": "1",
-                "x-atatus-origin": "rum",
-                "x-atatus-tags": "_atatus.p.tid=a,_atatus.p.dm=-1",
+                "x-towersignal-trace-id": "100",
+                "x-towersignal-parent-id": "100",
+                "x-towersignal-sampling-priority": "1",
+                "x-towersignal-origin": "rum",
+                "x-towersignal-tags": "_towersignal.p.tid=a,_towersignal.p.dm=-1",
                 "baggage": "session.id=abcdef01-2345-6789-abcd-ef0123456789",
             ]
         )
@@ -893,7 +893,7 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
         // When
         let (modifiedRequest, _, _) = handler.modify(
             request: request,
-            headerTypes: [.atatus],
+            headerTypes: [.towersignal],
             networkContext: NetworkContext(
                 rumContext: .mockWith(
                     applicationID: .mockRandom(),
@@ -1053,7 +1053,7 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
         // When
         let (modifiedRequest, _, _) = handler.modify(
             request: request,
-            headerTypes: [.atatus, .tracecontext], // Both inject baggage headers
+            headerTypes: [.towersignal, .tracecontext], // Both inject baggage headers
             networkContext: NetworkContext(
                 rumContext: .mockWith(
                     applicationID: .mockRandom(),
@@ -1098,7 +1098,7 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
         // When
         let (_, traceContext, _) = handler.modify(
             request: mockRequest,
-            headerTypes: [.atatus],
+            headerTypes: [.towersignal],
             networkContext: NetworkContext(
                 rumContext: .mockWith(
                     applicationID: .mockRandom(),
@@ -1229,7 +1229,7 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
         for _ in 1...10 {
             let (_, traceContext, _) = handler.modify(
                 request: .mockWith(url: "https://www.example.com"),
-                headerTypes: [.atatus],
+                headerTypes: [.towersignal],
                 networkContext: NetworkContext(
                     rumContext: .mockWith(
                         applicationID: .mockRandom(),
@@ -1344,8 +1344,8 @@ class URLSessionRUMResourcesHandlerTests: XCTestCase {
 // MARK: - Test Helpers
 
 struct ExpectedGraphQLHeaders {
-    static let operationName: String = "_atatus-custom-header-graph-ql-operation-name"
-    static let operationType: String = "_atatus-custom-header-graph-ql-operation-type"
-    static let variables: String = "_atatus-custom-header-graph-ql-variables"
-    static let payload: String = "_atatus-custom-header-graph-ql-payload"
+    static let operationName: String = "_towersignal-custom-header-graph-ql-operation-name"
+    static let operationType: String = "_towersignal-custom-header-graph-ql-operation-type"
+    static let variables: String = "_towersignal-custom-header-graph-ql-variables"
+    static let payload: String = "_towersignal-custom-header-graph-ql-payload"
 }

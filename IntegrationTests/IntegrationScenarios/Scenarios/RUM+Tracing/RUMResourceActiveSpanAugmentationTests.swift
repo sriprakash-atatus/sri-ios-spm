@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `_dd` attribute prefix to `_atatus`; renamed the `x-dd-*` trace headers to `x-atatus-*`; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `_dd` attribute prefix to `_towersignal`; renamed the `x-dd-*` trace headers to `x-towersignal-*`; rebranded
 // the licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import HTTPServerMock
 import TestUtilities
 import XCTest
@@ -109,7 +109,7 @@ class RUMResourceActiveSpanAugmentationTests: IntegrationTests, RUMCommonAsserts
                 .first
         )
 
-        XCTAssertEqual(firstPartyPOSTRequest.httpHeaders["x-atatus-origin"], "rum")
+        XCTAssertEqual(firstPartyPOSTRequest.httpHeaders["x-towersignal-origin"], "rum")
 
         // Get RUM Sessions with expected number of View visits and Resources
         let rumRequests = try rumServerSession.pullRecordedRequests(timeout: dataDeliveryTimeout) { requests in
@@ -152,7 +152,7 @@ class RUMResourceActiveSpanAugmentationTests: IntegrationTests, RUMCommonAsserts
 
             // Make sure the sampling priority and decision makers are the expected ones.
             XCTAssertEqual(
-                firstPartyPOSTRequest.httpHeaders["x-atatus-sampling-priority"],
+                firstPartyPOSTRequest.httpHeaders["x-towersignal-sampling-priority"],
                 "\(samplingPriority.rawValue)"
             )
 
@@ -188,7 +188,7 @@ class RUMResourceActiveSpanAugmentationTests: IntegrationTests, RUMCommonAsserts
             XCTAssertNil(getTraceID(from: firstPartyPOSTRequest))
             XCTAssertNil(getSpanID(from: firstPartyPOSTRequest))
 
-            XCTAssertNil(firstPartyPOSTRequest.httpHeaders["x-atatus-sampling-priority"])
+            XCTAssertNil(firstPartyPOSTRequest.httpHeaders["x-towersignal-sampling-priority"])
             XCTAssertNil(getDecisionMaker(from: firstPartyPOSTRequest))
 
             XCTAssertNil(firstPartyResource.dd.traceId)
@@ -200,7 +200,7 @@ class RUMResourceActiveSpanAugmentationTests: IntegrationTests, RUMCommonAsserts
     private func getDecisionMaker(from request: Request) -> SamplingMechanismType? {
         let tags = getRequestTags(request)
 
-        guard let value = tags["_atatus.p.dm"]?.replacingOccurrences(of: "-", with: "") else {
+        guard let value = tags["_towersignal.p.dm"]?.replacingOccurrences(of: "-", with: "") else {
             return nil
         }
 

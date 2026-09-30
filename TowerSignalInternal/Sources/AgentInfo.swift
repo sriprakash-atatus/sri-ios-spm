@@ -1,25 +1,25 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 import Foundation
 
-// ATCHG: New file, porting `AgentInfo` from the Atatus Android agent
-// (`atatus-sdk-android-core/src/main/kotlin/com/atatus/android/AgentInfo.kt`).
+// ATCHG: New file, porting `AgentInfo` from the TowerSignal Android agent
+// (`towersignal-sdk-android-core/src/main/kotlin/com/towersignal/android/AgentInfo.kt`).
 //
-// The agent name and version are reported to the Atatus backend on every upload, both as
+// The agent name and version are reported to the TowerSignal backend on every upload, both as
 // request headers/query parameters and as an `agent` object inside each event payload.
 // Cross-platform agents (Flutter, React Native) overwrite `agentName` so the backend can
 // attribute events to the wrapping SDK rather than the native one.
-/// Identifies the agent sending data to Atatus.
+/// Identifies the agent sending data to TowerSignal.
 public enum AgentInfo {
-    /// The name of the agent, e.g. `"Atatus iOS Agent"`.
+    /// The name of the agent, e.g. `"TowerSignal iOS Agent"`.
     ///
     /// Cross-platform agents override this value with their own name.
     @ReadWriteLock
-    public static var agentName: String = "Atatus iOS Agent"
+    public static var agentName: String = "TowerSignal iOS Agent"
 
     /// The version of the agent.
     @ReadWriteLock

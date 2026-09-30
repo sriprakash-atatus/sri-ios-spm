@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddSessionReplay` -> `AtatusSessionReplay`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddSessionReplay` -> `TowerSignalSessionReplay`;
 // rebranded the licence header.
 
 #if os(iOS)
@@ -12,9 +12,9 @@ import TestUtilities
 import Testing
 import UIKit
 
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 
-@Suite(.atatusTesting)
+@Suite(.towersignalTesting)
 @MainActor
 struct ImageSnapshotCacheTests {
     @available(iOS 13.0, tvOS 13.0, *)

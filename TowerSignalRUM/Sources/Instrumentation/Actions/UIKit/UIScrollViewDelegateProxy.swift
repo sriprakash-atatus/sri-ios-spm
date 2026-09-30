@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddRUMPrivate` -> `AtatusRUMPrivate`; renamed
-// the `__dd_private_*` ObjC symbols to `__atatus_private_*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddRUMPrivate` -> `TowerSignalRUMPrivate`; renamed
+// the `__dd_private_*` ObjC symbols to `__towersignal_private_*`; rebranded the licence header.
 
 #if os(iOS) || os(visionOS)
 
@@ -14,9 +14,9 @@ import UIKit
 // swiftlint:disable duplicate_imports
 #if SPM_BUILD
     #if swift(>=6.0)
-    internal import AtatusRUMPrivate
+    internal import TowerSignalRUMPrivate
     #else
-    @_implementationOnly import AtatusRUMPrivate
+    @_implementationOnly import TowerSignalRUMPrivate
     #endif
 #endif
 // swiftlint:enable duplicate_imports
@@ -24,10 +24,10 @@ import UIKit
 /// A proxy that wraps the original UIScrollView delegate to intercept scroll lifecycle events
 /// while forwarding all calls to the original delegate transparently.
 ///
-/// Inherits from `__atatus_private_DDForwardingProxyBase` so that any delegate selector forwarded
+/// Inherits from `__towersignal_private_DDForwardingProxyBase` so that any delegate selector forwarded
 /// through this proxy is safely dropped (rather than crashing) when `originalDelegate` is
 /// mid-dealloc. See RUM-16361.
-internal final class UIScrollViewDelegateProxy: __atatus_private_DDForwardingProxyBase, UIScrollViewDelegate {
+internal final class UIScrollViewDelegateProxy: __towersignal_private_DDForwardingProxyBase, UIScrollViewDelegate {
     /// The original delegate receiving forwarded calls.
     weak var originalDelegate: UIScrollViewDelegate?
 
@@ -62,7 +62,7 @@ internal final class UIScrollViewDelegateProxy: __atatus_private_DDForwardingPro
 
     // MARK: - Forwarding
 
-    /// Provides the current forwarding target to `__atatus_private_DDForwardingProxyBase`.
+    /// Provides the current forwarding target to `__towersignal_private_DDForwardingProxyBase`.
     /// When `originalDelegate` is `nil` (e.g. mid-dealloc), the base class returns a benign
     /// method signature and silently drops the invocation in `forwardInvocation:` — closing
     /// the `unrecognized selector` crash family (RUM-16361, GH #2867).

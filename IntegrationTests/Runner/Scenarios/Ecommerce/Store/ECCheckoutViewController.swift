@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Checkout screens of the store in `AtatusEcommerceScenario` — the delivery address, then
+// ATCHG: Checkout screens of the store in `TowerSignalEcommerceScenario` — the delivery address, then
 // payment. Payment is the one step of the funnel that fails on purpose — the backend declines the
 // first authorisation with a 502, so the run captures a genuinely failed request alongside the
 // successful ones. Nothing about the failure is reported by hand; the agent sees the response like

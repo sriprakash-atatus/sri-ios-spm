@@ -1,20 +1,20 @@
 /*
 * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
-* This product includes software developed at Atatus (https://www.atatus.com/).
-* Copyright 2026-Present Atatus, Inc.
+* This product includes software developed at TowerSignal (https://www.towersignal.com/).
+* Copyright 2026-Present TowerSignal, Inc.
 */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddFlags` ->
-// `AtatusFlags`, `ddLogs` -> `AtatusLogs`, `ddRUM` -> `AtatusRUM`, `ddSessionReplay` ->
-// `AtatusSessionReplay`, `ddTrace` -> `AtatusTrace`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddFlags` ->
+// `TowerSignalFlags`, `ddLogs` -> `TowerSignalLogs`, `ddRUM` -> `TowerSignalRUM`, `ddSessionReplay` ->
+// `TowerSignalSessionReplay`, `ddTrace` -> `TowerSignalTrace`; rebranded the licence header.
 
 import UIKit
-@preconcurrency import AtatusTrace
-import AtatusCore
-@preconcurrency import AtatusLogs
-@preconcurrency import AtatusRUM
-@preconcurrency import AtatusFlags
-@preconcurrency import AtatusSessionReplay
+@preconcurrency import TowerSignalTrace
+import TowerSignalCore
+@preconcurrency import TowerSignalLogs
+@preconcurrency import TowerSignalRUM
+@preconcurrency import TowerSignalFlags
+@preconcurrency import TowerSignalSessionReplay
 @preconcurrency import OpenTelemetryApi
 
 /**

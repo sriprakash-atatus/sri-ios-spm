@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
@@ -30,9 +30,9 @@ internal import KSCrashRecording
 /// ## Integration
 ///
 /// This filter must be placed **first** in the KSCrash filter chain, before any other
-/// Atatus filters, as subsequent filters (`AtatusDiagnosticFilter`, `AtatusCrashReportFilter`)
+/// TowerSignal filters, as subsequent filters (`TowerSignalDiagnosticFilter`, `TowerSignalCrashReportFilter`)
 /// rely on `CrashDictionary`'s type-safe accessors.
-internal final class AtatusTypeSafeFilter: NSObject, CrashReportFilter {
+internal final class TowerSignalTypeSafeFilter: NSObject, CrashReportFilter {
     /// Converts untyped crash reports into type-safe dictionaries with compile-time key validation.
     ///
     /// This method transforms each KSCrash report from its raw string-keyed format

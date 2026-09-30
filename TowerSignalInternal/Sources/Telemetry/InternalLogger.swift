@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
 /// The `CoreLogger` printing to debugger console.
 public struct InternalLogger: CoreLogger {
     /// The prefix applied to all core logs.
-    private static let prefix = "[ATATUS SDK] 🐶 → "
+    private static let prefix = "[TOWERSIGNAL SDK] 🐶 → "
 
     /// The date provider for annotating core logs.
     private let dateProvider: DateProvider
@@ -39,7 +39,7 @@ public struct InternalLogger: CoreLogger {
 
     public func log(_ level: CoreLoggerLevel, message: @autoclosure () -> String, error: Error?) {
         guard let verbosityLevel = currentVerbosityLevel(), level >= verbosityLevel else {
-            return // if no `Atatus.verbosityLevel` is set or it is set above this level
+            return // if no `TowerSignal.verbosityLevel` is set or it is set above this level
         }
 
         print(message: message(), error: error, level: level)

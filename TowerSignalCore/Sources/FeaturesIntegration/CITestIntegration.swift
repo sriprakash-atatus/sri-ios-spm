@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
@@ -46,7 +46,7 @@ internal class CITestIntegration {
         let timeout: CFTimeInterval = 1.0
 
         guard let remotePort = CFMessagePortCreateRemote(
-            nil, messagePortId(name: "AtatusTestingPort")
+            nil, messagePortId(name: "TowerSignalTestingPort")
         ) else {
             return
         }
@@ -67,7 +67,7 @@ internal class CITestIntegration {
         func attributeCallback(port: CFMessagePort?, msgid: Int32, data: CFData?, info: UnsafeMutableRawPointer?) -> Unmanaged<CFData>? {
             switch msgid {
             case ATCFMessageID.forceFlush:
-                Atatus.internalFlushAndDeinitialize()
+                TowerSignal.internalFlushAndDeinitialize()
             default:
                 break
             }
@@ -75,7 +75,7 @@ internal class CITestIntegration {
         }
 
         guard let port = CFMessagePortCreateLocal(
-            nil, messagePortId(name: "AtatusRUMTestingPort"), attributeCallback, nil, nil
+            nil, messagePortId(name: "TowerSignalRUMTestingPort"), attributeCallback, nil, nil
         ) else {
             return
         }

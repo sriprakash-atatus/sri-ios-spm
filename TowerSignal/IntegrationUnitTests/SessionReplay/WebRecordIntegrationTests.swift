@@ -1,12 +1,12 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddRUM` -> `AtatusRUM`, `ddSessionReplay`
-// -> `AtatusSessionReplay`, `ddWebViewTracking` -> `AtatusWebViewTracking`; renamed `dd*` types
-// to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddRUM` -> `TowerSignalRUM`, `ddSessionReplay`
+// -> `TowerSignalSessionReplay`, `ddWebViewTracking` -> `TowerSignalWebViewTracking`; renamed `dd*` types
+// to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the licence header.
 
 import XCTest
 
@@ -14,20 +14,20 @@ import XCTest
 import WebKit
 
 import TestUtilities
-@testable import AtatusRUM
-@testable import AtatusWebViewTracking
+@testable import TowerSignalRUM
+@testable import TowerSignalWebViewTracking
 @_spi(Internal)
-@testable import AtatusSessionReplay
+@testable import TowerSignalSessionReplay
 
 class WebRecordIntegrationTests: XCTestCase {
     // swiftlint:disable implicitly_unwrapped_optional
-    private var core: AtatusCoreProxy!
+    private var core: TowerSignalCoreProxy!
     private var webView: WKWebView!
     private var controller: WKUserContentControllerMock!
     // swiftlint:enable implicitly_unwrapped_optional
 
     override func setUp() {
-        core = AtatusCoreProxy(
+        core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.1.1",

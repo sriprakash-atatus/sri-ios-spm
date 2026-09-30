@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; repointed the intake host at the Atatus site; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; repointed the intake host at the TowerSignal site; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusTrace
+@testable import TowerSignalTrace
 
 class ATNoopTracerTests: XCTestCase {
     func testWhenUsingDDNoopTracerAPIs_itPrintsWarning() {
@@ -36,9 +36,9 @@ class ATNoopTracerTests: XCTestCase {
 
         // Then
         let expectedWarningMessage = """
-        The `AtatusTracer.shared()` was called but `AtatusTracer` is not initialised. Configure the `AtatusTracer` before invoking the feature:
-            AtatusTracer.initialize()
-        See https://www.atatus.com/docs/
+        The `TowerSignalTracer.shared()` was called but `TowerSignalTracer` is not initialised. Configure the `TowerSignalTracer` before invoking the feature:
+            TowerSignalTracer.initialize()
+        See https://www.towersignal.com/docs/
         """
 
         XCTAssertEqual(dd.logger.warnLogs.count, 4)

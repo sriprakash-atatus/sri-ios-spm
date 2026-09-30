@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddTrace` ->
-// `AtatusTrace`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddTrace` ->
+// `TowerSignalTrace`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import UIKit
-import AtatusCore
-import AtatusTrace
+import TowerSignalCore
+import TowerSignalTrace
 
 internal class TSHomeViewController: UIViewController {
     override func viewDidLoad() {
@@ -30,7 +30,7 @@ internal class TSHomeViewController: UIViewController {
             // Because user info is attached to events in all features, we use it
             // to record current consent value for each event. This is later used
             // for assertions in integration tests.
-            Atatus.setUserInfo(
+            TowerSignal.setUserInfo(
                 id: "id",
                 name: "John Doe",
                 extraInfo: [

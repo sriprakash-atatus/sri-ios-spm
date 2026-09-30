@@ -1,13 +1,13 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
-import AtatusInternal
+import TowerSignalInternal
 import Foundation
 
 /// Core mock that only allows registering and retrieving features.
@@ -24,12 +24,12 @@ import Foundation
 ///
 /// **Note:** If you need different capabilities, check other available core mocks,
 /// before you consider adding it here.
-public final class FeatureRegistrationCoreMock: AtatusCoreProtocol, Sendable {
+public final class FeatureRegistrationCoreMock: TowerSignalCoreProtocol, Sendable {
     /// Counts references to this mock, so we can test if there are no memory leaks.
     @ReadWriteLock
     public private(set) static var referenceCount = 0
 
-    public internal(set) var registeredFeatures: [AtatusFeature] = []
+    public internal(set) var registeredFeatures: [TowerSignalFeature] = []
 
     public init() {
         Self._referenceCount.mutate { $0 += 1 }
@@ -41,7 +41,7 @@ public final class FeatureRegistrationCoreMock: AtatusCoreProtocol, Sendable {
 
     // MARK: - Supported
 
-    public func register<T>(feature: T) throws where T: AtatusFeature {
+    public func register<T>(feature: T) throws where T: TowerSignalFeature {
         registeredFeatures.append(feature)
     }
 
@@ -51,7 +51,7 @@ public final class FeatureRegistrationCoreMock: AtatusCoreProtocol, Sendable {
 
     // MARK: - Unsupported
 
-    public func scope<T>(for featureType: T.Type) -> FeatureScope where T: AtatusFeature {
+    public func scope<T>(for featureType: T.Type) -> FeatureScope where T: TowerSignalFeature {
         return NOPFeatureScope()
     }
 
@@ -59,7 +59,7 @@ public final class FeatureRegistrationCoreMock: AtatusCoreProtocol, Sendable {
         // not supported - use different type of core mock if you need this
     }
 
-    public func send(message: AtatusInternal.FeatureMessage, else fallback: @escaping () -> Void) {
+    public func send(message: TowerSignalInternal.FeatureMessage, else fallback: @escaping () -> Void) {
         // not supported - use different type of core mock if you need this
     }
 

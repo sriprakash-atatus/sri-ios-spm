@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddRUM` -> `AtatusRUM`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddRUM` -> `TowerSignalRUM`; rebranded the licence
 // header.
 
 #if !os(watchOS)
@@ -12,7 +12,7 @@
 import Testing
 import UIKit
 import TestUtilities
-@testable import AtatusRUM
+@testable import TowerSignalRUM
 import SwiftUI
 
 /// Tests our assumptions regarding the private view classes used by the operating systems when displaying alerts
@@ -30,7 +30,7 @@ import SwiftUI
 ///
 /// We also want to test the different button styles and alert styles (alert VS action sheet/confirmation dialog) to cover
 /// as many UI variations as possible.
-@Suite(.atatusTesting)
+@Suite(.towersignalTesting)
 @MainActor
 struct UIKitExtensionsTests {
     private var mockAppWindow: UIWindow! // swiftlint:disable:this implicitly_unwrapped_optional

@@ -1,10 +1,10 @@
 ## SRSnapshotTests
 
-The Snapshot Tests project is an additional layer of integration testing for the `AtatusSessionReplay` product. Instead of asserting JSON attributes in the code, it renders SR wireframes into PNGs and compares them against reference images using a perceptual precision algorithm.
+The Snapshot Tests project is an additional layer of integration testing for the `TowerSignalSessionReplay` product. Instead of asserting JSON attributes in the code, it renders SR wireframes into PNGs and compares them against reference images using a perceptual precision algorithm.
 
 ### Launching `SRSnapshotTests.xcworkspace`
 
-The `SRSnapshotTests.xcworkspace` depends on `atatus-sdk-ios/Package.swift` but requires the `atatus-sdk-ios/TestUtilities` library, which is not defined statically in the root package. To add it dynamically, we leverage the `AT_TEST_UTILITIES_ENABLED` ENV variable respected by the main package.
+The `SRSnapshotTests.xcworkspace` depends on `towersignal-sdk-ios/Package.swift` but requires the `towersignal-sdk-ios/TestUtilities` library, which is not defined statically in the root package. To add it dynamically, we leverage the `AT_TEST_UTILITIES_ENABLED` ENV variable respected by the main package.
 
 To open the project, use `make` at the repository root:
 ```

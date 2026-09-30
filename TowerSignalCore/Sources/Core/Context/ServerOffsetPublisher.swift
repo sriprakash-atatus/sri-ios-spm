@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
-/// List of Atatus NTP pools.
-public let AtatusNTPServers = [
-    "0.atatus.pool.ntp.org",
-    "1.atatus.pool.ntp.org",
-    "2.atatus.pool.ntp.org",
-    "3.atatus.pool.ntp.org"
+/// List of TowerSignal NTP pools.
+public let TowerSignalNTPServers = [
+    "0.towersignal.pool.ntp.org",
+    "1.towersignal.pool.ntp.org",
+    "2.towersignal.pool.ntp.org",
+    "3.towersignal.pool.ntp.org"
 ]
 
 /// Abstract the monotonic clock synchronized with the server using NTP.
@@ -27,7 +27,7 @@ public protocol ServerDateProvider {
     func synchronize(update: @escaping (TimeInterval) -> Void)
 }
 
-internal class AtatusNTPDateProvider: ServerDateProvider {
+internal class TowerSignalNTPDateProvider: ServerDateProvider {
     let kronos: KronosClockProtocol
 
     init(kronos: KronosClockProtocol = KronosClock()) {
@@ -36,7 +36,7 @@ internal class AtatusNTPDateProvider: ServerDateProvider {
 
     func synchronize(update: @escaping (TimeInterval) -> Void) {
         kronos.sync(
-            from: AtatusNTPServers.randomElement()!, // swiftlint:disable:this force_unwrapping
+            from: TowerSignalNTPServers.randomElement()!, // swiftlint:disable:this force_unwrapping
             first: { _, offset in
                 update(offset)
             },
@@ -78,13 +78,13 @@ internal class AtatusNTPDateProvider: ServerDateProvider {
 }
 
 /// The Server Offset Publisher provides updates on time offset between the
-/// local time and one of the Atatus's NTP pool.
+/// local time and one of the TowerSignal's NTP pool.
 ///
 /// This publisher uses a modified version of the ``MobileNativeFoundation/Kronos``
 /// see. https://github.com/MobileNativeFoundation/Kronos
 ///
 /// The ``KronosClockPublisher/publish`` will start syncing with one of the pool
-/// picked randomly from ``AtatusNTPServers``.
+/// picked randomly from ``TowerSignalNTPServers``.
 ///
 /// The time offset is defined in seconds.
 internal final class ServerOffsetPublisher: ContextValuePublisher {
@@ -96,7 +96,7 @@ internal final class ServerOffsetPublisher: ContextValuePublisher {
     /// Creates a publisher using the given `KronosClock` implementation.
     ///
     /// - Parameter kronos: An object complying with `KronosClockProtocol`.
-    init(provider: ServerDateProvider = AtatusNTPDateProvider()) {
+    init(provider: ServerDateProvider = TowerSignalNTPDateProvider()) {
         self.provider = provider
     }
 

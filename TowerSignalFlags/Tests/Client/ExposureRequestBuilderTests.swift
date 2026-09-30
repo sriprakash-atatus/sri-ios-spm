@@ -1,20 +1,20 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddInternal`
-// -> `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddInternal`
+// -> `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`;
 // renamed `clientToken` to `licenseKey`; renamed the `ddsource` / `ddtags` query parameters to
-// `atatus_source` / `atatustags`; renamed the `DD-*` intake headers to their Atatus equivalents; repointed
-// the intake host at the Atatus site; rebranded the licence header.
+// `towersignal_source` / `towersignaltags`; renamed the `DD-*` intake headers to their TowerSignal equivalents; repointed
+// the intake host at the TowerSignal site; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusFlags
+@testable import TowerSignalFlags
 
 final class ExposureRequestBuilderTests: XCTestCase {
     private let mockEvents: [Event] = [
@@ -45,14 +45,14 @@ final class ExposureRequestBuilderTests: XCTestCase {
         )
 
         // When
-        func url(for site: AtatusSite) -> String {
+        func url(for site: TowerSignalSite) -> String {
             let request = try! builder.request(for: mockEvents, with: .mockWith(site: site), execution: .mockAny())
             return request.url!.absoluteStringWithoutQuery!
         }
 
         // Then
-        // ATCHG: single Atatus intake host replaces the nine dd region endpoints
-        XCTAssertEqual(url(for: .atatus), "https://mo-rx.atatus.com/api/v2/exposures")
+        // ATCHG: single TowerSignal intake host replaces the nine dd region endpoints
+        XCTAssertEqual(url(for: .towersignal), "https://mo-rx.towersignal.com/api/v2/exposures")
     }
 
     func testItSetsCustomIntakeURL() throws {
@@ -64,15 +64,15 @@ final class ExposureRequestBuilderTests: XCTestCase {
         )
 
         // When
-        func url(for site: AtatusSite) -> String {
+        func url(for site: TowerSignalSite) -> String {
             let request = try! builder.request(for: mockEvents, with: .mockWith(site: site), execution: .mockAny())
             return request.url!.absoluteStringWithoutQuery!
         }
 
         // Then
         let expectedURL = randomURL.absoluteStringWithoutQuery
-        // ATCHG: single Atatus site replaces the nine dd regions
-        XCTAssertEqual(url(for: .atatus), expectedURL)
+        // ATCHG: single TowerSignal site replaces the nine dd regions
+        XCTAssertEqual(url(for: .towersignal), expectedURL)
     }
 
     func testItSetsExposureQueryParameters() throws {
@@ -83,13 +83,13 @@ final class ExposureRequestBuilderTests: XCTestCase {
             customIntakeURL: nil,
             telemetry: NOPTelemetry()
         )
-        let context: AtatusContext = .mockWith(source: randomSource)
+        let context: TowerSignalContext = .mockWith(source: randomSource)
 
         // When
         let request = try builder.request(for: mockEvents, with: context, execution: .mockAny())
 
         // Then
-        let expectedQuery = "atatus_source=\(randomSource)"
+        let expectedQuery = "towersignal_source=\(randomSource)"
         XCTAssertEqual(request.url?.query, expectedQuery)
     }
 
@@ -109,7 +109,7 @@ final class ExposureRequestBuilderTests: XCTestCase {
             customIntakeURL: nil,
             telemetry: NOPTelemetry()
         )
-        let context: AtatusContext = .mockWith(
+        let context: TowerSignalContext = .mockWith(
             licenseKey: randomClientToken,
             version: randomVersion,
             source: randomSource,
@@ -135,9 +135,9 @@ final class ExposureRequestBuilderTests: XCTestCase {
         )
         XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"], "text/plain;charset=UTF-8")
         XCTAssertEqual(request.allHTTPHeaderFields?["api-key"], randomClientToken)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN"], randomOrigin)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN-VERSION"], randomSDKVersion)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN"], randomOrigin)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN-VERSION"], randomSDKVersion)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
     }
 
     func testItSetsHTTPBodyInExpectedFormat() throws {

@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddRUM` -> `AtatusRUM`; renamed the `DD` symbol prefix to `AT`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`; renamed the `DD` symbol prefix to `AT`; rebranded the
 // licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusCore
-@testable import AtatusRUM
+@testable import TowerSignalCore
+@testable import TowerSignalRUM
 
 class RUMSessionTimeOutTests: RUMSessionTestsBase {
     // MARK: - Foreground session "time out" → track in foreground
@@ -39,15 +39,15 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
         for given in [given1, given2, given3, given4, given5, given6] {
             // When
             let when1 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.trackTwoActions(after1: dt1, after2: dt2))
             let when2 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.trackResource(after: dt1, duration: dt2))
             let when3 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.trackTwoLongTasks(after1: dt1, after2: dt2))
 
@@ -107,15 +107,15 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
         for given in [given1, given2, given3, given4] {
             // When
             let when1 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.trackTwoActions(after1: dt1, after2: dt2))
             let when2 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.trackResource(after: dt1, duration: dt2))
             let when3 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.trackTwoLongTasks(after1: dt1, after2: dt2))
 
@@ -415,7 +415,7 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
             // When
             // - "time out" → BG
             let when1 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.appEntersBackground(after: dt1))
 
@@ -449,7 +449,7 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
             // When
             // - BG → "time out"
             let when2 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .and(.appEntersBackground(after: dt1))
                 .when(.timeoutSession())
 
@@ -498,7 +498,7 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
             // When
             // - "time out" → BG
             let when1 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.appEntersBackground(after: dt1))
 
@@ -533,7 +533,7 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
             // When
             // - BG → "time out"
             let when2 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .and(.appEntersBackground(after: dt1))
                 .when(.timeoutSession())
 
@@ -579,11 +579,11 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
         for given in [given1, given2, given3] {
             // When
             let when1 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.appEntersBackground(after: dt1))
             let when2 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .and(.appEntersBackground(after: dt1))
                 .when(.timeoutSession())
 
@@ -633,11 +633,11 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
         for given in [given1, given2] {
             // When
             let when1 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.appEntersBackground(after: dt1))
             let when2 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .and(.appEntersBackground(after: dt1))
                 .when(.timeoutSession())
 
@@ -727,11 +727,11 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
         for given in [given1, given2] {
             // When
             let when1 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.trackTwoActions(after1: dt3, after2: dt4))
             let when2 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .and(.trackResource(after: dt3, duration: dt4))
 
@@ -764,7 +764,7 @@ class RUMSessionTimeOutTests: RUMSessionTestsBase {
 
             // When
             let when3 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.timeoutSession())
                 .when(.trackTwoLongTasks(after1: dt2, after2: dt3))
 

@@ -1,25 +1,25 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; renamed the `_dd` attribute prefix to `_atatus`; removed the `dd` name from comments and docs;
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; renamed the `_dd` attribute prefix to `_towersignal`; removed the `dd` name from comments and docs;
 // rebranded the licence header.
 
 import XCTest
 import TestUtilities
 
-@testable import AtatusInternal
-@testable import AtatusTrace
+@testable import TowerSignalInternal
+@testable import TowerSignalTrace
 
 @MainActor
 class TracingURLSessionHandlerTests: XCTestCase {
     // swiftlint:disable implicitly_unwrapped_optional
     var core: PassthroughCoreMock!
-    var tracer: AtatusTracer!
+    var tracer: TowerSignalTracer!
     var handler: TracingURLSessionHandler!
     // swiftlint:enable implicitly_unwrapped_optional
 
@@ -39,7 +39,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
             contextReceiver: receiver,
             samplingRate: .maxSampleRate,
             firstPartyHosts: .init([
-                "www.example.com": [.atatus]
+                "www.example.com": [.towersignal]
             ]),
             traceContextInjection: .all,
             telemetry: NOPTelemetry()
@@ -66,7 +66,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         let (request, traceContext, capturedState) = handler.modify(
             request: .mockWith(url: "https://www.example.com"),
             headerTypes: [
-                .atatus,
+                .towersignal,
                 .b3,
                 .b3multi,
                 .tracecontext
@@ -81,7 +81,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         )
 
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.traceIDField), "100")
-        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_atatus.p.tid=a,_atatus.p.dm=-1")
+        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_towersignal.p.tid=a,_towersignal.p.dm=-1")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.parentSpanIDField), "100")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.samplingPriorityField), "1")
         XCTAssertEqual(request.value(forHTTPHeaderField: B3HTTPHeaders.Multiple.traceIDField), "000000000000000a0000000000000064")
@@ -129,7 +129,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         let (request, traceContext, capturedState) = handler.modify(
             request: orgRequest,
             headerTypes: [
-                .atatus,
+                .towersignal,
                 .b3,
                 .b3multi,
                 .tracecontext
@@ -174,7 +174,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         let (request, traceContext, capturedState) = handler.modify(
             request: .mockWith(url: "https://www.example.com"),
             headerTypes: [
-                .atatus,
+                .towersignal,
                 .b3,
                 .b3multi,
                 .tracecontext
@@ -220,7 +220,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         let (request, traceContext, capturedState) = handler.modify(
             request: .mockWith(url: "https://www.example.com"),
             headerTypes: [
-                .atatus,
+                .towersignal,
                 .b3,
                 .b3multi,
                 .tracecontext
@@ -237,7 +237,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         span.finish()
 
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.traceIDField), "100")
-        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_atatus.p.tid=a,_atatus.p.dm=-1")
+        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_towersignal.p.tid=a,_towersignal.p.dm=-1")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.parentSpanIDField), "101")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.samplingPriorityField), "1")
         XCTAssertEqual(request.value(forHTTPHeaderField: B3HTTPHeaders.Multiple.traceIDField), "000000000000000a0000000000000064")
@@ -275,7 +275,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         let (request, traceContext, capturedState) = handler.modify(
             request: .mockWith(url: "https://www.example.com"),
             headerTypes: [
-                .atatus,
+                .towersignal,
                 .b3,
                 .b3multi,
                 .tracecontext
@@ -292,7 +292,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         span.finish()
 
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.traceIDField), "100")
-        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_atatus.p.tid=a,_atatus.p.dm=-4")
+        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_towersignal.p.tid=a,_towersignal.p.dm=-4")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.parentSpanIDField), "101")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.samplingPriorityField), "2")
         XCTAssertEqual(request.value(forHTTPHeaderField: B3HTTPHeaders.Multiple.traceIDField), "000000000000000a0000000000000064")
@@ -330,7 +330,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         let (request, traceContext, capturedState) = handler.modify(
             request: .mockWith(url: "https://www.example.com"),
             headerTypes: [
-                .atatus,
+                .towersignal,
                 .b3,
                 .b3multi,
                 .tracecontext
@@ -347,7 +347,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         span.finish()
 
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.traceIDField), "100")
-        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_atatus.p.tid=a")
+        XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.tagsField), "_towersignal.p.tid=a")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.parentSpanIDField), "101")
         XCTAssertEqual(request.value(forHTTPHeaderField: TracingHTTPHeaders.samplingPriorityField), "-1")
         XCTAssertEqual(request.value(forHTTPHeaderField: B3HTTPHeaders.Multiple.traceIDField), "000000000000000a0000000000000064")
@@ -385,7 +385,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
         let (request, traceContext, capturedState) = handler.modify(
             request: .mockWith(url: "https://www.example.com"),
             headerTypes: [
-                .atatus,
+                .towersignal,
                 .b3,
                 .b3multi,
                 .tracecontext
@@ -868,7 +868,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
             tracer: tracer,
             contextReceiver: ContextMessageReceiver(samplerProvider: SamplerProvider(sampleRate: .maxSampleRate)),
             samplingRate: .maxSampleRate,
-            firstPartyHosts: .init(["www.example.com": [.atatus]]),
+            firstPartyHosts: .init(["www.example.com": [.towersignal]]),
             traceContextInjection: .all,
             telemetry: NOPTelemetry()
         )
@@ -900,7 +900,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
             tracer: tracer,
             contextReceiver: ContextMessageReceiver(samplerProvider: SamplerProvider(sampleRate: .maxSampleRate)),
             samplingRate: .maxSampleRate,
-            firstPartyHosts: .init(["www.example.com": [.atatus]]),
+            firstPartyHosts: .init(["www.example.com": [.towersignal]]),
             traceContextInjection: .all,
             telemetry: NOPTelemetry(),
             redactedStatusCodes: []
@@ -933,7 +933,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
             tracer: tracer,
             contextReceiver: ContextMessageReceiver(samplerProvider: SamplerProvider(sampleRate: .maxSampleRate)),
             samplingRate: .maxSampleRate,
-            firstPartyHosts: .init(["www.example.com": [.atatus]]),
+            firstPartyHosts: .init(["www.example.com": [.towersignal]]),
             traceContextInjection: .all,
             telemetry: NOPTelemetry(),
             redactedStatusCodes: [404, 500]
@@ -961,7 +961,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
     // MARK: - Defensive against inverted timestamps (start > end)
 
     func testGivenInterceptionWithEndBeforeStart_itDoesNotCrashAndStillEmitsSpan() throws {
-        // Reproduces the crash reported in https://github.com/dd/atatus-sdk-ios/issues/2939.
+        // Reproduces the crash reported in https://github.com/dd/towersignal-sdk-ios/issues/2939.
         // where `fetchStartDate > fetchEndDate` (e.g. wall-clock corrected backwards mid-request).
         let expectation = expectation(description: "Send span")
         core.onEventWriteContext = { _ in expectation.fulfill() }
@@ -1020,7 +1020,7 @@ class TracingURLSessionHandlerTests: XCTestCase {
             tracer: tracer,
             contextReceiver: receiver,
             samplingRate: 80.0,
-            firstPartyHosts: .init(["example.com": [.atatus]]),
+            firstPartyHosts: .init(["example.com": [.towersignal]]),
             traceContextInjection: .all,
             telemetry: NOPTelemetry()
         )
@@ -1028,12 +1028,12 @@ class TracingURLSessionHandlerTests: XCTestCase {
         // When — modify is called twice with the same networkContext
         let (_, ctx1, _) = handler.modify(
             request: .mockWith(url: "https://example.com/path"),
-            headerTypes: [.atatus],
+            headerTypes: [.towersignal],
             networkContext: networkContext
         )
         let (_, ctx2, _) = handler.modify(
             request: .mockWith(url: "https://example.com/path"),
-            headerTypes: [.atatus],
+            headerTypes: [.towersignal],
             networkContext: networkContext
         )
 
@@ -1062,14 +1062,14 @@ class TracingURLSessionHandlerTests: XCTestCase {
             tracer: tracer,
             contextReceiver: receiver,
             samplingRate: traceRate,
-            firstPartyHosts: .init(["example.com": [.atatus]]),
+            firstPartyHosts: .init(["example.com": [.towersignal]]),
             traceContextInjection: .all,
             telemetry: NOPTelemetry()
         )
 
         let (_, traceContext, _) = handler.modify(
             request: .mockWith(url: "https://example.com/resource"),
-            headerTypes: [.atatus],
+            headerTypes: [.towersignal],
             networkContext: NetworkContext(rumContext: RUMCoreContext(applicationID: "app-id", sessionID: sessionUUID, sessionSampler: sessionSampler))
         )
 
@@ -1086,14 +1086,14 @@ class TracingURLSessionHandlerTests: XCTestCase {
             tracer: tracer,
             contextReceiver: receiver,
             samplingRate: 80.0,
-            firstPartyHosts: .init(["example.com": [.atatus]]),
+            firstPartyHosts: .init(["example.com": [.towersignal]]),
             traceContextInjection: .all,
             telemetry: NOPTelemetry()
         )
 
         let (_, traceContext, _) = handler.modify(
             request: .mockWith(url: "https://example.com/path"),
-            headerTypes: [.atatus],
+            headerTypes: [.towersignal],
             networkContext: NetworkContext(rumContext: nil)
         )
 
@@ -1121,14 +1121,14 @@ class TracingURLSessionHandlerTests: XCTestCase {
             tracer: tracer,
             contextReceiver: receiver,
             samplingRate: traceRate,
-            firstPartyHosts: .init(["example.com": [.atatus]]),
+            firstPartyHosts: .init(["example.com": [.towersignal]]),
             traceContextInjection: .all,
             telemetry: NOPTelemetry()
         )
 
         let (_, traceContext, _) = handler.modify(
             request: .mockWith(url: "https://example.com/resource"),
-            headerTypes: [.atatus],
+            headerTypes: [.towersignal],
             networkContext: NetworkContext(rumContext: RUMCoreContext(applicationID: "app-id", sessionID: sessionUUID, sessionSampler: sessionSampler))
         )
 

@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddRUM` -> `AtatusRUM`; rebranded the `dd` name to `Atatus` in comments and
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`; rebranded the `dd` name to `TowerSignal` in comments and
 // docs; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusCore
-@testable import AtatusRUM
+@testable import TowerSignalCore
+@testable import TowerSignalRUM
 
 /// Base class for RUM session tests.
 /// Provides common fixtures and helpers for simulating test scenarios.
@@ -21,7 +21,7 @@ class RUMSessionTestsBase: XCTestCase {
     let processLaunchDate = Date()
     /// Timestamp representing when the SDK was loaded.
     private(set) lazy var runtimeLoadDate: Date = { processLaunchDate.addingTimeInterval(0.1) }()
-    /// Simulated delay between app launch and SDK initialization (`Atatus.initialize()` + `RUM.enable()`).
+    /// Simulated delay between app launch and SDK initialization (`TowerSignal.initialize()` + `RUM.enable()`).
     let timeToSDKInit: TimeInterval = 0.7
 
     /// Simulated delay before the app transitions to the ACTIVE state.

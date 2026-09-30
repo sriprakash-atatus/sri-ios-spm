@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 #if canImport(SwiftUI)
 import SwiftUI
-import AtatusInternal
+import TowerSignalInternal
 
 /// `SwiftUI.ViewModifier` which notifes RUM instrumentation when modified view appears and disappears.
 /// It makes an entry point to RUM views instrumentation in SwiftUI.
 @available(iOS 13, tvOS 13, watchOS 7, *)
 internal struct RUMViewModifier: SwiftUI.ViewModifier {
-    /// Atatus RUM instrumentation instance
+    /// TowerSignal RUM instrumentation instance
     let instrumentation: RUMInstrumentation?
 
     /// The Content View identifier.
@@ -51,7 +51,7 @@ internal struct RUMViewModifier: SwiftUI.ViewModifier {
 
 @available(iOS 13, tvOS 13, watchOS 7, *)
 public extension SwiftUI.View {
-    /// Monitor this view with Atatus RUM. A start and stop events will be logged when this view appears
+    /// Monitor this view with TowerSignal RUM. A start and stop events will be logged when this view appears
     /// and disappears.
     ///
     /// - Parameters:
@@ -62,7 +62,7 @@ public extension SwiftUI.View {
     func trackRUMView(
         name: String,
         attributes: [AttributeKey: AttributeValue] = [:],
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) -> some View {
         let path = "\(name)/\(typeDescription.hashValue)"
         let instrumentation = core.get(feature: RUMFeature.self)?.instrumentation

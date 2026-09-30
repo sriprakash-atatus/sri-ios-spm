@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `ddsource` / `ddtags` query parameters to `atatus_source` /
-// `atatustags`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` /
+// `towersignaltags`; rebranded the licence header.
 
 import Foundation
 
@@ -24,14 +24,14 @@ public struct Request {
 }
 
 extension Array where Element == URLQueryItem {
-    /// Returns the `atatusTags` query item as a dictionary.
-    /// The `atatusTags` query item is expected to be in the format `key:value,key:value`.
-    /// - Returns: The `atatusTags` query item as a dictionary.
-    public func atatusTags() -> [String: String]? {
-        guard let atatusTags = first(where: { $0.name == "atatusTags" })?.value else {
+    /// Returns the `towersignalTags` query item as a dictionary.
+    /// The `towersignalTags` query item is expected to be in the format `key:value,key:value`.
+    /// - Returns: The `towersignalTags` query item as a dictionary.
+    public func towersignalTags() -> [String: String]? {
+        guard let towersignalTags = first(where: { $0.name == "towersignalTags" })?.value else {
             return nil
         }
-        return atatusTags.split(separator: ",", keyValueSeparator: ":")
+        return towersignalTags.split(separator: ",", keyValueSeparator: ":")
     }
 
     /// Returns the value of the first query item with the given name.

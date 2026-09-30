@@ -1,46 +1,46 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 import Foundation
 import SwiftUI
-#if canImport(AtatusCore)
-import AtatusCore
+#if canImport(TowerSignalCore)
+import TowerSignalCore
 #endif
-#if canImport(AtatusRUM)
-import AtatusRUM
+#if canImport(TowerSignalRUM)
+import TowerSignalRUM
 #endif
-#if canImport(AtatusLogs)
-import AtatusLogs
+#if canImport(TowerSignalLogs)
+import TowerSignalLogs
 #endif
-#if canImport(AtatusTrace)
-import AtatusTrace
+#if canImport(TowerSignalTrace)
+import TowerSignalTrace
 #endif
-#if canImport(AtatusCrashReporting)
-import AtatusCrashReporting
+#if canImport(TowerSignalCrashReporting)
+import TowerSignalCrashReporting
 #endif
-#if canImport(AtatusSessionReplay)
-import AtatusSessionReplay
+#if canImport(TowerSignalSessionReplay)
+import TowerSignalSessionReplay
 #endif
 
 enum Telemetry {
-    private static let configFileName = "AtatusConfig"
+    private static let configFileName = "TowerSignalConfig"
 
     static func start() {
-        #if canImport(AtatusCore)
-        let licenseKey = value(for: "AtatusLicenseKey", environment: "ATATUS_LICENSE_KEY")
+        #if canImport(TowerSignalCore)
+        let licenseKey = value(for: "TowerSignalLicenseKey", environment: "TOWERSIGNAL_LICENSE_KEY")
             ?? "lic_apm_3c890780dd3a4acd97fab9ce6eb5b917"
-        let environment = value(for: "AtatusEnvironment", environment: "ATATUS_ENV") ?? "demo"
-        let serverUrl = value(for: "AtatusServerURL", environment: "ATATUS_SERVER_URL") ?? "http://127.0.0.1:8088"
-        let appName = value(for: "AtatusAppName", environment: "ATATUS_APP_NAME")
-            ?? value(for: "AtatusServiceName", environment: "ATATUS_SERVICE_NAME")
+        let environment = value(for: "TowerSignalEnvironment", environment: "TOWERSIGNAL_ENV") ?? "demo"
+        let serverUrl = value(for: "TowerSignalServerURL", environment: "TOWERSIGNAL_SERVER_URL") ?? "http://127.0.0.1:8088"
+        let appName = value(for: "TowerSignalAppName", environment: "TOWERSIGNAL_APP_NAME")
+            ?? value(for: "TowerSignalServiceName", environment: "TOWERSIGNAL_SERVICE_NAME")
             ?? "FlipShop"
-        let service = value(for: "AtatusServiceName", environment: "ATATUS_SERVICE_NAME") ?? appName
-        let appID = value(for: "AtatusApplicationID", environment: "ATATUS_APPLICATION_ID") ?? appName
+        let service = value(for: "TowerSignalServiceName", environment: "TOWERSIGNAL_SERVICE_NAME") ?? appName
+        let appID = value(for: "TowerSignalApplicationID", environment: "TOWERSIGNAL_APPLICATION_ID") ?? appName
 
-        let configuration = Atatus.Configuration(
+        let configuration = TowerSignal.Configuration(
             licenseKey: licenseKey,
             env: environment,
             serverUrl: serverUrl,
@@ -48,16 +48,16 @@ enum Telemetry {
             batchSize: .small,
             uploadFrequency: .frequent
         )
-        Atatus.initialize(with: configuration, trackingConsent: .granted)
-        Atatus.verbosityLevel = .debug
+        TowerSignal.initialize(with: configuration, trackingConsent: .granted)
+        TowerSignal.verbosityLevel = .debug
 
         let tracingHosts: Set<String> = [
             "127.0.0.1",
             "localhost",
-            "demo.atatus.com"
+            "demo.towersignal.com"
         ]
 
-        #if canImport(AtatusRUM)
+        #if canImport(TowerSignalRUM)
         RUM.enable(
             with: RUM.Configuration(
                 applicationID: appID,
@@ -77,13 +77,13 @@ enum Telemetry {
         RUMMonitor.shared().debug = true
         #endif
 
-        #if canImport(AtatusLogs)
+        #if canImport(TowerSignalLogs)
         Logs.enable(with: Logs.Configuration())
         let logger = Logger.create(with: Logger.Configuration(name: "flipshop", networkInfoEnabled: true))
-        logger.info("FlipShop initialized with Atatus SDK", attributes: ["env": environment, "server": serverUrl])
+        logger.info("FlipShop initialized with TowerSignal SDK", attributes: ["env": environment, "server": serverUrl])
         #endif
 
-        #if canImport(AtatusTrace)
+        #if canImport(TowerSignalTrace)
         var traceConfig = Trace.Configuration(
             service: service,
             networkInfoEnabled: true
@@ -98,11 +98,11 @@ enum Telemetry {
         Trace.enable(with: traceConfig)
         #endif
 
-        #if canImport(AtatusCrashReporting)
+        #if canImport(TowerSignalCrashReporting)
         CrashReporting.enable()
         #endif
 
-        #if canImport(AtatusSessionReplay)
+        #if canImport(TowerSignalSessionReplay)
         // Record all text, inputs, photos, and taps without masking the UI.
         SessionReplay.enable(
             with: SessionReplay.Configuration(
@@ -125,7 +125,7 @@ enum Telemetry {
     }
 
     static func sendSampleDistributedTraces(serverUrl: String, service: String) {
-        #if canImport(AtatusTrace)
+        #if canImport(TowerSignalTrace)
         // 1. Manual Span: simulate a distributed backend operation
         let tracer = Tracer.shared()
         let span = tracer.startSpan(operationName: "order.checkout.distributed")

@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`, `ddWebViewTracking` -> `AtatusWebViewTracking`; renamed `dd*` types to
-// `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix to `_atatus`;
-// rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`, `ddWebViewTracking` -> `TowerSignalWebViewTracking`; renamed `dd*` types to
+// `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix to `_towersignal`;
+// rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 #if canImport(WebKit)
 
 import XCTest
 import WebKit
 import TestUtilities
-import AtatusInternal
-@testable import AtatusRUM
-@testable import AtatusWebViewTracking
+import TowerSignalInternal
+@testable import TowerSignalRUM
+@testable import TowerSignalWebViewTracking
 
 @MainActor
 class WebViewTrackingTests: XCTestCase {
@@ -97,10 +97,10 @@ class WebViewTrackingTests: XCTestCase {
 
         let script = try XCTUnwrap(controller.userScripts.last)
         XCTAssertEqual(script.source, """
-        /* AtatusEventBridge */
-        window.AtatusEventBridge = {
+        /* TowerSignalEventBridge */
+        window.TowerSignalEventBridge = {
             send(msg) {
-                window.webkit.messageHandlers.AtatusEventBridge.postMessage(msg)
+                window.webkit.messageHandlers.TowerSignalEventBridge.postMessage(msg)
             },
             getAllowedWebViewHosts() {
                 return '["\(host)"]'
@@ -119,12 +119,12 @@ class WebViewTrackingTests: XCTestCase {
     }
 
     func testItAddsUserScriptWithSessionReplay() throws {
-        struct SessionReplayFeature: AtatusFeature, SessionReplayConfiguration {
+        struct SessionReplayFeature: TowerSignalFeature, SessionReplayConfiguration {
             static let name = "session-replay"
             let messageReceiver: FeatureMessageReceiver = NOPFeatureMessageReceiver()
-            let textAndInputPrivacyLevel: AtatusInternal.TextAndInputPrivacyLevel
-            let imagePrivacyLevel: AtatusInternal.ImagePrivacyLevel
-            let touchPrivacyLevel: AtatusInternal.TouchPrivacyLevel
+            let textAndInputPrivacyLevel: TowerSignalInternal.TextAndInputPrivacyLevel
+            let imagePrivacyLevel: TowerSignalInternal.ImagePrivacyLevel
+            let touchPrivacyLevel: TowerSignalInternal.TouchPrivacyLevel
         }
 
         let mockSanitizer = HostsSanitizerMock()
@@ -158,10 +158,10 @@ class WebViewTrackingTests: XCTestCase {
 
         let script = try XCTUnwrap(controller.userScripts.last)
         XCTAssertEqual(script.source, """
-        /* AtatusEventBridge */
-        window.AtatusEventBridge = {
+        /* TowerSignalEventBridge */
+        window.TowerSignalEventBridge = {
             send(msg) {
-                window.webkit.messageHandlers.AtatusEventBridge.postMessage(msg)
+                window.webkit.messageHandlers.TowerSignalEventBridge.postMessage(msg)
             },
             getAllowedWebViewHosts() {
                 return '["\(host)"]'
@@ -198,7 +198,7 @@ class WebViewTrackingTests: XCTestCase {
             config.userContentController = controller
             let webView = WKWebView(frame: .zero, configuration: config)
 
-            let core = AtatusCoreProxy(
+            let core = TowerSignalCoreProxy(
                 context: .mockWith(
                     env: "test",
                     version: "1.0.0",
@@ -235,10 +235,10 @@ class WebViewTrackingTests: XCTestCase {
             XCTAssertEqual(
                 script.source,
             """
-            /* AtatusEventBridge */
-            window.AtatusEventBridge = {
+            /* TowerSignalEventBridge */
+            window.TowerSignalEventBridge = {
                 send(msg) {
-                    window.webkit.messageHandlers.AtatusEventBridge.postMessage(msg)
+                    window.webkit.messageHandlers.TowerSignalEventBridge.postMessage(msg)
                 },
                 getAllowedWebViewHosts() {
                     return '["\(host)"]'
@@ -254,7 +254,7 @@ class WebViewTrackingTests: XCTestCase {
                 }
             }
             """,
-                "Unexpected window.AtatusEventBridge code for tracing decision \(tracingDecision.jsValue)"
+                "Unexpected window.TowerSignalEventBridge code for tracing decision \(tracingDecision.jsValue)"
             )
         }
     }
@@ -347,7 +347,7 @@ class WebViewTrackingTests: XCTestCase {
 
         let uuidGenerator = RUMUUIDGeneratorMock(uuid: sessionUUID1)
 
-        let core = AtatusCoreProxy(
+        let core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",
@@ -383,7 +383,7 @@ class WebViewTrackingTests: XCTestCase {
 
         loadAndWait(on: webView, request: URLRequest(url: URL(string: "http://localhost")!), responseHTML: "<html><body>Hello world</body></html>")
 
-        waitForJS("window.AtatusEventBridge.getIsTraceSampled()", toReturn: "false", webView: webView, description: "sessionUUID1")
+        waitForJS("window.TowerSignalEventBridge.getIsTraceSampled()", toReturn: "false", webView: webView, description: "sessionUUID1")
 
         // Start initial session by starting a view
         RUMMonitor.shared(in: core).startView(key: "view-1")
@@ -398,11 +398,11 @@ class WebViewTrackingTests: XCTestCase {
         RUMMonitor.shared(in: core).startView(key: "view-2")
         core.flush()
 
-        waitForJS("window.AtatusEventBridge.getIsTraceSampled()", toReturn: "true", webView: webView, description: "sessionUUID2")
+        waitForJS("window.TowerSignalEventBridge.getIsTraceSampled()", toReturn: "true", webView: webView, description: "sessionUUID2")
 
         loadAndWait(on: webView, request: URLRequest(url: URL(string: "http://localhost/about.html")!), responseHTML: "<html><body>About us</body></html>")
 
-        waitForJS("window.AtatusEventBridge.getIsTraceSampled()", toReturn: "true", webView: webView, description: "sessionUUID2 after loading a new page")
+        waitForJS("window.TowerSignalEventBridge.getIsTraceSampled()", toReturn: "true", webView: webView, description: "sessionUUID2 after loading a new page")
     }
 
     @available(iOS 15.0, *)
@@ -415,7 +415,7 @@ class WebViewTrackingTests: XCTestCase {
 
         let uuidGenerator = RUMUUIDGeneratorMock(uuid: sessionUUID1)
 
-        let core = AtatusCoreProxy(
+        let core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",
@@ -458,9 +458,9 @@ class WebViewTrackingTests: XCTestCase {
         """
         loadAndWait(on: webView, request: URLRequest(url: URL(string: "http://localhost")!), responseHTML: html)
 
-        let mainJS = "window.AtatusEventBridge.getIsTraceSampled()"
-        let iframeJS = "window.frames[0].AtatusEventBridge.getIsTraceSampled()"
-        let nestedIframeJS = "window.frames[0].frames[0].AtatusEventBridge.getIsTraceSampled()"
+        let mainJS = "window.TowerSignalEventBridge.getIsTraceSampled()"
+        let iframeJS = "window.frames[0].TowerSignalEventBridge.getIsTraceSampled()"
+        let nestedIframeJS = "window.frames[0].frames[0].TowerSignalEventBridge.getIsTraceSampled()"
 
         // Verify all frames have the initial decision (not sampled at 40%)
         waitForJS(mainJS, toReturn: "false", webView: webView, description: "main frame sessionUUID1")
@@ -493,7 +493,7 @@ class WebViewTrackingTests: XCTestCase {
         let sessionUUID = RUMUUID(rawValue: UUID(uuidString: "c5b3c4ab-fa4a-4de9-8199-a522131ec48a")!)
         let uuidGenerator = RUMUUIDGeneratorMock(uuid: sessionUUID)
 
-        let core = AtatusCoreProxy(
+        let core = TowerSignalCoreProxy(
             context: .mockWith(
                 env: "test",
                 version: "1.0.0",
@@ -535,12 +535,12 @@ class WebViewTrackingTests: XCTestCase {
         RUMMonitor.shared(in: core).startView(key: "view-1")
         core.flush()
 
-        waitForJS("window.AtatusEventBridge.getIsTraceSampled()", toReturn: "true", webView: webView, description: "active session")
+        waitForJS("window.TowerSignalEventBridge.getIsTraceSampled()", toReturn: "true", webView: webView, description: "active session")
 
         RUMMonitor.shared(in: core).stopSession()
         core.flush()
 
-        waitForJS("window.AtatusEventBridge.getIsTraceSampled()", toReturn: "null", webView: webView, description: "after stopSession")
+        waitForJS("window.TowerSignalEventBridge.getIsTraceSampled()", toReturn: "null", webView: webView, description: "after stopSession")
     }
 
     func testItAddsUserScriptAndMessageHandler() throws {
@@ -554,22 +554,22 @@ class WebViewTrackingTests: XCTestCase {
 
         try WebViewTracking.enableOrThrow(
             tracking: webView,
-            hosts: ["atatus.com"],
+            hosts: ["towersignal.com"],
             hostsSanitizer: mockSanitizer,
             logsSampleRate: 30,
             in: PassthroughCoreMock()
         )
 
         XCTAssertEqual(controller.userScripts.count, initialUserScriptCount + 1)
-        XCTAssertEqual(controller.messageHandlers.map({ $0.name }), ["AtatusEventBridge"])
+        XCTAssertEqual(controller.messageHandlers.map({ $0.name }), ["TowerSignalEventBridge"])
 
         let messageHandler = try XCTUnwrap(controller.messageHandlers.first?.handler) as? ATScriptMessageHandler
         XCTAssertEqual(messageHandler?.emitter.logsSampler.samplingRate, 30)
 
         XCTAssertEqual(mockSanitizer.sanitizations.count, 1)
         let sanitization = try XCTUnwrap(mockSanitizer.sanitizations.first)
-        XCTAssertEqual(sanitization.hosts, ["atatus.com"])
-        XCTAssertEqual(sanitization.warningMessage, "The allowed WebView host configured for Atatus SDK is not valid")
+        XCTAssertEqual(sanitization.hosts, ["towersignal.com"])
+        XCTAssertEqual(sanitization.warningMessage, "The allowed WebView host configured for TowerSignal SDK is not valid")
     }
 
     func testWhenAddingMessageHandlerMultipleTimes_itIgnoresExtraOnesAndPrintsWarning() throws {
@@ -588,7 +588,7 @@ class WebViewTrackingTests: XCTestCase {
         try (0..<multipleTimes).forEach { _ in
             try WebViewTracking.enableOrThrow(
                 tracking: webView,
-                hosts: ["atatus.com"],
+                hosts: ["towersignal.com"],
                 hostsSanitizer: mockSanitizer,
                 logsSampleRate: 100,
                 in: PassthroughCoreMock()
@@ -596,12 +596,12 @@ class WebViewTrackingTests: XCTestCase {
         }
 
         XCTAssertEqual(controller.userScripts.count, initialUserScriptCount + 1)
-        XCTAssertEqual(controller.messageHandlers.map({ $0.name }), ["AtatusEventBridge"])
+        XCTAssertEqual(controller.messageHandlers.map({ $0.name }), ["TowerSignalEventBridge"])
 
         XCTAssertGreaterThanOrEqual(mockSanitizer.sanitizations.count, 1)
         let sanitization = try XCTUnwrap(mockSanitizer.sanitizations.first)
-        XCTAssertEqual(sanitization.hosts, ["atatus.com"])
-        XCTAssertEqual(sanitization.warningMessage, "The allowed WebView host configured for Atatus SDK is not valid")
+        XCTAssertEqual(sanitization.hosts, ["towersignal.com"])
+        XCTAssertEqual(sanitization.warningMessage, "The allowed WebView host configured for TowerSignal SDK is not valid")
 
         XCTAssertEqual(
             dd.logger.warnLogs.map({ $0.message }),
@@ -654,7 +654,7 @@ class WebViewTrackingTests: XCTestCase {
         XCTAssertEqual(controller.messageHandlers.count, 1)
     }
 
-    func testWhenStoppingTracking_itKeepsNonAtatusComponents() throws {
+    func testWhenStoppingTracking_itKeepsNonTowerSignalComponents() throws {
         let core = PassthroughCoreMock()
         let controller = ATUserContentController()
         let configuration = WKWebViewConfiguration()
@@ -696,7 +696,7 @@ class WebViewTrackingTests: XCTestCase {
                     XCTAssertEqual(try? matcher.value("date"), 1_635_932_927_012)
                     XCTAssertEqual(try? matcher.value("message"), "console error: error")
                     XCTAssertEqual(try? matcher.value("status"), "error")
-                    XCTAssertEqual(try? matcher.value("view"), ["referrer": "", "url": "https://atatus.dev/browser-sdk-test-playground"])
+                    XCTAssertEqual(try? matcher.value("view"), ["referrer": "", "url": "https://towersignal.dev/browser-sdk-test-playground"])
                     XCTAssertEqual(try? matcher.value("error"), ["origin": "console"])
                     XCTAssertEqual(try? matcher.value("session_id"), "0110cab4-7471-480e-aa4e-7ce039ced355")
                     logMessageExpectation.fulfill()
@@ -714,7 +714,7 @@ class WebViewTrackingTests: XCTestCase {
         let webView = WKWebView(frame: .zero, configuration: config)
         try WebViewTracking.enableOrThrow(
             tracking: webView,
-            hosts: ["atatus.com"],
+            hosts: ["towersignal.com"],
             hostsSanitizer: HostsSanitizerMock(),
             logsSampleRate: 100,
             in: core
@@ -734,7 +734,7 @@ class WebViewTrackingTests: XCTestCase {
             "status": "error",
             "view": {
               "referrer": "",
-              "url": "https://atatus.dev/browser-sdk-test-playground"
+              "url": "https://towersignal.dev/browser-sdk-test-playground"
             }
           },
           "tags": [
@@ -769,7 +769,7 @@ class WebViewTrackingTests: XCTestCase {
         let webView = WKWebView(frame: .zero, configuration: config)
         try WebViewTracking.enableOrThrow(
             tracking: webView,
-            hosts: ["atatus.com"],
+            hosts: ["towersignal.com"],
             hostsSanitizer: HostsSanitizerMock(),
             logsSampleRate: 100,
             in: core
@@ -819,7 +819,7 @@ class WebViewTrackingTests: XCTestCase {
               "time_spent": 3120000000,
               "url": "http://localhost:8080/test.html"
             },
-            "_atatus": {
+            "_towersignal": {
               "document_version": 2,
               "drift": 0,
               "format_version": 2,
@@ -863,7 +863,7 @@ class WebViewTrackingTests: XCTestCase {
 
         try WebViewTracking.enableOrThrow(
             tracking: webView,
-            hosts: ["atatus.com"],
+            hosts: ["towersignal.com"],
             hostsSanitizer: HostsSanitizerMock(),
             logsSampleRate: 100,
             in: core
@@ -991,10 +991,10 @@ class WebViewTrackingTests: XCTestCase {
 
         let script = try XCTUnwrap(controller.userScripts.last)
         XCTAssertEqual(script.source, """
-        /* AtatusEventBridge */
-        window.AtatusEventBridge = {
+        /* TowerSignalEventBridge */
+        window.TowerSignalEventBridge = {
             send(msg) {
-                window.webkit.messageHandlers.AtatusEventBridge.postMessage(msg)
+                window.webkit.messageHandlers.TowerSignalEventBridge.postMessage(msg)
             },
             getAllowedWebViewHosts() {
                 return '["*.shopist.io","preview-*.example.com"]'

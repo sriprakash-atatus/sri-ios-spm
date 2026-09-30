@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`, `ddRUM` -> `AtatusRUM`, `ddTrace` -> `AtatusTrace`; renamed `dd*` types
-// to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`, `ddRUM` -> `TowerSignalRUM`, `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types
+// to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
 
-@testable import AtatusLogs
-@testable import AtatusRUM
-@testable import AtatusTrace
-@testable import AtatusInternal
+@testable import TowerSignalLogs
+@testable import TowerSignalRUM
+@testable import TowerSignalTrace
+@testable import TowerSignalInternal
 
-extension AtatusCoreProxy {
+extension TowerSignalCoreProxy {
     public func waitAndReturnSpanMatchers(file: StaticString = #file, line: UInt = #line) throws -> [SpanMatcher] {
         return try waitAndReturnEventsData(ofFeature: TraceFeature.name)
             .map { eventData in try SpanMatcher.fromJSONObjectData(eventData) }
@@ -30,14 +30,14 @@ extension AtatusCoreProxy {
     }
 }
 
-extension AtatusCoreProxy {
+extension TowerSignalCoreProxy {
     public func waitAndReturnLogMatchers(file: StaticString = #file, line: UInt = #line) throws -> [LogMatcher] {
         return try waitAndReturnEventsData(ofFeature: LogsFeature.name)
             .map { data in try LogMatcher.fromJSONObjectData(data) }
     }
 }
 
-extension AtatusCoreProxy {
+extension TowerSignalCoreProxy {
     public func waitAndReturnRUMEventMatchers(file: StaticString = #file, line: UInt = #line) throws -> [RUMEventMatcher] {
         return try waitAndReturnEventsData(ofFeature: RUMFeature.name)
             .map { data in try RUMEventMatcher.fromJSONObjectData(data) }

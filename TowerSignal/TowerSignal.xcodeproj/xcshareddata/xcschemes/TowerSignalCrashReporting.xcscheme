@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1400"
+   LastUpgradeVersion = "1410"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6133D1E52A6ED9E100384BEF"
-               BuildableName = "AtatusSessionReplay.framework"
-               BlueprintName = "AtatusSessionReplay"
+               BlueprintIdentifier = "61B7885325C180CB002675B5"
+               BuildableName = "TowerSignalCrashReporting.framework"
+               BlueprintName = "TowerSignalCrashReporting"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,14 +27,15 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "NO"
+      enableThreadSanitizer = "YES"
       codeCoverageEnabled = "YES"
       onlyGenerateCoverageForSpecifiedTargets = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6133D1E52A6ED9E100384BEF"
-            BuildableName = "AtatusSessionReplay.framework"
-            BlueprintName = "AtatusSessionReplay"
+            BlueprintIdentifier = "61B7885325C180CB002675B5"
+            BuildableName = "TowerSignalCrashReporting.framework"
+            BlueprintName = "TowerSignalCrashReporting"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -189,9 +190,9 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6133D1E52A6ED9E100384BEF"
-            BuildableName = "AtatusSessionReplay.framework"
-            BlueprintName = "AtatusSessionReplay"
+            BlueprintIdentifier = "61B7885325C180CB002675B5"
+            BuildableName = "TowerSignalCrashReporting.framework"
+            BlueprintName = "TowerSignalCrashReporting"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
@@ -200,9 +201,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6133D1F62A6EDB7700384BEF"
-               BuildableName = "AtatusSessionReplayTests.xctest"
-               BlueprintName = "AtatusSessionReplayTests"
+               BlueprintIdentifier = "61B7885B25C180CB002675B5"
+               BuildableName = "TowerSignalCrashReportingTests.xctest"
+               BlueprintName = "TowerSignalCrashReportingTests"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -228,9 +229,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6133D1E52A6ED9E100384BEF"
-            BuildableName = "AtatusSessionReplay.framework"
-            BlueprintName = "AtatusSessionReplay"
+            BlueprintIdentifier = "61B7885325C180CB002675B5"
+            BuildableName = "TowerSignalCrashReporting.framework"
+            BlueprintName = "TowerSignalCrashReporting"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

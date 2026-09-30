@@ -1,7 +1,7 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 // ATCHG: The store's backend calls. Real `URLSession` requests through an instrumented session, so
@@ -12,9 +12,9 @@
 // end against an offline or older backend too — the failed requests are then what gets captured.
 
 import Foundation
-// `URLSessionInstrumentation` is re-exported by AtatusRUM (and AtatusTrace), not by AtatusCore.
-import AtatusRUM
-import AtatusLogs
+// `URLSessionInstrumentation` is re-exported by TowerSignalRUM (and TowerSignalTrace), not by TowerSignalCore.
+import TowerSignalRUM
+import TowerSignalLogs
 
 /// What the backend answers when it creates an order.
 struct ECOrderReceipt: Decodable {
@@ -25,7 +25,7 @@ struct ECOrderReceipt: Decodable {
 final class ECStoreAPI {
     private lazy var logger: LoggerProtocol = Logger.create()
     /// The store's backend — the local Node server (`local server/server.js`), which serves
-    /// `/api/store/*` and runs the Atatus Node APM agent. Each call the app makes is therefore
+    /// `/api/store/*` and runs the TowerSignal Node APM agent. Each call the app makes is therefore
     /// recorded twice: by the iOS agent as a RUM resource and client span, and by the Node agent as
     /// a server-side transaction, joined by the `traceparent` the iOS agent propagates.
     ///

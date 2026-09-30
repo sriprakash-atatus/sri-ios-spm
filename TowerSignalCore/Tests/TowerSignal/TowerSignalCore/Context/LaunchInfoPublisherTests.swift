@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed the `__dd_private_*` ObjC symbols to `__atatus_private_*`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed the `__dd_private_*` ObjC symbols to `__towersignal_private_*`; rebranded the
 // licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusCore
+import TowerSignalInternal
+@testable import TowerSignalCore
 
 class LaunchInfoPublisherTests: XCTestCase {
     func testInitialValue() {
@@ -57,14 +57,14 @@ class LaunchInfoPublisherTests: XCTestCase {
 }
 
 class AppLaunchHandlerLaunchInfoTests: XCTestCase {
-    /// The heuristic tested here is explained in https://atatus.atlassian.net/wiki/x/eQHZMAE
+    /// The heuristic tested here is explained in https://towersignal.atlassian.net/wiki/x/eQHZMAE
     func testResolvingLaunchReason() {
         // ProcessInfo env specific to "prewarmed" launch reason:
         let prewarmedProcessInfo = ["ActivePrewarm": "1"]
         // Task role specific to "user launch" reason:
         let foregroundRole = Int(TASK_FOREGROUND_APPLICATION.rawValue)
         // Task role specific to "uncertain" launch reason on tvOS:
-        let unavailableRole = __atatus_private_TASK_POLICY_UNAVAILABLE
+        let unavailableRole = __towersignal_private_TASK_POLICY_UNAVAILABLE
         // Other known task roles:
         let otherRoles: [Int] = [
             Int(TASK_UNSPECIFIED.rawValue),
@@ -75,8 +75,8 @@ class AppLaunchHandlerLaunchInfoTests: XCTestCase {
             Int(TASK_NONUI_APPLICATION.rawValue),
             Int(TASK_DEFAULT_APPLICATION.rawValue),
             Int(TASK_DARWINBG_APPLICATION.rawValue),
-            __atatus_private_TASK_POLICY_KERN_FAILURE,
-            __atatus_private_TASK_POLICY_DEFAULTED,
+            __towersignal_private_TASK_POLICY_KERN_FAILURE,
+            __towersignal_private_TASK_POLICY_DEFAULTED,
         ]
 
         func launchReason(for taskPolicyRole: Int, processInfo: [String: String]) -> LaunchReason {
@@ -132,7 +132,7 @@ class AppLaunchHandlerTests: XCTestCase {
     func testTaskPolicyRole() {
         let handler = AppLaunchHandler()
         #if os(tvOS) || os(watchOS)
-        XCTAssertEqual(handler.taskPolicyRole, __atatus_private_TASK_POLICY_UNAVAILABLE)
+        XCTAssertEqual(handler.taskPolicyRole, __towersignal_private_TASK_POLICY_UNAVAILABLE)
         #else
         XCTAssertEqual(handler.taskPolicyRole, Int(TASK_UNSPECIFIED.rawValue)) // TASK_UNSPECIFIED == 0 as no app is attached to the test target
         #endif

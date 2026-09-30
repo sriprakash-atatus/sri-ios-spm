@@ -1,23 +1,23 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; renamed the `_dd` attribute prefix to `_atatus`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; renamed the `_dd` attribute prefix to `_towersignal`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 import OpenTelemetryApi
 
-@testable import AtatusTrace
+@testable import TowerSignalTrace
 
 class SpanEventBuilderTests: XCTestCase {
     func testBuildingBasicSpan() {
-        let context: AtatusContext = .mockWith(sdkVersion: "1.2.3")
+        let context: TowerSignalContext = .mockWith(sdkVersion: "1.2.3")
         let builder: SpanEventBuilder = .mockWith(service: "test-service-name")
 
         let span = builder.createSpanEvent(
@@ -465,7 +465,7 @@ class SpanEventBuilderTests: XCTestCase {
             "bool-attribute": true,
             "int-array-attribute": [1, 2, 3, 4],
             "dictionary-attribute": ["key": 1],
-            "url-attribute": URL(string: "https://www.atatus.com/")!,
+            "url-attribute": URL(string: "https://www.towersignal.com/")!,
             "encodable-struct-attribute": Foo(),
         ]
     }
@@ -478,7 +478,7 @@ class SpanEventBuilderTests: XCTestCase {
         "bool-attribute": "true",
         "int-array-attribute": "[1,2,3,4]",
         "dictionary-attribute": "{\"key\":1}",
-        "url-attribute": "https://www.atatus.com/",
+        "url-attribute": "https://www.towersignal.com/",
         "encodable-struct-attribute": "{\"bar\":\"bar\",\"bizz\":{\"buzz\":\"buzz\"}}",
     ]
 
@@ -656,7 +656,7 @@ class SpanEventBuilderTests: XCTestCase {
             samplingPriority: .mockAny(),
             samplingDecisionMaker: .mockAny(),
             tags: [
-                AtatusTagKeys.spanLinks.rawValue: [spanLink]
+                TowerSignalTagKeys.spanLinks.rawValue: [spanLink]
             ],
             baggageItems: [:],
             logFields: []
@@ -665,7 +665,7 @@ class SpanEventBuilderTests: XCTestCase {
         // Then
         XCTAssertEqual(span.tags.count, 1)
         let expectedTags = "[{\"attributes\":{\"foo\":\"bar\"},\"flags\":1,\"span_id\":\"0000000000000067\",\"trace_id\":\"00000000000000650000000000000066\",\"tracestate\":\"foo=bar,bar=baz\"}]"
-        let actualTags = span.tags["_atatus.span_links"]
+        let actualTags = span.tags["_towersignal.span_links"]
 
         ATAssertJSONEqual(expectedTags, actualTags!)
     }
@@ -681,7 +681,7 @@ class SpanEventBuilderTests: XCTestCase {
             { RUMCoreContext(applicationID: .mockRandom(), sessionID: .mockRandom(), sessionSampler: sampler, viewID: .mockRandom(), userActionID: nil) },
             { RUMCoreContext(applicationID: .mockRandom(), sessionID: .mockRandom(), sessionSampler: sampler, viewID: nil, userActionID: nil) }
         ])
-        let context: AtatusContext = .mockWith(additionalContext: [rum])
+        let context: TowerSignalContext = .mockWith(additionalContext: [rum])
 
         // When
         let builder: SpanEventBuilder = .mockWith(bundleWithRUM: true)
@@ -702,7 +702,7 @@ class SpanEventBuilderTests: XCTestCase {
         )
 
         // Then
-        XCTAssertNil(span.tags["_atatus.application.id"], "Spans must not carry the RUM application ID")
+        XCTAssertNil(span.tags["_towersignal.application.id"], "Spans must not carry the RUM application ID")
         XCTAssertEqual(span.tags[SpanTags.rumSessionID], rum.sessionID)
         XCTAssertEqual(span.tags[SpanTags.rumViewID], rum.viewID)
         XCTAssertEqual(span.tags[SpanTags.rumActionID], rum.userActionID)
@@ -716,7 +716,7 @@ class SpanEventBuilderTests: XCTestCase {
             sessionID: .mockRandom(),
             sessionSampler: .mockRejectAll()
         )
-        let context: AtatusContext = .mockWith(additionalContext: [rum])
+        let context: TowerSignalContext = .mockWith(additionalContext: [rum])
 
         // When
         let builder: SpanEventBuilder = .mockWith(bundleWithRUM: true)
@@ -751,7 +751,7 @@ class SpanEventBuilderTests: XCTestCase {
             viewID: .mockRandom(),
             userActionID: .mockRandom()
         )
-        let context: AtatusContext = .mockWith(additionalContext: [rum])
+        let context: TowerSignalContext = .mockWith(additionalContext: [rum])
 
         // When
         let builder: SpanEventBuilder = .mockWith(bundleWithRUM: false)

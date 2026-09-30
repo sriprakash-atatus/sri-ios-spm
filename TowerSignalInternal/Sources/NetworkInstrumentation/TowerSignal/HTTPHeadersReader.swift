@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed the `_dd` attribute prefix to `_atatus`; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed the `_dd` attribute prefix to `_towersignal`; rebranded the licence
 // header.
 
 import Foundation
@@ -68,7 +68,7 @@ public class HTTPHeadersReader: TracePropagationHeadersReader {
                     case let tagElements = $0.split(separator: "="),
                     tagElements.count == 2,
                     let key = tagElements.first,
-                    key == "_atatus.p.dm",
+                    key == "_towersignal.p.dm",
                     case let value = tagElements[1],
                     let tagValue = Self.parseDecisionMakerTag(fromValue: value),
                     let mechanismType = SamplingMechanismType(rawValue: String(tagValue))

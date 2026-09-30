@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddRUM` -> `AtatusRUM`; renamed the `DD` symbol prefix to `AT`; rebranded the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`; renamed the `DD` symbol prefix to `AT`; rebranded the
 // licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusCore
-@testable import AtatusRUM
+@testable import TowerSignalCore
+@testable import TowerSignalRUM
 
 class RUMSessionStopTests: RUMSessionTestsBase {
     // MARK: - Foreground session "stop" → track in foreground
@@ -39,7 +39,7 @@ class RUMSessionStopTests: RUMSessionTestsBase {
         for given in [given1, given2, given3, given4, given5, given6] {
             // When
             let when = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.stopSession(after: dt1))
                 .and(.trackTwoActions(after1: dt2, after2: dt3))
 
@@ -93,7 +93,7 @@ class RUMSessionStopTests: RUMSessionTestsBase {
         for given in [given1, given2, given5, given6] {
             // When
             let when = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.stopSession(after: dt1))
                 .and(.trackTwoActions(after1: dt2, after2: dt3))
 
@@ -142,11 +142,11 @@ class RUMSessionStopTests: RUMSessionTestsBase {
         for given in [given1, given2, given3, given4, given5, given6] {
             // When
             let when2 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.stopSession(after: dt1))
                 .and(.trackResource(after: dt2, duration: dt3))
             let when3 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.stopSession(after: dt1))
                 .and(.trackTwoLongTasks(after1: dt2, after2: dt3))
 
@@ -185,11 +185,11 @@ class RUMSessionStopTests: RUMSessionTestsBase {
         for given in [given1, given2, given5, given6] {
             // When
             let when2 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.stopSession(after: dt1))
                 .and(.trackResource(after: dt2, duration: dt3))
             let when3 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.stopSession(after: dt1))
                 .and(.trackTwoLongTasks(after1: dt2, after2: dt3))
 
@@ -412,7 +412,7 @@ class RUMSessionStopTests: RUMSessionTestsBase {
             // When
             // - "stop" → BG
             let when1 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.stopSession(after: dt1))
                 .and(.appEntersBackground(after: dt2))
 
@@ -446,7 +446,7 @@ class RUMSessionStopTests: RUMSessionTestsBase {
             // - BG → "stop"
             let when2 = given
                 .when(.appEntersBackground(after: dt1))
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .and(.stopSession(after: dt2))
 
             for when in [
@@ -494,7 +494,7 @@ class RUMSessionStopTests: RUMSessionTestsBase {
             // When
             // - "stop" → BG
             let when1 = given
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .when(.stopSession(after: dt1))
                 .and(.appEntersBackground(after: dt2))
 
@@ -526,7 +526,7 @@ class RUMSessionStopTests: RUMSessionTestsBase {
             // - BG → "stop"
             let when2 = given
                 .when(.appEntersBackground(after: dt1))
-                .and(.flushAtatusContext())
+                .and(.flushTowerSignalContext())
                 .and(.stopSession(after: dt2))
 
             for when in [

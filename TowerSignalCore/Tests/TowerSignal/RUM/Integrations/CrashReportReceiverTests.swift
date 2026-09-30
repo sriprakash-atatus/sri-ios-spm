@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`,
-// `ddInternal` -> `AtatusInternal`, `ddRUM` -> `AtatusRUM`; renamed the `DD` symbol prefix to
-// `AT`; renamed the `_dd` attribute prefix to `_atatus`; renamed the `ddsource` / `ddtags` query parameters
-// to `atatus_source` / `atatustags`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`,
+// `ddInternal` -> `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`; renamed the `DD` symbol prefix to
+// `AT`; renamed the `_dd` attribute prefix to `_towersignal`; renamed the `ddsource` / `ddtags` query parameters
+// to `towersignal_source` / `towersignaltags`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
-@testable import AtatusRUM
-@testable import AtatusCrashReporting
+import TowerSignalInternal
+@testable import TowerSignalRUM
+@testable import TowerSignalCrashReporting
 @testable import TestUtilities
 
 class CrashReportReceiverTests: XCTestCase {
@@ -29,7 +29,7 @@ class CrashReportReceiverTests: XCTestCase {
                 context: CrashContext.mockWith(lastRUMViewEvent: nil)
             )
         )
-        let result = receiver.receive(message: message, from: NOPAtatusCore())
+        let result = receiver.receive(message: message, from: NOPTowerSignalCore())
 
         // Then
         XCTAssertTrue(result, "It must accept the message")
@@ -50,7 +50,7 @@ class CrashReportReceiverTests: XCTestCase {
                 )
             )
         )
-        let result = receiver.receive(message: message, from: NOPAtatusCore())
+        let result = receiver.receive(message: message, from: NOPTowerSignalCore())
 
         // Then
         XCTAssertTrue(result, "It must accept the message")
@@ -85,7 +85,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -119,7 +119,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertFalse(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -151,7 +151,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -190,7 +190,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -228,7 +228,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -260,7 +260,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertFalse(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -290,7 +290,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -326,7 +326,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -361,7 +361,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -371,9 +371,9 @@ class CrashReportReceiverTests: XCTestCase {
         // by ensuring no other fields are silently added or modified during recovery.
         ATAssertJSONDiff(lastRUMViewEvent, sendRUMViewEvent) { diffs in
             diffs.assertExact(different: [
-                "_atatus.document_version",
+                "_towersignal.document_version",
                 "date",
-                "atatusTags",
+                "towersignalTags",
                 "view.crash.count",
                 "view.error.count",
                 "view.is_active"
@@ -475,7 +475,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -557,7 +557,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -602,7 +602,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -675,7 +675,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -756,7 +756,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -789,7 +789,7 @@ class CrashReportReceiverTests: XCTestCase {
         XCTAssertTrue(
             receiver.receive(message: .payload(
                 Crash(report: crashReport, context: crashContext)
-            ), from: NOPAtatusCore())
+            ), from: NOPTowerSignalCore())
         )
 
         // Then
@@ -865,7 +865,7 @@ class CrashReportReceiverTests: XCTestCase {
             XCTAssertTrue(
                 receiver.receive(message: .payload(
                     Crash(report: crashReport, context: crashContext)
-                ), from: NOPAtatusCore())
+                ), from: NOPTowerSignalCore())
             )
 
             // Then
@@ -1001,7 +1001,7 @@ class CrashReportReceiverTests: XCTestCase {
             XCTAssertTrue(
                 receiver.receive(message: .payload(
                     Crash(report: crashReport, context: crashContext)
-                ), from: NOPAtatusCore())
+                ), from: NOPTowerSignalCore())
             )
 
             // Then
@@ -1078,7 +1078,7 @@ class CrashReportReceiverTests: XCTestCase {
             XCTAssertTrue(
                 receiver.receive(message: .payload(
                     Crash(report: crashReport, context: crashContext)
-                ), from: NOPAtatusCore())
+                ), from: NOPTowerSignalCore())
             )
 
             // Then
@@ -1146,7 +1146,7 @@ class CrashReportReceiverTests: XCTestCase {
             XCTAssertTrue(
                 receiver.receive(message: .payload(
                     Crash(report: crashReport, context: crashContext)
-                ), from: NOPAtatusCore())
+                ), from: NOPTowerSignalCore())
             )
 
             // Then
@@ -1217,7 +1217,7 @@ class CrashReportReceiverTests: XCTestCase {
             XCTAssertTrue(
                 receiver.receive(message: .payload(
                     Crash(report: crashReport, context: crashContext)
-                ), from: NOPAtatusCore())
+                ), from: NOPTowerSignalCore())
             )
 
             // Then
@@ -1340,7 +1340,7 @@ class CrashReportReceiverTests: XCTestCase {
             XCTAssertTrue(
                 receiver.receive(message: .payload(
                     Crash(report: crashReport, context: crashContext)
-                ), from: NOPAtatusCore())
+                ), from: NOPTowerSignalCore())
             )
 
             // Then
@@ -1417,7 +1417,7 @@ class CrashReportReceiverTests: XCTestCase {
             XCTAssertTrue(
                 receiver.receive(message: .payload(
                     Crash(report: crashReport, context: crashContext)
-                ), from: NOPAtatusCore())
+                ), from: NOPTowerSignalCore())
             )
 
             // Then
@@ -1500,7 +1500,7 @@ class CrashReportReceiverTests: XCTestCase {
             XCTAssertTrue(
                 receiver.receive(message: .payload(
                     Crash(report: crashReport, context: crashContext)
-                ), from: NOPAtatusCore())
+                ), from: NOPTowerSignalCore())
             )
 
             // Then

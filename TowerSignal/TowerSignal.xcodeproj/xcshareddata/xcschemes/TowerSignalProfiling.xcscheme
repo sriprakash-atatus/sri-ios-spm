@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1400"
+   LastUpgradeVersion = "1420"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3CE119FD29F7BE0000202522"
-               BuildableName = "AtatusWebViewTracking.framework"
-               BlueprintName = "AtatusWebViewTracking"
+               BlueprintIdentifier = "D229FF8B2E3BC6D4009CCD62"
+               BuildableName = "TowerSignalProfiling.framework"
+               BlueprintName = "TowerSignalProfiling"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3CE11A0429F7BE0300202522"
-               BuildableName = "AtatusWebViewTrackingTests.xctest"
-               BlueprintName = "AtatusWebViewTrackingTests"
+               BlueprintIdentifier = "D2C9F0382E3B89D7008397FD"
+               BuildableName = "TowerSignalProfilingTests.xctest"
+               BlueprintName = "TowerSignalProfilingTests"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +46,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3CE119FD29F7BE0000202522"
-            BuildableName = "AtatusWebViewTracking.framework"
-            BlueprintName = "AtatusWebViewTracking"
+            BlueprintIdentifier = "D229FF8B2E3BC6D4009CCD62"
+            BuildableName = "TowerSignalProfiling.framework"
+            BlueprintName = "TowerSignalProfiling"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -197,9 +197,9 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3CE119FD29F7BE0000202522"
-            BuildableName = "AtatusWebViewTracking.framework"
-            BlueprintName = "AtatusWebViewTracking"
+            BlueprintIdentifier = "D229FF8B2E3BC6D4009CCD62"
+            BuildableName = "TowerSignalProfiling.framework"
+            BlueprintName = "TowerSignalProfiling"
             ReferencedContainer = "container:TowerSignal.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
@@ -208,9 +208,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3CE11A0429F7BE0300202522"
-               BuildableName = "AtatusWebViewTrackingTests.xctest"
-               BlueprintName = "AtatusWebViewTrackingTests"
+               BlueprintIdentifier = "D2C9F0382E3B89D7008397FD"
+               BuildableName = "TowerSignalProfilingTests.xctest"
+               BlueprintName = "TowerSignalProfilingTests"
                ReferencedContainer = "container:TowerSignal.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -233,15 +233,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3CE119FD29F7BE0000202522"
-            BuildableName = "AtatusWebViewTracking.framework"
-            BlueprintName = "AtatusWebViewTracking"
-            ReferencedContainer = "container:TowerSignal.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

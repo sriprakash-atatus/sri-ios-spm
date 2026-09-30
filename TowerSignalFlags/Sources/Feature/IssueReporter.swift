@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 internal struct IssueReporter {
     let reportIssue: (_ message: String, _ file: StaticString, _ line: UInt) -> Void
@@ -37,7 +37,7 @@ extension IssueReporter {
     }
 
     private static let consolePrint = Self { message, _, _ in
-        AtatusInternal.consolePrint("🔥 Atatus SDK usage error: \(message)", .error)
+        TowerSignalInternal.consolePrint("🔥 TowerSignal SDK usage error: \(message)", .error)
     }
 
     private static let fatalError = Self { message, file, line in
@@ -47,7 +47,7 @@ extension IssueReporter {
 
 internal func reportIssue(
     _ message: @autoclosure () -> String,
-    in core: (any AtatusCoreProtocol)?,
+    in core: (any TowerSignalCoreProtocol)?,
     file: StaticString = #file,
     line: UInt = #line
 ) {

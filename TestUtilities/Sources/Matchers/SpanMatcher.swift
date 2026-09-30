@@ -1,14 +1,14 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed the
-// `_dd` attribute prefix to `_atatus`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed the
+// `_dd` attribute prefix to `_towersignal`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Implemented by types allowed to represent span attribute `.*` value in JSON.
 protocol AllowedSpanAttributeValue {}
@@ -84,7 +84,7 @@ public class SpanMatcher {
     public func traceID() throws -> TraceID? {
         // ATCHG: `trace_id` now carries the full 128-bit ID. `.hexadecimal` parses both that
         // 32-character form and the legacy low-64-bits-only form, where the high half lived
-        // solely in `meta._atatus.p.id`.
+        // solely in `meta._towersignal.p.id`.
         let traceIDStr: String = try attribute(forKeyPath: "trace_id")
         guard let traceID = TraceID(traceIDStr, representation: .hexadecimal) else {
             return nil
@@ -137,7 +137,7 @@ public class SpanMatcher {
 
         public func isRootSpan()       throws -> Int { try matcher.metric(forKeyPath: "metrics._top_level") }
         public func samplingPriority() throws -> Int { try matcher.metric(forKeyPath: "metrics._sampling_priority_v1") }
-        public func samplingRate() throws -> Double { try matcher.metric(forKeyPath: "metrics._atatus.agent_psr") }
+        public func samplingRate() throws -> Double { try matcher.metric(forKeyPath: "metrics._towersignal.agent_psr") }
     }
 
     // MARK: - Meta matching
@@ -147,8 +147,8 @@ public class SpanMatcher {
     public struct Meta {
         fileprivate let matcher: SpanMatcher
 
-        public func tid()                  throws -> String { try matcher.meta(forKeyPath: "meta._atatus.p.id") }
-        public func source()               throws -> String { try matcher.meta(forKeyPath: "meta._atatus.source") }
+        public func tid()                  throws -> String { try matcher.meta(forKeyPath: "meta._towersignal.p.id") }
+        public func source()               throws -> String { try matcher.meta(forKeyPath: "meta._towersignal.source") }
         public func applicationVersion()   throws -> String { try matcher.meta(forKeyPath: "meta.version") }
         public func tracerVersion()        throws -> String { try matcher.meta(forKeyPath: "meta.tracer.version") }
 
@@ -172,9 +172,9 @@ public class SpanMatcher {
         public func mobileNetworkCarrierRadioTechnology() throws -> String { try matcher.meta(forKeyPath: "meta.network.client.sim_carrier.technology") }
         public func mobileNetworkCarrierAllowsVoIP()      throws -> String { try matcher.meta(forKeyPath: "meta.network.client.sim_carrier.allows_voip") }
 
-        public func samplingDecisionMechanism() throws -> String { try matcher.meta(forKeyPath: "meta._atatus.p.dm") }
+        public func samplingDecisionMechanism() throws -> String { try matcher.meta(forKeyPath: "meta._towersignal.p.dm") }
 
-        public func links() throws -> String { try matcher.meta(forKeyPath: "meta._atatus.span_links") }
+        public func links() throws -> String { try matcher.meta(forKeyPath: "meta._towersignal.span_links") }
 
         public func custom(keyPath: String) throws -> String { try matcher.meta(forKeyPath: keyPath) }
     }

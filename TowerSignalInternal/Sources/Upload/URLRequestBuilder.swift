@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
 import Foundation
 
-/// Builds `URLRequest` for sending data to Atatus.
+/// Builds `URLRequest` for sending data to TowerSignal.
 public struct URLRequestBuilder {
     public enum QueryItem {
-        // ATCHG: Renamed the `ddsource` query parameter to `atatus_source` (Android: `QUERY_PARAM_SOURCE`).
-        /// `atatus_source={source}` query item
-        case atatusSource(source: String)
-        // ATCHG: Renamed the `ddtags` query parameter to `atatustags` (Android: `QUERY_PARAM_TAGS`).
-        /// `atatustags={tag1},{tag2},...` query item
-        case atatusTags(tags: [String])
-        // ATCHG: Added the Atatus identification query items sent on every upload
+        // ATCHG: Renamed the `ddsource` query parameter to `towersignal_source` (Android: `QUERY_PARAM_SOURCE`).
+        /// `towersignal_source={source}` query item
+        case towersignalSource(source: String)
+        // ATCHG: Renamed the `ddtags` query parameter to `towersignaltags` (Android: `QUERY_PARAM_TAGS`).
+        /// `towersignaltags={tag1},{tag2},...` query item
+        case towersignalTags(tags: [String])
+        // ATCHG: Added the TowerSignal identification query items sent on every upload
         // (Android: `QUERY_PARAM_CLIENT_TOKEN`, `QUERY_PARAM_AGENT_NAME`,
         // `QUERY_PARAM_AGENT_VERSION`, `QUERY_PARAM_APP_NAME`).
         /// `license_key={licenseKey}` query item
@@ -33,22 +33,22 @@ public struct URLRequestBuilder {
         public static let contentTypeHeaderField = "Content-Type"
         public static let contentEncodingHeaderField = "Content-Encoding"
         public static let userAgentHeaderField = "User-Agent"
-        // ATCHG: Renamed the dd intake headers to their Atatus equivalents
+        // ATCHG: Renamed the dd intake headers to their TowerSignal equivalents
         // (Android `RequestFactory`: `HEADER_API_KEY`, `HEADER_EVP_ORIGIN`,
         // `HEADER_EVP_ORIGIN_VERSION`, `HEADER_REQUEST_ID`, `AT_IDEMPOTENCY_KEY`,
         // and `HEADER_CLIENT_TOKEN` in the flags request factory).
         public static let atAPIKeyHeaderField = "api-key"
-        public static let atClientTokenHeaderField = "atatus-client-token"
-        public static let atEVPOriginHeaderField = "ATATUS-EVP-ORIGIN"
-        public static let atEVPOriginVersionHeaderField = "ATATUS-EVP-ORIGIN-VERSION"
-        public static let atRequestIDHeaderField = "ATATUS-REQUEST-ID"
+        public static let atClientTokenHeaderField = "towersignal-client-token"
+        public static let atEVPOriginHeaderField = "TOWERSIGNAL-EVP-ORIGIN"
+        public static let atEVPOriginVersionHeaderField = "TOWERSIGNAL-EVP-ORIGIN-VERSION"
+        public static let atRequestIDHeaderField = "TOWERSIGNAL-REQUEST-ID"
         public static let atIdempotencyKeyHeaderField = "AT-IDEMPOTENCY-KEY"
         // ATCHG: End
         // ATCHG: Added the agent identification headers sent on every upload
-        // (Android: `HEADER_AGENT_NAME`, `HEADER_AGENT_VERSION`, `ATATUS_VARIANT_APP_NAME`).
-        public static let atatusAgentNameHeaderField = "ATATUS-AGENT-NAME"
-        public static let atatusAgentVersionHeaderField = "ATATUS-AGENT-VERSION"
-        public static let atatusAppNameHeaderField = "ATATUS-APP-NAME"
+        // (Android: `HEADER_AGENT_NAME`, `HEADER_AGENT_VERSION`, `TOWERSIGNAL_VARIANT_APP_NAME`).
+        public static let towersignalAgentNameHeaderField = "TOWERSIGNAL-AGENT-NAME"
+        public static let towersignalAgentVersionHeaderField = "TOWERSIGNAL-AGENT-VERSION"
+        public static let towersignalAppNameHeaderField = "TOWERSIGNAL-APP-NAME"
         // ATCHG: End
 
         public enum ContentType {
@@ -102,34 +102,34 @@ public struct URLRequestBuilder {
             return HTTPHeader(field: userAgentHeaderField, value: { agent })
         }
 
-        // MARK: - Atatus Headers
+        // MARK: - TowerSignal Headers
 
-        /// Atatus request authentication header.
+        /// TowerSignal request authentication header.
         public static func atAPIKeyHeader(licenseKey: String) -> HTTPHeader {
             return HTTPHeader(field: atAPIKeyHeaderField, value: { licenseKey })
         }
 
-        /// Atatus client token authentication header.
+        /// TowerSignal client token authentication header.
         public static func atClientTokenHeader(licenseKey: String) -> HTTPHeader {
             return HTTPHeader(field: atClientTokenHeaderField, value: { licenseKey })
         }
 
-        /// An observability and troubleshooting Atatus header for tracking the origin which is sending the request.
+        /// An observability and troubleshooting TowerSignal header for tracking the origin which is sending the request.
         public static func atEVPOriginHeader(source: String) -> HTTPHeader {
             return HTTPHeader(field: atEVPOriginHeaderField, value: { source })
         }
 
-        /// An observability and troubleshooting Atatus header for tracking the origin which is sending the request.
+        /// An observability and troubleshooting TowerSignal header for tracking the origin which is sending the request.
         public static func atEVPOriginVersionHeader(sdkVersion: String) -> HTTPHeader {
             return HTTPHeader(field: atEVPOriginVersionHeaderField, value: { sdkVersion })
         }
 
-        /// An optional Atatus header for debugging Intake requests by their ID.
+        /// An optional TowerSignal header for debugging Intake requests by their ID.
         public static func atRequestIDHeader() -> HTTPHeader {
             return HTTPHeader(field: atRequestIDHeaderField, value: { UUID().uuidString })
         }
 
-        /// An optional Atatus header for ensuring idempotent requests.
+        /// An optional TowerSignal header for ensuring idempotent requests.
         /// - Parameter key: The idempotency key.
         /// - Returns: Header with the idempotency key.
         public static func atIdempotencyKeyHeader(key: String) -> HTTPHeader {
@@ -138,20 +138,20 @@ public struct URLRequestBuilder {
 
         // ATCHG: Added the agent identification headers, mirroring `buildHeaders()` in
         // Android's `LogsRequestFactory` (`HEADER_AGENT_NAME`, `HEADER_AGENT_VERSION`,
-        // `ATATUS_VARIANT_APP_NAME`).
-        /// The name of the agent sending the request, e.g. `"Atatus iOS Agent"`.
-        public static func atatusAgentNameHeader(agentName: String = AgentInfo.agentName) -> HTTPHeader {
-            return HTTPHeader(field: atatusAgentNameHeaderField, value: { agentName })
+        // `TOWERSIGNAL_VARIANT_APP_NAME`).
+        /// The name of the agent sending the request, e.g. `"TowerSignal iOS Agent"`.
+        public static func towersignalAgentNameHeader(agentName: String = AgentInfo.agentName) -> HTTPHeader {
+            return HTTPHeader(field: towersignalAgentNameHeaderField, value: { agentName })
         }
 
         /// The version of the agent sending the request.
-        public static func atatusAgentVersionHeader(agentVersion: String = AgentInfo.agentVersion) -> HTTPHeader {
-            return HTTPHeader(field: atatusAgentVersionHeaderField, value: { agentVersion })
+        public static func towersignalAgentVersionHeader(agentVersion: String = AgentInfo.agentVersion) -> HTTPHeader {
+            return HTTPHeader(field: towersignalAgentVersionHeaderField, value: { agentVersion })
         }
 
         /// The name of the instrumented application.
-        public static func atatusAppNameHeader(appName: String) -> HTTPHeader {
-            return HTTPHeader(field: atatusAppNameHeaderField, value: { appName })
+        public static func towersignalAppNameHeader(appName: String) -> HTTPHeader {
+            return HTTPHeader(field: towersignalAppNameHeaderField, value: { appName })
         }
         // ATCHG: End
     }
@@ -181,7 +181,7 @@ public struct URLRequestBuilder {
         self.telemetry = telemetry
     }
 
-    /// Creates `URLRequest` for uploading given `body` to Atatus.
+    /// Creates `URLRequest` for uploading given `body` to TowerSignal.
     ///
     /// - Parameter body: HTTP body to be attached to request
     /// - Parameter compress: if `body` should be compressed into ZLIB Compressed Data Format (IETF RFC 1950)
@@ -218,12 +218,12 @@ public struct URLRequestBuilder {
 extension URLQueryItem {
     init(_ query: URLRequestBuilder.QueryItem) {
         switch query {
-        // ATCHG: Renamed the intake query parameters and added the Atatus identification
-        // parameters, mirroring `RequestFactory` in the Atatus Android agent.
-        case .atatusSource(let source):
-            self = URLQueryItem(name: "atatus_source", value: source)
-        case .atatusTags(let tags):
-            self = URLQueryItem(name: "atatustags", value: tags.joined(separator: ","))
+        // ATCHG: Renamed the intake query parameters and added the TowerSignal identification
+        // parameters, mirroring `RequestFactory` in the TowerSignal Android agent.
+        case .towersignalSource(let source):
+            self = URLQueryItem(name: "towersignal_source", value: source)
+        case .towersignalTags(let tags):
+            self = URLQueryItem(name: "towersignaltags", value: tags.joined(separator: ","))
         case .licenseKey(let licenseKey):
             self = URLQueryItem(name: "license_key", value: licenseKey)
         case .agentName(let agentName):

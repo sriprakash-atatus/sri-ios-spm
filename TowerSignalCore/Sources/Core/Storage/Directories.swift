@@ -1,32 +1,32 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Indicates the main directory for a given instance of the SDK.
-/// Each instance of `AtatusCore` creates its own `CoreDirectory` to manage data for registered Features.
+/// Each instance of `TowerSignalCore` creates its own `CoreDirectory` to manage data for registered Features.
 /// The core directory is created under `/Library/Caches` and uses a name that identifies the certain instance
 /// of the SDK (`<sdk-instance-uuid>`):
 ///
 /// ```
-/// /Library/Cache/com.atatus/v2/<sdk-instance-uuid>/
+/// /Library/Cache/com.towersignal/v2/<sdk-instance-uuid>/
 /// ```
 ///
 /// Note: System may delete data in `/Library/Cache` to free up disk space which reduces the impact on devices working
-/// under heavy space pressure. This is intentional for Atatus SDK to have its data purged when system needs more memory
+/// under heavy space pressure. This is intentional for TowerSignal SDK to have its data purged when system needs more memory
 /// for other apps.
 internal struct CoreDirectory {
     /// A known OS location the core directory is created within:`/Library/Cache`.
     let osDirectory: Directory
-    /// The core directory specific to this instance of the SDK: `/Library/Cache/com.atatus/v2/<sdk-instance-uuid>`.
+    /// The core directory specific to this instance of the SDK: `/Library/Cache/com.towersignal/v2/<sdk-instance-uuid>`.
     let coreDirectory: Directory
 
     /// Obtains subdirectories for managing batch files for given Feature  (creates if don't exist).
@@ -59,9 +59,9 @@ internal extension CoreDirectory {
     ///   - osDirectory: the root OS directory (`/Library/Caches`) to create core directory inside.
     ///   - instanceName: The core instance name.
     ///   - site: The cor instance site.
-    init(in osDirectory: Directory, instanceName: String, site: AtatusSite) throws {
+    init(in osDirectory: Directory, instanceName: String, site: TowerSignalSite) throws {
         let sdkInstanceUUID = sha256("\(instanceName)\(site)")
-        let path = "com.atatus/v2/\(sdkInstanceUUID)"
+        let path = "com.towersignal/v2/\(sdkInstanceUUID)"
 
         self.init(
             osDirectory: osDirectory,

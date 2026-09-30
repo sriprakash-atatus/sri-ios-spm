@@ -1,13 +1,13 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  *
- * This file includes software developed by MobileNativeFoundation, https://mobilenativefoundation.org and altered by Atatus.
+ * This file includes software developed by MobileNativeFoundation, https://mobilenativefoundation.org and altered by TowerSignal.
  * Use of this source code is governed by Apache License 2.0 license: https://github.com/MobileNativeFoundation/Kronos/blob/main/LICENSE
  */
 
-// ATCHG: Atatus SDK migration - removed the `dd` name from comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - removed the `dd` name from comments and docs; rebranded the licence
 // header.
 
 import Foundation
@@ -55,7 +55,7 @@ internal final class KronosDNSResolver {
             let IPs = (addresses.takeUnretainedValue() as NSArray)
                 .compactMap { $0 as? NSData }
                 .compactMap(KronosInternetAddress.init)
-                .filter { ip in !ip.isPrivate } // to avoid querying private IPs, see: https://github.com/atatus/atatus-sdk-ios/issues/647
+                .filter { ip in !ip.isPrivate } // to avoid querying private IPs, see: https://github.com/towersignal/towersignal-sdk-ios/issues/647
 
             resolver.completion?(IPs)
             retainedSelf.release()

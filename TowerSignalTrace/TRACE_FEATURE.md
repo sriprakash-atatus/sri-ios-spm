@@ -30,11 +30,11 @@ tracked_files:
 
 ## Overview
 
-Trace records spans that are sent to Atatus APM. It supports manual instrumentation via the OpenTracing API or the OpenTelemetry API after `Trace.enable()`. 
+Trace records spans that are sent to TowerSignal APM. It supports manual instrumentation via the OpenTracing API or the OpenTelemetry API after `Trace.enable()`. 
 
 Trace can also connect to automatic `URLSession` network instrumentation; for that automatic URLSession path, configured first-party hosts gate distributed tracing header injection and Trace's local URLSession span creation. Avoid enabling Trace `urlSessionTracking` and RUM `urlSessionTracking` for the same requests; if RUM owns resource tracking, use RUM `firstPartyHostsTracing` for APM correlation.
 
-Trace requires initialization via `Atatus.initialize()` before enabling.
+Trace requires initialization via `TowerSignal.initialize()` before enabling.
 
 **Platform**: iOS, tvOS, watchOS, visionOS
 
@@ -42,15 +42,15 @@ Trace requires initialization via `Atatus.initialize()` before enabling.
 
 ```swift
 import Foundation
-import AtatusCore
-import AtatusTrace
+import TowerSignalCore
+import TowerSignalTrace
 
 // Replace this with the URLSession delegate class used by your app.
 final class YourURLSessionDelegate: NSObject, URLSessionDataDelegate {}
 
 // 1. Initialize Core SDK first
-Atatus.initialize(
-    with: Atatus.Configuration(
+TowerSignal.initialize(
+    with: TowerSignal.Configuration(
         licenseKey: "<client_token>",
         env: "<environment>"
     ),
@@ -81,7 +81,7 @@ Trace.enable(
         urlSessionTracking: Trace.Configuration.URLSessionTracking(
             // Choose how distributed tracing headers are injected:
             //   .trace(hosts:sampleRate:traceControlInjection:)
-            //     - Injects Atatus AND W3C `tracecontext` headers
+            //     - Injects TowerSignal AND W3C `tracecontext` headers
             //   .traceWithHeaders(hostsWithHeaders:sampleRate:traceControlInjection:)
             //     - Injects only the header types you specify per host
             // sampleRate is the URLSession distributed tracing propagation rate (default: 100).
@@ -124,8 +124,8 @@ Trace.enable(
         },
 
         // Custom intake endpoint for spans. Expects a full URL and takes
-        // precedence over the core-level `Atatus.Configuration.serverUrl`.
-        // Default: nil (uses Atatus intake, `<serverUrl or site>/v1/ios/spans`)
+        // precedence over the core-level `TowerSignal.Configuration.serverUrl`.
+        // Default: nil (uses TowerSignal intake, `<serverUrl or site>/v1/ios/spans`)
         customEndpoint: nil
     )
 )
@@ -170,7 +170,7 @@ otelSpan.end()
 
 // 5. (Optional) Manual distributed-tracing header injection
 let requestSpan = tracer.startSpan(operationName: "network-request")
-let writer = HTTPHeadersWriter(traceContextInjection: .sampled) // Atatus headers
+let writer = HTTPHeadersWriter(traceContextInjection: .sampled) // TowerSignal headers
 // Or: W3CHTTPHeadersWriter()                                   // W3C `tracecontext`
 // Or: B3HTTPHeadersWriter(injectEncoding: .single)             // B3 single or multi
 tracer.inject(spanContext: requestSpan.context, writer: writer)
@@ -207,16 +207,16 @@ requestSpan.finish()
   - `+[ATTrace enableWith:instanceName:]` — enables Trace in a named SDK instance (mirrors Swift `Trace.enable(with:in:)`).
   - `+[ATTracer sharedWithInstanceName:]` — retrieves the tracer from a named SDK instance (mirrors Swift `Tracer.shared(in:)`).
 - **`TowerSignalTrace/Sources/Objc/OpenTracing/OTTracer+objc.swift`**, **`OTSpan+objc.swift`**, **`OTSpanContext+objc.swift`** — Objective-C OpenTracing protocols and constants.
-- **`TowerSignalTrace/Sources/Objc/Tracing/ATSpan+objc.swift`**, **`ATSpanContext+objc.swift`** — Objective-C wrappers around Atatus span and span context implementations.
-- **`TowerSignalTrace/Sources/Objc/Tracing/Propagation/*+objc.swift`** — Objective-C wrappers for Atatus, W3C, B3 header writers and trace context injection.
+- **`TowerSignalTrace/Sources/Objc/Tracing/ATSpan+objc.swift`**, **`ATSpanContext+objc.swift`** — Objective-C wrappers around TowerSignal span and span context implementations.
+- **`TowerSignalTrace/Sources/Objc/Tracing/Propagation/*+objc.swift`** — Objective-C wrappers for TowerSignal, W3C, B3 header writers and trace context injection.
 - **`TowerSignalInternal/Sources/NetworkInstrumentation/TracingHeaderType+objc.swift`** — Objective-C tracing header type constants used by Trace URLSession configuration.
 
 ### Public API — Distributed Tracing Headers
-Re-exported from `AtatusInternal` so they are available with `import AtatusTrace`:
-- **`HTTPHeadersWriter`** — Atatus `x-atatus-*` headers
+Re-exported from `TowerSignalInternal` so they are available with `import TowerSignalTrace`:
+- **`HTTPHeadersWriter`** — TowerSignal `x-towersignal-*` headers
 - **`W3CHTTPHeadersWriter`** — W3C `tracecontext` headers
 - **`B3HTTPHeadersWriter`** — B3 single / multi headers
-- **`TracingHeaderType`** — `.atatus`, `.b3`, `.b3multi`, `.tracecontext`
+- **`TracingHeaderType`** — `.towersignal`, `.b3`, `.b3multi`, `.tracecontext`
 - **`TraceContextInjection`** — `.all`, `.sampled`
 
 ### Implementation
@@ -232,7 +232,7 @@ Re-exported from `AtatusInternal` so they are available with `import AtatusTrace
 
 ### Automatic Network Instrumentation
 Set `urlSessionTracking` to connect Trace to the shared automatic `URLSession` network instrumentation layer. The URLSession layer observes requests broadly; Trace uses the configured first-party hosts to decide where distributed tracing applies:
-- **First-party hosts**: `.trace(hosts:sampleRate:traceControlInjection:)` injects Atatus AND W3C `tracecontext` headers. Use `.traceWithHeaders(hostsWithHeaders:...)` to pick header types per host (Atatus, B3, B3 multi, W3C).
+- **First-party hosts**: `.trace(hosts:sampleRate:traceControlInjection:)` injects TowerSignal AND W3C `tracecontext` headers. Use `.traceWithHeaders(hostsWithHeaders:...)` to pick header types per host (TowerSignal, B3, B3 multi, W3C).
 - **Trace spans**: Trace records URLSession spans only for first-party requests when Trace owns automatic URLSession tracking. Avoid enabling Trace `urlSessionTracking` and RUM `urlSessionTracking` for the same requests; the overlap is a current limitation and can produce undefined or incorrect behavior. If RUM owns resource tracking, configure RUM `urlSessionTracking.firstPartyHostsTracing` so RUM resources carry trace context for APM correlation.
 - **Sampling**: `firstPartyHostsTracing.sampleRate` is the URLSession distributed tracing propagation rate. If RUM context is available, propagation and RUM resources use the composed RUM session and first-party tracing decision; for example, `sessionSampleRate: 50` and `firstPartyHostsTracing.sampleRate: 80` produce a 40% propagated trace context rate.
 - **Injection strategy**: `traceControlInjection` — `.sampled` (default) only injects context on sampled first-party requests; `.all` injects context, including drop decisions, on every matching first-party request.
@@ -245,7 +245,7 @@ Set `urlSessionTracking` to connect Trace to the shared automatic `URLSession` n
 ### Span Enrichment
 - **Service**: `service` (default: SDK service value) — overrides the `service.name` tag.
 - **Global tags**: `tags: [String: OTTagValue]?` — applied to every span from the default tracer. `OTTagValue` is `Encodable & Sendable`; any custom tag type must conform to both.
-- **RUM bundling**: `bundleWithRumEnabled` (default: `true`) — adds `_atatus.session.id`, `_atatus.view.id`, `_atatus.action.id` tags (no `_atatus.application.id`) only when a RUM context exists and the RUM session is sampled in. Trace spans from sampled-out RUM sessions can still be sent according to Trace sampling, but they are not linked to RUM.
+- **RUM bundling**: `bundleWithRumEnabled` (default: `true`) — adds `_towersignal.session.id`, `_towersignal.view.id`, `_towersignal.action.id` tags (no `_towersignal.application.id`) only when a RUM context exists and the RUM session is sampled in. Trace spans from sampled-out RUM sessions can still be sent according to Trace sampling, but they are not linked to RUM.
 - **Network info**: `networkInfoEnabled` (default: `false`) — adds reachability, connection type, mobile carrier, etc. to every span and span log.
 
 ### Event Modification
@@ -253,7 +253,7 @@ Set `urlSessionTracking` to connect Trace to the shared automatic `URLSession` n
 
 ### Manual Header Propagation
 For non-`URLSession` HTTP clients, build headers yourself:
-- `HTTPHeadersWriter(traceContextInjection:)` — Atatus headers
+- `HTTPHeadersWriter(traceContextInjection:)` — TowerSignal headers
 - `W3CHTTPHeadersWriter()` — W3C `tracecontext` (all params have defaults)
 - `B3HTTPHeadersWriter(injectEncoding:)` — B3 single or multi
 - Pass a writer to `tracer.inject(spanContext:writer:)`, then read `writer.traceHeaderFields` and copy them into your request.
@@ -261,7 +261,7 @@ For non-`URLSession` HTTP clients, build headers yourself:
 ## Common Troubleshooting Patterns
 
 ### "No traces appearing"
-1. Check `Atatus.initialize()` and `Trace.enable()` were called.
+1. Check `TowerSignal.initialize()` and `Trace.enable()` were called.
 2. For manual spans, verify `Trace.Configuration.sampleRate` is > 0. For automatic URLSession network instrumentation, verify `firstPartyHostsTracing.sampleRate` is > 0; for propagated or RUM resource trace contexts, also verify any composed RUM session rate is > 0.
 3. Verify spans are actually finished (`span.finish()`) — unfinished spans are not sent.
 4. Check the `eventMapper` is not raising / corrupting the event.
@@ -286,15 +286,15 @@ This is the default `redactedStatusCodes: [404]` redaction. Pass an empty set on
 Child spans inherit the active span only when one is set. Either pass a parent context explicitly via `startSpan(operationName:childOf:)`, or call `parent.setActive()` before creating children in the same execution context.
 
 ### "Tracer.shared() returns no-op"
-Returned when `Atatus.initialize()` was not called or `Trace.enable()` was not called. Errors are printed via `consolePrint` — check the console for `ProgrammerError` messages.
+Returned when `TowerSignal.initialize()` was not called or `Trace.enable()` was not called. Errors are printed via `consolePrint` — check the console for `ProgrammerError` messages.
 
 ## Feature Interactions
 
 - **RUM**: When `bundleWithRumEnabled` is `true` and the current RUM session is sampled in, spans are enriched with the current RUM view / session / action IDs so traces and RUM events can be correlated. For URLSession distributed tracing, an available RUM context also makes propagated trace context and RUM resource trace decisions deterministic by composing `firstPartyHostsTracing.sampleRate` with the RUM session sample rate.
-- **Logs**: `OTSpan.log(...)` and `OTSpan.setError(...)` write through the Logs feature. If `AtatusLogs` is not enabled, logs attached to spans are dropped (with a warning); the span itself is still sent.
+- **Logs**: `OTSpan.log(...)` and `OTSpan.setError(...)` write through the Logs feature. If `TowerSignalLogs` is not enabled, logs attached to spans are dropped (with a warning); the span itself is still sent.
 - **Crash Reporting**: Independent — crashes do not require Trace.
 - **WebView Tracking**: Independent — see `TowerSignalWebViewTracking/Sources/WebViewTracking.swift`.
-- **OpenTelemetry**: Use `OTelTracerProvider` to drive the standard OpenTelemetry API on top of Atatus Trace.
+- **OpenTelemetry**: Use `OTelTracerProvider` to drive the standard OpenTelemetry API on top of TowerSignal Trace.
 
 ## Additional Context
 

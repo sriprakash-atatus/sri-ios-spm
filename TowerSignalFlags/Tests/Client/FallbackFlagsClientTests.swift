@@ -1,18 +1,18 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddFlags` -> `AtatusFlags`, `ddInternal`
-// -> `AtatusInternal`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to `Atatus` in
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddFlags` -> `TowerSignalFlags`, `ddInternal`
+// -> `TowerSignalInternal`; renamed the `DD` symbol prefix to `AT`; rebranded the `dd` name to `TowerSignal` in
 // comments and docs; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusFlags
+@testable import TowerSignalFlags
 
 final class FallbackFlagsClientTests: XCTestCase {
     func testStateIsError() {
@@ -48,7 +48,7 @@ final class FallbackFlagsClientTests: XCTestCase {
         waitForExpectations(timeout: 0)
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Using fallback client to set the evaluation context. Ensure that a client named 'default' is created before using it."
+            "🔥 TowerSignal SDK usage error: Using fallback client to set the evaluation context. Ensure that a client named 'default' is created before using it."
         )
     }
 

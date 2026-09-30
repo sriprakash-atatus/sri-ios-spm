@@ -1,10 +1,10 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - rebranded the `dd` name to `Atatus` in comments and docs; rebranded
+// ATCHG: TowerSignal SDK migration - rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded
 // the licence header.
 
 import Foundation
@@ -49,7 +49,7 @@ public enum CoreLoggerLevel: Int, Comparable, CaseIterable {
     }
 }
 
-/// The `CoreLogger` protocol defines methods to log debug information and execution errors from Atatus SDK to user console.
+/// The `CoreLogger` protocol defines methods to log debug information and execution errors from TowerSignal SDK to user console.
 ///
 /// It is meant for debugging purposes when using the SDK, hence **it should log information useful and actionable
 /// to the SDK user**. Think of possible logs that we may want to receive from our users when asking them to enable

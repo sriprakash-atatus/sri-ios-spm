@@ -1,11 +1,11 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed `clientToken` to
-// `licenseKey`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed `clientToken` to
+// `licenseKey`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import Foundation
@@ -18,7 +18,7 @@ internal struct Environment {
     }
 
     struct InfoPlistKey {
-        static let licenseKey      = "AtatusClientToken"
+        static let licenseKey      = "TowerSignalClientToken"
         static let rumApplicationID = "RUMApplicationID"
 
         static let customLogsURL    = "CustomLogsURL"
@@ -48,7 +48,7 @@ internal struct Environment {
             fatalError("""
             ✋⛔️ Cannot read `\(InfoPlistKey.licenseKey)` from `Info.plist` dictionary.
             Please update `TowerSignal.xcconfig` in the repository root with your own
-            client token obtained on atatus.com.
+            client token obtained on towersignal.com.
             You might need to run `Product > Clean Build Folder` before retrying.
             """)
         }
@@ -60,7 +60,7 @@ internal struct Environment {
             fatalError("""
             ✋⛔️ Cannot read `\(InfoPlistKey.rumApplicationID)` from `Info.plist` dictionary.
             Please update `TowerSignal.xcconfig` in the repository root with your own
-            RUM application id obtained on atatus.com.
+            RUM application id obtained on towersignal.com.
             You might need to run `Product > Clean Build Folder` before retrying.
             """)
         }

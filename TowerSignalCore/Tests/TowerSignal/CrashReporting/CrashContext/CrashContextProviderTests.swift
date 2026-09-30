@@ -1,12 +1,12 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`,
-// `ddCrashReporting` -> `AtatusCrashReporting`, `ddInternal` -> `AtatusInternal`, `ddLogs`
-// -> `AtatusLogs`, `ddRUM` -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; renamed the `DD`
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`,
+// `ddCrashReporting` -> `TowerSignalCrashReporting`, `ddInternal` -> `TowerSignalInternal`, `ddLogs`
+// -> `TowerSignalLogs`, `ddRUM` -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; renamed the `DD`
 // symbol prefix to `AT`; rebranded the licence header.
 
 import XCTest
@@ -14,13 +14,13 @@ import XCTest
 import CoreTelephony
 #endif
 
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
 
-@testable import AtatusLogs
-@testable import AtatusRUM
-@testable import AtatusCrashReporting
-@testable import AtatusCore
+@testable import TowerSignalLogs
+@testable import TowerSignalRUM
+@testable import TowerSignalCrashReporting
+@testable import TowerSignalCore
 
 /// This suite tests if `CrashContextProvider` gets updated by different SDK components, each updating
 /// separate part of the `CrashContext` information.
@@ -34,10 +34,10 @@ class CrashContextProviderTests: XCTestCase {
         provider.onCrashContextChange = { latestCrashContext = $0 }
 
         // Given
-        let sdkContext: AtatusContext = .mockRandom()
+        let sdkContext: TowerSignalContext = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -51,11 +51,11 @@ class CrashContextProviderTests: XCTestCase {
         provider.onCrashContextChange = { latestCrashContext = $0 }
 
         // Given
-        let nextSDKContext: AtatusContext = .mockRandom()
+        let nextSDKContext: TowerSignalContext = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPAtatusCore())) // receive initial
-        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPAtatusCore())) // receive next
+        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPTowerSignalCore())) // receive initial
+        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPTowerSignalCore())) // receive next
 
         // Then
         provider.flush()
@@ -71,12 +71,12 @@ class CrashContextProviderTests: XCTestCase {
         provider.onCrashContextChange = { latestCrashContext = $0 }
 
         // Given
-        let sdkContext: AtatusContext = .mockRandom()
+        let sdkContext: TowerSignalContext = .mockRandom()
         let rumView: RUMViewEvent = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPAtatusCore()))
-        XCTAssertTrue(provider.receive(message: .payload(rumView), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPTowerSignalCore()))
+        XCTAssertTrue(provider.receive(message: .payload(rumView), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -92,12 +92,12 @@ class CrashContextProviderTests: XCTestCase {
 
         // Given
         let rumView: RUMViewEvent = .mockRandom()
-        let nextSDKContext: AtatusContext = .mockRandom()
+        let nextSDKContext: TowerSignalContext = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPAtatusCore())) // receive initial SDK context
-        XCTAssertTrue(provider.receive(message: .payload(rumView), from: NOPAtatusCore()))
-        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPTowerSignalCore())) // receive initial SDK context
+        XCTAssertTrue(provider.receive(message: .payload(rumView), from: NOPTowerSignalCore()))
+        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -114,13 +114,13 @@ class CrashContextProviderTests: XCTestCase {
         provider.onCrashContextChange = { latestCrashContext = $0 }
 
         // Given
-        let sdkContext: AtatusContext = .mockRandom()
+        let sdkContext: TowerSignalContext = .mockRandom()
         let rumView: RUMViewEvent = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPAtatusCore())) // receive initial SDK context
-        XCTAssertTrue(provider.receive(message: .payload(rumView), from: NOPAtatusCore()))
-        XCTAssertTrue(provider.receive(message: .payload(RUMPayloadMessages.viewReset), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPTowerSignalCore())) // receive initial SDK context
+        XCTAssertTrue(provider.receive(message: .payload(rumView), from: NOPTowerSignalCore()))
+        XCTAssertTrue(provider.receive(message: .payload(RUMPayloadMessages.viewReset), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -136,13 +136,13 @@ class CrashContextProviderTests: XCTestCase {
 
         // Given
         let rumView: RUMViewEvent = .mockRandom()
-        let nextSDKContext: AtatusContext = .mockRandom()
+        let nextSDKContext: TowerSignalContext = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPAtatusCore())) // receive initial SDK context
-        XCTAssertTrue(provider.receive(message: .payload(rumView), from: NOPAtatusCore()))
-        XCTAssertTrue(provider.receive(message: .payload(RUMPayloadMessages.viewReset), from: NOPAtatusCore()))
-        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPTowerSignalCore())) // receive initial SDK context
+        XCTAssertTrue(provider.receive(message: .payload(rumView), from: NOPTowerSignalCore()))
+        XCTAssertTrue(provider.receive(message: .payload(RUMPayloadMessages.viewReset), from: NOPTowerSignalCore()))
+        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -159,12 +159,12 @@ class CrashContextProviderTests: XCTestCase {
         provider.onCrashContextChange = { latestCrashContext = $0 }
 
         // Given
-        let sdkContext: AtatusContext = .mockRandom()
+        let sdkContext: TowerSignalContext = .mockRandom()
         let rumSessionState: RUMSessionState = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPAtatusCore())) // receive initial SDK context
-        XCTAssertTrue(provider.receive(message: .payload(rumSessionState), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPTowerSignalCore())) // receive initial SDK context
+        XCTAssertTrue(provider.receive(message: .payload(rumSessionState), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -180,12 +180,12 @@ class CrashContextProviderTests: XCTestCase {
 
         // Given
         let rumSessionState: RUMSessionState = .mockRandom()
-        let nextSDKContext: AtatusContext = .mockRandom()
+        let nextSDKContext: TowerSignalContext = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPAtatusCore())) // receive initial SDK context
-        XCTAssertTrue(provider.receive(message: .payload(rumSessionState), from: NOPAtatusCore()))
-        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPTowerSignalCore())) // receive initial SDK context
+        XCTAssertTrue(provider.receive(message: .payload(rumSessionState), from: NOPTowerSignalCore()))
+        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -202,12 +202,12 @@ class CrashContextProviderTests: XCTestCase {
         provider.onCrashContextChange = { latestCrashContext = $0 }
 
         // Given
-        let sdkContext: AtatusContext = .mockRandom()
+        let sdkContext: TowerSignalContext = .mockRandom()
         let rumAttributes: RUMEventAttributes = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPAtatusCore())) // receive initial SDK context
-        XCTAssertTrue(provider.receive(message: .payload(rumAttributes), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPTowerSignalCore())) // receive initial SDK context
+        XCTAssertTrue(provider.receive(message: .payload(rumAttributes), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -223,12 +223,12 @@ class CrashContextProviderTests: XCTestCase {
 
         // Given
         let rumAttributes: RUMEventAttributes = .mockRandom()
-        let nextSDKContext: AtatusContext = .mockRandom()
+        let nextSDKContext: TowerSignalContext = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPAtatusCore())) // receive initial SDK context
-        XCTAssertTrue(provider.receive(message: .payload(rumAttributes), from: NOPAtatusCore()))
-        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPTowerSignalCore())) // receive initial SDK context
+        XCTAssertTrue(provider.receive(message: .payload(rumAttributes), from: NOPTowerSignalCore()))
+        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -245,12 +245,12 @@ class CrashContextProviderTests: XCTestCase {
         provider.onCrashContextChange = { latestCrashContext = $0 }
 
         // Given
-        let sdkContext: AtatusContext = .mockRandom()
+        let sdkContext: TowerSignalContext = .mockRandom()
         let logAttributes: LogEventAttributes = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPAtatusCore())) // receive initial SDK context
-        XCTAssertTrue(provider.receive(message: .payload(logAttributes), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(sdkContext), from: NOPTowerSignalCore())) // receive initial SDK context
+        XCTAssertTrue(provider.receive(message: .payload(logAttributes), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -266,12 +266,12 @@ class CrashContextProviderTests: XCTestCase {
 
         // Given
         let logAttributes: LogEventAttributes = .mockRandom()
-        let nextSDKContext: AtatusContext = .mockRandom()
+        let nextSDKContext: TowerSignalContext = .mockRandom()
 
         // When
-        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPAtatusCore())) // receive initial SDK context
-        XCTAssertTrue(provider.receive(message: .payload(logAttributes), from: NOPAtatusCore()))
-        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPAtatusCore()))
+        XCTAssertTrue(provider.receive(message: .context(.mockRandom()), from: NOPTowerSignalCore())) // receive initial SDK context
+        XCTAssertTrue(provider.receive(message: .payload(logAttributes), from: NOPTowerSignalCore()))
+        XCTAssertTrue(provider.receive(message: .context(nextSDKContext), from: NOPTowerSignalCore()))
 
         // Then
         provider.flush()
@@ -292,10 +292,10 @@ class CrashContextProviderTests: XCTestCase {
         callConcurrently(
             closures: [
                 { _ = provider.currentCrashContext },
-                { _ = provider.receive(message: .context(.mockRandom()), from: NOPAtatusCore()) },
-                { _ = provider.receive(message: .payload(viewEvent), from: NOPAtatusCore()) },
-                { _ = provider.receive(message: .payload(RUMPayloadMessages.viewReset), from: NOPAtatusCore()) },
-                { _ = provider.receive(message: .payload(sessionState), from: NOPAtatusCore()) },
+                { _ = provider.receive(message: .context(.mockRandom()), from: NOPTowerSignalCore()) },
+                { _ = provider.receive(message: .payload(viewEvent), from: NOPTowerSignalCore()) },
+                { _ = provider.receive(message: .payload(RUMPayloadMessages.viewReset), from: NOPTowerSignalCore()) },
+                { _ = provider.receive(message: .payload(sessionState), from: NOPTowerSignalCore()) },
             ],
             iterations: 50
         )
@@ -306,7 +306,7 @@ class CrashContextProviderTests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func ATAssert(crashContext: CrashContext, includes sdkContext: AtatusContext, file: StaticString = #filePath, line: UInt = #line) {
+    private func ATAssert(crashContext: CrashContext, includes sdkContext: TowerSignalContext, file: StaticString = #filePath, line: UInt = #line) {
         XCTAssertEqual(crashContext.appLaunchDate, sdkContext.launchInfo.processLaunchDate, file: file, line: line)
         XCTAssertEqual(crashContext.serverTimeOffset, sdkContext.serverTimeOffset, file: file, line: line)
         XCTAssertEqual(crashContext.service, sdkContext.service, file: file, line: line)

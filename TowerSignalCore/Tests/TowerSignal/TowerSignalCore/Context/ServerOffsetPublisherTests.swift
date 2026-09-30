@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`;
-// rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`;
+// rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-@testable import AtatusCore
+import TowerSignalInternal
+@testable import TowerSignalCore
 
 class ServerOffsetPublisherTests: XCTestCase {
-    func testPickRandomAtatusNTPServers() throws {
+    func testPickRandomTowerSignalNTPServers() throws {
         let kronos = KronosClockMock()
-        let provider = AtatusNTPDateProvider(kronos: kronos)
+        let provider = TowerSignalNTPDateProvider(kronos: kronos)
         let publisher = ServerOffsetPublisher(provider: provider)
 
         var pools: Set<String> = []
@@ -24,11 +24,11 @@ class ServerOffsetPublisherTests: XCTestCase {
         try (0..<100).forEach { _ in
             publisher.publish { _ in }
             let pool = try XCTUnwrap(kronos.currentPool)
-            XCTAssertTrue(pool.hasSuffix(".atatus.pool.ntp.org"))
+            XCTAssertTrue(pool.hasSuffix(".towersignal.pool.ntp.org"))
             pools.insert(pool)
         }
 
-        XCTAssertEqual(pools, Set(AtatusNTPServers), "Each time Atatus NTP server should be picked randomly.")
+        XCTAssertEqual(pools, Set(TowerSignalNTPServers), "Each time TowerSignal NTP server should be picked randomly.")
     }
 
     func testWhenSyncSucceedsOnce_itPublishesOffset() throws {
@@ -36,7 +36,7 @@ class ServerOffsetPublisherTests: XCTestCase {
 
         // Given
         let kronos = KronosClockMock()
-        let provider = AtatusNTPDateProvider(kronos: kronos)
+        let provider = TowerSignalNTPDateProvider(kronos: kronos)
         let publisher = ServerOffsetPublisher(provider: provider)
 
         // When
@@ -61,7 +61,7 @@ class ServerOffsetPublisherTests: XCTestCase {
 
         // Given
         let kronos = KronosClockMock()
-        let provider = AtatusNTPDateProvider(kronos: kronos)
+        let provider = TowerSignalNTPDateProvider(kronos: kronos)
         let publisher = ServerOffsetPublisher(provider: provider)
 
         // When
@@ -95,7 +95,7 @@ class ServerOffsetPublisherTests: XCTestCase {
 
         // Given
         let kronos = KronosClockMock()
-        let provider = AtatusNTPDateProvider(kronos: kronos)
+        let provider = TowerSignalNTPDateProvider(kronos: kronos)
         let publisher = ServerOffsetPublisher(provider: provider)
 
         // When

@@ -1,33 +1,33 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the `dd` name to
-// `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the `dd` name to
+// `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
 
-/// A Atatus Core holds a set of Features and is responsible for managing their storage
+/// A TowerSignal Core holds a set of Features and is responsible for managing their storage
 /// and upload mechanism. It also provides a thread-safe scope for writing events.
 ///
-/// Any reference to `AtatusCoreProtocol` must be captured as `weak` within a Feature. This is to avoid
+/// Any reference to `TowerSignalCoreProtocol` must be captured as `weak` within a Feature. This is to avoid
 /// retain cycle of core holding the Feature and vice-versa.
-public protocol AtatusCoreProtocol: AnyObject, MessageSending, AdditionalContextSharing, Storage {
-    // Remove `AtatusCoreProtocol` conformance to `MessageSending` and `BaggageSharing` once
+public protocol TowerSignalCoreProtocol: AnyObject, MessageSending, AdditionalContextSharing, Storage {
+    // Remove `TowerSignalCoreProtocol` conformance to `MessageSending` and `BaggageSharing` once
     // all features are migrated to depend on `FeatureScope` interface.
 
     /// Registers a Feature instance.
     ///
     /// Feature can interact with the core and other Feature through the message bus. Some specific Features
-    /// complying to `AtatusRemoteFeature` can collect and transfer data to a Atatus Product
+    /// complying to `TowerSignalRemoteFeature` can collect and transfer data to a TowerSignal Product
     /// (e.g. Logs, RUM, ...). Upon registration, a Remote Feature can retrieve a `FeatureScope` interface
     /// for writing events to the core. The core will store and upload events efficiently according to the performance
     /// presets defined on initialization.
     ///
     /// - Parameter feature: The Feature instance - it will be retained and held by core.
-    func register<T>(feature: T) throws where T: AtatusFeature
+    func register<T>(feature: T) throws where T: TowerSignalFeature
 
     /// Retrieves previously registered Feature by its name and type.
     ///
@@ -48,21 +48,21 @@ public protocol AtatusCoreProtocol: AnyObject, MessageSending, AdditionalContext
     /// It is available right away even before the feature registration completes in the core, so some capabilities
     /// might be not available before the feature is fully registered.
     ///
-    /// If possible, feature implementation must to take dependency on `FeatureScope` rather than `AtatusCoreProtocol` itself.
+    /// If possible, feature implementation must to take dependency on `FeatureScope` rather than `TowerSignalCoreProtocol` itself.
     ///
     /// - Parameters:
     ///   - type: The Feature instance type.
     /// - Returns: The scope for requested feature type.
-    func scope<T>(for featureType: T.Type) -> FeatureScope where T: AtatusFeature
+    func scope<T>(for featureType: T.Type) -> FeatureScope where T: TowerSignalFeature
 }
 
-extension AtatusCoreProtocol {
-    /// Returns a `AtatusFeature` conforming type from the
+extension TowerSignalCoreProtocol {
+    /// Returns a `TowerSignalFeature` conforming type from the
     /// Feature registry.
     ///
     /// - Parameter type: The Feature instance type.
     /// - Returns: The Feature if any.
-    public func get<T>(feature type: T.Type = T.self) -> T? where T: AtatusFeature {
+    public func get<T>(feature type: T.Type = T.self) -> T? where T: TowerSignalFeature {
         feature(named: T.name, type: type)
     }
 }
@@ -91,7 +91,7 @@ extension MessageSending {
 }
 
 public protocol AdditionalContextSharing {
-    /// Sets additional context for sharing data through `AtatusContext`.
+    /// Sets additional context for sharing data through `TowerSignalContext`.
     ///
     /// This method provides a passive communication channel between Features of the Core.
     /// For an active Feature-to-Feature communication, please use the `send(message:)`
@@ -123,7 +123,7 @@ public protocol AdditionalContextSharing {
 }
 
 extension AdditionalContextSharing {
-    /// Sets additional context for sharing data through `AtatusContext`.
+    /// Sets additional context for sharing data through `TowerSignalContext`.
     ///
     /// This method provides a passive communication channel between Features of the Core.
     /// For an active Feature-to-Feature communication, please use the `send(message:)`
@@ -155,7 +155,7 @@ extension AdditionalContextSharing {
         set(context: { context })
     }
 
-    /// Removes additional context from `AtatusContext`.
+    /// Removes additional context from `TowerSignalContext`.
     ///
     /// This method provides a passive communication channel between Features of the Core.
     /// For an active Feature-to-Feature communication, please use the `send(message:)`
@@ -181,7 +181,7 @@ public protocol AnonymousIdentifierManaging {
 public protocol FeatureScope: MessageSending, AdditionalContextSharing, AnonymousIdentifierManaging, Sendable {
     /// Retrieve the core context and event writer.
     ///
-    /// The Feature scope provides the current Atatus context and event writer for building and recording events.
+    /// The Feature scope provides the current TowerSignal context and event writer for building and recording events.
     /// The provided context is valid at the moment of the call, meaning that it includes all changes that happened
     /// earlier on the same thread.
     ///
@@ -193,14 +193,14 @@ public protocol FeatureScope: MessageSending, AdditionalContextSharing, Anonymou
     ///                    Default is `false`, setting `true` must still respect user's consent for
     ///                    collecting information.
     ///   - block: The block to execute; it is called on the context queue.
-    func eventWriteContext(bypassConsent: Bool, _ block: @escaping (AtatusContext, Writer) -> Void)
+    func eventWriteContext(bypassConsent: Bool, _ block: @escaping (TowerSignalContext, Writer) -> Void)
 
     /// Retrieve the core context.
     ///
-    /// A feature can use this method to request the Atatus context valid at the moment of the call.
+    /// A feature can use this method to request the TowerSignal context valid at the moment of the call.
     ///
     /// - Parameter block: The block to execute; it is called on the context queue.
-    func context(_ block: @escaping (AtatusContext) -> Void)
+    func context(_ block: @escaping (TowerSignalContext) -> Void)
 
     /// Data store endpoint.
     ///
@@ -217,7 +217,7 @@ public protocol FeatureScope: MessageSending, AdditionalContextSharing, Anonymou
 public extension FeatureScope {
     /// Retrieve the core context and event writer.
     ///
-    /// The Feature scope provides the current Atatus context and event writer for building and recording events.
+    /// The Feature scope provides the current TowerSignal context and event writer for building and recording events.
     /// The provided context is valid at the moment of the call, meaning that it includes all changes that happened
     /// earlier on the same thread.
     ///
@@ -233,28 +233,28 @@ public extension FeatureScope {
     ///                     batches. This parameter can be leveraged in Features which require a clear separation
     ///                     of group of events for preparing their upload (a single upload is always constructed from a single batch).
     ///   - block: The block to execute; it is called on the context queue.
-    func eventWriteContext(_ block: @escaping (AtatusContext, Writer) -> Void) {
+    func eventWriteContext(_ block: @escaping (TowerSignalContext, Writer) -> Void) {
         eventWriteContext(bypassConsent: false, block)
     }
 
     /// Retrieve the core context and data store.
     ///
-    /// Can be used to store data that depends on the current Atatus context. The provided context is valid at the moment
+    /// Can be used to store data that depends on the current TowerSignal context. The provided context is valid at the moment
     /// of the call, meaning that it includes all changes that happened earlier on the same thread.
     ///
     /// - Parameter block: The block to execute; it is called on the context queue.
-    func dataStoreContext(_ block: @escaping (AtatusContext, DataStore) -> Void) {
+    func dataStoreContext(_ block: @escaping (TowerSignalContext, DataStore) -> Void) {
         context { context in
             block(context, dataStore)
         }
     }
 }
 
-/// No-op implementation of `AtatusFeatureRegistry`.
-public class NOPAtatusCore: AtatusCoreProtocol {
+/// No-op implementation of `TowerSignalFeatureRegistry`.
+public class NOPTowerSignalCore: TowerSignalCoreProtocol {
     public init() { }
     /// no-op
-    public func register<T>(feature: T) throws where T: AtatusFeature { }
+    public func register<T>(feature: T) throws where T: TowerSignalFeature { }
     /// no-op
     public func feature<T>(named name: String, type: T.Type) -> T? { nil }
     /// no-op
@@ -270,9 +270,9 @@ public class NOPAtatusCore: AtatusCoreProtocol {
 public struct NOPFeatureScope: FeatureScope {
     public init() { }
     /// no-op
-    public func eventWriteContext(bypassConsent: Bool, _ block: @escaping (AtatusContext, Writer) -> Void) { }
+    public func eventWriteContext(bypassConsent: Bool, _ block: @escaping (TowerSignalContext, Writer) -> Void) { }
     /// no-op
-    public func context(_ block: @escaping (AtatusContext) -> Void) { }
+    public func context(_ block: @escaping (TowerSignalContext) -> Void) { }
     /// no-op
     public var dataStore: DataStore { NOPDataStore() }
     /// no-op

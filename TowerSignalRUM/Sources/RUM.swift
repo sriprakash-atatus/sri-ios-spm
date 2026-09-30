@@ -1,29 +1,29 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix
-// to `_atatus`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed the `_dd` attribute prefix
+// to `_towersignal`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
-import AtatusInternal
+import TowerSignalInternal
 import Foundation
 
-/// An entry point to Atatus RUM feature.
+/// An entry point to TowerSignal RUM feature.
 public enum RUM {
-    /// Enables Atatus RUM feature.
+    /// Enables TowerSignal RUM feature.
     ///
     /// After RUM is enabled, use `RUMMonitor.shared(in:)` to collect RUM events.
     ///
     /// - Parameters:
     ///   - configuration: Configuration of the feature.
-    ///   - core: The instance of Atatus SDK to enable RUM in (global instance by default).
+    ///   - core: The instance of TowerSignal SDK to enable RUM in (global instance by default).
     public static func enable(
         with configuration: RUM.Configuration,
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
         do {
             // To ensure the correct registration order between Core and Features,
@@ -38,11 +38,11 @@ public enum RUM {
 
     internal static func enableOrThrow(
         with configuration: RUM.Configuration,
-        in core: AtatusCoreProtocol
+        in core: TowerSignalCoreProtocol
     ) throws {
-        guard !(core is NOPAtatusCore) else {
+        guard !(core is NOPTowerSignalCore) else {
             throw ProgrammerError(
-                description: "Atatus SDK must be initialized before calling `RUM.enable(with:)`."
+                description: "TowerSignal SDK must be initialized before calling `RUM.enable(with:)`."
             )
         }
 
@@ -66,10 +66,10 @@ public enum RUM {
 }
 
 extension RUM {
-    /// Attributes that can be added to RUM calls that have special properies in Atatus.
+    /// Attributes that can be added to RUM calls that have special properies in TowerSignal.
     public struct Attributes {
         /// Add a custom fingerprint to the RUM error.
         /// The value of this attribute must be a `String`.
-        public static let errorFingerprint = "_atatus.error.fingerprint"
+        public static let errorFingerprint = "_towersignal.error.fingerprint"
     }
 }

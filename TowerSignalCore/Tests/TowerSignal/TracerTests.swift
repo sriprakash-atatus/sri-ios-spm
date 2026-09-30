@@ -1,33 +1,33 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddLogs` -> `AtatusLogs`, `ddRUM` -> `AtatusRUM`, `ddTrace` ->
-// `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed the
-// `_dd` attribute prefix to `_atatus`; renamed `dd.trace_id` / `dd.span_id` to `atatus.trace_id` /
-// `atatus.span_id`; renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the `dd` name
-// to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddLogs` -> `TowerSignalLogs`, `ddRUM` -> `TowerSignalRUM`, `ddTrace` ->
+// `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed the
+// `_dd` attribute prefix to `_towersignal`; renamed `dd.trace_id` / `dd.span_id` to `towersignal.trace_id` /
+// `towersignal.span_id`; renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the `dd` name
+// to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusTrace
-@testable import AtatusLogs
-@testable import AtatusCore
-@testable import AtatusRUM
+@testable import TowerSignalTrace
+@testable import TowerSignalLogs
+@testable import TowerSignalCore
+@testable import TowerSignalRUM
 @testable import TestUtilities
 
 // swiftlint:disable multiline_arguments_brackets
 class TracerTests: XCTestCase {
-    private var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    private var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
     private var config: Trace.Configuration! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
         config = Trace.Configuration()
     }
 
@@ -48,7 +48,7 @@ class TracerTests: XCTestCase {
             source: "abc",
             sdkVersion: "1.2.3",
             ciAppOrigin: nil,
-            applicationBundleIdentifier: "com.atatus.ios-sdk",
+            applicationBundleIdentifier: "com.towersignal.ios-sdk",
             device: .mockWith(
                 name: "iPhone",
                 model: "iPhone10,1",
@@ -108,12 +108,12 @@ class TracerTests: XCTestCase {
                 "version": "15.4.1",
                 "version_major": "15"
               },
-              "meta._atatus.source": "abc",
+              "meta._towersignal.source": "abc",
               "metrics._top_level": 1,
               "metrics._sampling_priority_v1": 1,
-              "metrics._atatus.agent_psr": 1,
-              "meta._atatus.p.id": "a",
-              "meta._atatus.p.dm": "-1"
+              "metrics._towersignal.agent_psr": 1,
+              "meta._towersignal.p.id": "a",
+              "meta._towersignal.p.dm": "-1"
             }
           ],
           "env": "custom"
@@ -644,8 +644,8 @@ class TracerTests: XCTestCase {
 
         regularLogMatcher.assertStatus(equals: "info")
         regularLogMatcher.assertMessage(equals: "hello")
-        regularLogMatcher.assertValue(forKey: "atatus.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
-        regularLogMatcher.assertValue(forKey: "atatus.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
+        regularLogMatcher.assertValue(forKey: "towersignal.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
+        regularLogMatcher.assertValue(forKey: "towersignal.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
         regularLogMatcher.assertValue(forKey: "custom.field", equals: "value")
 
         errorLogMatcher.assertStatus(equals: "error")
@@ -653,8 +653,8 @@ class TracerTests: XCTestCase {
         errorLogMatcher.assertValue(forKey: "error.kind", equals: "Swift error")
         errorLogMatcher.assertValue(forKey: "error.message", equals: "Ops!")
         errorLogMatcher.assertMessage(equals: "Ops!")
-        errorLogMatcher.assertValue(forKey: "atatus.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
-        errorLogMatcher.assertValue(forKey: "atatus.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
+        errorLogMatcher.assertValue(forKey: "towersignal.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
+        errorLogMatcher.assertValue(forKey: "towersignal.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
     }
 
     func testSendingSpanLogsWithErrorFromArguments() throws {
@@ -678,8 +678,8 @@ class TracerTests: XCTestCase {
         errorLogMatcher.assertValue(forKey: "error.kind", equals: "Swift error")
         errorLogMatcher.assertValue(forKey: "error.message", equals: "Ops!")
         errorLogMatcher.assertMessage(equals: "Ops!")
-        errorLogMatcher.assertValue(forKey: "atatus.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
-        errorLogMatcher.assertValue(forKey: "atatus.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
+        errorLogMatcher.assertValue(forKey: "towersignal.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
+        errorLogMatcher.assertValue(forKey: "towersignal.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
     }
 
     func testSendingSpanLogsWithErrorFromNSError() throws {
@@ -709,8 +709,8 @@ class TracerTests: XCTestCase {
         errorLogMatcher.assertValue(forKey: "error.kind", equals: "Tracer - 1")
         errorLogMatcher.assertValue(forKey: "error.message", equals: "Ops!")
         errorLogMatcher.assertMessage(equals: "Ops!")
-        errorLogMatcher.assertValue(forKey: "atatus.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
-        errorLogMatcher.assertValue(forKey: "atatus.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
+        errorLogMatcher.assertValue(forKey: "towersignal.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
+        errorLogMatcher.assertValue(forKey: "towersignal.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
     }
 
     func testSendingSpanLogsWithErrorFromSwiftError() throws {
@@ -735,8 +735,8 @@ class TracerTests: XCTestCase {
         errorLogMatcher.assertValue(forKey: "error.kind", equals: "ErrorMock")
         errorLogMatcher.assertValue(forKey: "error.message", equals: "Ops!")
         errorLogMatcher.assertMessage(equals: "Ops!")
-        errorLogMatcher.assertValue(forKey: "atatus.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
-        errorLogMatcher.assertValue(forKey: "atatus.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
+        errorLogMatcher.assertValue(forKey: "towersignal.trace_id", equals: String(span.context.dd.traceID, representation: .hexadecimal))
+        errorLogMatcher.assertValue(forKey: "towersignal.span_id", equals: String(span.context.dd.spanID, representation: .hexadecimal))
     }
 
     // MARK: - Integration With RUM Feature
@@ -755,7 +755,7 @@ class TracerTests: XCTestCase {
         // Then
         let rumEvent = try XCTUnwrap(core.waitAndReturnEvents(ofFeature: RUMFeature.name, ofType: RUMViewEvent.self).last)
         let spanEvent = try XCTUnwrap(core.waitAndReturnSpanEvents().first)
-        XCTAssertNil(spanEvent.tags["_atatus.application.id"], "Spans must not carry the RUM application ID")
+        XCTAssertNil(spanEvent.tags["_towersignal.application.id"], "Spans must not carry the RUM application ID")
         XCTAssertEqual(spanEvent.tags[SpanTags.rumSessionID], rumEvent.session.id)
         XCTAssertEqual(spanEvent.tags[SpanTags.rumViewID], rumEvent.view.id)
         XCTAssertNil(spanEvent.tags[SpanTags.rumActionID])
@@ -779,7 +779,7 @@ class TracerTests: XCTestCase {
             core.waitAndReturnEvents(ofFeature: RUMFeature.name, ofType: RUMActionEvent.self).first(where: { $0.action.type == .swipe })
         )
         let spanEvent = try XCTUnwrap(core.waitAndReturnSpanEvents().first)
-        XCTAssertNil(spanEvent.tags["_atatus.application.id"], "Spans must not carry the RUM application ID")
+        XCTAssertNil(spanEvent.tags["_towersignal.application.id"], "Spans must not carry the RUM application ID")
         XCTAssertEqual(spanEvent.tags[SpanTags.rumSessionID], rumEvent.session.id)
         XCTAssertEqual(spanEvent.tags[SpanTags.rumViewID], rumEvent.view.id)
         XCTAssertEqual(spanEvent.tags[SpanTags.rumActionID], rumEvent.action.id)
@@ -801,7 +801,7 @@ class TracerTests: XCTestCase {
         // Then
         let rumEvent = try XCTUnwrap(core.waitAndReturnEvents(ofFeature: RUMFeature.name, ofType: RUMViewEvent.self).last)
         let spanEvent = try XCTUnwrap(core.waitAndReturnSpanEvents().first)
-        XCTAssertNil(spanEvent.tags["_atatus.application.id"], "Spans must not carry the RUM application ID")
+        XCTAssertNil(spanEvent.tags["_towersignal.application.id"], "Spans must not carry the RUM application ID")
         XCTAssertEqual(spanEvent.tags[SpanTags.rumSessionID], rumEvent.session.id)
         XCTAssertNil(spanEvent.tags[SpanTags.rumViewID])
         XCTAssertNil(spanEvent.tags[SpanTags.rumActionID])
@@ -828,7 +828,7 @@ class TracerTests: XCTestCase {
 
     // MARK: - Injecting span context into carrier
 
-    func testInjectingAndExtractingSpanContextUsingAtatusCarrier() {
+    func testInjectingAndExtractingSpanContextUsingTowerSignalCarrier() {
         // Given
         Trace.enable(with: config, in: core)
         let tracer = Tracer.shared(in: core)
@@ -1101,7 +1101,7 @@ class TracerTests: XCTestCase {
         defer { consolePrint = { message, _ in print(message) } }
 
         // given
-        let core = NOPAtatusCore()
+        let core = NOPTowerSignalCore()
         Trace.enable(in: core)
 
         // when
@@ -1110,7 +1110,7 @@ class TracerTests: XCTestCase {
         // then
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Atatus SDK must be initialized and RUM feature must be enabled before calling `Tracer.shared(in:)`."
+            "🔥 TowerSignal SDK usage error: TowerSignal SDK must be initialized and RUM feature must be enabled before calling `Tracer.shared(in:)`."
         )
         XCTAssertTrue(tracer is ATNoopTracer)
     }
@@ -1130,7 +1130,7 @@ class TracerTests: XCTestCase {
         // then
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: Trace feature must be enabled before calling `Tracer.shared(in:)`."
+            "🔥 TowerSignal SDK usage error: Trace feature must be enabled before calling `Tracer.shared(in:)`."
         )
         XCTAssertTrue(tracer is ATNoopTracer)
     }

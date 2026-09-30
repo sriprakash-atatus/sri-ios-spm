@@ -1,16 +1,16 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
-// renamed the `ddsource` / `ddtags` query parameters to `atatus_source` / `atatustags`; rebranded the
-// `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; renamed `dd*` members to `at*`;
+// renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` / `towersignaltags`; rebranded the
+// `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// Receiver to consume crash reports as RUM events.
 internal struct CrashReportReceiver: FeatureMessageReceiver {
@@ -62,7 +62,7 @@ internal struct CrashReportReceiver: FeatureMessageReceiver {
         self.eventsMapper = eventsMapper
     }
 
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         guard case let .payload(crash as Crash) = message else {
             return false
         }
@@ -94,7 +94,7 @@ internal struct CrashReportReceiver: FeatureMessageReceiver {
             if let lastRUMAttributes = context.lastRUMAttributes {
                 // RUM-3588: If last RUM attributes are available, use them to replace view attributes as we know that
                 // global RUM attributes can be updated more often than attributes in `lastRUMView`.
-                // See https://github.com/dd/atatus-sdk-ios/pull/1834 for more context.
+                // See https://github.com/dd/towersignal-sdk-ios/pull/1834 for more context.
                 lastRUMViewEvent.context = lastRUMAttributes
             }
             if lastRUMViewEvent.view.crash?.count ?? 0 < 1 {
@@ -297,7 +297,7 @@ internal struct CrashReportReceiver: FeatureMessageReceiver {
 
     // MARK: - Building RUM events
 
-    private func createFatalErrorBuilder(context: AtatusContext, crash: ATCrashReport, crashDate: Date, timeSinceAppStart: TimeInterval?) -> FatalErrorBuilder {
+    private func createFatalErrorBuilder(context: TowerSignalContext, crash: ATCrashReport, crashDate: Date, timeSinceAppStart: TimeInterval?) -> FatalErrorBuilder {
         return FatalErrorBuilder(
             context: context,
             error: .crash,
@@ -344,7 +344,7 @@ internal struct CrashReportReceiver: FeatureMessageReceiver {
                 )
             ),
             account: context.accountInfo.map { RUMAccount(accountInfo: $0) },
-            // ATCHG: application_id removed -- Atatus events do not carry a RUM application ID
+            // ATCHG: application_id removed -- TowerSignal events do not carry a RUM application ID
             application: .init(
                 currentLocale: context.device.locale, id: ""
             ),
@@ -357,10 +357,10 @@ internal struct CrashReportReceiver: FeatureMessageReceiver {
             container: nil,
             // RUM-3588: We know that last RUM view is not available, so we're creating a new one. No matter that, try using last
             // RUM attributes if available. There is a chance of having them as global RUM attributes can be updated more often than RUM view.
-            // See https://github.com/dd/atatus-sdk-ios/pull/1834 for more context.
+            // See https://github.com/dd/towersignal-sdk-ios/pull/1834 for more context.
             context: context.lastRUMAttributes,
             date: startDate.timeIntervalSince1970.dd.toInt64Milliseconds,
-            atatusTags: context.atTags,
+            towersignalTags: context.atTags,
             device: context.device,
             display: nil,
             // RUMM-2197: In very rare cases, the OS info computed below might not be exactly the one

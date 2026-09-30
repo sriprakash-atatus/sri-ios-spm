@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import Foundation
 
 /// Matcher for asserting known values of Session Replay Segment.
 ///
-/// See: ``AtatusSessionReplay.SRSegment`` to understand how underlying data is encoded.
+/// See: ``TowerSignalSessionReplay.SRSegment`` to understand how underlying data is encoded.
 public class SRSegmentMatcher: JSONObjectMatcher {
     /// Enumerates SR record types.
     /// Raw values correspond to record types defined in SR JSON schema.
     ///
-    /// See: ``AtatusSessionReplay.SRRecord``
+    /// See: ``TowerSignalSessionReplay.SRRecord``
     public enum RecordType: Int {
         case fullSnapshotRecord = 10
         case incrementalSnapshotRecord = 11
@@ -83,7 +83,7 @@ public class SRSegmentMatcher: JSONObjectMatcher {
 
 /// Matcher for asserting known values of Session Replay "full snapshot" record.
 ///
-/// See: ``AtatusSessionReplay.SRFullSnapshotRecord`` to understand how underlying data is encoded.
+/// See: ``TowerSignalSessionReplay.SRFullSnapshotRecord`` to understand how underlying data is encoded.
 public class SRFullSnapshotRecordMatcher: JSONObjectMatcher {
     public init(jsonObject: [String: Any]) {
         super.init(object: jsonObject)
@@ -97,7 +97,7 @@ public class SRFullSnapshotRecordMatcher: JSONObjectMatcher {
 
 /// Matcher for asserting known values of Session Replay "incremental snapshot" record.
 ///
-/// See: ``AtatusSessionReplay.SRIncrementalSnapshotRecord`` to understand how underlying data is encoded.
+/// See: ``TowerSignalSessionReplay.SRIncrementalSnapshotRecord`` to understand how underlying data is encoded.
 public class SRIncrementalSnapshotRecordMatcher: JSONObjectMatcher {
     public init(jsonObject: [String: Any]) {
         super.init(object: jsonObject)
@@ -106,7 +106,7 @@ public class SRIncrementalSnapshotRecordMatcher: JSONObjectMatcher {
     /// Enumerates data types in incremental snapshot.
     /// Raw values correspond to types defined in SR JSON schema.
     ///
-    /// See: ``AtatusSessionReplay.SRIncrementalSnapshotRecord.Data``
+    /// See: ``TowerSignalSessionReplay.SRIncrementalSnapshotRecord.Data``
     public enum IncrementalDataType: Int {
         case mutationData = 0
         case touchData = 2

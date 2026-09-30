@@ -1,38 +1,38 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
-import AtatusInternal
+import TowerSignalInternal
 import TestUtilities
-@testable import AtatusCore
+@testable import TowerSignalCore
 
-private struct RemoteFeatureMock: AtatusRemoteFeature {
+private struct RemoteFeatureMock: TowerSignalRemoteFeature {
     static let name: String = "remote-feature-mock"
 
     var requestBuilder: FeatureRequestBuilder = FeatureRequestBuilderMock()
     var messageReceiver: FeatureMessageReceiver = NOPFeatureMessageReceiver()
-    var performanceOverride: AtatusInternal.PerformancePresetOverride?
+    var performanceOverride: TowerSignalInternal.PerformancePresetOverride?
 }
 
-private struct FeatureMock: AtatusFeature {
+private struct FeatureMock: TowerSignalFeature {
     static let name: String = "feature-mock"
 
     var messageReceiver: FeatureMessageReceiver = NOPFeatureMessageReceiver()
 }
 
-class AtatusCore_FeatureDirectoriesTests: XCTestCase {
-    private var core: AtatusCore! // swiftlint:disable:this implicitly_unwrapped_optional
+class TowerSignalCore_FeatureDirectoriesTests: XCTestCase {
+    private var core: TowerSignalCore! // swiftlint:disable:this implicitly_unwrapped_optional
 
     override func setUp() {
         super.setUp()
         temporaryCoreDirectory.create()
-        core = AtatusCore(
+        core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .mockRandom(),

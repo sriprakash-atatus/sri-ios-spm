@@ -1,21 +1,21 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCrashReporting` -> `AtatusCrashReporting`,
-// `ddInternal` -> `AtatusInternal`, `ddRUM` -> `AtatusRUM`; renamed `dd*` types to
-// `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCrashReporting` -> `TowerSignalCrashReporting`,
+// `ddInternal` -> `TowerSignalInternal`, `ddRUM` -> `TowerSignalRUM`; renamed `dd*` types to
+// `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
-import AtatusCrashReporting
-@testable import AtatusRUM
+import TowerSignalInternal
+import TowerSignalCrashReporting
+@testable import TowerSignalRUM
 
 class WatchdogTerminationsMonitoringTests: XCTestCase {
-    var core: AtatusCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
+    var core: TowerSignalCoreProxy! // swiftlint:disable:this implicitly_unwrapped_optional
     var rumConfig = RUM.Configuration(applicationID: .mockAny())
     let device: DeviceInfo = .init(
         name: .mockAny(),
@@ -32,7 +32,7 @@ class WatchdogTerminationsMonitoringTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        core = AtatusCoreProxy()
+        core = TowerSignalCoreProxy()
         rumConfig.trackWatchdogTerminations = true
     }
 
@@ -110,8 +110,8 @@ class WatchdogTerminationsMonitoringTests: XCTestCase {
     }
 
     /// Watchdog Termination check is done in the background, we need to wait for it to finish before we can proceed with the test
-    /// - Parameter core: `AtatusCoreProxy` instance
-    func waitForWatchdogTerminationCheck(core: AtatusCoreProxy) throws {
+    /// - Parameter core: `TowerSignalCoreProxy` instance
+    func waitForWatchdogTerminationCheck(core: TowerSignalCoreProxy) throws {
         let watchdogTermination = try XCTUnwrap(core.get(feature: RUMFeature.self)?.instrumentation.watchdogTermination)
         while watchdogTermination.currentState != .started {
             Thread.sleep(forTimeInterval: .fromMilliseconds(100))

@@ -1,9 +1,9 @@
 ---
-name: atatus-sdk-ios:open-pr
-description: Use when creating a pull request in atatus-sdk-ios. Use when writing PR titles, PR body, or choosing the target branch.
+name: towersignal-sdk-ios:open-pr
+description: Use when creating a pull request in towersignal-sdk-ios. Use when writing PR titles, PR body, or choosing the target branch.
 ---
 
-# Pull Requests in atatus-sdk-ios
+# Pull Requests in towersignal-sdk-ios
 
 ## PR Title Format
 

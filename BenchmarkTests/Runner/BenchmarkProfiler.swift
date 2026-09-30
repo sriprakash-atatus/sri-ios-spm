@@ -1,25 +1,25 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddBenchmarks` -> `AtatusBenchmarks`,
-// `ddInternal` -> `AtatusInternal`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddBenchmarks` -> `TowerSignalBenchmarks`,
+// `ddInternal` -> `TowerSignalInternal`; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
-import AtatusBenchmarks
+import TowerSignalInternal
+import TowerSignalBenchmarks
 import OpenTelemetryApi
 
-internal final class Profiler: AtatusInternal.BenchmarkProfiler {
+internal final class Profiler: TowerSignalInternal.BenchmarkProfiler {
     let provider: TracerProvider
 
     init(provider: TracerProvider) {
         self.provider = provider
     }
 
-    func tracer(operation: @autoclosure () -> String) -> any AtatusInternal.BenchmarkTracer {
+    func tracer(operation: @autoclosure () -> String) -> any TowerSignalInternal.BenchmarkTracer {
         TracerWrapper(
             tracer: provider.get(
                 instrumentationName: operation(),
@@ -29,14 +29,14 @@ internal final class Profiler: AtatusInternal.BenchmarkProfiler {
     }
 }
 
-private final class TracerWrapper: AtatusInternal.BenchmarkTracer {
+private final class TracerWrapper: TowerSignalInternal.BenchmarkTracer {
     let tracer: OpenTelemetryApi.Tracer
 
     init(tracer: OpenTelemetryApi.Tracer) {
         self.tracer = tracer
     }
 
-    func startSpan(named: @autoclosure () -> String) -> any AtatusInternal.BenchmarkSpan {
+    func startSpan(named: @autoclosure () -> String) -> any TowerSignalInternal.BenchmarkSpan {
         SpanWrapper(
             span: tracer
                 .spanBuilder(spanName: named())
@@ -46,7 +46,7 @@ private final class TracerWrapper: AtatusInternal.BenchmarkTracer {
     }
 }
 
-private final class SpanWrapper: AtatusInternal.BenchmarkSpan {
+private final class SpanWrapper: TowerSignalInternal.BenchmarkSpan {
     let span: OpenTelemetryApi.Span
 
     init(span: OpenTelemetryApi.Span) {

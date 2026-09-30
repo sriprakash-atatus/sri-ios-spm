@@ -1,12 +1,12 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; renamed `dd*` members to `at*`; renamed the `DD-*` intake headers to their Atatus equivalents;
-// renamed `com.ddhq.*` identifiers to `com.atatus.*`; rebranded the `dd` name to `Atatus` in
+// ATCHG: TowerSignal SDK migration - renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; renamed `dd*` members to `at*`; renamed the `DD-*` intake headers to their TowerSignal equivalents;
+// renamed `com.ddhq.*` identifiers to `com.towersignal.*`; rebranded the `dd` name to `TowerSignal` in
 // comments and docs; rebranded the licence header.
 
 import Foundation
@@ -16,13 +16,13 @@ import Foundation
 ///
 /// Usage:
 ///
-///     let core: AtatusCoreProtocol
+///     let core: TowerSignalCoreProtocol
 ///
-///     let handler: AtatusURLSessionHandler = CustomURLSessionHandler()
+///     let handler: TowerSignalURLSessionHandler = CustomURLSessionHandler()
 ///     core.register(urlSessionHandler: handler)
 ///
 /// Registering multiple handlers will aggregate instrumentation.
-internal final class NetworkInstrumentationFeature: AtatusFeature {
+internal final class NetworkInstrumentationFeature: TowerSignalFeature {
     /// The Feature name: "network-instrumentation".
     static var name: String { Feature.networkInstrumentation }
 
@@ -32,7 +32,7 @@ internal final class NetworkInstrumentationFeature: AtatusFeature {
     /// Network Instrumentation serial queue for safe and serialized access to the
     /// `URLSessionTask` interceptions.
     private let queue = DispatchQueue(
-        label: "com.atatus.network-instrumentation",
+        label: "com.towersignal.network-instrumentation",
         target: .global(qos: .utility)
     )
 
@@ -51,7 +51,7 @@ internal final class NetworkInstrumentationFeature: AtatusFeature {
     /// Accessing this list will acquire a read-write lock for fast read operation when mutating
     /// a `URLRequest`
     @ReadWriteLock
-    internal var handlers: [AtatusURLSessionHandler] = []
+    internal var handlers: [TowerSignalURLSessionHandler] = []
 
     @ReadWriteLock
     private var swizzlers: [ObjectIdentifier: NetworkInstrumentationSwizzler] = [:]
@@ -120,8 +120,8 @@ internal final class NetworkInstrumentationFeature: AtatusFeature {
                     return
                 }
 
-                // Skip Atatus's own intake requests to prevent infinite recursion
-                if self.hasAtatusAuthHeader(request: currentRequest) {
+                // Skip TowerSignal's own intake requests to prevent infinite recursion
+                if self.hasTowerSignalAuthHeader(request: currentRequest) {
                     return
                 }
 
@@ -377,7 +377,7 @@ extension NetworkInstrumentationFeature {
     ///
     /// - Parameter request: The URLRequest to check.
     /// - Returns: `true` if the request is an SDK internal request, `false` otherwise.
-    private func hasAtatusAuthHeader(request: URLRequest?) -> Bool {
+    private func hasTowerSignalAuthHeader(request: URLRequest?) -> Bool {
         guard let request = request else { return false }
         if request.value(forHTTPHeaderField: URLRequestBuilder.HTTPHeader.atAPIKeyHeaderField) != nil
             || request.value(forHTTPHeaderField: URLRequestBuilder.HTTPHeader.atClientTokenHeaderField) != nil {
@@ -438,7 +438,7 @@ extension NetworkInstrumentationFeature {
     ///   - additionalFirstPartyHosts: Extra hosts to consider in the interception, used in conjunction with hosts defined in each handler.
     ///   - trackingMode: The tracking mode to use for this interception (automatic or registered delegate).
     func intercept(task: URLSessionTask, with instrumentationContexts: [RequestInstrumentationContext], additionalFirstPartyHosts: FirstPartyHosts?, trackingMode: TrackingMode) {
-        // In response to https://github.com/dd/atatus-sdk-ios/issues/1638 capture the current request object on the
+        // In response to https://github.com/dd/towersignal-sdk-ios/issues/1638 capture the current request object on the
         // caller thread and freeze its attributes through `ImmutableRequest`. This is to avoid changing the request
         // object from multiple threads:
         guard let currentRequest = task.currentRequest else {

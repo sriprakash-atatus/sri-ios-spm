@@ -1,17 +1,17 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`, `ddRUM`
-// -> `AtatusRUM`; renamed `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`, `ddRUM`
+// -> `TowerSignalRUM`; renamed `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 import XCTest
 import UIKit
-import AtatusInternal
+import TowerSignalInternal
 @testable import TestUtilities
-@testable import AtatusRUM
+@testable import TowerSignalRUM
 
 // TODO: RUMM-2034 Remove this flag once we have a host application for tests
 #if os(iOS)
@@ -49,7 +49,7 @@ class RUMDebuggingTests: XCTestCase {
     }
 
     func testWhenOneRUMViewIsInactive_andSecondIsActive_itDisplaysTwoRUMViewOutlines() throws {
-        let context: AtatusContext = .mockAny()
+        let context: TowerSignalContext = .mockAny()
         let writer = FileWriterMock()
 
         let expectation = self.expectation(description: "Render RUMDebugging")

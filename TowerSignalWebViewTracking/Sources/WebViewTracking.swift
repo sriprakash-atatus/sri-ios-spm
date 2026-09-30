@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to `AT`; repointed the intake host at the
-// Atatus site; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to `AT`; repointed the intake host at the
+// TowerSignal site; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 #if canImport(WebKit)
 import WebKit
@@ -19,7 +19,7 @@ import WebKit
 ///
 /// # Prerequisites:
 /// Set up the web page you want rendered on your mobile iOS and tvOS application with the RUM Browser SDK
-/// first. For more information, see [RUM Browser Monitoring](https://www.atatus.com/docs/).
+/// first. For more information, see [RUM Browser Monitoring](https://www.towersignal.com/docs/).
 ///
 /// You can perform the following:
 /// - Track user journeys across web and native components in mobile applications
@@ -27,9 +27,9 @@ import WebKit
 /// - Support users that have difficulty loading web pages on mobile devices
 public enum WebViewTracking {
 #if canImport(WebKit)
-    /// Enables SDK to correlate Atatus RUM events and Logs from the WebView with native RUM session.
+    /// Enables SDK to correlate TowerSignal RUM events and Logs from the WebView with native RUM session.
     ///
-    /// If the content loaded in WebView uses Atatus Browser SDK (`v4.2.0+`) and matches specified
+    /// If the content loaded in WebView uses TowerSignal Browser SDK (`v4.2.0+`) and matches specified
     /// `hosts`, web events will be correlated with the RUM session from native SDK.
     ///
     /// Each entry in `hosts` can be a plain hostname (`"example.com"`) or a wildcard pattern with a
@@ -37,15 +37,15 @@ public enum WebViewTracking {
     ///
     /// - Parameters:
     ///   - webView: The web-view to track.
-    ///   - hosts: A set of hosts or wildcard patterns instrumented with Browser SDK to capture Atatus events from.
+    ///   - hosts: A set of hosts or wildcard patterns instrumented with Browser SDK to capture TowerSignal events from.
     ///   - logsSampleRate: The sampling rate for logs coming from the WebView. Must be a value between `0` and `100`,
     ///   where 0 means no logs will be sent and 100 means all will be uploaded. Default: `100`.
-    ///   - core: Atatus SDK core to use for tracking.
+    ///   - core: TowerSignal SDK core to use for tracking.
     public static func enable(
         webView: WKWebView,
         hosts: Set<String> = [],
         logsSampleRate: SampleRate = .maxSampleRate,
-        in core: AtatusCoreProtocol = CoreRegistry.default
+        in core: TowerSignalCoreProtocol = CoreRegistry.default
     ) {
         do {
             // To ensure the correct registration order between Core and Features,
@@ -64,9 +64,9 @@ public enum WebViewTracking {
         }
     }
 
-    /// Disables Atatus iOS SDK and Atatus Browser SDK integration.
+    /// Disables TowerSignal iOS SDK and TowerSignal Browser SDK integration.
     ///
-    /// Removes Atatus's ScriptMessageHandler and UserScript from the caller.
+    /// Removes TowerSignal's ScriptMessageHandler and UserScript from the caller.
     /// - Note: This method **must** be called when the WebView can be deinitialized.
     ///
     /// - Parameters:
@@ -84,7 +84,7 @@ public enum WebViewTracking {
 
     // MARK: Internal
 
-    static let jsCodePrefix = "/* AtatusEventBridge */"
+    static let jsCodePrefix = "/* TowerSignalEventBridge */"
 
     @MainActor
     static func enableOrThrow(
@@ -92,7 +92,7 @@ public enum WebViewTracking {
         hosts: Set<String>,
         hostsSanitizer: HostsSanitizing,
         logsSampleRate: Float,
-        in core: AtatusCoreProtocol
+        in core: TowerSignalCoreProtocol
     ) throws {
         guard try prepareWebView(webView, logsSampleRate: logsSampleRate, callerName: "WebViewTracking.enable(webView:hosts:)", in: core) else {
             return
@@ -102,7 +102,7 @@ public enum WebViewTracking {
         // We inject a user script to return `allowedWebViewHosts` instead of using `WKScriptMessageHandlerWithReply`
         let sanitizedHosts = hostsSanitizer.sanitized(
             hosts: hosts,
-            warningMessage: "The allowed WebView host configured for Atatus SDK is not valid"
+            warningMessage: "The allowed WebView host configured for TowerSignal SDK is not valid"
         )
         let allowedWebViewHostsString = sanitizedHosts
             .sorted()
@@ -124,11 +124,11 @@ public enum WebViewTracking {
         _ webView: WKWebView,
         logsSampleRate: Float,
         callerName: String,
-        in core: AtatusCoreProtocol
+        in core: TowerSignalCoreProtocol
     ) throws -> Bool {
-        guard !(core is NOPAtatusCore) else {
+        guard !(core is NOPTowerSignalCore) else {
             throw ProgrammerError(
-                description: "Atatus SDK must be initialized before calling `WebViewTracking.enable(webView:)`."
+                description: "TowerSignal SDK must be initialized before calling `WebViewTracking.enable(webView:)`."
             )
         }
 
@@ -146,7 +146,7 @@ public enum WebViewTracking {
                 core: core
             )
         )
-        // Prevent fatal error: `Attempt to add script message handler with name 'AtatusEventBridge' when one already exists.`
+        // Prevent fatal error: `Attempt to add script message handler with name 'TowerSignalEventBridge' when one already exists.`
         controller.removeScriptMessageHandler(forName: bridgeName)
         controller.add(messageHandler, name: bridgeName)
 
@@ -165,7 +165,7 @@ public enum WebViewTracking {
     ///   - isTraceSampled: The trace sampling decision, already in String form. This should *always* be the output
     ///   of ``WebViewTracking/isTraceSampledStringValue(for:)``.
     @MainActor
-    private static func injectUserScript(on webView: WKWebView, in core: AtatusCoreProtocol, using elements: WebViewTrackingElements, isTraceSampled: String) {
+    private static func injectUserScript(on webView: WKWebView, in core: TowerSignalCoreProtocol, using elements: WebViewTrackingElements, isTraceSampled: String) {
         let bridgeName = ATScriptMessageHandler.name
 
         // WebKit installs message handlers with the given name format below
@@ -240,7 +240,7 @@ public enum WebViewTracking {
     /// `WebViewSessionRolloverHandler` and not instrumented in the rare situation where
     ///  ``WebViewTracking/disable(webView:in:)`` was called on the wrong core.
     @MainActor
-    static func update(_ webView: WKWebView, in core: AtatusCoreProtocol, using elements: WebViewTrackingElements, isTraceSampled: String) -> Bool {
+    static func update(_ webView: WKWebView, in core: TowerSignalCoreProtocol, using elements: WebViewTrackingElements, isTraceSampled: String) -> Bool {
         let controller = webView.configuration.userContentController
 
         // Remove our script
@@ -309,7 +309,7 @@ public enum WebViewTracking {
     ///   the view, since the sampling decision can be different in multiple cores.
     ///
     /// - Returns: The string ready to be injected in the bridge as explained above.
-    static func isTraceSampledStringValue(for core: AtatusCoreProtocol) -> String {
+    static func isTraceSampledStringValue(for core: TowerSignalCoreProtocol) -> String {
         guard let rum = core.feature(named: Feature.rum, type: RUMSessionSamplerProvider.self),
               let sessionSampler = rum.rumSessionSampler else {
             return "null"
@@ -347,7 +347,7 @@ public enum WebViewTracking {
     ///   - sessionSampler: The RUM deterministic session sampler, or `nil` if there is no active session.
     ///
     /// - Returns: The string ready to be injected in the bridge as explained above.
-    static func isTraceSampledStringValue(for core: AtatusCoreProtocol, sessionSampler: DeterministicSampler?) -> String {
+    static func isTraceSampledStringValue(for core: TowerSignalCoreProtocol, sessionSampler: DeterministicSampler?) -> String {
         guard let sessionSampler,
               let networkInstrumentation = core.feature(named: Feature.networkInstrumentation, type: DistributedTracingSampleRateProvider.self),
               let distributedTracingSampleRate = networkInstrumentation.distributedTracingSampleRate else {
@@ -410,11 +410,11 @@ extension InternalExtension where ExtendedType == WebViewTracking {
     /// this method and pass WebView related messages using the message bus of the core.
     ///
     /// - Parameters:
-    ///   - core: The Atatus SDK core instance
+    ///   - core: The TowerSignal SDK core instance
     ///   - logsSampleRate: The sampling rate for logs coming from the WebView. Must be a value between `0` and `100`. Default: `100`.
     /// - Returns: A `MessageEmitter` instance
     public static func messageEmitter(
-        in core: AtatusCoreProtocol,
+        in core: TowerSignalCoreProtocol,
         logsSampleRate: SampleRate = .maxSampleRate
     ) -> AbstractMessageEmitter {
         return MessageEmitter(

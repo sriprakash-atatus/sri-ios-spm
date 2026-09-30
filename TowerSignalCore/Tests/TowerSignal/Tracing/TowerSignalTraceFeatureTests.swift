@@ -1,22 +1,22 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`, `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`, `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the
 // `DD` symbol prefix to `AT`; renamed `clientToken` to `licenseKey`; renamed the `DD-*` intake headers to
-// their Atatus equivalents; rebranded the licence header.
+// their TowerSignal equivalents; rebranded the licence header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusTrace
-@testable import AtatusCore
+@testable import TowerSignalTrace
+@testable import TowerSignalCore
 
-class AtatusTraceFeatureTests: XCTestCase {
+class TowerSignalTraceFeatureTests: XCTestCase {
     override func setUp() {
         super.setUp()
         temporaryCoreDirectory.create()
@@ -45,7 +45,7 @@ class AtatusTraceFeatureTests: XCTestCase {
 
         let httpClient = HTTPClientMock(responseCode: 200)
 
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,
@@ -102,9 +102,9 @@ class AtatusTraceFeatureTests: XCTestCase {
         XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"], "text/plain;charset=UTF-8")
         XCTAssertEqual(request.allHTTPHeaderFields?["Content-Encoding"], "deflate")
         XCTAssertEqual(request.allHTTPHeaderFields?["api-key"], randomClientToken)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN"], randomOrigin)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-EVP-ORIGIN-VERSION"], randomSDKVersion)
-        XCTAssertEqual(request.allHTTPHeaderFields?["ATATUS-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN"], randomOrigin)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-EVP-ORIGIN-VERSION"], randomSDKVersion)
+        XCTAssertEqual(request.allHTTPHeaderFields?["TOWERSIGNAL-REQUEST-ID"]?.matches(regex: .uuidRegex), true)
     }
 
     // MARK: - HTTP Payload
@@ -112,7 +112,7 @@ class AtatusTraceFeatureTests: XCTestCase {
     func testItUsesExpectedPayloadFormatForUploads() throws {
         let httpClient = HTTPClientMock(responseCode: 200)
 
-        let core = AtatusCore(
+        let core = TowerSignalCore(
             directory: temporaryCoreDirectory,
             dateProvider: SystemDateProvider(),
             initialConsent: .granted,

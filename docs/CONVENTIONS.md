@@ -4,7 +4,7 @@
 
 **Types:** `PascalCase` for classes, structs, enums, protocols
 **Functions/Properties:** `camelCase`
-**Protocols:** Named as capabilities or contracts (e.g., `AtatusCoreProtocol`, `FeatureScope`, `MessageBusReceiver`)
+**Protocols:** Named as capabilities or contracts (e.g., `TowerSignalCoreProtocol`, `FeatureScope`, `MessageBusReceiver`)
 **Internal types:** Prefixed with module context (e.g., `RUMCommand`, `RUMViewScope`)
 **Mock types:** Suffixed with `Mock` or `Spy` (e.g., `HTTPClientMock`, `SnapshotProcessorSpy`)
 **Test files:** Mirror source path with `Tests` suffix (e.g., `RUMViewScopeTests.swift`)
@@ -76,8 +76,8 @@ All source files must include the Apache License header:
 ```swift
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 ```
 

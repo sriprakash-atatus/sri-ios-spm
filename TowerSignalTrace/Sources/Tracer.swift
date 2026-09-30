@@ -1,30 +1,30 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`,
-// `ddTrace` -> `AtatusTrace`; renamed `dd*` types to `Atatus*`; renamed the `DD` symbol prefix to
-// `AT`; renamed the `_dd` attribute prefix to `_atatus`; repointed the intake host at the Atatus site;
-// rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`,
+// `ddTrace` -> `TowerSignalTrace`; renamed `dd*` types to `TowerSignal*`; renamed the `DD` symbol prefix to
+// `AT`; renamed the `_dd` attribute prefix to `_towersignal`; repointed the intake host at the TowerSignal site;
+// rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence header.
 
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 import OpenTelemetryApi
 
-/// Atatus - specific span tags to be used with `Tracer.shared().startSpan(operationName:references:tags:startTime:)`
+/// TowerSignal - specific span tags to be used with `Tracer.shared().startSpan(operationName:references:tags:startTime:)`
 /// and `span.setTag(key:value:)`.
 public enum SpanTags {
-    /// A Atatus-specific span tag, which sets the value appearing in the "RESOURCE" column
-    /// in traces explorer on [atatus.com](https://www.atatus.com/)
+    /// A TowerSignal-specific span tag, which sets the value appearing in the "RESOURCE" column
+    /// in traces explorer on [towersignal.com](https://www.towersignal.com/)
     /// Can be used to customize the resource names grouped under the same operation name.
     ///
     /// Expects `String` value set for a tag.
     public static let resource = "resource.name"
-    /// A Atatus-specific span tag, which sets the operation name
+    /// A TowerSignal-specific span tag, which sets the operation name
     public static let operation = "operation.name"
-    /// A Atatus-specific span tag, which sets the value appearing in the "SERVICE" column
+    /// A TowerSignal-specific span tag, which sets the value appearing in the "SERVICE" column
     public static let service = "service.name"
     /// Internal tag. `Integer` value. Measures elapsed time at app's foreground state in nanoseconds.
     /// (duration - foregroundDuration) gives you the elapsed time while the app wasn't active (probably at background)
@@ -40,11 +40,11 @@ public enum SpanTags {
     internal static let errorStack = "error.stack"
 
     /// Internal tag used to encode the RUM session ID, linking the span to the current RUM session.
-    internal static let rumSessionID = "_atatus.session.id"
+    internal static let rumSessionID = "_towersignal.session.id"
     /// Internal tag used to encode the RUM view ID, linking the span to the current RUM session.
-    internal static let rumViewID = "_atatus.view.id"
+    internal static let rumViewID = "_towersignal.view.id"
     /// Internal tag used to encode the RUM action ID, linking the span to the current RUM session.
-    internal static let rumActionID = "_atatus.action.id"
+    internal static let rumActionID = "_towersignal.action.id"
     /// Internal tag used to encode the span kind. This can be either "client" or "server" for RPC spans,
     /// and "producer" or "consumer" for messaging spans.
     internal static let kind = "span.kind"
@@ -54,12 +54,12 @@ public enum SpanTags {
     public static let manualKeep = "manual.keep"
 }
 
-/// A class for manual interaction with the Trace feature. It records spans that are sent to Atatus APM.
+/// A class for manual interaction with the Trace feature. It records spans that are sent to TowerSignal APM.
 ///
-/// There can be only one active Tracer for certain instance of Atatus SDK. It gets enabled along with
+/// There can be only one active Tracer for certain instance of TowerSignal SDK. It gets enabled along with
 /// the call to `Trace.enable(with:in:)`:
 ///
-///     import AtatusTrace
+///     import TowerSignalTrace
 ///
 ///     // Enable Trace feature:
 ///     Trace.enable(with: configuration)
@@ -71,13 +71,13 @@ public class Tracer {
     /// Obtains the Tracer for manual tracing instrumentation.
     ///
     /// It requires `Trace.enable(with:in:)` to be called first - otherwise it will return no-op implementation.
-    /// - Parameter core: the instance of Atatus SDK the Trace feature was enabled in (global instance by default)
+    /// - Parameter core: the instance of TowerSignal SDK the Trace feature was enabled in (global instance by default)
     /// - Returns: the Tracer that conforms to Open Tracing API (`OTTracer`)
-    public static func shared(in core: AtatusCoreProtocol = CoreRegistry.default) -> OTTracer {
+    public static func shared(in core: TowerSignalCoreProtocol = CoreRegistry.default) -> OTTracer {
         do {
-            guard !(core is NOPAtatusCore) else {
+            guard !(core is NOPTowerSignalCore) else {
                 throw ProgrammerError(
-                    description: "Atatus SDK must be initialized and RUM feature must be enabled before calling `Tracer.shared(in:)`."
+                    description: "TowerSignal SDK must be initialized and RUM feature must be enabled before calling `Tracer.shared(in:)`."
                 )
             }
             guard let feature = core.get(feature: TraceFeature.self) else {

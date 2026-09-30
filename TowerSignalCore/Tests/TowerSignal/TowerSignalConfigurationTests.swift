@@ -1,29 +1,29 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddCore` -> `AtatusCore`, `ddInternal` ->
-// `AtatusInternal`; renamed `dd*` types to `Atatus*`; renamed `clientToken` to `licenseKey`; renamed
-// the build `variant` to `appName`; renamed the `ddsource` / `ddtags` query parameters to `atatus_source` /
-// `atatustags`; rebranded the `dd` name to `Atatus` in comments and docs; rebranded the licence
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddCore` -> `TowerSignalCore`, `ddInternal` ->
+// `TowerSignalInternal`; renamed `dd*` types to `TowerSignal*`; renamed `clientToken` to `licenseKey`; renamed
+// the build `variant` to `appName`; renamed the `ddsource` / `ddtags` query parameters to `towersignal_source` /
+// `towersignaltags`; rebranded the `dd` name to `TowerSignal` in comments and docs; rebranded the licence
 // header.
 
 import XCTest
 import TestUtilities
-import AtatusInternal
+import TowerSignalInternal
 
-@testable import AtatusCore
+@testable import TowerSignalCore
 
-class AtatusConfigurationTests: XCTestCase {
+class TowerSignalConfigurationTests: XCTestCase {
     private var printFunction: PrintFunctionSpy! // swiftlint:disable:this implicitly_unwrapped_optional
-    private var defaultConfig = Atatus.Configuration(licenseKey: "abc-123", env: "tests")
+    private var defaultConfig = TowerSignal.Configuration(licenseKey: "abc-123", env: "tests")
 
     override func setUp() {
         super.setUp()
 
-        XCTAssertFalse(Atatus.isInitialized())
+        XCTAssertFalse(TowerSignal.isInitialized())
         printFunction = PrintFunctionSpy()
         consolePrint = printFunction.print
     }
@@ -31,7 +31,7 @@ class AtatusConfigurationTests: XCTestCase {
     override func tearDown() {
         consolePrint = { message, _ in print(message) }
         printFunction = nil
-        XCTAssertFalse(Atatus.isInitialized())
+        XCTAssertFalse(TowerSignal.isInitialized())
         super.tearDown()
     }
 
@@ -50,15 +50,15 @@ class AtatusConfigurationTests: XCTestCase {
         XCTAssertEqual(configuration.uploadFrequency, .average)
         XCTAssertEqual(configuration.additionalConfiguration.count, 0)
         XCTAssertNil(configuration.encryption)
-        XCTAssertTrue(configuration.serverDateProvider is AtatusNTPDateProvider)
+        XCTAssertTrue(configuration.serverDateProvider is TowerSignalNTPDateProvider)
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .granted
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let urlSessionClient = try XCTUnwrap(core.httpClient as? URLSessionClient)
         XCTAssertTrue(core.dateProvider is SystemDateProvider)
         XCTAssertNil(urlSessionClient.session.configuration.connectionProxyDictionary)
@@ -67,7 +67,7 @@ class AtatusConfigurationTests: XCTestCase {
         let context = core.contextProvider.read()
         XCTAssertEqual(context.licenseKey, "abc-123")
         XCTAssertEqual(context.env, "tests")
-        XCTAssertEqual(context.site, .atatus) // ATCHG: default site is the Atatus intake
+        XCTAssertEqual(context.site, .towersignal) // ATCHG: default site is the TowerSignal intake
         XCTAssertEqual(context.service, "test")
         XCTAssertEqual(context.version, "1.0.0")
         XCTAssertEqual(context.sdkVersion, __sdkVersion)
@@ -82,7 +82,7 @@ class AtatusConfigurationTests: XCTestCase {
         var configuration = defaultConfig
 
         configuration.service = "service-name"
-        configuration.site = .atatus
+        configuration.site = .towersignal
         configuration.batchSize = .small
         configuration.uploadFrequency = .frequent
         configuration.batchProcessingLevel = .high
@@ -104,7 +104,7 @@ class AtatusConfigurationTests: XCTestCase {
         configuration.serverDateProvider = ServerDateProviderMock()
         configuration._internal_mutation {
             $0.additionalConfiguration = [
-                CrossPlatformAttributes.atatusSource: "cp-source",
+                CrossPlatformAttributes.towersignalSource: "cp-source",
                 CrossPlatformAttributes.appName: "cp-appName",
                 CrossPlatformAttributes.sdkVersion: "cp-version"
             ]
@@ -116,13 +116,13 @@ class AtatusConfigurationTests: XCTestCase {
         XCTAssertTrue(configuration.encryption is DataEncryptionMock)
         XCTAssertTrue(configuration.serverDateProvider is ServerDateProviderMock)
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .pending
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         XCTAssertTrue(core.dateProvider is SystemDateProvider)
         XCTAssertTrue(core.encryption is DataEncryptionMock)
 
@@ -139,7 +139,7 @@ class AtatusConfigurationTests: XCTestCase {
         let context = core.contextProvider.read()
         XCTAssertEqual(context.licenseKey, "abc-123")
         XCTAssertEqual(context.env, "tests")
-        XCTAssertEqual(context.site, .atatus)
+        XCTAssertEqual(context.site, .towersignal)
         XCTAssertEqual(context.service, "service-name")
         XCTAssertEqual(context.version, "1.0.0")
         XCTAssertEqual(context.sdkVersion, "cp-version")
@@ -151,47 +151,47 @@ class AtatusConfigurationTests: XCTestCase {
     }
 
     func testGivenDefaultConfiguration_itCanBeInitialized() {
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: defaultConfig,
             trackingConsent: .mockRandom()
         )
 
-        XCTAssertTrue(Atatus.isInitialized())
-        Atatus.flushAndDeinitialize()
+        XCTAssertTrue(TowerSignal.isInitialized())
+        TowerSignal.flushAndDeinitialize()
     }
 
     func testGivenInvalidConfiguration_itPrintsError() {
-        let invalidConfiguration = Atatus.Configuration(licenseKey: "", env: "tests")
+        let invalidConfiguration = TowerSignal.Configuration(licenseKey: "", env: "tests")
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: invalidConfiguration,
             trackingConsent: .mockRandom()
         )
 
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: `licenseKey` cannot be empty."
+            "🔥 TowerSignal SDK usage error: `licenseKey` cannot be empty."
         )
-        XCTAssertFalse(Atatus.isInitialized())
+        XCTAssertFalse(TowerSignal.isInitialized())
     }
 
     func testGivenValidConfiguration_whenInitializedMoreThanOnce_itPrintsError() {
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: defaultConfig,
             trackingConsent: .mockRandom()
         )
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: defaultConfig,
             trackingConsent: .mockRandom()
         )
 
         XCTAssertEqual(
             printFunction.printedMessage,
-            "🔥 Atatus SDK usage error: The 'main' instance of SDK is already initialized."
+            "🔥 TowerSignal SDK usage error: The 'main' instance of SDK is already initialized."
         )
 
-        Atatus.flushAndDeinitialize()
+        TowerSignal.flushAndDeinitialize()
     }
 
     func testGivenNoExecutable_itUsesBundleTypeAsApplicationName() throws {
@@ -201,13 +201,13 @@ class AtatusConfigurationTests: XCTestCase {
             CFBundleExecutable: nil
         )
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
         XCTAssertEqual(context.applicationName, "iOSApp")
     }
@@ -220,13 +220,13 @@ class AtatusConfigurationTests: XCTestCase {
             CFBundleExecutable: nil
         )
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
         XCTAssertEqual(context.applicationName, "iOSAppExtension")
     }
@@ -239,13 +239,13 @@ class AtatusConfigurationTests: XCTestCase {
             CFBundleShortVersionString: "1.2.3"
         )
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
         XCTAssertEqual(context.version, "1.2.3")
     }
@@ -258,13 +258,13 @@ class AtatusConfigurationTests: XCTestCase {
             CFBundleShortVersionString: nil
         )
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
         XCTAssertEqual(context.version, "0.0.0")
         XCTAssertEqual(context.buildNumber, "0")
@@ -278,13 +278,13 @@ class AtatusConfigurationTests: XCTestCase {
             CFBundleShortVersionString: nil
         )
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
         XCTAssertEqual(context.buildNumber, "FFFFF")
     }
@@ -296,13 +296,13 @@ class AtatusConfigurationTests: XCTestCase {
             bundleIdentifier: nil
         )
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
         XCTAssertEqual(context.applicationBundleIdentifier, "unknown")
         XCTAssertEqual(context.service, "ios")
@@ -315,13 +315,13 @@ class AtatusConfigurationTests: XCTestCase {
             bundleIdentifier: nil
         )
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
         XCTAssertEqual(context.applicationBundleIdentifier, "unknown")
     }
@@ -330,13 +330,13 @@ class AtatusConfigurationTests: XCTestCase {
         var configuration = defaultConfig
         configuration.bundle = .mockWith(bundlePath: "bundle.path.app")
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
         XCTAssertEqual(context.applicationBundleType, .iOSApp)
     }
@@ -345,35 +345,35 @@ class AtatusConfigurationTests: XCTestCase {
         var configuration = defaultConfig
         configuration.bundle = .mockWith(bundlePath: "bundle.path.appex")
 
-        Atatus.initialize(
+        TowerSignal.initialize(
             with: configuration,
             trackingConsent: .mockRandom()
         )
-        defer { Atatus.flushAndDeinitialize() }
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
         XCTAssertEqual(context.applicationBundleType, .iOSAppExtension)
     }
 
     func testEnvironment() throws {
         func verify(validEnv env: String) throws {
-            Atatus.initialize(
-                with: Atatus.Configuration(licenseKey: "abc-123", env: env),
+            TowerSignal.initialize(
+                with: TowerSignal.Configuration(licenseKey: "abc-123", env: env),
                 trackingConsent: .mockRandom()
             )
-            defer { Atatus.flushAndDeinitialize() }
+            defer { TowerSignal.flushAndDeinitialize() }
             XCTAssertNil(printFunction.printedMessage)
         }
 
         func verify(invalidEnv env: String) {
-            Atatus.initialize(
-                with: Atatus.Configuration(licenseKey: "abc-123", env: env),
+            TowerSignal.initialize(
+                with: TowerSignal.Configuration(licenseKey: "abc-123", env: env),
                 trackingConsent: .mockRandom()
             )
             XCTAssertEqual(
                 printFunction.printedMessage,
-                "🔥 Atatus SDK usage error: `env`: \(env) contains illegal characters (only alphanumerics and `_` are allowed)"
+                "🔥 TowerSignal SDK usage error: `env`: \(env) contains illegal characters (only alphanumerics and `_` are allowed)"
             )
         }
 
@@ -394,10 +394,10 @@ class AtatusConfigurationTests: XCTestCase {
         var configuration = defaultConfig
         configuration.additionalConfiguration[CrossPlatformAttributes.version] = "5.23.2"
 
-        Atatus.initialize(with: configuration, trackingConsent: .mockRandom())
-        defer { Atatus.flushAndDeinitialize() }
+        TowerSignal.initialize(with: configuration, trackingConsent: .mockRandom())
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
 
         XCTAssertEqual(context.version, "5.23.2")
@@ -410,10 +410,10 @@ class AtatusConfigurationTests: XCTestCase {
             CFBundleShortVersionString: "1.0.0"
         )
 
-        Atatus.initialize(with: configuration, trackingConsent: .mockRandom())
-        defer { Atatus.flushAndDeinitialize() }
+        TowerSignal.initialize(with: configuration, trackingConsent: .mockRandom())
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
 
         XCTAssertEqual(context.version, "my-completely-custom-version")
@@ -426,10 +426,10 @@ class AtatusConfigurationTests: XCTestCase {
             CFBundleShortVersionString: "1.5.0"
         )
 
-        Atatus.initialize(with: configuration, trackingConsent: .mockRandom())
-        defer { Atatus.flushAndDeinitialize() }
+        TowerSignal.initialize(with: configuration, trackingConsent: .mockRandom())
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
 
         XCTAssertEqual(context.version, "1.5.0")
@@ -443,10 +443,10 @@ class AtatusConfigurationTests: XCTestCase {
         )
         configuration.additionalConfiguration[CrossPlatformAttributes.version] = "3.0.0-crossplatform"
 
-        Atatus.initialize(with: configuration, trackingConsent: .mockRandom())
-        defer { Atatus.flushAndDeinitialize() }
+        TowerSignal.initialize(with: configuration, trackingConsent: .mockRandom())
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
 
         // Cross-platform override should take precedence
@@ -460,10 +460,10 @@ class AtatusConfigurationTests: XCTestCase {
         configuration.additionalConfiguration[CrossPlatformAttributes.buildId] = buildId
 
         // When
-        Atatus.initialize(with: configuration, trackingConsent: .mockRandom())
-        defer { Atatus.flushAndDeinitialize() }
+        TowerSignal.initialize(with: configuration, trackingConsent: .mockRandom())
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
 
         // Then
@@ -477,10 +477,10 @@ class AtatusConfigurationTests: XCTestCase {
         configuration.additionalConfiguration[CrossPlatformAttributes.nativeSourceType] = nativeSourceType
 
         // When
-        Atatus.initialize(with: configuration, trackingConsent: .mockRandom())
-        defer { Atatus.flushAndDeinitialize() }
+        TowerSignal.initialize(with: configuration, trackingConsent: .mockRandom())
+        defer { TowerSignal.flushAndDeinitialize() }
 
-        let core = try XCTUnwrap(CoreRegistry.default as? AtatusCore)
+        let core = try XCTUnwrap(CoreRegistry.default as? TowerSignalCore)
         let context = core.contextProvider.read()
 
         // Then

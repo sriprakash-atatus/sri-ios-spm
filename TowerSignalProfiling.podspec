@@ -1,19 +1,19 @@
 Pod::Spec.new do |s|
-  s.name         = "AtatusProfiling"
+  s.name         = "TowerSignalProfiling"
   s.version      = "3.15.0"
-  s.summary      = "Official Atatus Profiling module of the Swift SDK."
+  s.summary      = "Official TowerSignal Profiling module of the Swift SDK."
   
-  s.homepage     = "https://www.atatus.com"
+  s.homepage     = "https://www.towersignal.com"
 
   s.license            = { :type => "Apache", :file => 'LICENSE' }
-  s.authors            = "Atatus, Inc."
+  s.authors            = "TowerSignal, Inc."
 
   s.swift_version = '5.9'
   s.ios.deployment_target = '12.0'
   s.tvos.deployment_target = '12.0'
   s.visionos.deployment_target = '1.0'
 
-  s.source = { :git => "https://github.com/Atatus/atatus-sdk-ios.git", :tag => s.version.to_s }
+  s.source = { :git => "https://github.com/TowerSignal/towersignal-sdk-ios.git", :tag => s.version.to_s }
   
   s.source_files = ["TowerSignalProfiling/Sources/**/*.swift",
                     "TowerSignalProfiling/Mach/**/*.{h,c,cpp}"]
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 
   s.preserve_paths = "TowerSignalProfiling/Mach/include/module.modulemap"
 
-  s.dependency 'AtatusInternal', s.version.to_s
+  s.dependency 'TowerSignalInternal', s.version.to_s
 
   # Configure C++ compilation
   s.pod_target_xcconfig = {

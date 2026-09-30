@@ -1,15 +1,15 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache License Version 2.0.
- * This product includes software developed at Atatus (https://www.atatus.com/).
- * Copyright 2026-Present Atatus, Inc.
+ * This product includes software developed at TowerSignal (https://www.towersignal.com/).
+ * Copyright 2026-Present TowerSignal, Inc.
  */
 
-// ATCHG: Atatus SDK migration - renamed module imports `ddInternal` -> `AtatusInternal`; renamed
-// `dd*` types to `Atatus*`; rebranded the licence header.
+// ATCHG: TowerSignal SDK migration - renamed module imports `ddInternal` -> `TowerSignalInternal`; renamed
+// `dd*` types to `TowerSignal*`; rebranded the licence header.
 
 #if os(iOS)
 import Foundation
-import AtatusInternal
+import TowerSignalInternal
 
 /// An observer notifying on`RUMContext` changes.
 internal protocol RUMContextObserver {
@@ -21,7 +21,7 @@ internal protocol RUMContextObserver {
     func observe(on queue: Queue, notify: @escaping (RUMCoreContext?) -> Void)
 }
 
-/// Receives RUM context from `AtatusCore` and notifies it through `RUMContextObserver` interface.
+/// Receives RUM context from `TowerSignalCore` and notifies it through `RUMContextObserver` interface.
 internal class RUMContextReceiver: FeatureMessageReceiver, RUMContextObserver {
     /// Notifies new `RUMContext` or `nil` if current RUM session is not sampled.
     private var onNew: ((RUMCoreContext?) -> Void)?
@@ -29,7 +29,7 @@ internal class RUMContextReceiver: FeatureMessageReceiver, RUMContextObserver {
 
     // MARK: - FeatureMessageReceiver
 
-    func receive(message: FeatureMessage, from core: AtatusCoreProtocol) -> Bool {
+    func receive(message: FeatureMessage, from core: TowerSignalCoreProtocol) -> Bool {
         guard case let .context(context) = message else {
             return false
         }
