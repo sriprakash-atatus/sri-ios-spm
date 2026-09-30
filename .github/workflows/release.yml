@@ -102,12 +102,15 @@ jobs:
           swift --version
           pod --version
 
-      - name: Build + Test
+      - name: Validate + build SPM package
         run: |
           set -euo pipefail
+          # The package is UIKit-based, so it must be built for iOS/tvOS via xcodebuild;
+          # a host `swift build` cannot resolve UIKit. Unit tests run in ios-agent-test.yml
+          # on the branch before tagging, so they are not repeated here.
           ./scripts/validate_spm.sh
-          ./scripts/build.sh
-          ./scripts/test.sh
+          make spm-build-ios
+          make spm-build-tvos
 
       - name: Build XCFrameworks
         run: |
