@@ -113,6 +113,10 @@ jobs:
           make spm-build-tvos
 
       - name: Build XCFrameworks
+        env:
+          # Carthage fetches binary manifests from raw.githubusercontent.com; an authenticated
+          # request avoids shared-runner rate limits (see tools/carthage-shim.sh).
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           ./tools/release/build.sh --tag "${TAG_NAME}" --artifacts-path "artifacts"

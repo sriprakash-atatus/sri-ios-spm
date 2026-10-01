@@ -27,8 +27,16 @@ parse_args "$@"
 REPO_PATH=$(realpath "$repo_path")
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo_info "Clean '$REPO_PATH' with 'git clean -fxd'"
-cd "$REPO_PATH" && git clean -fxd && cd -
+# Only clean when $REPO_PATH is a git repo root of its own. A source tree exported with
+# `git archive` has no .git, so `git clean -fxd` would bind to the *enclosing* repo and,
+# because artifacts/ is gitignored, delete the whole exported tree. Such a tree holds only
+# tracked files at HEAD, so there is nothing to clean anyway.
+if [ "$(git -C "$REPO_PATH" rev-parse --show-toplevel 2>/dev/null)" = "$REPO_PATH" ]; then
+    echo_info "Clean '$REPO_PATH' with 'git clean -fxd'"
+    cd "$REPO_PATH" && git clean -fxd && cd -
+else
+    echo_warn "Skipping 'git clean' - '$REPO_PATH' is not a git repo root"
+fi
 
 echo_info "Create '$output_path'"
 rm -rf "$output_path" && mkdir -p "$output_path"
