@@ -189,6 +189,11 @@ jobs:
           echo "Assets uploaded successfully."
 
       - name: Publish CocoaPods podspec
+        # Only the canonical repository publishes to CocoaPods Trunk. Every podspec's
+        # s.source points at TowerSignal/towersignal-sdk-ios, so a push from a fork would
+        # publish pods referencing a tag that does not exist there - and Trunk versions
+        # cannot be deleted once published.
+        if: github.repository == 'TowerSignal/towersignal-sdk-ios'
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
         run: |
