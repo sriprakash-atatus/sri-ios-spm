@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TowerSignalProfiling"
-  s.version      = "3.15.0"
+  s.version      = "4.0.0"
   s.summary      = "Official TowerSignal Profiling module of the Swift SDK."
   
   s.homepage     = "https://www.towersignal.com"
@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
   s.authors            = "TowerSignal, Inc."
 
   s.swift_version = '5.9'
-  s.ios.deployment_target = '12.0'
-  s.tvos.deployment_target = '12.0'
+  s.ios.deployment_target = '15.0'
+  s.tvos.deployment_target = '15.0'
   s.visionos.deployment_target = '1.0'
 
   s.source = { :git => "https://github.com/TowerSignal/towersignal-sdk-ios.git", :tag => s.version.to_s }

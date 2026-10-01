@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TestUtilities"
-  s.version      = "3.15.0"
+  s.version      = "4.0.0"
   s.summary      = "TowerSignal Testing Utilities. This module is for internal testing and should not be published."
 
   s.homepage     = "https://www.towersignal.com"
@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
   s.authors            = { "TowerSignal" => "info@towersignal.com" }
 
   s.swift_version = '5.9'
-  s.ios.deployment_target = '12.0'
-  s.tvos.deployment_target = '12.0'
+  s.ios.deployment_target = '15.0'
+  s.tvos.deployment_target = '15.0'
 
   s.source = { :git => "https://github.com/TowerSignal/towersignal-sdk-ios.git", :tag => s.version.to_s }
 

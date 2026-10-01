@@ -12,10 +12,10 @@ let internalSwiftSettings: [SwiftSetting] = ProcessInfo.processInfo.environment[
 let package = Package(
     name: "TowerSignal",
     platforms: [
-        .iOS(.v12),
-        .tvOS(.v12),
+        .iOS(.v15),
+        .tvOS(.v15),
         .macOS("12.6"),
-        .watchOS(.v7),
+        .watchOS(.v8),
         .visionOS(.v1)
     ],
     products: [
