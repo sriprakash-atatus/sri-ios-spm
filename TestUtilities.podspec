@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '15.0'
   s.tvos.deployment_target = '15.0'
 
-  s.source = { :git => "https://github.com/sriprakash-atatus/sri-ios-spm.git", :tag => s.version.to_s }
+  s.source = { :git => "https://github.com/sriprakash-atatus/sri-ios-spm.git", :tag => "v#{s.version}" }
 
   s.pod_target_xcconfig = {
     'ENABLE_TESTING_SEARCH_PATHS'=>'YES'

@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '8.0'
   s.visionos.deployment_target = '1.0'
 
-  s.source = { :git => "https://github.com/sriprakash-atatus/sri-ios-spm.git", :tag => s.version.to_s }
+  s.source = { :git => "https://github.com/sriprakash-atatus/sri-ios-spm.git", :tag => "v#{s.version}" }
 
   s.source_files = ["TowerSignalInternal/Sources/**/*.swift"]
 
